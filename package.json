@@ -6,7 +6,7 @@
     "scripts": {
         "clean": "rimraf ./resources",
         "build": "npm run clean && swc ./src -d ./resources --copy-files",
-        "update": "altv-pkg d release",
+        "update": "altv-pkg d dev",
         "windows": "npm run build && altv-server.exe",
         "linux": "npm run build && ./start.sh",
         "windev": "nodemon --watch \"./src/**\" --ext \"ts\" --exec \"npm run build && altv-server.exe\"",
@@ -15,14 +15,17 @@
     "author": "stuyk",
     "license": "ISC",
     "devDependencies": {
-        "@altv/types-client": "^2.1.0",
+        "@altv/types-client": "^2.1.1",
         "@altv/types-natives": "^1.4.4",
-        "@altv/types-server": "^2.2.6",
-        "@altv/types-shared": "^1.2.0",
+        "@altv/types-server": "^2.2.7",
+        "@altv/types-shared": "^1.2.1",
+        "@altv/types-webview": "^1.0.2",
         "@altv/types-worker": "^1.0.6",
         "@swc/cli": "^0.1.55",
-        "@swc/core": "^1.2.147",
+        "@swc/core": "^1.2.148",
+        "@types/express": "^4.17.13",
         "@types/node": "^14.17.34",
+        "@types/sjcl": "^1.0.30",
         "altv-pkg": "^1.2.0",
         "nodemon": "^2.0.15",
         "rimraf": "^3.0.2",
@@ -35,5 +38,12 @@
         "printWidth": 120,
         "arrowParens": "always",
         "singleQuote": true
+    },
+    "dependencies": {
+        "@stuyk/ezmongodb": "^2.0.0",
+        "dotenv": "^16.0.0",
+        "express": "^4.17.3",
+        "node-fetch": "^3.2.1",
+        "sjcl": "^1.0.8"
     }
 }
