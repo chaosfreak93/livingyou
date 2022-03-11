@@ -9,7 +9,7 @@
         "update": "altv-pkg d dev",
         "windows": "npm run build && altv-server.exe",
         "linux": "npm run build && ./start.sh",
-        "windev": "nodemon --watch \"./src/**\" --ext \"ts\" --exec \"npm run build && altv-server.exe\"",
+        "windev": "nodemon --watch \"./src/**\" --ext \"ts,html,cfg,css,js\" --exec \"npm run build && altv-server.exe\"",
         "dev": "npm run windev"
     },
     "author": "stuyk",
