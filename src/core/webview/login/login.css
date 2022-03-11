@@ -16,7 +16,10 @@ h2 {
 }
 
 button {
-    margin-top: 35%;
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     height: 30px;
     width: 85px;
     font-size: 12px;

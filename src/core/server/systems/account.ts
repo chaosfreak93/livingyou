@@ -14,15 +14,5 @@ alt.on('authFinished', async (player: alt.Player, discordData: IDiscordData) => 
         findAccount.push(insertedData);
     }
 
-    if (!findAccount[0].characterData) {
-        alt.emitClient(player, 'triggerCharCreator');
-    }
-
-    player.spawn(findAccount[0].characterData ? findAccount[0].characterData.lastKnownLocation.position : new alt.Vector3(-75.2920, -819.1181, 327));
-    player.rot = findAccount[0].characterData ? findAccount[0].characterData.lastKnownLocation.rotation : new alt.Vector3(0, 0, 0);
-
-    //let vehicle = new alt.Vehicle('buzzard', -75.2290, -820, 326.1751, 0, 0, 0);
-    //player.setIntoVehicle(vehicle, 1);
-
-    alt.emitClient(player, 'exitLogin');
+    alt.emitClient(player, 'showCharSelector', findAccount[0].character);
 });

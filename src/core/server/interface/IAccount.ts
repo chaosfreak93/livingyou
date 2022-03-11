@@ -1,5 +1,4 @@
-import ICharacterAppearence from "./ICharacterAppearence";
-import ICharacterData from "./ICharacterData";
+import ICharacter from "../../shared/interface/ICharacter";
 
 export default interface IAccount {
     _id?: any;
@@ -7,8 +6,7 @@ export default interface IAccount {
     email: string;
     firstJoinTimestamp: number;
     lastJoinTimestamp: number;
-    characterAppearence?: ICharacterAppearence;
-    characterData?: ICharacterData;
+    character?: ICharacter[];
     banned: boolean;
     reason?: string;
 }

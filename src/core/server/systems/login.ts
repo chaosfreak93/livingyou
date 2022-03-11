@@ -47,6 +47,7 @@ async function handleAuthenticate(req, res) {
     const player = [...alt.Player.all].find(player => player.getMeta('identifier') === userToken);
     if (!player || !player.valid) return;
     alt.emit('authFinished', player, request.data);
+    alt.emitClient(player, 'authFinished');
 }
 
 app.listen(7790, () => {
@@ -54,6 +55,18 @@ app.listen(7790, () => {
 });
 
 export async function login(player: alt.Player) {
+    if (!player || !player.valid) {
+        return;
+    }
+
+    if (player.name == "Player") {
+        player.kick("Bitte ändere deinen Nutzernamen!");
+    }
+
+    player.dimension = player.id + 1;
+    player.visible = false;
+    player.setPosition(player, -1645.55, -1113.04, 12.65);
+
     let hashBytes = sjcl.hash.sha256.hash(JSON.stringify(player.ip + player.hwidHash + player.hwidExHash) + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
     const uniquePlayerData = sjcl.codec.hex.fromBits(hashBytes);
     player.setMeta('identifier', uniquePlayerData);
