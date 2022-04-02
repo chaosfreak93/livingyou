@@ -1,11 +1,13 @@
 import * as alt from 'alt-server';
 import ICharacterAppearence from './ICharacterAppearence';
+import ICharacterClothing from './ICharacterClothing';
 
 export default interface ICharacter {
     firstName: string;
     secondName?: string;
     lastName: string;
     characterAppearence: ICharacterAppearence;
+    characterClothing: ICharacterClothing;
     phoneNumber?: number;
     lastKnownLocation?: {
         position: alt.Vector3;
