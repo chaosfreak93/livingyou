@@ -5,7 +5,7 @@ export default interface IAccount {
     discord: number;
     email: string;
     firstJoinTimestamp: number;
-    lastJoinTimestamp: number;
+    lastJoinTimestamp?: number;
     character?: ICharacter[];
     banned: boolean;
     reason?: string;
