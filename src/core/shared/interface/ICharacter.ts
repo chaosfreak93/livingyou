@@ -3,6 +3,7 @@ import ICharacterAppearence from './ICharacterAppearence';
 
 export default interface ICharacter {
     firstName: string;
+    secondName?: string;
     lastName: string;
     characterAppearence: ICharacterAppearence;
     phoneNumber?: number;
