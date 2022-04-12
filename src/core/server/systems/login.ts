@@ -15,39 +15,42 @@ async function handleAuthenticate(req, res) {
     const token = req.query.code;
     const userToken = req.query.state;
     let request;
+    try {
+        if (!token || !userToken) return;
 
-    if (!token || !userToken) return;
+        const authParams = new URLSearchParams();
+        authParams.append('client_id', process.env.CLIENT_ID);
+        authParams.append('client_secret', process.env.CLIENT_SECRET);
+        authParams.append('grant_type', 'authorization_code');
+        authParams.append('code', token);
+        authParams.append('scope', 'identify');
+        authParams.append('redirect_uri', expressIP);
 
-    const authParams = new URLSearchParams();
-    authParams.append('client_id', process.env.CLIENT_ID);
-    authParams.append('client_secret', process.env.CLIENT_SECRET);
-    authParams.append('grant_type', 'authorization_code');
-    authParams.append('code', token);
-    authParams.append('scope', 'identify');
-    authParams.append('redirect_uri', expressIP);
+        request = await axios.post('https://discord.com/api/oauth2/token', authParams, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+        });
 
-    request = await axios.post('https://discord.com/api/oauth2/token', authParams, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-    });
+        if (!request.data || !request.data.access_token) return;
 
-    if (!request.data || !request.data.access_token) return;
+        const discordData = { ...request.data };
+        request = await axios.get('https://discord.com/api/users/@me', {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `${discordData.token_type} ${discordData.access_token}`,
+            },
+        });
+        
+        if (!request.data || !request.data.id || !request.data.username) return;
 
-    const discordData = { ...request.data };
-    request = await axios.get('https://discord.com/api/users/@me', {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `${discordData.token_type} ${discordData.access_token}`,
-        },
-    });
-    
-    if (!request.data || !request.data.id || !request.data.username) return;
-
-    const player = [...alt.Player.all].find(player => player.getMeta('identifier') === userToken);
-    if (!player || !player.valid) return;
-    alt.emit('authFinished', player, request.data);
-    alt.emitClient(player, 'authFinished');
+        const player = [...alt.Player.all].find(player => player.getMeta('identifier') === userToken);
+        if (!player || !player.valid) return;
+        alt.emit('authFinished', player, request.data);
+        alt.emitClient(player, 'authFinished');
+    } catch {
+        
+    }
 }
 
 app.listen(7790, () => {
