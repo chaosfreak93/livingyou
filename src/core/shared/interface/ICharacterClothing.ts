@@ -1,73 +1,73 @@
 export default interface ICharacterClothing {
     clothes: {
         head: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         mask: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         hairStyle: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         torso: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         legs: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         bag: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         shoes: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         accessories: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         undershirt: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         armor: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         decals: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
         };
         top: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
             palette?: number;
@@ -75,27 +75,27 @@ export default interface ICharacterClothing {
     };
     props: {
         hat: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
         };
         glasses: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
         };
         ear: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
         };
         watch: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
         };
         bracelet: {
-            dlc: String;
+            dlc: string;
             drawable: number;
             texture: number;
         };
