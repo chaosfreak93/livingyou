@@ -2,6 +2,7 @@ import * as alt from 'alt-client';
 import * as native from 'natives';
 import IPLManager from '../systems/iplmanager';
 import { loadSceneAtCoords } from '../utility/scene';
+import { createCamera, destroyCamera } from '../systems/cameraManager';
 
 let cam: number;
 
@@ -15,10 +16,7 @@ alt.on('connectionComplete', async () => {
 
     await loadSceneAtCoords(new alt.Vector3(-2000, -1200, 55));
     
-    cam = native.createCamWithParams("DEFAULT_SCRIPTED_CAMERA", -2000, -1200, 55, 0, 0, 0, 90, false, 2);
-    native.setCamRot(cam, -15, 0, -70, 2);
-    native.setCamActive(cam, true);
-    native.renderScriptCams(true, false, 0, false, false, 0);
+    createCamera(new alt.Vector3(-2000, -1200, 55), new alt.Vector3(-15, 0, -70), 90);
 
     native.displayHud(false);
     native.displayRadar(false);
@@ -43,12 +41,9 @@ function loginReady() {
 }
 
 alt.onServer('authFinished', () => {
-    native.setCamActive(cam, false);
-    native.renderScriptCams(false, false, 0, false, false, 0);
-
+    destroyCamera();
     native.newLoadSceneStop();
     native.clearHdArea();
-    native.destroyCam(cam, true);
 
     webview.unfocus();
     webview.destroy();
