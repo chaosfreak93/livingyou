@@ -5,7 +5,7 @@ import { loadSceneAtCoords } from '../utility/scene';
 let cam: number;
 
 alt.on('connectionComplete', async () => {
-    loadIpl();
+    native.doScreenFadeOut(100);
     alt.toggleGameControls(false);
     alt.toggleVoiceControls(false);
     alt.toggleRmlControls(false);
@@ -19,6 +19,9 @@ alt.on('connectionComplete', async () => {
 
     native.displayHud(false);
     native.displayRadar(false);
+    native.doScreenFadeIn(100);
+    webview.isVisible = true;
+    webview.focus();
 });
 
 function loadIpl() {
@@ -31,7 +34,7 @@ let url = null;
 alt.onServer('startLogin', (discordAuthUrl: string) => {
     url = discordAuthUrl;
     webview = new alt.WebView('http://resource/webview/login/index.html');
-    webview.focus();
+    webview.isVisible = false;
     webview.on('loginReady', loginReady);
     alt.showCursor(true);
 });
