@@ -1,11 +1,14 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import IPLManager from '../systems/iplmanager';
 import { loadSceneAtCoords } from '../utility/scene';
 
 let cam: number;
 
 alt.on('connectionComplete', async () => {
     native.doScreenFadeOut(100);
+    IPLManager.initializeDefaultIPLs();
+    IPLManager.initializeEntitySets();
     alt.toggleGameControls(false);
     alt.toggleVoiceControls(false);
     alt.toggleRmlControls(false);
@@ -23,10 +26,6 @@ alt.on('connectionComplete', async () => {
     webview.isVisible = true;
     webview.focus();
 });
-
-function loadIpl() {
-    alt.requestIpl("ferris_finale_Anim");
-}
 
 let webview: alt.WebView = null;
 let url = null;
