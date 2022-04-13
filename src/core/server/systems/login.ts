@@ -62,7 +62,7 @@ export async function login(player: alt.Player) {
         return;
     }
 
-    if (player.name == "Player") {
+    if (player.name.toLowerCase() == "player") {
         player.kick("Bitte ändere deinen Nutzernamen!");
     }
 
