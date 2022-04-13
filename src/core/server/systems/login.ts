@@ -3,6 +3,7 @@ import sjcl from 'sjcl';
 import express from 'express';
 import axios from 'axios';
 import { URLSearchParams } from 'url';
+import { SYSTEM_EVENTS } from '../../shared/enums/system';
 
 const expressIP = encodeURI(`http://${process.env.REDIRECT_IP}:7790/altv-auth`);
 const url = `https://discord.com/api/oauth2/authorize?client_id=948363980743790683&redirect_uri=${expressIP}&response_type=code&scope=identify`;
@@ -46,6 +47,8 @@ async function handleAuthenticate(req, res) {
 
         const player = [...alt.Player.all].find(player => player.getMeta('identifier') === userToken);
         if (!player || !player.valid) return;
+        alt.emit(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, player, request.data);
+        alt.emitClient(player, SYSTEM_EVENTS.DISCORD_FINISH_AUTH);
     } catch (error: any) {
         console.log(error);
     }
