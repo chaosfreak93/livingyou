@@ -5,8 +5,8 @@ import ICharacterClothing from './ICharacterClothing';
 export default interface ICharacter {
     firstName: string;
     secondName?: string;
-    alive: boolean;
     lastName: string;
+    alive: boolean;
     characterAppearence: ICharacterAppearence;
     characterClothing: ICharacterClothing;
     phoneNumber?: number;
