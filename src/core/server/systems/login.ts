@@ -46,10 +46,8 @@ async function handleAuthenticate(req, res) {
 
         const player = [...alt.Player.all].find(player => player.getMeta('identifier') === userToken);
         if (!player || !player.valid) return;
-        alt.emit('authFinished', player, request.data);
-        alt.emitClient(player, 'authFinished');
-    } catch {
-        
+    } catch (error: any) {
+        console.log(error);
     }
 }
 
