@@ -68,7 +68,7 @@ export async function login(player: alt.Player) {
 
     player.dimension = player.id + 1;
     player.visible = false;
-    player.setPosition(player, -1645.55, -1113.04, 12.65);
+    player.setPosition(player, -1645.55, -1113.04, 13);
 
     let hashBytes = sjcl.hash.sha256.hash(JSON.stringify(player.ip + player.hwidHash + player.hwidExHash) + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
     const uniquePlayerData = sjcl.codec.hex.fromBits(hashBytes);
