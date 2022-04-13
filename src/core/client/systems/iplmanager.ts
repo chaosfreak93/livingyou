@@ -53,8 +53,8 @@ export default class IPLManager {
 
         alt.requestIpl('shr_int'); // Simeon
 
-        alt.removeIpl('trevorstrailertidy'); // Trevor's Trailer
-        alt.requestIpl('trevorstrailertrash'); // Trevor's Trailer
+        alt.requestIpl('trevorstrailertidy'); // Trevor's Trailer
+        alt.removeIpl('trevorstrailertrash'); // Trevor's Trailer
 
         alt.requestIpl('rc12b_default'); // Pillbox hospital
 
