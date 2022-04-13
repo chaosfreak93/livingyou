@@ -10,13 +10,13 @@
         "allowJs": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "module": "esNext",
-        "target": "esNext",
+        "module": "ESNext",
+        "target": "ESNext",
         "outDir": "./resources",
         "rootDir": "./src",
         "allowSyntheticDefaultImports": true,
-        "declaration": false
+        "composite": false,
+        "forceConsistentCasingInFileNames": true
     },
-    "include": ["./src/**/*.ts"],
-    "exclude": ["node_modules", "**/*.spec.ts", "resources", "**/*.json"]
+    "include": ["./src/**/*.ts"]
 }
