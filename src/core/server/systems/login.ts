@@ -75,7 +75,8 @@ function login(player: alt.Player) {
     const uniquePlayerData = sjcl.codec.hex.fromBits(hashBytes);
     player.setMeta('identifier', uniquePlayerData);
 
-    alt.emitClient(player, 'startLogin', `${url}&state=${uniquePlayerData}`);
+    alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, "http://localhost:3000");
+    alt.emitClient(player, SYSTEM_EVENTS.DISCORD_OPEN, `${url}&state=${uniquePlayerData}`);
 }
 
 alt.onClient(SYSTEM_EVENTS.BEGIN_CONNECTION, login);
