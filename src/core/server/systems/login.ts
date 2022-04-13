@@ -55,7 +55,7 @@ app.listen(7790, () => {
     alt.log("Express Server Started on Port 7790.");
 });
 
-export async function login(player: alt.Player) {
+function login(player: alt.Player) {
     if (!player || !player.valid) {
         return;
     }
@@ -74,3 +74,5 @@ export async function login(player: alt.Player) {
 
     alt.emitClient(player, 'startLogin', `${url}&state=${uniquePlayerData}`);
 }
+
+alt.onClient(SYSTEM_EVENTS.BEGIN_CONNECTION, login);

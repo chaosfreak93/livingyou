@@ -1,6 +1,5 @@
 import 'dotenv/config';
-import './prototype/player';
 import './events/resourceStart';
-import './events/playerConnect';
+import './prototype/player';
 import './systems/account';
 import './systems/login';

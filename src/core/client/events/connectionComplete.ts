@@ -14,8 +14,7 @@ alt.on('connectionComplete', async () => {
     alt.toggleVoiceControls(false);
     alt.toggleRmlControls(false);
 
-    await loadSceneAtCoords(new alt.Vector3(-2000, -1200, 55));
-    
+    alt.emitServer(SYSTEM_EVENTS.BEGIN_CONNECTION);
     createCamera(new alt.Vector3(-2000, -1200, 55), new alt.Vector3(-15, 0, -70), 90);
 
     native.displayHud(false);
