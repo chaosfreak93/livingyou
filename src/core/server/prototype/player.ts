@@ -136,10 +136,10 @@ alt.Player.prototype.setHead = function setHead(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.head.dlc = dlc;
-    player.character.characterClothing.clothes.head.drawable = drawable;
-    player.character.characterClothing.clothes.head.texture = texture;
-    player.character.characterClothing.clothes.head.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[0].dlc = dlc;
+    player.character.characterClothing.clothes[0].drawable = drawable;
+    player.character.characterClothing.clothes[0].texture = texture;
+    player.character.characterClothing.clothes[0].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -153,10 +153,10 @@ alt.Player.prototype.setMask = function setMask(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.mask.dlc = dlc;
-    player.character.characterClothing.clothes.mask.drawable = drawable;
-    player.character.characterClothing.clothes.mask.texture = texture;
-    player.character.characterClothing.clothes.mask.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[1].dlc = dlc;
+    player.character.characterClothing.clothes[1].drawable = drawable;
+    player.character.characterClothing.clothes[1].texture = texture;
+    player.character.characterClothing.clothes[1].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -170,10 +170,10 @@ alt.Player.prototype.setHairStyle = function setHairStyle(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.hairStyle.dlc = dlc;
-    player.character.characterClothing.clothes.hairStyle.drawable = drawable;
-    player.character.characterClothing.clothes.hairStyle.texture = texture;
-    player.character.characterClothing.clothes.hairStyle.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[2].dlc = dlc;
+    player.character.characterClothing.clothes[2].drawable = drawable;
+    player.character.characterClothing.clothes[2].texture = texture;
+    player.character.characterClothing.clothes[2].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -187,10 +187,10 @@ alt.Player.prototype.setTorso = function setTorso(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.torso.dlc = dlc;
-    player.character.characterClothing.clothes.torso.drawable = drawable;
-    player.character.characterClothing.clothes.torso.texture = texture;
-    player.character.characterClothing.clothes.torso.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[3].dlc = dlc;
+    player.character.characterClothing.clothes[3].drawable = drawable;
+    player.character.characterClothing.clothes[3].texture = texture;
+    player.character.characterClothing.clothes[3].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -204,10 +204,10 @@ alt.Player.prototype.setLegs = function setLegs(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.legs.dlc = dlc;
-    player.character.characterClothing.clothes.legs.drawable = drawable;
-    player.character.characterClothing.clothes.legs.texture = texture;
-    player.character.characterClothing.clothes.legs.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[4].dlc = dlc;
+    player.character.characterClothing.clothes[4].drawable = drawable;
+    player.character.characterClothing.clothes[4].texture = texture;
+    player.character.characterClothing.clothes[4].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -221,10 +221,10 @@ alt.Player.prototype.setBag = function setBag(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.bag.dlc = dlc;
-    player.character.characterClothing.clothes.bag.drawable = drawable;
-    player.character.characterClothing.clothes.bag.texture = texture;
-    player.character.characterClothing.clothes.bag.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[5].dlc = dlc;
+    player.character.characterClothing.clothes[5].drawable = drawable;
+    player.character.characterClothing.clothes[5].texture = texture;
+    player.character.characterClothing.clothes[5].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -238,10 +238,10 @@ alt.Player.prototype.setShoes = function setShoes(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.shoes.dlc = dlc;
-    player.character.characterClothing.clothes.shoes.drawable = drawable;
-    player.character.characterClothing.clothes.shoes.texture = texture;
-    player.character.characterClothing.clothes.shoes.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[6].dlc = dlc;
+    player.character.characterClothing.clothes[6].drawable = drawable;
+    player.character.characterClothing.clothes[6].texture = texture;
+    player.character.characterClothing.clothes[6].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -255,10 +255,10 @@ alt.Player.prototype.setAccessories = function setAccessories(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.accessories.dlc = dlc;
-    player.character.characterClothing.clothes.accessories.drawable = drawable;
-    player.character.characterClothing.clothes.accessories.texture = texture;
-    player.character.characterClothing.clothes.accessories.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[7].dlc = dlc;
+    player.character.characterClothing.clothes[7].drawable = drawable;
+    player.character.characterClothing.clothes[7].texture = texture;
+    player.character.characterClothing.clothes[7].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -272,10 +272,10 @@ alt.Player.prototype.setUndershirt = function setUndershirt(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.undershirt.dlc = dlc;
-    player.character.characterClothing.clothes.undershirt.drawable = drawable;
-    player.character.characterClothing.clothes.undershirt.texture = texture;
-    player.character.characterClothing.clothes.undershirt.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[8].dlc = dlc;
+    player.character.characterClothing.clothes[8].drawable = drawable;
+    player.character.characterClothing.clothes[8].texture = texture;
+    player.character.characterClothing.clothes[8].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -289,10 +289,10 @@ alt.Player.prototype.setClothArmor = function setClothArmor(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.armor.dlc = dlc;
-    player.character.characterClothing.clothes.armor.drawable = drawable;
-    player.character.characterClothing.clothes.armor.texture = texture;
-    player.character.characterClothing.clothes.armor.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[9].dlc = dlc;
+    player.character.characterClothing.clothes[9].drawable = drawable;
+    player.character.characterClothing.clothes[9].texture = texture;
+    player.character.characterClothing.clothes[9].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -306,10 +306,10 @@ alt.Player.prototype.setDecals = function setDecals(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.decals.dlc = dlc;
-    player.character.characterClothing.clothes.decals.drawable = drawable;
-    player.character.characterClothing.clothes.decals.texture = texture;
-    player.character.characterClothing.clothes.decals.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[10].dlc = dlc;
+    player.character.characterClothing.clothes[10].drawable = drawable;
+    player.character.characterClothing.clothes[10].texture = texture;
+    player.character.characterClothing.clothes[10].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -323,10 +323,10 @@ alt.Player.prototype.setTop = function setTop(
     texture: number,
     palette?: number
 ): void {
-    player.character.characterClothing.clothes.top.dlc = dlc;
-    player.character.characterClothing.clothes.top.drawable = drawable;
-    player.character.characterClothing.clothes.top.texture = texture;
-    player.character.characterClothing.clothes.top.palette = palette ? palette : null;
+    player.character.characterClothing.clothes[11].dlc = dlc;
+    player.character.characterClothing.clothes[11].drawable = drawable;
+    player.character.characterClothing.clothes[11].texture = texture;
+    player.character.characterClothing.clothes[11].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -412,78 +412,9 @@ alt.Player.prototype.applyClothing = function applyClothing(player: alt.Player):
     let clothes = player.character.characterClothing.clothes;
     let props = player.character.characterClothing.props;
 
-    player.setDlcClothes(
-        alt.hash(clothes.head.dlc),
-        0,
-        clothes.head.drawable,
-        clothes.head.texture,
-        clothes.head.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.mask.dlc),
-        1,
-        clothes.mask.drawable,
-        clothes.mask.texture,
-        clothes.mask.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.hairStyle.dlc),
-        2,
-        clothes.hairStyle.drawable,
-        clothes.hairStyle.texture,
-        clothes.hairStyle.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.torso.dlc),
-        3,
-        clothes.torso.drawable,
-        clothes.torso.texture,
-        clothes.torso.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.legs.dlc),
-        4,
-        clothes.legs.drawable,
-        clothes.legs.texture,
-        clothes.legs.palette
-    );
-    player.setDlcClothes(alt.hash(clothes.bag.dlc), 5, clothes.bag.drawable, clothes.bag.texture, clothes.bag.palette);
-    player.setDlcClothes(
-        alt.hash(clothes.shoes.dlc),
-        6,
-        clothes.shoes.drawable,
-        clothes.shoes.texture,
-        clothes.shoes.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.accessories.dlc),
-        7,
-        clothes.accessories.drawable,
-        clothes.accessories.texture,
-        clothes.accessories.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.undershirt.dlc),
-        8,
-        clothes.undershirt.drawable,
-        clothes.undershirt.texture,
-        clothes.undershirt.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.armor.dlc),
-        9,
-        clothes.armor.drawable,
-        clothes.armor.texture,
-        clothes.armor.palette
-    );
-    player.setDlcClothes(
-        alt.hash(clothes.decals.dlc),
-        10,
-        clothes.decals.drawable,
-        clothes.decals.texture,
-        clothes.decals.palette
-    );
-    player.setDlcClothes(alt.hash(clothes.top.dlc), 11, clothes.top.drawable, clothes.top.texture, clothes.top.palette);
+    for (let i = 0; i <= 11; i++) {
+        player.setDlcClothes(alt.hash(clothes[i].dlc), i, clothes[i].drawable, clothes[i].texture, clothes[i].palette);
+    }
 
     player.setDlcProp(alt.hash(props.hat.dlc), 0, props.hat.drawable, props.hat.texture);
     player.setDlcProp(alt.hash(props.glasses.dlc), 1, props.glasses.drawable, props.glasses.texture);
