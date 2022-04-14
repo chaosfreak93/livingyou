@@ -32,9 +32,8 @@ export default class DiscordAuth {
         WebViewController.showCursor(false);
         WebViewController.unfocus();
         WebViewController.closePages(['Login']);
+        native.doScreenFadeOut(0);
         CameraManager.destroyCamera();
-
-        alt.toggleGameControls(true);
     }
 }
 
