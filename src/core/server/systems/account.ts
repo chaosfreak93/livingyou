@@ -27,5 +27,5 @@ async function authFinished(player: alt.Player, discordData: IDiscordData): Prom
     }
     await Database.updatePartialData(findAccount[0]._id, { lastJoinTimestamp: new Date().getTime() }, 'accounts');
 
-    alt.emitClient(player, 'showCharSelector', findAccount[0].character);
+    player.setPosition(player, -453.586, 276.909, 78.515);
 }
