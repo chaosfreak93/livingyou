@@ -1,7 +1,7 @@
-import * as alt from "alt-client";
-import * as native from "natives";
+import * as alt from 'alt-client';
+import * as native from 'natives';
 
-export default class IPLManager { 
+export default class IPLManager {
     static initializeDefaultIPLs(): void {
         alt.requestIpl('post_hiest_unload'); // Heist Jewel
         alt.requestIpl('refit_unload'); // Max Renda
@@ -164,10 +164,10 @@ export default class IPLManager {
         alt.removeIpl('xm_hatch_09_cutscene'); // Doomsday Bunker
         alt.removeIpl('xm_hatch_10_cutscene'); // Doomsday Bunker
         alt.removeIpl('xm_hatch_closed'); // Doomsday Bunker
-        alt.removeIpl('xm_siloentranceclosed_x17');  // Doomsday Silo
-        alt.requestIpl('xm_bunkerentrance_door');  // Doomsday Silo Entrance
-        alt.removeIpl('xm_hatches_terrain');  // Doomsday Silo
-        alt.removeIpl('xm_hatches_terrain_lod');  // Doomsday Silo
+        alt.removeIpl('xm_siloentranceclosed_x17'); // Doomsday Silo
+        alt.requestIpl('xm_bunkerentrance_door'); // Doomsday Silo Entrance
+        alt.removeIpl('xm_hatches_terrain'); // Doomsday Silo
+        alt.removeIpl('xm_hatches_terrain_lod'); // Doomsday Silo
 
         alt.requestIpl('hei_dlc_windows_casino'); // Casino
         alt.requestIpl('hei_dlc_casino_aircon'); // Casino
@@ -176,7 +176,7 @@ export default class IPLManager {
     }
     static initializeEntitySets(): void {
         // Michael
-        let interiorID = native.getInteriorAtCoords(-807.343, 174.980, 71.163);
+        let interiorID = native.getInteriorAtCoords(-807.343, 174.98, 71.163);
         if (native.isValidInterior(interiorID)) {
             native.deactivateInteriorEntitySet(interiorID, 'V_Michael_Scuba');
             native.activateInteriorEntitySet(interiorID, 'V_Michael_M_items');
@@ -221,7 +221,7 @@ export default class IPLManager {
         }
 
         // Franklin's villa
-        interiorID = native.getInteriorAtCoords(3.199, 529.780, 169.626);
+        interiorID = native.getInteriorAtCoords(3.199, 529.78, 169.626);
         if (native.isValidInterior(interiorID)) {
             native.deactivateInteriorEntitySet(interiorID, 'franklin_unpacking');
             native.deactivateInteriorEntitySet(interiorID, 'franklin_settled');
@@ -236,7 +236,7 @@ export default class IPLManager {
         }
 
         // Floyd
-        interiorID = native.getInteriorAtCoords(-1153.183, -1518.347, 9.630);
+        interiorID = native.getInteriorAtCoords(-1153.183, -1518.347, 9.63);
         if (native.isValidInterior(interiorID)) {
             native.activateInteriorEntitySet(interiorID, 'swap_clean_apt');
             native.activateInteriorEntitySet(interiorID, 'layer_debra_pic');
@@ -266,7 +266,7 @@ export default class IPLManager {
         }
 
         // Ammunation (Vinewood Plaza)
-        interiorID = native.getInteriorAtCoords(247.371, -47.245, 68.940);
+        interiorID = native.getInteriorAtCoords(247.371, -47.245, 68.94);
         if (native.isValidInterior(interiorID)) {
             native.activateInteriorEntitySet(interiorID, 'GunStoreHooks');
             native.refreshInterior(interiorID);
@@ -315,7 +315,7 @@ export default class IPLManager {
         }
 
         // Ammunation (Paleto Bay)
-        interiorID = native.getInteriorAtCoords(-327.170, 6079.257, 30.454);
+        interiorID = native.getInteriorAtCoords(-327.17, 6079.257, 30.454);
         if (native.isValidInterior(interiorID)) {
             native.activateInteriorEntitySet(interiorID, 'GunStoreHooks');
             native.refreshInterior(interiorID);

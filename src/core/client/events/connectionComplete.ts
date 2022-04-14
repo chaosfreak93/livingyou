@@ -15,7 +15,7 @@ async function handleConnectionComplete(): Promise<void> {
     IPLManager.initializeEntitySets();
 
     alt.emitServer(SYSTEM_EVENTS.BEGIN_CONNECTION);
-};
+}
 
 alt.everyTick(() => {
     native.hideHudComponentThisFrame(6); // Vehicle Name

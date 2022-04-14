@@ -1,4 +1,4 @@
-import ICharacter from "../../shared/interface/ICharacter";
+import ICharacter from '../../shared/interface/ICharacter';
 
 export default interface IAccount {
     _id?: any;

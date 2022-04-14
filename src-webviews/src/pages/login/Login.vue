@@ -24,7 +24,7 @@ export default defineComponent({
         },
         setLoginUrl(url) {
             this.url = url;
-        }
+        },
     },
     mounted() {
         if (`alt` in window) {

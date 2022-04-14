@@ -9,7 +9,16 @@ alt.on(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, authFinished);
 async function authFinished(player: alt.Player, discordData: IDiscordData): Promise<void> {
     let findAccount = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
     if (findAccount.length <= 0) {
-        const insertedData = await Database.insertData<IAccount>({ discord: discordData.id, email: discordData.email, firstJoinTimestamp: new Date().getTime(), banned: false }, 'accounts', true);
+        const insertedData = await Database.insertData<IAccount>(
+            {
+                discord: discordData.id,
+                email: discordData.email,
+                firstJoinTimestamp: new Date().getTime(),
+                banned: false,
+            },
+            'accounts',
+            true
+        );
         if (insertedData.discord != discordData.id) return;
         findAccount = [];
         findAccount.push(insertedData);
@@ -17,4 +26,4 @@ async function authFinished(player: alt.Player, discordData: IDiscordData): Prom
     await Database.updatePartialData(findAccount[0]._id, { lastJoinTimestamp: new Date().getTime() }, 'accounts');
 
     alt.emitClient(player, 'showCharSelector', findAccount[0].character);
-};
+}

@@ -151,7 +151,7 @@ export default defineComponent({
                 await this.isPageCloseReady();
             }
             const foundPages = this.pageBindings.filter((page) =>
-                pagesToShow.find((pageName) => pageName === page.name),
+                pagesToShow.find((pageName) => pageName === page.name)
             );
             let newPagesArray = [];
             const combined = this.pages.concat(foundPages);

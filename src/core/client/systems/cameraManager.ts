@@ -5,18 +5,23 @@ import { loadSceneAtCoords } from '../utility/scene';
 let camera: number;
 
 export default class CameraManager {
-    static async createCamera(position: alt.Vector3, rotation: alt.Vector3, fov: number, loadScene: boolean): Promise<void> {
+    static async createCamera(
+        position: alt.Vector3,
+        rotation: alt.Vector3,
+        fov: number,
+        loadScene: boolean
+    ): Promise<void> {
         if (camera != null) {
             CameraManager.destroyCamera();
         }
-    
+
         if (loadScene) {
             native.requestCollisionAtCoord(position.x, position.y, position.z);
             native.setFocusPosAndVel(position.x, position.y, position.z, 0, 0, 0);
             await loadSceneAtCoords(position);
         }
-    
-        camera = native.createCam("DEFAULT_SCRIPTED_CAMERA", false);
+
+        camera = native.createCam('DEFAULT_SCRIPTED_CAMERA', false);
         CameraManager.setCameraPosition(position);
         CameraManager.setCameraRotation(rotation);
         CameraManager.setCameraFov(fov);

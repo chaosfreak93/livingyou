@@ -29,7 +29,7 @@ async function handleAuthenticate(req, res) {
 
         request = await axios.post('https://discord.com/api/oauth2/token', authParams, {
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
 
@@ -39,13 +39,13 @@ async function handleAuthenticate(req, res) {
         request = await axios.get('https://discord.com/api/users/@me', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `${discordData.token_type} ${discordData.access_token}`,
+                Authorization: `${discordData.token_type} ${discordData.access_token}`,
             },
         });
-        
+
         if (!request.data || !request.data.id || !request.data.username) return;
 
-        const player = [...alt.Player.all].find(player => player.getMeta('identifier') === userToken);
+        const player = [...alt.Player.all].find((player) => player.getMeta('identifier') === userToken);
         if (!player || !player.valid) return;
         alt.emit(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, player, request.data);
         alt.emitClient(player, SYSTEM_EVENTS.DISCORD_FINISH_AUTH);
@@ -55,7 +55,7 @@ async function handleAuthenticate(req, res) {
 }
 
 app.listen(7790, () => {
-    alt.log("Express Server Started on Port 7790.");
+    alt.log('Express Server Started on Port 7790.');
 });
 
 function login(player: alt.Player) {
@@ -63,19 +63,22 @@ function login(player: alt.Player) {
         return;
     }
 
-    if (player.name.toLowerCase() == "player") {
-        player.kick("Bitte ändere deinen Nutzernamen!");
+    if (player.name.toLowerCase() == 'player') {
+        player.kick('Bitte ändere deinen Nutzernamen!');
     }
 
     player.dimension = player.id + 1;
     player.visible = false;
     player.setPosition(player, -1645.55, -1113.04, 13);
 
-    let hashBytes = sjcl.hash.sha256.hash(JSON.stringify(player.ip + player.hwidHash + player.hwidExHash) + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
+    let hashBytes = sjcl.hash.sha256.hash(
+        JSON.stringify(player.ip + player.hwidHash + player.hwidExHash) +
+            Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+    );
     const uniquePlayerData = sjcl.codec.hex.fromBits(hashBytes);
     player.setMeta('identifier', uniquePlayerData);
 
-    alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, "http://localhost:3000");
+    alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, 'http://localhost:3000');
     alt.emitClient(player, SYSTEM_EVENTS.DISCORD_OPEN, `${url}&state=${uniquePlayerData}`);
 }
 
