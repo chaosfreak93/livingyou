@@ -5,24 +5,24 @@ export default class IPLManager {
     static initializeDefaultIPLs(): void {
         alt.requestIpl('post_hiest_unload'); // Heist Jewel
         alt.requestIpl('refit_unload'); // Max Renda
-        alt.requestIpl('FINBANK'); // Heist Union Depository
-        alt.requestIpl('Coroner_Int_on'); // Morgue
+        alt.requestIpl('finbank'); // Heist Union Depository
+        alt.requestIpl('coroner_int_on'); // Morgue
         alt.requestIpl('coronertrash'); // Morgue
-        alt.requestIpl('CS1_02_cf_onmission1'); // Cluckin Bell
-        alt.requestIpl('CS1_02_cf_onmission2'); // Cluckin Bell
-        alt.requestIpl('CS1_02_cf_onmission3'); // Cluckin Bell
-        alt.requestIpl('CS1_02_cf_onmission4'); // Cluckin Bell
+        alt.requestIpl('cs1_02_cf_onmission1'); // Cluckin Bell
+        alt.requestIpl('cs1_02_cf_onmission2'); // Cluckin Bell
+        alt.requestIpl('cs1_02_cf_onmission3'); // Cluckin Bell
+        alt.requestIpl('cs1_02_cf_onmission4'); // Cluckin Bell
         alt.requestIpl('farm'); // Grapeseed's farm
         alt.requestIpl('farmint'); // Grapeseed's farm
         alt.requestIpl('farm_lod'); // Grapeseed's farm
         alt.requestIpl('farm_props'); // Grapeseed's farm
         alt.requestIpl('des_farmhouse'); // Grapeseed's farm
-        alt.requestIpl('FIBlobby'); // FIB lobby
+        alt.requestIpl('fiblobby'); // FIB lobby
         alt.requestIpl('atriumglmission'); // FIB Roof
         alt.removeIpl('dt1_05_hc_end'); // FIB Fountain
         alt.removeIpl('dt1_05_hc_req'); // FIB Fountain
         alt.requestIpl('dt1_05_hc_remove'); // FIB Fountain
-        alt.requestIpl('FruitBB'); // Billboard: iFruit
+        alt.requestIpl('fruitbb'); // Billboard: iFruit
         alt.requestIpl('sc1_01_newbill'); // Billboard: iFruit
         alt.requestIpl('hw1_02_newbill'); // Billboard: iFruit
         alt.requestIpl('hw1_emissive_newbill'); // Billboard: iFruit
@@ -32,7 +32,7 @@ export default class IPLManager {
         alt.requestIpl('id2_14_during1'); // Lester's factory
         alt.requestIpl('facelobby'); // Life Invader lobby
         alt.requestIpl('v_tunnel_hole'); // Tunnels
-        alt.requestIpl('Carwash_with_spinners'); // Carwash
+        alt.requestIpl('carwash_with_spinners'); // Carwash
         alt.requestIpl('sp1_10_real_interior'); // Stadium "Fame or Shame"
         alt.requestIpl('sp1_10_real_interior_lod'); // Stadium "Fame or Shame"
         alt.requestIpl('ch1_02_open'); // House in Banham Canyon
@@ -40,7 +40,7 @@ export default class IPLManager {
         alt.requestIpl('lr_cs6_08_grave_closed'); // Hill Valley church - Grave
         alt.requestIpl('methtrailer_grp1'); // Lost's trailer park
         alt.requestIpl('bkr_bi_hw1_13_int'); // Lost safehouse
-        alt.requestIpl('CanyonRvrShallow'); // Raton Canyon river
+        alt.requestIpl('canyonrvrshallow'); // Raton Canyon river
         alt.requestIpl('bh1_47_joshhse_unburnt'); // Josh's house
         alt.requestIpl('bh1_47_joshhse_unburnt_lod'); // Josh's house
         alt.requestIpl('hei_sm_16_interior_v_bahama_milo_'); // Bahama Mamas
@@ -58,7 +58,7 @@ export default class IPLManager {
 
         alt.requestIpl('rc12b_default'); // Pillbox hospital
 
-        alt.removeIpl('CS3_07_MPGates'); // Zancudo Gates
+        alt.removeIpl('cs3_07_mpgates'); // Zancudo Gates
 
         alt.requestIpl('ch3_rd2_bishopschickengraffiti'); // Graffitis
         alt.requestIpl('cs5_04_mazebillboardgraffiti'); // Graffitis
@@ -68,7 +68,7 @@ export default class IPLManager {
         alt.removeIpl('ufo_eye'); // Chiliad UFO
         alt.removeIpl('ufo_lod'); // Zancudo UFO
 
-        alt.removeIpl('redCarpet'); // Red Carpet (Meltdown Movie)
+        alt.removeIpl('redcarpet'); // Red Carpet (Meltdown Movie)
 
         alt.removeIpl('prologue01'); // Prologue (North Yankton)
         alt.removeIpl('prologue01c'); // Prologue (North Yankton)
@@ -84,17 +84,20 @@ export default class IPLManager {
         alt.removeIpl('prologue02'); // Prologue (North Yankton)
         alt.removeIpl('prologue03'); // Prologue (North Yankton)
         alt.removeIpl('prologue03b'); // Prologue (North Yankton)
+        alt.removeIpl('prologue03_grv_cov'); // Prologue (North Yankton)
         alt.removeIpl('prologue04'); // Prologue (North Yankton)
         alt.removeIpl('prologue04b'); // Prologue (North Yankton)
+        alt.removeIpl('prologue04_cover'); // Prologue (North Yankton)
         alt.removeIpl('prologue05'); // Prologue (North Yankton)
         alt.removeIpl('prologue05b'); // Prologue (North Yankton)
         alt.removeIpl('prologue06'); // Prologue (North Yankton)
         alt.removeIpl('prologue06b'); // Prologue (North Yankton)
         alt.removeIpl('prologue06_int'); // Prologue (North Yankton)
+        alt.removeIpl('prologue06_pannel'); // Prologue (North Yankton)
         alt.removeIpl('prologuerd'); // Prologue (North Yankton)
         alt.removeIpl('prologuerdb'); // Prologue (North Yankton)
-        alt.removeIpl('prologue_DistantLights'); // Prologue (North Yankton)
-        alt.removeIpl('prologue_LODLights'); // Prologue (North Yankton)
+        alt.removeIpl('prologue_distantlights'); // Prologue (North Yankton)
+        alt.removeIpl('prologue_lodlights'); // Prologue (North Yankton)
         alt.removeIpl('prologue_m2_door'); // Prologue (North Yankton)
 
         alt.removeIpl('hei_yacht_heist'); // Porn Yacht
