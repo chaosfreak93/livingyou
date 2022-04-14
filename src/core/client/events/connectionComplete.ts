@@ -11,6 +11,8 @@ async function handleConnectionComplete(): Promise<void> {
     native.doScreenFadeOut(0);
     native.triggerScreenblurFadeOut(0);
     native.freezeEntityPosition(alt.Player.local.scriptID, true);
+    native.displayHud(false);
+    native.displayRadar(false);
     IPLManager.initializeDefaultIPLs();
     IPLManager.initializeEntitySets();
 
