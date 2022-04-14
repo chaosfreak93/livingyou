@@ -36,7 +36,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-div {
+#page-Login {
     text-align: center;
     position: absolute;
     top: 50%;
