@@ -6,6 +6,7 @@ export default interface IAccount {
     email: string;
     firstJoinTimestamp: number;
     lastJoinTimestamp?: number;
+    allowSecondCharacter: boolean;
     character?: ICharacter[];
     banned: boolean;
     reason?: string;
