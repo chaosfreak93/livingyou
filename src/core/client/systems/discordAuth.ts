@@ -33,6 +33,7 @@ export default class DiscordAuth {
         WebViewController.unfocus();
         WebViewController.closePages(['Login']);
         native.doScreenFadeOut(0);
+        await alt.Utils.waitFor(() => native.isScreenFadedOut());
         CameraManager.destroyCamera();
     }
 }

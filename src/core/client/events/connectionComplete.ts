@@ -8,9 +8,9 @@ alt.on('connectionComplete', handleConnectionComplete);
 
 async function handleConnectionComplete(): Promise<void> {
     CameraManager.destroyCamera();
-    native.doScreenFadeOut(0);
-    native.triggerScreenblurFadeOut(0);
     native.freezeEntityPosition(alt.Player.local.scriptID, true);
+    native.doScreenFadeOut(0);
+    await alt.Utils.waitFor(() => native.isScreenFadedOut());
     native.displayHud(false);
     native.displayRadar(false);
     IPLManager.initializeDefaultIPLs();
