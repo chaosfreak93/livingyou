@@ -40,7 +40,7 @@ export default class CharSelector {
             native.taskGoStraightToCoord(ped, -457.725, 274.483, 78.515, 1, -1, 0, 0);
             await alt.Utils.waitFor(() => {
                 return native.getScriptTaskStatus(ped, 0x7d8f4411) == 7;
-            }, 3000);
+            }, 3500);
             native.deletePed(ped);
             ped = null;
         }
@@ -54,8 +54,8 @@ export default class CharSelector {
             false,
             false
         );
-        native.setEntityInvincible(ped, true);
         await alt.Utils.waitFor(() => native.doesEntityExist(ped));
+        native.setEntityInvincible(ped, true);
 
         native.setPedHeadBlendData(
             ped,
@@ -151,3 +151,9 @@ export default class CharSelector {
 }
 
 alt.onServer(SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, CharSelector.open);
+alt.on('disconnect', () => {
+    if (ped != null) {
+        native.deletePed(ped);
+        ped = null;
+    }
+});
