@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="characterOne">
-            <div id="no_char" v-if="characters == null || characters.length <= 0">
+            <div id="no_char" v-if="characters == null || characters.length <= 0" v-on:click="createCharacter()">
                 <p style="color: white">Create Char</p>
             </div>
             <div id="char" v-else-if="characters.length > 0" v-on:click="selectCharacter(0)"></div>
@@ -10,7 +10,7 @@
             <div id="char_locked" v-if="characters == null || !allowSecondCharacter">
                 <p style="color: white">Slot locked</p>
             </div>
-            <div id="no_char" v-else-if="characters.length <= 1">
+            <div id="no_char" v-else-if="characters.length <= 1" v-on:click="createCharacter()">
                 <p style="color: white">Create Char</p>
             </div>
             <div id="char" v-else-if="characters.length > 1" v-on:click="selectCharacter(1)"></div>
@@ -45,6 +45,13 @@ export default defineComponent({
             }
 
             alt.emit('showPed', this.characters[index].characterClothing, this.characters[index].characterAppearence);
+        },
+        createCharacter() {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            alt.emit('createCharacter');
         },
     },
     mounted() {

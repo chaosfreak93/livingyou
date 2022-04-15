@@ -21,6 +21,7 @@ export default class CharSelector {
         const view = await WebViewController.get();
         view.on('charSelectorReady', () => CharSelector.charSelectorReady(characters, allowSecondCharacter));
         view.on('showPed', CharSelector.showPed);
+        view.on('createCharacter', CharSelector.createCharacter);
 
         WebViewController.openPages(['CharSelector']);
         WebViewController.focus();
@@ -147,6 +148,18 @@ export default class CharSelector {
         );
 
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);
+    }
+
+    static async createCharacter() {
+        const view = await WebViewController.get();
+        view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
+        view.off('showPed', CharSelector.showPed);
+        view.off('createCharacter', CharSelector.createCharacter);
+
+        WebViewController.showCursor(false);
+        WebViewController.unfocus();
+        WebViewController.closePages(['CharSelector']);
+        alt.emit(SYSTEM_EVENTS.CHAR_CREATOR_OPEN);
     }
 }
 

@@ -6,6 +6,8 @@ export enum SYSTEM_EVENTS {
     DISCORD_FINISH_AUTH = 'discord:FinishAuth',
     // Character Selector
     CHAR_SELECTOR_OPEN = 'charSelector:Open',
+    // Character Creator
+    CHAR_CREATOR_OPEN = 'charCreator:Open',
     // Webview
     WEBVIEW_INFO = 'webview:Info',
 }

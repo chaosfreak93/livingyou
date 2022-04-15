@@ -1,6 +1,7 @@
 import { shallowRef } from 'vue';
 import Login from './login/Login.vue';
 import CharSelector from './charSelector/CharSelector.vue';
+import CharCreator from './charCreator/CharCreator.vue';
 
 // Append components here...
 // All components that you want to load...
@@ -8,6 +9,7 @@ import CharSelector from './charSelector/CharSelector.vue';
 const componentList = {
     Login: shallowRef(Login),
     CharSelector: shallowRef(CharSelector),
+    CharCreator: shallowRef(CharCreator),
 };
 
 function generateComponentList(): Array<{ name: string; component: unknown }> {
