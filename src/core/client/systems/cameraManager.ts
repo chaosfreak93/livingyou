@@ -25,8 +25,7 @@ export default class CameraManager {
         CameraManager.setCameraPosition(position);
         CameraManager.setCameraRotation(rotation);
         CameraManager.setCameraFov(fov);
-        native.setCamActive(camera, true);
-        native.renderScriptCams(true, false, 0, true, false, 0);
+        CameraManager.setCamActive();
     }
 
     static destroyCamera(): void {
@@ -40,19 +39,40 @@ export default class CameraManager {
         native.renderScriptCams(false, false, 0, false, false, 0);
     }
 
+    static cameraExists(): boolean {
+        return camera !== null;
+    }
+
     static setCameraPosition(position: alt.Vector3): void {
         native.setCamCoord(camera, position.x, position.y, position.z);
+    }
+
+    static getCameraPosition(): alt.Vector3 {
+        return native.getCamCoord(camera);
     }
 
     static setCameraRotation(rotation: alt.Vector3): void {
         native.setCamRot(camera, rotation.x, rotation.y, rotation.z, 2);
     }
 
+    static getCameraRotation(): alt.Vector3 {
+        return native.getCamRot(camera, 2);
+    }
+
     static setCameraFov(fov: number): void {
         native.setCamFov(camera, fov);
     }
 
+    static getCameraFov(): number {
+        return native.getCamFov(camera);
+    }
+
     static pointCameraAtCoord(position: alt.Vector3): void {
         native.pointCamAtCoord(camera, position.x, position.y, position.z);
+    }
+
+    static setCamActive(): void {
+        native.setCamActive(camera, true);
+        native.renderScriptCams(true, false, 0, true, false, 0);
     }
 }
