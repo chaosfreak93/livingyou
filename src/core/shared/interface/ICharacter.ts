@@ -6,6 +6,7 @@ export default interface ICharacter {
     firstName: string;
     secondName?: string;
     lastName: string;
+    birthday: string;
     alive: boolean;
     characterAppearence: ICharacterAppearence;
     characterClothing: ICharacterClothing;
