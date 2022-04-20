@@ -1,20 +1,48 @@
 <template>
     <div>
-        <select v-model="gender" v-on:change="changeGender">
-            <option :value="'male'">Male</option>
-            <option :value="'female'">Female</option>
-        </select>
-        <!--<div id="fathe_mother">
+        <div id="info" v-if="pages.info">
+            <p>Info</p>
+            <input type="text" v-model="firstName" placeholder="Vorname" />
+            <input type="text" v-model="secondName" placeholder="Zweitname (Optional)" />
+            <input type="text" v-model="lastName" placeholder="Nachname" />
+            <p>Age</p>
+            <input type="date" v-model="birthday" />
+            <p>Gender</p>
+            <select v-model="gender" v-on:change="changeGender">
+                <option :value="'male'">Male</option>
+                <option :value="'female'">Female</option>
+            </select>
+            <div v-if="errorMessage">
+                {{ errorMessage }}
+            </div>
+            <br />
+            <input type="button" value="Nächste Seite" v-on:click="finishCharInfo()" />
+        </div>
+        <div id="parents" v-if="pages.parents">
             <p style="color: white">Mother</p>
-            <input type="range" min="0" max="45" v-model=mother step="1" v-on:input="setHeadBlendData" />
+            <input
+                type="range"
+                min="0"
+                max="45"
+                v-model="headBlendData.mother"
+                step="1"
+                v-on:input="setHeadBlendData"
+            />
             <p style="color: white">Father</p>
-            <input type="range" min="0" max="45" v-model=father step="1" v-on:input="setHeadBlendData" />
+            <input
+                type="range"
+                min="0"
+                max="45"
+                v-model="headBlendData.father"
+                step="1"
+                v-on:input="setHeadBlendData"
+            />
             <p style="color: white">similarityAnatomy</p>
             <input
                 type="range"
                 min="0.0"
                 max="1.0"
-                v-model="similarityAnatomy"
+                v-model="headBlendData.similarityAnatomy"
                 step="0.025"
                 v-on:input="setHeadBlendData"
             />
@@ -23,151 +51,88 @@
                 type="range"
                 min="0.0"
                 max="1.0"
-                v-model="similaritySkinColor"
+                v-model="headBlendData.similaritySkinColor"
                 step="0.025"
                 v-on:input="setHeadBlendData"
             />
-        </div>-->
-        <!--<div id="headBlendPaletteColor">
-            <div>
-                {{ headBlendPaletteColor[0].index }}
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[0].color.r"
-                    v-on:change="setHeadBlendPaletteColor(0)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[0].color.g"
-                    v-on:change="setHeadBlendPaletteColor(0)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[0].color.b"
-                    v-on:change="setHeadBlendPaletteColor(0)"
-                />
-            </div>
-            <div>
-                {{ headBlendPaletteColor[1].index }}
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[1].color.r"
-                    v-on:change="setHeadBlendPaletteColor(1)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[1].color.g"
-                    v-on:change="setHeadBlendPaletteColor(1)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[1].color.b"
-                    v-on:change="setHeadBlendPaletteColor(1)"
-                />
-            </div>
-            <div>
-                {{ headBlendPaletteColor[2].index }}
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[2].color.r"
-                    v-on:change="setHeadBlendPaletteColor(2)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[2].color.g"
-                    v-on:change="setHeadBlendPaletteColor(2)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[2].color.b"
-                    v-on:change="setHeadBlendPaletteColor(2)"
-                />
-            </div>
-            <div>
-                {{ headBlendPaletteColor[3].index }}
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[3].color.r"
-                    v-on:change="setHeadBlendPaletteColor(3)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[3].color.g"
-                    v-on:change="setHeadBlendPaletteColor(3)"
-                />
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[3].color.b"
-                    v-on:change="setHeadBlendPaletteColor(3)"
-                />
-            </div>
-        </div>-->
-        <div id="headBlendPaletteColor">
-            <div>
-                {{ headBlendPaletteColor[0].index }}
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[0].color.r"
-                    v-on:change="setHeadBlendPaletteColor(0)"
-                />
-            </div>
-            <div>
-                {{ headBlendPaletteColor[1].index }}
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[1].color.r"
-                    v-on:change="setHeadBlendPaletteColor(1)"
-                />
-            </div>
-            <div>
-                {{ headBlendPaletteColor[2].index }}
-                <input
-                    type="number"
-                    min="0"
-                    max="255"
-                    v-model="headBlendPaletteColor[2].color.r"
-                    v-on:change="setHeadBlendPaletteColor(2)"
-                />
-            </div>
-            <div>
-                {{ headBlendPaletteColor[3].index }}
-                <input
-                    type="number"
-                    min="0.0"
-                    max="255"
-                    v-model="headBlendPaletteColor[3].color.r"
-                    v-on:change="setHeadBlendPaletteColor(3)"
-                />
-            </div>
+            <br />
+            <input type="button" value="Vorherige Seite" v-on:click="switchPage(0)" />
+            <input type="button" value="Nächste Seite" v-on:click="switchPage(2)" />
         </div>
+        <div id="face" v-if="pages.face">
+            <div id="faceFeature" v-for="(item, index) in faceFeature" :key="index">
+                <div>
+                    <p style="color: white">{{ item.name }}</p>
+                    <input
+                        type="range"
+                        min="-1.0"
+                        max="1.0"
+                        v-model="item.scale"
+                        step="0.025"
+                        v-on:input="setFaceFeature(index)"
+                    />
+                </div>
+            </div>
+            <input type="button" value="Vorherige Seite" v-on:click="switchPage(1)" />
+            <input type="button" value="Nächste Seite" v-on:click="switchPage(3)" />
+        </div>
+        <div id="overlays" v-if="pages.overlays">
+            <div id="headOverlay" v-for="(item, index) in headOverlay" :key="index">
+                <div>
+                    <p style="color: white">{{ item.name }}</p>
+                    <input
+                        type="number"
+                        min="-1"
+                        :max="item.maxIndex"
+                        v-model="item.index"
+                        step="1"
+                        v-on:input="setHeadOverlay(index)"
+                    />
+                    <input
+                        type="range"
+                        min="0.0"
+                        max="1.0"
+                        v-model="item.opacity"
+                        step="0.025"
+                        v-on:input="setHeadOverlay(index)"
+                    />
+                    <div v-if="item.colorType != 0">
+                        <input
+                            type="number"
+                            min="0"
+                            max="63"
+                            v-model="item.colorIndex"
+                            step="1"
+                            v-on:input="setHeadOverlayColor(index)"
+                        />
+                    </div>
+                </div>
+            </div>
+            <input type="button" value="Vorherige Seite" v-on:click="switchPage(2)" />
+            <input type="button" value="Nächste Seite" v-on:click="switchPage(4)" />
+        </div>
+
+        <div id="eyeColor" v-if="pages.eyeColor">
+            <input type="range" min="1" max="31" v-model="eyeColor" step="1" v-on:input="setEyeColor()" />
+        </div>
+        <!--<div id="hairColor">
+            <input
+                type="range"
+                min="0"
+                max="63"
+                v-model="hairColor.colorId"
+                step="1"
+                v-on:input="setHairColor()"
+            />
+            <input
+                type="range"
+                min="0"
+                max="63"
+                v-model="hairColor.highlightColorId"
+                step="1"
+                v-on:input="setHairColor()"
+            />
+        </div>-->
     </div>
 </template>
 
@@ -179,6 +144,17 @@ export default defineComponent({
     components: {},
     data() {
         return {
+            pages: {
+                info: false,
+                parents: false,
+                face: false,
+                overlays: false,
+                eyeColor: false,
+            },
+            firstName: '',
+            secondName: '',
+            lastName: '',
+            birthday: '',
             gender: 'male',
             headBlendData: {
                 mother: 0,
@@ -186,52 +162,284 @@ export default defineComponent({
                 similarityAnatomy: 0.5,
                 similaritySkinColor: 0.5,
             },
-            headBlendPaletteColor: [
+            faceFeature: [
                 {
-                    index: 0,
-                    color: {
-                        r: 0,
-                        g: 0,
-                        b: 0,
-                    },
+                    name: 'Nose_Width',
+                    scale: 0,
                 },
                 {
-                    index: 1,
-                    color: {
-                        r: 0,
-                        g: 0,
-                        b: 0,
-                    },
+                    name: 'Nose_Peak_Hight',
+                    scale: 0,
                 },
                 {
-                    index: 2,
-                    color: {
-                        r: 0,
-                        g: 0,
-                        b: 0,
-                    },
+                    name: 'Nose_Peak_Lenght',
+                    scale: 0,
                 },
                 {
-                    index: 3,
-                    color: {
-                        r: 0,
-                        g: 0,
-                        b: 0,
-                    },
+                    name: 'Nose_Bone_High',
+                    scale: 0,
+                },
+                {
+                    name: 'Nose_Peak_Lowering',
+                    scale: 0,
+                },
+                {
+                    name: 'Nose_Bone_Twist',
+                    scale: 0,
+                },
+                {
+                    name: 'EyeBrown_High',
+                    scale: 0,
+                },
+                {
+                    name: 'EyeBrown_Forward',
+                    scale: 0,
+                },
+                {
+                    name: 'Cheeks_Bone_High',
+                    scale: 0,
+                },
+                {
+                    name: 'Cheeks_Bone_Width',
+                    scale: 0,
+                },
+                {
+                    name: 'Cheeks_Width',
+                    scale: 0,
+                },
+                {
+                    name: 'Eyes_Openning',
+                    scale: 0,
+                },
+                {
+                    name: 'Lips_Thickness',
+                    scale: 0,
+                },
+                {
+                    name: 'Jaw_Bone_Width',
+                    scale: 0,
+                },
+                {
+                    name: 'Jaw_Bone_Back_Lenght',
+                    scale: 0,
+                },
+                {
+                    name: 'Chimp_Bone_Lowering',
+                    scale: 0,
+                },
+                {
+                    name: 'Chimp_Bone_Lenght',
+                    scale: 0,
+                },
+                {
+                    name: 'Chimp_Bone_Width',
+                    scale: 0,
+                },
+                {
+                    name: 'Chimp_Hole',
+                    scale: 0,
+                },
+                {
+                    name: 'Neck_Thikness',
+                    scale: 0,
                 },
             ],
+            headOverlay: [
+                {
+                    name: 'Blemishes',
+                    index: -1,
+                    maxIndex: 23,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Facial Hair',
+                    index: -1,
+                    maxIndex: 28,
+                    opacity: 1.0,
+                    colorType: 1,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Eyebrows',
+                    index: -1,
+                    maxIndex: 33,
+                    opacity: 1.0,
+                    colorType: 1,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Ageing',
+                    index: -1,
+                    maxIndex: 14,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Makeup',
+                    index: -1,
+                    maxIndex: 74,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Blush',
+                    index: -1,
+                    maxIndex: 6,
+                    opacity: 1.0,
+                    colorType: 2,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Complexion',
+                    index: -1,
+                    maxIndex: 11,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Sun Damage',
+                    index: -1,
+                    maxIndex: 10,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Lipstick',
+                    index: -1,
+                    maxIndex: 9,
+                    opacity: 1.0,
+                    colorType: 2,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Moles/Freckles',
+                    index: -1,
+                    maxIndex: 17,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Chest Hair',
+                    index: -1,
+                    maxIndex: 16,
+                    opacity: 1.0,
+                    colorType: 1,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Body Blemishes',
+                    index: -1,
+                    maxIndex: 11,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+                {
+                    name: 'Add Body Blemishes',
+                    index: -1,
+                    maxIndex: 1,
+                    opacity: 1.0,
+                    colorType: 0,
+                    colorIndex: 0,
+                },
+            ],
+            eyeColor: 1,
+            hairColor: {
+                colorId: 0,
+                highlightColorId: 0,
+            },
+            errorMessage: null,
         };
     },
     methods: {
+        finishCharInfo() {
+            if (this.firstName.length < 3) {
+                this.errorMessage = 'First name must be at least 3 characters';
+                return;
+            }
+
+            if (!new RegExp(/^[a-zA-Z]+$/gm).test(this.firstName)) {
+                this.errorMessage = 'First name cannot include special characters';
+                return;
+            }
+
+            if (this.secondName.length > 0) {
+                if (this.secondName.length < 3) {
+                    this.errorMessage = 'Second name must be at least 3 characters';
+                    return;
+                }
+
+                if (!new RegExp(/^[a-zA-Z]+$/gm).test(this.secondName)) {
+                    this.errorMessage = 'Second name cannot include special characters';
+                    return;
+                }
+            }
+
+            if (this.lastName.length < 3) {
+                this.errorMessage = 'Last name must be at least 3 characters';
+                return;
+            }
+
+            if (!new RegExp(/^[a-zA-Z]+$/gm).test(this.lastName)) {
+                this.errorMessage = 'Last name cannot include special characters';
+                return;
+            }
+
+            let [y, m, d] = this.birthday.split('-');
+            if (y < 1940) {
+                this.errorMessage = 'Minimum Year: 1940';
+            }
+
+            if (y > 2004) {
+                this.errorMessage = 'Maximum Year: 2004';
+            }
+
+            this.errorMessage = null;
+            this.switchPage(1);
+        },
+        switchPage(page) {
+            this.pages.info = false;
+            this.pages.parents = false;
+            this.pages.face = false;
+            this.pages.overlays = false;
+            this.pages.eyeColor = false;
+            switch (page) {
+                case 0:
+                    this.pages.info = true;
+                    break;
+                case 1:
+                    this.pages.parents = true;
+                    break;
+                case 2:
+                    this.pages.face = true;
+                    break;
+                case 3:
+                    this.pages.overlays = true;
+                    break;
+                case 4:
+                    this.pages.eyeColor = true;
+                    break;
+            }
+        },
         changeGender() {
             if (!(`alt` in window)) {
                 return;
             }
 
-            this.mother = 0;
-            this.father = 0;
-            this.similarityAnatomy = 0.5;
-            this.similaritySkinColor = 0.5;
+            this.headBlendData.mother = 0;
+            this.headBlendData.father = 0;
+            this.headBlendData.similarityAnatomy = 0.5;
+            this.headBlendData.similaritySkinColor = 0.5;
+            for (let i = 0; i < this.faceFeature.length; i++) {
+                this.faceFeature[i].scale = 0;
+            }
 
             if (this.gender == 'male') {
                 alt.emit('changeGender', true);
@@ -246,23 +454,68 @@ export default defineComponent({
 
             alt.emit(
                 'setHeadBlendData',
-                parseInt(this.mother),
-                parseInt(this.father),
-                parseFloat(this.similarityAnatomy),
-                parseFloat(this.similaritySkinColor)
+                parseInt(this.headBlendData.mother),
+                parseInt(this.headBlendData.father),
+                parseFloat(this.headBlendData.similarityAnatomy),
+                parseFloat(this.headBlendData.similaritySkinColor)
             );
         },
-        setHeadBlendPaletteColor(index) {
+        setFaceFeature(index) {
             if (!(`alt` in window)) {
                 return;
             }
 
-            alt.emit('setHeadBlendPaletteColor', index, this.headBlendPaletteColor[index].color);
+            alt.emit('setFaceFeature', parseInt(index), parseFloat(this.faceFeature[index].scale));
+        },
+        setHeadOverlay(overlayId) {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            if (parseInt(this.headOverlay[overlayId].index) == -1) {
+                alt.emit('setHeadOverlay', parseInt(overlayId), 255, parseFloat(this.headOverlay[overlayId].opacity));
+            } else {
+                alt.emit(
+                    'setHeadOverlay',
+                    parseInt(overlayId),
+                    parseInt(this.headOverlay[overlayId].index),
+                    parseFloat(this.headOverlay[overlayId].opacity)
+                );
+            }
+        },
+        setHeadOverlayColor(overlayId) {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            alt.emit(
+                'setHeadOverlayColor',
+                parseInt(overlayId),
+                parseInt(this.headOverlay[overlayId].colorType),
+                parseInt(this.headOverlay[overlayId].colorIndex)
+            );
+        },
+        setEyeColor() {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            alt.emit('setEyeColor', parseInt(this.eyeColor));
+        },
+        setHairColor() {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            alt.emit('setHairColor', parseInt(this.hairColor.colorId), parseInt(this.hairColor.highlightColorId));
         },
     },
     mounted() {
         if (`alt` in window) {
             alt.emit('charCreatorReady');
+            alt.on('showCreator', () => this.switchPage(0));
+        } else {
+            this.switchPage(0);
         }
     },
 });
@@ -276,7 +529,7 @@ export default defineComponent({
     left: 0;
     transform: translate(0%, 0%);
     width: 25vw;
-    height: 100%;
+    min-height: 100%;
     background-color: rgba(0, 0, 0, 0.55);
 }
 </style>
