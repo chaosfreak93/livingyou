@@ -60,91 +60,83 @@ export default class CharSelector {
 
         native.setPedHeadBlendData(
             ped,
-            appearance.headBlendData.shapeFirstID,
-            appearance.headBlendData.shapeSecondID,
+            appearance.headBlendData.mother,
+            appearance.headBlendData.father,
             0,
-            appearance.headBlendData.skinFirstID,
-            appearance.headBlendData.skinSecondID,
+            appearance.headBlendData.mother,
+            appearance.headBlendData.father,
             0,
-            appearance.headBlendData.shapeMix,
-            appearance.headBlendData.skinMix,
+            appearance.headBlendData.similarityAnatomy,
+            appearance.headBlendData.similaritySkinColor,
             0,
             false
         );
-        for (let i = 0; i < appearance.headBlendPaletteColor.length; i++) {
-            native.setHeadBlendPaletteColor(
-                ped,
-                appearance.headBlendPaletteColor[i].r,
-                appearance.headBlendPaletteColor[i].g,
-                appearance.headBlendPaletteColor[i].b,
-                appearance.headBlendPaletteColor[i].id
-            );
-        }
         for (let i = 0; i < appearance.faceFeature.length; i++) {
-            native.setPedFaceFeature(ped, appearance.faceFeature[i].index, appearance.faceFeature[i].scale);
+            native.setPedFaceFeature(ped, i, appearance.faceFeature[i].scale);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
             native.setPedHeadOverlay(
                 ped,
-                appearance.headOverlay[i].overlayID,
+                i,
                 appearance.headOverlay[i].index,
                 appearance.headOverlay[i].opacity
             );
+        }
+        for (let i = 0; i < appearance.headOverlay.length; i++) {
             native.setPedHeadOverlayColor(
                 ped,
-                appearance.headOverlay[i].overlayID,
+                i,
                 appearance.headOverlay[i].colorType,
                 appearance.headOverlay[i].colorIndex,
-                appearance.headOverlay[i].secondColorIndex
+                0
             );
         }
         native.setPedEyeColor(ped, appearance.eyeColor);
         native.setPedHairColor(ped, appearance.hairColor.colorId, appearance.hairColor.highlightColorId);
 
         for (let i = 0; i < clothes.clothes.length; i++) {
-            alt.setPedDlcClothes(
+            native.setPedComponentVariation(
                 ped,
-                alt.hash(clothes.clothes[i].dlc),
                 i,
                 clothes.clothes[i].drawable,
                 clothes.clothes[i].texture,
                 clothes.clothes[i].palette
             );
         }
-        alt.setPedDlcProp(
+        native.setPedPropIndex(
             ped,
-            alt.hash(clothes.props.hat.dlc),
             0,
             clothes.props.hat.drawable,
-            clothes.props.hat.texture
+            clothes.props.hat.texture,
+            true
         );
-        alt.setPedDlcProp(
+        native.setPedPropIndex(
             ped,
-            alt.hash(clothes.props.glasses.dlc),
             1,
             clothes.props.glasses.drawable,
-            clothes.props.glasses.texture
+            clothes.props.glasses.texture,
+            true
         );
-        alt.setPedDlcProp(
+        native.setPedPropIndex(
             ped,
-            alt.hash(clothes.props.ear.dlc),
             2,
             clothes.props.ear.drawable,
-            clothes.props.ear.texture
+            clothes.props.ear.texture,
+            true
         );
-        alt.setPedDlcProp(
+        native.setPedPropIndex(
             ped,
-            alt.hash(clothes.props.watch.dlc),
             6,
             clothes.props.watch.drawable,
-            clothes.props.watch.texture
+            clothes.props.watch.texture,
+            true
         );
-        alt.setPedDlcProp(
+        native.setPedPropIndex(
             ped,
-            alt.hash(clothes.props.bracelet.dlc),
             7,
             clothes.props.bracelet.drawable,
-            clothes.props.bracelet.texture
+            clothes.props.bracelet.texture,
+            true
         );
 
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);
