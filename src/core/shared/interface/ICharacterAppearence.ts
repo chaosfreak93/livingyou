@@ -1,227 +1,151 @@
-import * as alt from 'alt-server';
-
 export default interface ICharacterAppearence {
     male: boolean;
     headBlendData: {
-        shapeFirstID: number;
-        shapeSecondID: number;
-        skinFirstID: number;
-        skinSecondID: number;
-        shapeMix: number;
-        skinMix: number;
+        mother: number;
+        father: number;
+        similarityAnatomy: number;
+        similaritySkinColor: number;
     };
-    headBlendPaletteColor: [
-        {
-            id: 0;
-            r: number;
-            g: number;
-            b: number;
-        },
-        {
-            id: 1;
-            r: number;
-            g: number;
-            b: number;
-        },
-        {
-            id: 2;
-            r: number;
-            g: number;
-            b: number;
-        },
-        {
-            id: 3;
-            r: number;
-            g: number;
-            b: number;
-        }
-    ];
     faceFeature: [
-        {
-            index: 0;
+        nose_width: {
             scale: number;
         },
-        {
-            index: 1;
+        nose_peak_height: {
             scale: number;
         },
-        {
-            index: 2;
+        nose_peak_length: {
             scale: number;
         },
-        {
-            index: 3;
+        nose_bone_height: {
             scale: number;
         },
-        {
-            index: 4;
+        nose_peak_lowering: {
             scale: number;
         },
-        {
-            index: 5;
+        nose_bone_twist: {
             scale: number;
         },
-        {
-            index: 6;
+        eye_brown_height: {
             scale: number;
         },
-        {
-            index: 7;
+        eye_brown_forward: {
             scale: number;
         },
-        {
-            index: 8;
+        cheeks_bone_height: {
             scale: number;
         },
-        {
-            index: 9;
+        cheeks_bone_width: {
             scale: number;
         },
-        {
-            index: 10;
+        cheeks_width: {
             scale: number;
         },
-        {
-            index: 11;
+        eyes_opening: {
             scale: number;
         },
-        {
-            index: 12;
+        lips_thickness: {
             scale: number;
         },
-        {
-            index: 13;
+        jaw_bone_width: {
             scale: number;
         },
-        {
-            index: 14;
+        jaw_bone_back_length: {
             scale: number;
         },
-        {
-            index: 15;
+        chimp_bone_lowering: {
             scale: number;
         },
-        {
-            index: 16;
+        chimp_bone_length: {
             scale: number;
         },
-        {
-            index: 17;
+        chimp_bone_width: {
             scale: number;
         },
-        {
-            index: 18;
+        chimp_hole: {
             scale: number;
         },
-        {
-            index: 19;
+        neck_thickness: {
             scale: number;
         }
     ];
     headOverlay: [
-        {
-            overlayID: 0;
+        blemishes: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 1;
+        facial_hair: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 2;
+        eyebrows: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 3;
+        ageing: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 4;
+        makeup: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 5;
+        blush: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 6;
+        complexion: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 7;
+        sun_damage: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 8;
+        lipstick: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 9;
+        moles_freckles: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 10;
+        chest_hair: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 11;
+        body_blemishes: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         },
-        {
-            overlayID: 12;
+        add_body_blemishes: {
             index: number;
             opacity: number;
             colorType: number;
             colorIndex: number;
-            secondColorIndex: number;
         }
     ];
     eyeColor: number;
