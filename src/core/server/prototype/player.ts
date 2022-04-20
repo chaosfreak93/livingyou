@@ -9,48 +9,18 @@ declare module 'alt-server' {
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
 
         // Clothing
-        setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number, palette?: number): void;
-        setMask(player: alt.Player, applyClothing: boolean, drawable: number, texture: number, palette?: number): void;
-        setHairStyle(
-            player: alt.Player,
-            applyClothing: boolean,
-            drawable: number,
-            texture: number,
-            palette?: number
-        ): void;
-        setTorso(player: alt.Player, applyClothing: boolean, drawable: number, texture: number, palette?: number): void;
-        setLegs(player: alt.Player, applyClothing: boolean, drawable: number, texture: number, palette?: number): void;
-        setBag(player: alt.Player, applyClothing: boolean, drawable: number, texture: number, palette?: number): void;
-        setShoes(player: alt.Player, applyClothing: boolean, drawable: number, texture: number, palette?: number): void;
-        setAccessories(
-            player: alt.Player,
-            applyClothing: boolean,
-            drawable: number,
-            texture: number,
-            palette?: number
-        ): void;
-        setUndershirt(
-            player: alt.Player,
-            applyClothing: boolean,
-            drawable: number,
-            texture: number,
-            palette?: number
-        ): void;
-        setClothArmor(
-            player: alt.Player,
-            applyClothing: boolean,
-            drawable: number,
-            texture: number,
-            palette?: number
-        ): void;
-        setDecals(
-            player: alt.Player,
-            applyClothing: boolean,
-            drawable: number,
-            texture: number,
-            palette?: number
-        ): void;
-        setTop(player: alt.Player, applyClothing: boolean, drawable: number, texture: number, palette?: number): void;
+        setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setMask(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setHairStyle(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setTorso(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setLegs(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setBag(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setShoes(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setAccessories(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setUndershirt(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setClothArmor(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setDecals(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setTop(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
 
         // Props
         setHat(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
@@ -78,12 +48,10 @@ alt.Player.prototype.setHead = function setHead(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[0].drawable = drawable;
     player.character.characterClothing.clothes[0].texture = texture;
-    player.character.characterClothing.clothes[0].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -93,12 +61,10 @@ alt.Player.prototype.setMask = function setMask(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[1].drawable = drawable;
     player.character.characterClothing.clothes[1].texture = texture;
-    player.character.characterClothing.clothes[1].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -108,12 +74,10 @@ alt.Player.prototype.setHairStyle = function setHairStyle(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[2].drawable = drawable;
     player.character.characterClothing.clothes[2].texture = texture;
-    player.character.characterClothing.clothes[2].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -123,12 +87,10 @@ alt.Player.prototype.setTorso = function setTorso(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[3].drawable = drawable;
     player.character.characterClothing.clothes[3].texture = texture;
-    player.character.characterClothing.clothes[3].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -138,12 +100,10 @@ alt.Player.prototype.setLegs = function setLegs(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[4].drawable = drawable;
     player.character.characterClothing.clothes[4].texture = texture;
-    player.character.characterClothing.clothes[4].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -153,12 +113,10 @@ alt.Player.prototype.setBag = function setBag(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[5].drawable = drawable;
     player.character.characterClothing.clothes[5].texture = texture;
-    player.character.characterClothing.clothes[5].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -168,12 +126,10 @@ alt.Player.prototype.setShoes = function setShoes(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[6].drawable = drawable;
     player.character.characterClothing.clothes[6].texture = texture;
-    player.character.characterClothing.clothes[6].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -183,12 +139,10 @@ alt.Player.prototype.setAccessories = function setAccessories(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[7].drawable = drawable;
     player.character.characterClothing.clothes[7].texture = texture;
-    player.character.characterClothing.clothes[7].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -198,12 +152,10 @@ alt.Player.prototype.setUndershirt = function setUndershirt(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[8].drawable = drawable;
     player.character.characterClothing.clothes[8].texture = texture;
-    player.character.characterClothing.clothes[8].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -213,12 +165,10 @@ alt.Player.prototype.setClothArmor = function setClothArmor(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[9].drawable = drawable;
     player.character.characterClothing.clothes[9].texture = texture;
-    player.character.characterClothing.clothes[9].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -228,12 +178,10 @@ alt.Player.prototype.setDecals = function setDecals(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[10].drawable = drawable;
     player.character.characterClothing.clothes[10].texture = texture;
-    player.character.characterClothing.clothes[10].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -243,12 +191,10 @@ alt.Player.prototype.setTop = function setTop(
     player: alt.Player,
     applyClothing: boolean,
     drawable: number,
-    texture: number,
-    palette?: number
+    texture: number
 ): void {
     player.character.characterClothing.clothes[11].drawable = drawable;
     player.character.characterClothing.clothes[11].texture = texture;
-    player.character.characterClothing.clothes[11].palette = palette ? palette : null;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -261,8 +207,8 @@ alt.Player.prototype.setHat = function setHat(
     drawable: number,
     texture: number
 ): void {
-    player.character.characterClothing.props.hat.drawable = drawable;
-    player.character.characterClothing.props.hat.texture = texture;
+    player.character.characterClothing.props[0].drawable = drawable;
+    player.character.characterClothing.props[0].texture = texture;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -274,8 +220,8 @@ alt.Player.prototype.setGlasses = function setGlasses(
     drawable: number,
     texture: number
 ): void {
-    player.character.characterClothing.props.glasses.drawable = drawable;
-    player.character.characterClothing.props.glasses.texture = texture;
+    player.character.characterClothing.props[1].drawable = drawable;
+    player.character.characterClothing.props[1].texture = texture;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -287,8 +233,8 @@ alt.Player.prototype.setEar = function setEar(
     drawable: number,
     texture: number
 ): void {
-    player.character.characterClothing.props.ear.drawable = drawable;
-    player.character.characterClothing.props.ear.texture = texture;
+    player.character.characterClothing.props[2].drawable = drawable;
+    player.character.characterClothing.props[2].texture = texture;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -300,8 +246,8 @@ alt.Player.prototype.setWatch = function setWatch(
     drawable: number,
     texture: number
 ): void {
-    player.character.characterClothing.props.watch.drawable = drawable;
-    player.character.characterClothing.props.watch.texture = texture;
+    player.character.characterClothing.props[3].drawable = drawable;
+    player.character.characterClothing.props[3].texture = texture;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -313,8 +259,8 @@ alt.Player.prototype.setBracelet = function setBracelet(
     drawable: number,
     texture: number
 ): void {
-    player.character.characterClothing.props.bracelet.drawable = drawable;
-    player.character.characterClothing.props.bracelet.texture = texture;
+    player.character.characterClothing.props[4].drawable = drawable;
+    player.character.characterClothing.props[4].texture = texture;
     if (applyClothing) {
         player.applyClothing(player);
     }
@@ -324,13 +270,11 @@ alt.Player.prototype.applyClothing = function applyClothing(player: alt.Player):
     let clothes = player.character.characterClothing.clothes;
     let props = player.character.characterClothing.props;
 
-    for (let i = 0; i <= 11; i++) {
-        player.setClothes(i, clothes[i].drawable, clothes[i].texture, clothes[i].palette);
+    for (let i = 0; i < clothes.length; i++) {
+        player.setClothes(clothes[i].component, clothes[i].drawable, clothes[i].texture, 0);
     }
 
-    player.setProp(0, props.hat.drawable, props.hat.texture);
-    player.setProp(1, props.glasses.drawable, props.glasses.texture);
-    player.setProp(2, props.ear.drawable, props.ear.texture);
-    player.setProp(6, props.watch.drawable, props.watch.texture);
-    player.setProp(7, props.bracelet.drawable, props.bracelet.texture);
+    for (let i = 0; i < props.length; i++) {
+        player.setProp(props[i].component, clothes[i].drawable, clothes[i].texture);
+    }
 };

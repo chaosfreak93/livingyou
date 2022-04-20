@@ -114,16 +114,12 @@
 
         <div id="eyeColor" v-if="pages.eyeColor">
             <input type="range" min="1" max="31" v-model="eyeColor" step="1" v-on:input="setEyeColor()" />
+            <br>
+            <input type="button" value="Vorherige Seite" v-on:click="switchPage(3)" />
+            <input type="button" value="Nächste Seite" v-on:click="switchPage(5)" />
         </div>
-        <!--<div id="hairColor">
-            <input
-                type="range"
-                min="0"
-                max="63"
-                v-model="hairColor.colorId"
-                step="1"
-                v-on:input="setHairColor()"
-            />
+        <div id="hairColor" v-if="pages.clothes">
+            <input type="range" min="0" max="63" v-model="hairColor.colorId" step="1" v-on:input="setHairColor()" />
             <input
                 type="range"
                 min="0"
@@ -132,7 +128,19 @@
                 step="1"
                 v-on:input="setHairColor()"
             />
-        </div>-->
+        </div>
+        <div id="clothing" v-if="pages.clothes">
+            <div id="clothes" v-for="(item, index) in clothes" :key="index">
+                <p style="color: white;">{{ item.name }}</p>
+                <input type="number" min="0" v-model="item.drawable" step="1" v-on:input="setClothes(index)"/>
+                <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setClothes(index)"/>
+            </div>
+            <div id="props" v-for="(item, index) in props" :key="index">
+                <p style="color: white;">{{ item.name }}</p>
+                <input type="number" min="0" v-model="item.drawable" step="1" v-on:input="setProps(index)"/>
+                <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setProps(index)"/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -150,6 +158,7 @@ export default defineComponent({
                 face: false,
                 overlays: false,
                 eyeColor: false,
+                clothes: false,
             },
             firstName: '',
             secondName: '',
@@ -350,6 +359,112 @@ export default defineComponent({
                     colorIndex: 0,
                 },
             ],
+            clothes: [
+                {
+                    name: 'head',
+                    component: 0,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'mask',
+                    component: 1,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'hairStyle',
+                    component: 2,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'torso',
+                    component: 3,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'legs',
+                    component: 4,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'bag',
+                    component: 5,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'shoes',
+                    component: 6,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'accessories',
+                    component: 7,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'undershirt',
+                    component: 8,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'armor',
+                    component: 9,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'decals',
+                    component: 10,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'top',
+                    component: 11,
+                    drawable: 0,
+                    texture: 0,
+                },
+            ],
+            props: [
+                {
+                    name: 'hat',
+                    component: 0,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'glasses',
+                    component: 1,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'ear',
+                    component: 2,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'watch',
+                    component: 6,
+                    drawable: 0,
+                    texture: 0,
+                },
+                {
+                    name: 'bracelet',
+                    component: 7,
+                    drawable: 0,
+                    texture: 0,
+                },
+            ],
             eyeColor: 1,
             hairColor: {
                 colorId: 0,
@@ -410,6 +525,7 @@ export default defineComponent({
             this.pages.face = false;
             this.pages.overlays = false;
             this.pages.eyeColor = false;
+            this.pages.clothes = false;
             switch (page) {
                 case 0:
                     this.pages.info = true;
@@ -426,6 +542,9 @@ export default defineComponent({
                 case 4:
                     this.pages.eyeColor = true;
                     break;
+                case 5:
+                    this.pages.clothes = true;
+                    break;
             }
         },
         changeGender() {
@@ -439,6 +558,10 @@ export default defineComponent({
             this.headBlendData.similaritySkinColor = 0.5;
             for (let i = 0; i < this.faceFeature.length; i++) {
                 this.faceFeature[i].scale = 0;
+            }
+            for (let i = 0; i < this.headOverlay.length; i++) {
+                this.headOverlay[i].index = -1;
+                this.headOverlay[i].opacity = 1.0;
             }
 
             if (this.gender == 'male') {
@@ -509,6 +632,20 @@ export default defineComponent({
 
             alt.emit('setHairColor', parseInt(this.hairColor.colorId), parseInt(this.hairColor.highlightColorId));
         },
+        setClothes(index) {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            alt.emit('setClothes', parseInt(this.clothes[index].component), parseInt(this.clothes[index].drawable), parseInt(this.clothes[index].texture));
+        },
+        setProps(index) {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            alt.emit('setProps', parseInt(this.props[index].component), parseInt(this.props[index].drawable), parseInt(this.props[index].texture));
+        }
     },
     mounted() {
         if (`alt` in window) {

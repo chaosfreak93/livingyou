@@ -37,6 +37,8 @@ export default class CharCreator {
         view.on('setHeadOverlayColor', CharCreator.setHeadOverlayColor);
         view.on('setEyeColor', CharCreator.setEyeColor);
         view.on('setHairColor', CharCreator.setHairColor);
+        view.on('setClothes', CharCreator.setClothes);
+        view.on('setProps', CharCreator.setProps);
 
         WebViewController.openPages(['CharCreator']);
         WebViewController.focus();
@@ -54,7 +56,16 @@ export default class CharCreator {
             ped = null;
         }
         male ? await alt.Utils.requestModel('mp_m_freemode_01') : await alt.Utils.requestModel('mp_f_freemode_01');
-        ped = native.createPed(4, male ? alt.hash('mp_m_freemode_01') : alt.hash('mp_f_freemode_01'), -75.204, -819.362, 325.5, 0, false, false);
+        ped = native.createPed(
+            4,
+            male ? alt.hash('mp_m_freemode_01') : alt.hash('mp_f_freemode_01'),
+            -75.204,
+            -819.362,
+            325.5,
+            0,
+            false,
+            false
+        );
         await alt.Utils.waitFor(() => native.doesEntityExist(ped));
         native.setEntityInvincible(ped, true);
         native.setPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
@@ -122,6 +133,14 @@ export default class CharCreator {
         native.setPedHairColor(ped, colorId, highlightColorId);
     }
 
+    static setClothes(component: number, drawable: number, texture: number) {
+        native.setPedComponentVariation(ped, component, drawable, texture, 0);
+    }
+
+    static setProps(component: number, drawable: number, texture: number) {
+        native.setPedPropIndex(ped, component, drawable, texture, true);
+    }
+
     static cameraControls() {
         native.disableAllControlActions(0);
         native.disableAllControlActions(1);
@@ -144,7 +163,7 @@ export default class CharCreator {
         }
 
         const res = alt.getScreenResolution();
-        const width = res.y;
+        const width = res.x;
         const cursor = alt.getCursorPos();
         const _x = cursor.x;
         let oldHeading = native.getEntityHeading(ped);

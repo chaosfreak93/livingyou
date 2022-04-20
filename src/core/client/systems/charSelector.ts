@@ -97,47 +97,22 @@ export default class CharSelector {
         for (let i = 0; i < clothes.clothes.length; i++) {
             native.setPedComponentVariation(
                 ped,
-                i,
+                clothes.clothes[i].component,
                 clothes.clothes[i].drawable,
                 clothes.clothes[i].texture,
-                clothes.clothes[i].palette
+                0
             );
         }
-        native.setPedPropIndex(
-            ped,
-            0,
-            clothes.props.hat.drawable,
-            clothes.props.hat.texture,
-            true
-        );
-        native.setPedPropIndex(
-            ped,
-            1,
-            clothes.props.glasses.drawable,
-            clothes.props.glasses.texture,
-            true
-        );
-        native.setPedPropIndex(
-            ped,
-            2,
-            clothes.props.ear.drawable,
-            clothes.props.ear.texture,
-            true
-        );
-        native.setPedPropIndex(
-            ped,
-            6,
-            clothes.props.watch.drawable,
-            clothes.props.watch.texture,
-            true
-        );
-        native.setPedPropIndex(
-            ped,
-            7,
-            clothes.props.bracelet.drawable,
-            clothes.props.bracelet.texture,
-            true
-        );
+
+        for (let i = 0; i < clothes.props.length; i++) {
+            native.setPedPropIndex(
+                ped,
+                clothes.props[i].component,
+                clothes.props[i].drawable,
+                clothes.props[i].texture,
+                true
+            );
+        }
 
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);
     }

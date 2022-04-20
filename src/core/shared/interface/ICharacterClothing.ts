@@ -1,86 +1,91 @@
 export default interface ICharacterClothing {
     clothes: [
         head: {
+            component: 0;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         mask: {
+            component: 1;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         hairStyle: {
+            component: 2;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         torso: {
+            component: 3;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         legs: {
+            component: 4;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         bag: {
+            component: 5;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         shoes: {
+            component: 6;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         accessories: {
+            component: 7;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         undershirt: {
+            component: 8;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         armor: {
+            component: 9;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         decals: {
+            component: 10;
             drawable: number;
             texture: number;
-            palette?: number;
         },
         top: {
+            component: 11;
             drawable: number;
             texture: number;
-            palette?: number;
         },
     ];
-    props: {
+    props: [
         hat: {
+            component: 0;
             drawable: number;
             texture: number;
-        };
+        },
         glasses: {
+            component: 1;
             drawable: number;
             texture: number;
-        };
+        },
         ear: {
+            component: 2;
             drawable: number;
             texture: number;
-        };
+        },
         watch: {
+            component: 6;
             drawable: number;
             texture: number;
-        };
+        },
         bracelet: {
+            component: 7;
             drawable: number;
             texture: number;
-        };
-    };
+        },
+    ];
 }
