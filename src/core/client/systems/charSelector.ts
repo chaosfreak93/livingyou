@@ -33,7 +33,9 @@ export default class CharSelector {
         view.emit('setData', characters, allowSecondCharacter);
     }
 
-    static async showPed(clothes: ICharacterClothing, appearance: ICharacterAppearence): Promise<void> {
+    static async showPed(clothesString: string, appearanceString: string): Promise<void> {
+        let clothes: ICharacterClothing = JSON.parse(clothesString);
+        let appearance: ICharacterAppearence = JSON.parse(appearanceString);
         appearance.male
             ? await alt.Utils.requestModel('mp_m_freemode_01')
             : await alt.Utils.requestModel('mp_f_freemode_01');
@@ -75,12 +77,7 @@ export default class CharSelector {
             native.setPedFaceFeature(ped, i, appearance.faceFeature[i].scale);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
-            native.setPedHeadOverlay(
-                ped,
-                i,
-                appearance.headOverlay[i].index,
-                appearance.headOverlay[i].opacity
-            );
+            native.setPedHeadOverlay(ped, i, appearance.headOverlay[i].index, appearance.headOverlay[i].opacity);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
             native.setPedHeadOverlayColor(
