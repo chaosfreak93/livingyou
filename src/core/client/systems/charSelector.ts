@@ -28,6 +28,21 @@ export default class CharSelector {
         WebViewController.showCursor(true);
     }
 
+    static async close() {
+        WebViewController.showCursor(false);
+        WebViewController.unfocus();
+        WebViewController.closePages(['CharSelector']);
+        
+        const view = await WebViewController.get();
+        view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
+        view.off('showPed', CharSelector.showPed);
+        view.off('createCharacter', CharSelector.createCharacter);
+        view.off('selectPed', CharSelector.selectPed);
+        native.doScreenFadeOut(0);
+        await alt.Utils.waitFor(() => native.isScreenFadedOut());
+        CameraManager.destroyCamera();
+    }
+
     static async charSelectorReady(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
         const view = await WebViewController.get();
         view.emit('setData', characters, allowSecondCharacter);
@@ -129,6 +144,8 @@ export default class CharSelector {
 
 alt.on(SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, CharSelector.open);
 alt.onServer(SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, CharSelector.open);
+alt.on(SYSTEM_EVENTS.CHAR_SELECTOR_CLOSE, CharSelector.close);
+alt.onServer(SYSTEM_EVENTS.CHAR_SELECTOR_CLOSE, CharSelector.close);
 alt.on('disconnect', () => {
     if (ped != null) {
         native.deletePed(ped);
