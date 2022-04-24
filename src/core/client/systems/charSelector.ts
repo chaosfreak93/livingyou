@@ -22,6 +22,7 @@ export default class CharSelector {
         view.on('charSelectorReady', () => CharSelector.charSelectorReady(characters, allowSecondCharacter));
         view.on('showPed', CharSelector.showPed);
         view.on('createCharacter', CharSelector.createCharacter);
+        view.on('selectPed', CharSelector.selectPed);
 
         WebViewController.openPages(['CharSelector']);
         WebViewController.focus();
@@ -130,15 +131,13 @@ export default class CharSelector {
     }
 
     static async createCharacter() {
-        const view = await WebViewController.get();
-        view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
-        view.off('showPed', CharSelector.showPed);
-        view.off('createCharacter', CharSelector.createCharacter);
-
-        WebViewController.showCursor(false);
-        WebViewController.unfocus();
-        WebViewController.closePages(['CharSelector']);
+        await CharSelector.close();
         alt.emit(SYSTEM_EVENTS.CHAR_CREATOR_OPEN);
+    }
+
+    static async selectPed(characterString: string) {
+        let character: ICharacter = JSON.parse(characterString);
+        alt.emitServer(SYSTEM_EVENTS.CHAR_SELECTOR_SELECT_CHAR, character);
     }
 }
 
