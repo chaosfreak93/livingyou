@@ -46,6 +46,32 @@ export default class CharCreator {
         WebViewController.showCursor(true);
     }
 
+    static async close(): Promise<void> {
+        WebViewController.showCursor(false);
+        WebViewController.unfocus();
+        WebViewController.closePages(['CharCreator']);
+
+        const view = await WebViewController.get();
+        view.off('charCreatorReady', CharCreator.charCreatorReady);
+        view.off('changeGender', CharCreator.changeGender);
+        view.off('setHeadBlendData', CharCreator.setHeadBlendData);
+        view.off('setFaceFeature', CharCreator.setFaceFeature);
+        view.off('setHeadOverlay', CharCreator.setHeadOverlay);
+        view.off('setHeadOverlayColor', CharCreator.setHeadOverlayColor);
+        view.off('setEyeColor', CharCreator.setEyeColor);
+        view.off('setHairColor', CharCreator.setHairColor);
+        view.off('setClothes', CharCreator.setClothes);
+        view.off('setProps', CharCreator.setProps);
+        view.off('finishCharacter', CharCreator.finishCharacter);
+        native.doScreenFadeOut(0);
+        await alt.Utils.waitFor(() => native.isScreenFadedOut());
+        alt.clearEveryTick(handleCameraTick);
+        CameraManager.destroyCamera();
+        native.deletePed(ped);
+        ped = null;
+        alt.toggleGameControls(false);
+    }
+
     static async charCreatorReady(): Promise<void> {
         let clothesMax = [];
         let propsMax = [];
@@ -277,6 +303,8 @@ export default class CharCreator {
 
 alt.on(SYSTEM_EVENTS.CHAR_CREATOR_OPEN, CharCreator.open);
 alt.onServer(SYSTEM_EVENTS.CHAR_CREATOR_OPEN, CharCreator.open);
+alt.on(SYSTEM_EVENTS.CHAR_CREATOR_CLOSE, CharCreator.close);
+alt.onServer(SYSTEM_EVENTS.CHAR_CREATOR_CLOSE, CharCreator.close);
 alt.on('disconnect', () => {
     if (ped != null) {
         native.deletePed(ped);
