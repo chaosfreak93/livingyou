@@ -486,14 +486,14 @@ export default defineComponent({
                 {
                     name: 'torso',
                     component: 3,
-                    drawable: 0,
+                    drawable: 15,
                     maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'legs',
                     component: 4,
-                    drawable: 0,
+                    drawable: 14,
                     maxDrawable: 0,
                     texture: 0,
                 },
@@ -521,7 +521,7 @@ export default defineComponent({
                 {
                     name: 'undershirt',
                     component: 8,
-                    drawable: 0,
+                    drawable: 15,
                     maxDrawable: 0,
                     texture: 0,
                 },
@@ -542,7 +542,7 @@ export default defineComponent({
                 {
                     name: 'top',
                     component: 11,
-                    drawable: 0,
+                    drawable: 15,
                     maxDrawable: 0,
                     texture: 0,
                 },
