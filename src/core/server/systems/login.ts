@@ -45,7 +45,7 @@ async function handleAuthenticate(req, res) {
 
         if (!request.data || !request.data.id || !request.data.username) return;
 
-        const player = [...alt.Player.all].find((player) => player.getMeta('identifier') === userToken);
+        const player = [...alt.Player.all].find((player) => player.loginIdentifier === userToken);
         if (!player || !player.valid) return;
         alt.emit(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, player, request.data);
         alt.emitClient(player, SYSTEM_EVENTS.DISCORD_FINISH_AUTH);
@@ -76,7 +76,7 @@ function login(player: alt.Player) {
             Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
     );
     const uniquePlayerData = sjcl.codec.hex.fromBits(hashBytes);
-    player.setMeta('identifier', uniquePlayerData);
+    player.loginIdentifier = uniquePlayerData;
 
     alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, 'http://localhost:3000');
     alt.emitClient(player, SYSTEM_EVENTS.DISCORD_OPEN, `${url}&state=${uniquePlayerData}`);

@@ -5,6 +5,7 @@ declare module 'alt-server' {
     export interface Player {
         hasModel?: boolean;
         character?: ICharacter;
+        loginIdentifier?: string;
 
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
 
