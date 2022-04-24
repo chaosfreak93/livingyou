@@ -1,13 +1,13 @@
 <template>
     <div>
         <div id="info" v-if="pages.info">
-            <p>Info</p>
+            <p style="color: white">Info</p>
             <input type="text" v-model="firstName" placeholder="Vorname" />
             <input type="text" v-model="secondName" placeholder="Zweitname (Optional)" />
             <input type="text" v-model="lastName" placeholder="Nachname" />
-            <p>Age</p>
+            <p style="color: white">Age</p>
             <input type="date" v-model="birthday" />
-            <p>Gender</p>
+            <p style="color: white">Gender</p>
             <select v-model="gender" v-on:change="changeGender">
                 <option :value="'male'">Male</option>
                 <option :value="'female'">Female</option>
@@ -18,8 +18,8 @@
             <br />
             <input type="button" value="Nächste Seite" v-on:click="finishCharInfo()" />
         </div>
-        <div id="parents" v-if="pages.parents">
-            <p style="color: white">Mother</p>
+        <div id="appearance" v-if="pages.appearance">
+            <p style="color: white">Elternteil 1</p>
             <input
                 type="range"
                 min="0"
@@ -28,7 +28,7 @@
                 step="1"
                 v-on:input="setHeadBlendData"
             />
-            <p style="color: white">Father</p>
+            <p style="color: white">Elternteil 2</p>
             <input
                 type="range"
                 min="0"
@@ -37,7 +37,7 @@
                 step="1"
                 v-on:input="setHeadBlendData"
             />
-            <p style="color: white">similarityAnatomy</p>
+            <p style="color: white">Face Blend</p>
             <input
                 type="range"
                 min="0.0"
@@ -46,7 +46,7 @@
                 step="0.025"
                 v-on:input="setHeadBlendData"
             />
-            <p style="color: white">similaritySkinColor</p>
+            <p style="color: white">Skin Blend</p>
             <input
                 type="range"
                 min="0.0"
@@ -55,30 +55,132 @@
                 step="0.025"
                 v-on:input="setHeadBlendData"
             />
+            <p style="color: white">Augenfarbe</p>
+            <input type="range" min="1" max="31" v-model="eyeColor" step="1" v-on:input="setEyeColor()" />
             <br />
             <input type="button" value="Vorherige Seite" v-on:click="switchPage(0)" />
             <input type="button" value="Nächste Seite" v-on:click="switchPage(2)" />
         </div>
-        <div id="face" v-if="pages.face">
-            <div id="faceFeature" v-for="(item, index) in faceFeature" :key="index">
-                <div>
-                    <p style="color: white">{{ item.name }}</p>
-                    <input
-                        type="range"
-                        min="-1.0"
-                        max="1.0"
-                        v-model="item.scale"
-                        step="0.025"
-                        v-on:input="setFaceFeature(index)"
-                    />
-                </div>
-            </div>
+        <div id="hair" v-if="pages.hair">
+            <p style="color: white">Haare</p>
+            <input
+                type="number"
+                min="0"
+                :max="clothes[2].maxDrawable"
+                v-model="clothes[2].drawable"
+                step="1"
+                v-on:input="setClothes(2)"
+            />
+            <p style="color: white">Haarefarbe</p>
+            <input type="number" min="0" max="63" v-model="hairColor.colorId" step="1" v-on:input="setHairColor()" />
+            <input
+                type="number"
+                min="0"
+                max="63"
+                v-model="hairColor.highlightColorId"
+                step="1"
+                v-on:input="setHairColor()"
+            />
+            <p style="color: white">Bart</p>
+            <input
+                type="number"
+                min="-1"
+                :max="headOverlay[1].maxIndex"
+                v-model="headOverlay[1].index"
+                step="1"
+                v-on:input="setHeadOverlay(1)"
+            />
+            <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                v-model="headOverlay[1].opacity"
+                step="0.025"
+                v-on:input="setHeadOverlay(1)"
+            />
+            <p style="color: white">Bartfarbe</p>
+            <input
+                type="number"
+                min="0"
+                max="63"
+                v-model="headOverlay[1].colorIndex"
+                step="1"
+                v-on:input="setHeadOverlayColor(1)"
+            />
+            <p style="color: white">Augenbrauen</p>
+            <input
+                type="number"
+                min="-1"
+                :max="headOverlay[2].maxIndex"
+                v-model="headOverlay[2].index"
+                step="1"
+                v-on:input="setHeadOverlay(2)"
+            />
+            <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                v-model="headOverlay[2].opacity"
+                step="0.025"
+                v-on:input="setHeadOverlay(2)"
+            />
+            <p style="color: white">Augenbrauenfarbe</p>
+            <input
+                type="number"
+                min="0"
+                max="63"
+                v-model="headOverlay[2].colorIndex"
+                step="1"
+                v-on:input="setHeadOverlayColor(2)"
+            />
+            <p style="color: white">Brusthaare</p>
+            <input
+                type="number"
+                min="-1"
+                :max="headOverlay[10].maxIndex"
+                v-model="headOverlay[10].index"
+                step="1"
+                v-on:input="setHeadOverlay(10)"
+            />
+            <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                v-model="headOverlay[10].opacity"
+                step="0.025"
+                v-on:input="setHeadOverlay(10)"
+            />
+            <p style="color: white">Brusthaarfarbe</p>
+            <input
+                type="number"
+                min="0"
+                max="63"
+                v-model="headOverlay[10].colorIndex"
+                step="1"
+                v-on:input="setHeadOverlayColor(10)"
+            />
+            <br />
             <input type="button" value="Vorherige Seite" v-on:click="switchPage(1)" />
             <input type="button" value="Nächste Seite" v-on:click="switchPage(3)" />
         </div>
+        <div id="structure" v-if="pages.structure">
+            <div id="faceFeature" v-for="(item, index) in faceFeature" :key="index">
+                <p style="color: white">{{ item.name }}</p>
+                <input
+                    type="range"
+                    min="-1.0"
+                    max="1.0"
+                    v-model="item.scale"
+                    step="0.025"
+                    v-on:input="setFaceFeature(index)"
+                />
+            </div>
+            <input type="button" value="Vorherige Seite" v-on:click="switchPage(2)" />
+            <input type="button" value="Nächste Seite" v-on:click="switchPage(4)" />
+        </div>
         <div id="overlays" v-if="pages.overlays">
             <div id="headOverlay" v-for="(item, index) in headOverlay" :key="index">
-                <div>
+                <div v-if="index != 1 && index != 2 && index != 10">
                     <p style="color: white">{{ item.name }}</p>
                     <input
                         type="number"
@@ -108,38 +210,38 @@
                     </div>
                 </div>
             </div>
-            <input type="button" value="Vorherige Seite" v-on:click="switchPage(2)" />
-            <input type="button" value="Nächste Seite" v-on:click="switchPage(4)" />
-        </div>
-
-        <div id="eyeColor" v-if="pages.eyeColor">
-            <input type="range" min="1" max="31" v-model="eyeColor" step="1" v-on:input="setEyeColor()" />
-            <br>
             <input type="button" value="Vorherige Seite" v-on:click="switchPage(3)" />
             <input type="button" value="Nächste Seite" v-on:click="switchPage(5)" />
         </div>
-        <div id="hairColor" v-if="pages.clothes">
-            <input type="range" min="0" max="63" v-model="hairColor.colorId" step="1" v-on:input="setHairColor()" />
-            <input
-                type="range"
-                min="0"
-                max="63"
-                v-model="hairColor.highlightColorId"
-                step="1"
-                v-on:input="setHairColor()"
-            />
-        </div>
         <div id="clothing" v-if="pages.clothes">
             <div id="clothes" v-for="(item, index) in clothes" :key="index">
-                <p style="color: white;">{{ item.name }}</p>
-                <input type="number" min="0" v-model="item.drawable" step="1" v-on:input="setClothes(index)"/>
-                <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setClothes(index)"/>
+                <div v-if="index != 2 && index != 9">
+                    <p style="color: white">{{ item.name }}</p>
+                    <input
+                        type="number"
+                        min="0"
+                        :max="item.maxDrawable"
+                        v-model="item.drawable"
+                        step="1"
+                        v-on:input="setClothes(index)"
+                    />
+                    <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setClothes(index)" />
+                </div>
             </div>
             <div id="props" v-for="(item, index) in props" :key="index">
-                <p style="color: white;">{{ item.name }}</p>
-                <input type="number" min="0" v-model="item.drawable" step="1" v-on:input="setProps(index)"/>
-                <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setProps(index)"/>
+                <p style="color: white">{{ item.name }}</p>
+                <input
+                    type="number"
+                    min="-1"
+                    :max="item.maxDrawable"
+                    v-model="item.drawable"
+                    step="1"
+                    v-on:input="setProps(index)"
+                />
+                <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setProps(index)" />
             </div>
+            <input type="button" value="Vorherige Seite" v-on:click="switchPage(4)" />
+            <input type="button" value="Charakter fertigstellen" v-on:click="finishCharacter()" />
         </div>
     </div>
 </template>
@@ -154,10 +256,10 @@ export default defineComponent({
         return {
             pages: {
                 info: false,
-                parents: false,
-                face: false,
+                appearance: false,
+                hair: false,
+                structure: false,
                 overlays: false,
-                eyeColor: false,
                 clothes: false,
             },
             firstName: '',
@@ -364,72 +466,84 @@ export default defineComponent({
                     name: 'head',
                     component: 0,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'mask',
                     component: 1,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'hairStyle',
                     component: 2,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'torso',
                     component: 3,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'legs',
                     component: 4,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'bag',
                     component: 5,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'shoes',
                     component: 6,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'accessories',
                     component: 7,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'undershirt',
                     component: 8,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'armor',
                     component: 9,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'decals',
                     component: 10,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'top',
                     component: 11,
                     drawable: 0,
+                    maxDrawable: 0,
                     texture: 0,
                 },
             ],
@@ -437,31 +551,36 @@ export default defineComponent({
                 {
                     name: 'hat',
                     component: 0,
-                    drawable: 0,
+                    drawable: -1,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'glasses',
                     component: 1,
-                    drawable: 0,
+                    drawable: -1,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'ear',
                     component: 2,
-                    drawable: 0,
+                    drawable: -1,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'watch',
                     component: 6,
-                    drawable: 0,
+                    drawable: -1,
+                    maxDrawable: 0,
                     texture: 0,
                 },
                 {
                     name: 'bracelet',
                     component: 7,
-                    drawable: 0,
+                    drawable: -1,
+                    maxDrawable: 0,
                     texture: 0,
                 },
             ],
@@ -474,6 +593,16 @@ export default defineComponent({
         };
     },
     methods: {
+        finishCharCreatorLoading(clothesMax: number[], propsMax: number[]) {
+            for (let i = 0; i < clothesMax.length; i++) {
+                this.clothes[i].maxDrawable = clothesMax[i];
+            }
+            for (let i = 0; i < propsMax.length; i++) {
+                this.props[i].maxDrawable = propsMax[i];
+            }
+
+            this.switchPage(0);
+        },
         finishCharInfo() {
             if (this.firstName.length < 3) {
                 this.errorMessage = 'First name must be at least 3 characters';
@@ -521,26 +650,26 @@ export default defineComponent({
         },
         switchPage(page) {
             this.pages.info = false;
-            this.pages.parents = false;
-            this.pages.face = false;
+            this.pages.appearance = false;
+            this.pages.hair = false;
+            this.pages.structure = false;
             this.pages.overlays = false;
-            this.pages.eyeColor = false;
             this.pages.clothes = false;
             switch (page) {
                 case 0:
                     this.pages.info = true;
                     break;
                 case 1:
-                    this.pages.parents = true;
+                    this.pages.appearance = true;
                     break;
                 case 2:
-                    this.pages.face = true;
+                    this.pages.hair = true;
                     break;
                 case 3:
-                    this.pages.overlays = true;
+                    this.pages.structure = true;
                     break;
                 case 4:
-                    this.pages.eyeColor = true;
+                    this.pages.overlays = true;
                     break;
                 case 5:
                     this.pages.clothes = true;
@@ -637,20 +766,52 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('setClothes', parseInt(this.clothes[index].component), parseInt(this.clothes[index].drawable), parseInt(this.clothes[index].texture));
+            alt.emit(
+                'setClothes',
+                parseInt(this.clothes[index].component),
+                parseInt(this.clothes[index].drawable),
+                parseInt(this.clothes[index].texture)
+            );
         },
         setProps(index) {
             if (!(`alt` in window)) {
                 return;
             }
 
-            alt.emit('setProps', parseInt(this.props[index].component), parseInt(this.props[index].drawable), parseInt(this.props[index].texture));
-        }
+            alt.emit(
+                'setProps',
+                parseInt(this.props[index].component),
+                parseInt(this.props[index].drawable),
+                parseInt(this.props[index].texture)
+            );
+        },
+        finishCharacter() {
+            if (!(`alt` in window)) {
+                return;
+            }
+
+            let charInfo = {
+                firstName: this.firstName,
+                secondName: this.secondName,
+                lastName: this.lastName,
+                birthday: this.birthday,
+                male: this.gender == 'male' ? true : false,
+                headBlendData: this.headBlendData,
+                faceFeature: this.faceFeature,
+                headOverlay: this.headOverlay,
+                hairColor: this.hairColor,
+                eyeColor: this.eyeColor,
+                clothes: this.clothes,
+                props: this.props
+            }
+
+            alt.emit('finishCharacter', JSON.stringify(charInfo));
+        },
     },
     mounted() {
         if (`alt` in window) {
             alt.emit('charCreatorReady');
-            alt.on('showCreator', () => this.switchPage(0));
+            alt.on('finishCharCreatorLoading', this.finishCharCreatorLoading);
         } else {
             this.switchPage(0);
         }

@@ -39,6 +39,7 @@ export default class CharCreator {
         view.on('setHairColor', CharCreator.setHairColor);
         view.on('setClothes', CharCreator.setClothes);
         view.on('setProps', CharCreator.setProps);
+        view.on('finishCharacter', CharCreator.finishCharacter);
 
         WebViewController.openPages(['CharCreator']);
         WebViewController.focus();
@@ -46,8 +47,18 @@ export default class CharCreator {
     }
 
     static async charCreatorReady(): Promise<void> {
+        let clothesMax = [];
+        let propsMax = [];
+        for (let i = 0; i <= 11; i++) {
+            clothesMax[i] = native.getNumberOfPedDrawableVariations(ped, i);
+        }
+        propsMax[0] = native.getNumberOfPedPropDrawableVariations(ped, 0);
+        propsMax[1] = native.getNumberOfPedPropDrawableVariations(ped, 1);
+        propsMax[2] = native.getNumberOfPedPropDrawableVariations(ped, 2);
+        propsMax[3] = native.getNumberOfPedPropDrawableVariations(ped, 6);
+        propsMax[4] = native.getNumberOfPedPropDrawableVariations(ped, 7);
         const view = await WebViewController.get();
-        view.emit('showCreator');
+        view.emit('finishCharCreatorLoading', clothesMax, propsMax);
     }
 
     static async spawnPed(male: boolean): Promise<void> {
@@ -138,7 +149,15 @@ export default class CharCreator {
     }
 
     static setProps(component: number, drawable: number, texture: number) {
+        if (drawable == -1) {
+            native.clearPedProp(ped, component);
+            return;
+        }
         native.setPedPropIndex(ped, component, drawable, texture, true);
+    }
+
+    static finishCharacter(charInfo) {
+        alt.emitServer(SYSTEM_EVENTS.CHAR_CREATOR_FINISH_CHAR, charInfo);
     }
 
     static cameraControls() {

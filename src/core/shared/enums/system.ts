@@ -8,6 +8,7 @@ export enum SYSTEM_EVENTS {
     CHAR_SELECTOR_OPEN = 'charSelector:Open',
     // Character Creator
     CHAR_CREATOR_OPEN = 'charCreator:Open',
+    CHAR_CREATOR_FINISH_CHAR = 'charCreator:finishChar',
     // Webview
     WEBVIEW_INFO = 'webview:Info',
 }
