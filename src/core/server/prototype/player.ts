@@ -6,6 +6,7 @@ declare module 'alt-server' {
         hasModel?: boolean;
         character?: ICharacter;
         loginIdentifier?: string;
+        discordId?: number;
 
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
 
