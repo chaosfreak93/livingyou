@@ -38,5 +38,7 @@ export default class DiscordAuth {
     }
 }
 
+alt.on(SYSTEM_EVENTS.DISCORD_OPEN, DiscordAuth.open);
 alt.onServer(SYSTEM_EVENTS.DISCORD_OPEN, DiscordAuth.open);
+alt.on(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, DiscordAuth.authFinished);
 alt.onServer(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, DiscordAuth.authFinished);

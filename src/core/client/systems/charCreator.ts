@@ -276,6 +276,7 @@ export default class CharCreator {
 }
 
 alt.on(SYSTEM_EVENTS.CHAR_CREATOR_OPEN, CharCreator.open);
+alt.onServer(SYSTEM_EVENTS.CHAR_CREATOR_OPEN, CharCreator.open);
 alt.on('disconnect', () => {
     if (ped != null) {
         native.deletePed(ped);

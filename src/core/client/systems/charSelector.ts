@@ -127,6 +127,7 @@ export default class CharSelector {
     }
 }
 
+alt.on(SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, CharSelector.open);
 alt.onServer(SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, CharSelector.open);
 alt.on('disconnect', () => {
     if (ped != null) {
