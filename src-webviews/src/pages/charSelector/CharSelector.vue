@@ -5,7 +5,7 @@
                 <p style="color: white">Create Char</p>
             </div>
             <div id="char" v-else-if="characters.length > 0" v-on:click="selectCharacter(0)">
-                <p style="color: white;">{{ characters[0].firstName }} {{ characters[0].lastName }}</p>
+                <p style="color: white">{{ characters[0].firstName }} {{ characters[0].lastName }}</p>
             </div>
         </div>
         <div id="characterTwo">
@@ -16,7 +16,7 @@
                 <p style="color: white">Create Char</p>
             </div>
             <div id="char" v-else-if="characters.length > 1" v-on:click="selectCharacter(1)">
-                <p style="color: white;">{{ characters[1].firstName }} {{ characters[1].lastName }}</p>
+                <p style="color: white">{{ characters[1].firstName }} {{ characters[1].lastName }}</p>
             </div>
         </div>
     </div>
@@ -97,14 +97,6 @@ export default defineComponent({
     transform: translate(-50%, -50%);
     width: 20vw;
     height: 20vh;
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-#characterOne :first-child {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
 }
 
 #characterTwo {
@@ -114,13 +106,34 @@ export default defineComponent({
     transform: translate(50%, -50%);
     width: 20vw;
     height: 20vh;
-    background-color: rgba(0, 0, 0, 0.8);
 }
 
-#characterTwo :first-child {
+#char {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
+}
+
+#no_char {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../images/new_char.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#char_locked {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../images/lock.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 </style>
