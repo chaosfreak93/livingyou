@@ -4,12 +4,14 @@
     "type": "module",
     "main": "",
     "scripts": {
-        "clean-core": "rimraf ./resource/core",
-        "build": "npm run clean-core && swc ./src -d ./resources --copy-files",
-        "update": "altv-pkg d dev",
-        "livingyou-dev": "npx nodemon --watch \"./src/**\" --ext \"ts,html,cfg,css,js\" --exec \"npm run build && altv-server.exe\"",
+        "core-clean": "rimraf ./resource/core",
+        "core-build": "npm run core-clean && swc ./src -d ./resources --copy-files",
+        "core-dev": "npx nodemon --watch \"./src/**\" --ext \"ts,html,cfg,css,js\" --exec \"npm run core-build && altv-server.exe\"",
+        "vue-build": "npx vite build ./src-webviews",
+        "vue-serve": "npx vite preview ./src-webviews",
         "vue-dev": "npx vite ./src-webviews --clearScreen=false --debug=false --logLevel=silent",
-        "dev": "npm-run-all --parallel livingyou-dev vue-dev"
+        "dev": "npm-run-all --parallel core-dev vue-dev",
+        "update": "npx altv-pkg d dev"
     },
     "license": "ISC",
     "devDependencies": {
