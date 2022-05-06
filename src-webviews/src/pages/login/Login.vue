@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Login</h2>
-        <button @click="openLoginPage">Start Login</button>
+        <button @click="startLogin">Start Login</button>
     </div>
 </template>
 
@@ -17,21 +17,14 @@ export default defineComponent({
         };
     },
     methods: {
-        openLoginPage() {
-            if (this.url == null) return;
+        startLogin() {
+            if (!(`alt` in window)) {
+                return;
+            }
 
-            window.open(this.url);
+            alt.emit('startLogin');
         },
-        setLoginUrl(url) {
-            this.url = url;
-        },
-    },
-    mounted() {
-        if (`alt` in window) {
-            alt.on('setLoginUrl', this.setLoginUrl);
-            alt.emit('loginReady');
-        }
-    },
+    }
 });
 </script>
 

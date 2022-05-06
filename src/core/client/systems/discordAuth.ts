@@ -4,30 +4,31 @@ import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from './cameraManager';
 
-let url: string;
-
 export default class DiscordAuth {
-    static async open(discordAuthUrl: string): Promise<void> {
+    static async open(): Promise<void> {
         await CameraManager.createCamera(new alt.Vector3(-2000, -1200, 55), new alt.Vector3(-15, 0, -70), 90, true);
         native.doScreenFadeIn(0);
-        url = discordAuthUrl;
         alt.toggleGameControls(false);
         const view = await WebViewController.get();
-        view.on('loginReady', DiscordAuth.loginReady);
+        view.on('startLogin', DiscordAuth.startLogin);
 
         WebViewController.openPages(['Login']);
         WebViewController.focus();
         WebViewController.showCursor(true);
     }
 
-    static async loginReady(): Promise<void> {
-        const view = await WebViewController.get();
-        view.emit('setLoginUrl', url);
+    static async startLogin(): Promise<void> {
+        try {
+            const token = await alt.Discord.requestOAuth2Token('948363980743790683');
+            alt.emitServer(SYSTEM_EVENTS.DISCORD_LOGIN, token);
+        } catch (e) {
+            alt.logError(e);
+        }
     }
 
     static async authFinished(): Promise<void> {
         const view = await WebViewController.get();
-        view.off('loginReady', DiscordAuth.loginReady);
+        view.off('startLogin', DiscordAuth.startLogin);
 
         WebViewController.showCursor(false);
         WebViewController.unfocus();
