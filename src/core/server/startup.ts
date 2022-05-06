@@ -3,4 +3,5 @@ import './events/resourceStart';
 import './prototype/player';
 import './systems/account';
 import './systems/charCreator';
+import './systems/keyManager';
 import './systems/login';

@@ -16,4 +16,7 @@ export enum SYSTEM_EVENTS {
     HUD_OPEN = 'hud:Open',
     // Webview
     WEBVIEW_INFO = 'webview:Info',
+    // KeyManager
+    KEY_MANAGER_KEY_UP = 'keyManager:keyUp',
+    KEY_MANAGER_KEY_DOWN = 'keyManager:keyDown',
 }
