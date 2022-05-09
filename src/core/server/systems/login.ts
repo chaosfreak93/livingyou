@@ -17,6 +17,8 @@ export default class DiscordAuth {
         player.visible = false;
         player.frozen = true;
         player.collision = false;
+        player.time(player);
+        player.weather(player);
 
         alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, 'http://localhost:3000');
         alt.emitClient(player, SYSTEM_EVENTS.DISCORD_OPEN);
