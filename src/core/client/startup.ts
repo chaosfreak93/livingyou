@@ -9,5 +9,3 @@ import './systems/charSelector';
 import './systems/discordAuth';
 import './systems/hud';
 import './systems/iplmanager';
-import './systems/tick';
-import './systems/world';
