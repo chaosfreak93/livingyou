@@ -102,6 +102,7 @@ async function selectChar(player: alt.Player, character: ICharacter) {
     player.visible = true;
     player.collision = true;
     player.frozen = false;
+    player.time(player);
 
     alt.emitClient(player, SYSTEM_EVENTS.CHAR_SELECTOR_CLOSE);
     await alt.Utils.wait(500);

@@ -1,5 +1,7 @@
 import * as alt from 'alt-server';
+import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import ICharacter from '../../shared/interface/ICharacter';
+import { World } from '../systems/world';
 
 declare module 'alt-server' {
     export interface Player {
@@ -8,6 +10,7 @@ declare module 'alt-server' {
         discordId?: number;
 
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
+        time(player: alt.Player): void;
 
         // Clothing
         setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
@@ -42,6 +45,10 @@ alt.Player.prototype.setPosition = function setPosition(player: alt.Player, x: n
     }
 
     player.pos = new alt.Vector3(x, y, z);
+};
+
+alt.Player.prototype.time = function time(player: alt.Player) {
+    alt.emitClient(player, SYSTEM_EVENTS.WORLD_UPDATE_TIME, World.getWorldHour(), World.getWorldMinute());
 };
 
 // Clothing

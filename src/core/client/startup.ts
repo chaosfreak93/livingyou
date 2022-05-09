@@ -9,3 +9,4 @@ import './systems/charSelector';
 import './systems/discordAuth';
 import './systems/hud';
 import './systems/iplmanager';
+import './systems/world';

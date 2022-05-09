@@ -6,17 +6,19 @@ export enum SYSTEM_EVENTS {
     DISCORD_FINISH_AUTH = 'discord:FinishAuth',
     // Character Selector
     CHAR_SELECTOR_OPEN = 'charSelector:Open',
-    CHAR_SELECTOR_SELECT_CHAR = 'charSelector:selectChar',
+    CHAR_SELECTOR_SELECT_CHAR = 'charSelector:SelectChar',
     CHAR_SELECTOR_CLOSE = 'charSelector:Close',
     // Character Creator
     CHAR_CREATOR_OPEN = 'charCreator:Open',
     CHAR_CREATOR_CLOSE = 'charCreator:Close',
-    CHAR_CREATOR_FINISH_CHAR = 'charCreator:finishChar',
+    CHAR_CREATOR_FINISH_CHAR = 'charCreator:FinishChar',
     // HUD
     HUD_OPEN = 'hud:Open',
     // Webview
-    WEBVIEW_INFO = 'webview:Info',
+    WEBVIEW_INFO = 'webView:Info',
     // KeyManager
-    KEY_MANAGER_KEY_UP = 'keyManager:keyUp',
-    KEY_MANAGER_KEY_DOWN = 'keyManager:keyDown',
+    KEY_MANAGER_KEY_UP = 'keyManager:KeyUp',
+    KEY_MANAGER_KEY_DOWN = 'keyManager:KeyDown',
+    // World
+    WORLD_UPDATE_TIME = 'world:UpdateTime'
 }
