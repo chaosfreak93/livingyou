@@ -56,32 +56,32 @@ async function selectChar(player: alt.Player, character: ICharacter) {
         0
     );
     for (let i = 0; i < character.characterAppearence.faceFeature.length; i++) {
-        player.setFaceFeature(i, parseFloat(character.characterAppearence.faceFeature[i].scale));
+        player.setFaceFeature(i, character.characterAppearence.faceFeature[i].scale);
     }
     for (let i = 0; i < character.characterAppearence.headOverlay.length; i++) {
         player.setHeadOverlay(
             i,
-            parseInt(character.characterAppearence.headOverlay[i].index),
-            parseFloat(character.characterAppearence.headOverlay[i].opacity)
+            character.characterAppearence.headOverlay[i].index,
+            character.characterAppearence.headOverlay[i].opacity
         );
     }
     for (let i = 0; i < character.characterAppearence.headOverlay.length; i++) {
         player.setHeadOverlayColor(
             i,
-            parseInt(character.characterAppearence.headOverlay[i].colorType),
-            parseInt(character.characterAppearence.headOverlay[i].colorIndex),
+            character.characterAppearence.headOverlay[i].colorType,
+            character.characterAppearence.headOverlay[i].colorIndex,
             0
         );
     }
-    player.setEyeColor(parseInt(character.characterAppearence.eyeColor));
-    player.setHairColor(parseInt(character.characterAppearence.hairColor.colorId));
-    player.setHairHighlightColor(parseInt(character.characterAppearence.hairColor.highlightColorId));
+    player.setEyeColor(character.characterAppearence.eyeColor);
+    player.setHairColor(character.characterAppearence.hairColor.colorId);
+    player.setHairHighlightColor(character.characterAppearence.hairColor.highlightColorId);
 
     for (let i = 0; i < character.characterClothing.clothes.length; i++) {
         player.setClothes(
-            parseInt(character.characterClothing.clothes[i].component),
-            parseInt(character.characterClothing.clothes[i].drawable),
-            parseInt(character.characterClothing.clothes[i].texture),
+            character.characterClothing.clothes[i].component,
+            character.characterClothing.clothes[i].drawable,
+            character.characterClothing.clothes[i].texture,
             0
         );
     }
@@ -91,9 +91,9 @@ async function selectChar(player: alt.Player, character: ICharacter) {
             player.clearProp(character.characterClothing.props[i].component);
         } else {
             player.setProp(
-                parseInt(character.characterClothing.props[i].component),
-                parseInt(character.characterClothing.props[i].drawable),
-                parseInt(character.characterClothing.props[i].texture)
+                character.characterClothing.props[i].component,
+                character.characterClothing.props[i].drawable,
+                character.characterClothing.props[i].texture
             );
         }
     }
