@@ -9,6 +9,8 @@ export class World {
     static minute: number = 0;
 
     static updateWorldTime(hour: number, minute: number) {
+        native.pauseClock(true);
+
         World.hour = hour;
         World.minute = minute;
         native.setClockTime(hour, minute, 0);
