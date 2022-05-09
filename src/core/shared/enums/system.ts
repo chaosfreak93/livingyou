@@ -19,6 +19,9 @@ export enum SYSTEM_EVENTS {
     // KeyManager
     KEY_MANAGER_KEY_UP = 'keyManager:KeyUp',
     KEY_MANAGER_KEY_DOWN = 'keyManager:KeyDown',
+    // Ticks
+    PLAYER_START_TICKS = 'player:StartTicks',
+    PLAYER_TICK = 'player:Tick',
     // World
     WORLD_UPDATE_TIME = 'world:UpdateTime',
     WORLD_UPDATE_WEATHER = 'world:UpdateWeather',
