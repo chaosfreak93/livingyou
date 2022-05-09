@@ -11,6 +11,7 @@ declare module 'alt-server' {
 
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
         time(player: alt.Player): void;
+        weather(player: alt.Player): void;
 
         // Clothing
         setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
@@ -49,6 +50,10 @@ alt.Player.prototype.setPosition = function setPosition(player: alt.Player, x: n
 
 alt.Player.prototype.time = function time(player: alt.Player) {
     alt.emitClient(player, SYSTEM_EVENTS.WORLD_UPDATE_TIME, World.getWorldHour(), World.getWorldMinute());
+};
+
+alt.Player.prototype.weather = function weather(player: alt.Player) {
+    alt.emitClient(player, SYSTEM_EVENTS.WORLD_UPDATE_WEATHER, World.getWeatherByGrid(World.getGridSpace(player)));
 };
 
 // Clothing

@@ -20,5 +20,6 @@ export enum SYSTEM_EVENTS {
     KEY_MANAGER_KEY_UP = 'keyManager:KeyUp',
     KEY_MANAGER_KEY_DOWN = 'keyManager:KeyDown',
     // World
-    WORLD_UPDATE_TIME = 'world:UpdateTime'
+    WORLD_UPDATE_TIME = 'world:UpdateTime',
+    WORLD_UPDATE_WEATHER = 'world:UpdateWeather',
 }
