@@ -7,7 +7,6 @@ export default class HUD {
         native.displayHud(true);
         alt.toggleGameControls(true);
         native.doScreenFadeIn(0);
-        native.freezeEntityPosition(alt.Player.local.scriptID, false);
     }
 
     static showDriveHud() {

@@ -13,8 +13,10 @@ export default class DiscordAuth {
         }
 
         player.dimension = player.id + 1;
-        player.visible = false;
         player.setPosition(player, -1645.55, -1113.04, 13);
+        player.visible = false;
+        player.frozen = true;
+        player.collision = false;
 
         alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, 'http://localhost:3000');
         alt.emitClient(player, SYSTEM_EVENTS.DISCORD_OPEN);

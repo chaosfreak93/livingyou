@@ -43,7 +43,6 @@ alt.onClient(SYSTEM_EVENTS.CHAR_SELECTOR_SELECT_CHAR, selectChar);
 async function selectChar(player: alt.Player, character: ICharacter) {
     player.character = character;
     player.dimension = 0;
-    player.visible = true;
     player.setHeadBlendData(
         character.characterAppearence.headBlendData.mother,
         character.characterAppearence.headBlendData.father,
@@ -99,6 +98,9 @@ async function selectChar(player: alt.Player, character: ICharacter) {
     }
 
     player.setPosition(player, -1037.98681640625, -2738.3076171875, 20.1640625);
+    player.visible = true;
+    player.collision = true;
+    player.frozen = false;
 
     alt.emitClient(player, SYSTEM_EVENTS.CHAR_SELECTOR_CLOSE);
     await alt.Utils.wait(500);
