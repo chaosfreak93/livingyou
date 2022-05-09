@@ -17,6 +17,7 @@ async function authFinished(player: alt.Player, discordData: IDiscordData): Prom
                 firstJoinTimestamp: new Date().getTime(),
                 lastJoinTimestamp: new Date().getTime(),
                 allowSecondCharacter: false,
+                character: [],
                 banned: false,
             },
             'accounts',
