@@ -25,4 +25,6 @@ export enum SYSTEM_EVENTS {
     // World
     WORLD_UPDATE_TIME = 'world:UpdateTime',
     WORLD_UPDATE_WEATHER = 'world:UpdateWeather',
+    // Dev Tools
+    DEBUG = 'debug',
 }

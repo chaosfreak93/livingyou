@@ -4,6 +4,9 @@ import { SYSTEM_EVENTS } from '../../shared/enums/system';
 export default class KeyManager {
     static keyUp(player: alt.Player, key: number): void {
         switch (key) {
+            case 112:
+                alt.emitClient(player, SYSTEM_EVENTS.DEBUG);
+                break;
             default:
                 break;
         }
