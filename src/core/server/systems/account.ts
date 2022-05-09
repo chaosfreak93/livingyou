@@ -98,10 +98,14 @@ async function selectChar(player: alt.Player, character: ICharacter) {
         }
     }
 
+    alt.emitClient(player, SYSTEM_EVENTS.PLAYER_START_TICKS);
+
     player.setPosition(player, -1037.98681640625, -2738.3076171875, 20.1640625);
     player.visible = true;
     player.collision = true;
     player.frozen = false;
+    player.time(player);
+    player.weather(player);
 
     alt.emitClient(player, SYSTEM_EVENTS.CHAR_SELECTOR_CLOSE);
     await alt.Utils.wait(500);

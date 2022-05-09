@@ -5,3 +5,5 @@ import './systems/account';
 import './systems/charCreator';
 import './systems/keyManager';
 import './systems/login';
+import './systems/tick';
+import './systems/world';
