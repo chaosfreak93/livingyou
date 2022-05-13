@@ -124,6 +124,7 @@ export class WebViewController {
      * @memberof WebViewController
      */
     static dispose() {
+        if (!_webview.valid) return;
         _webview.destroy();
     }
 
