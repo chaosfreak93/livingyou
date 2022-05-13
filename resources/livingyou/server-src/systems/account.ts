@@ -106,7 +106,7 @@ async function selectChar(player: alt.Player, character: ICharacter) {
     player.setPosition(player, 455.59521484375, 5571.57470703125, 781.1920166015625);
     player.visible = true;
     player.collision = true;
-    player.frozen = false;
+    //player.frozen = false;
     player.time(player);
     player.weather(player);
 
