@@ -1,5 +1,4 @@
 import * as alt from 'alt-server';
-import { autoReconnect } from '../utility/reconnect';
 import Database from '@stuyk/ezmongodb';
 
 const url = process.env.MONGO_URL;
@@ -12,7 +11,4 @@ alt.on('resourceStart', async (errored: boolean) => {
     if (!connected) {
         throw new Error(`Did not connect to the database.`);
     }
-
-    //Bottom Code Line
-    if (!errored && alt.debug) await autoReconnect();
 });
