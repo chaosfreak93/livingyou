@@ -7,7 +7,7 @@ server-dist.js
 *.exe
 update.json
 modules/
-data/
+/data/
 *.log
 cache/
 crashdumps/
