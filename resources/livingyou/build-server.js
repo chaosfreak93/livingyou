@@ -10,11 +10,14 @@ build({
     entryPoints: ['./resources/livingyou/server-src/startup.ts'],
     outfile: './resources/livingyou/server-dist.js',
     platform: 'node',
-    external: ['alt-server', 'alt-shared', 'node-fetch', 'altv-xsync-entity-server'],
+    external: ['alt-server', 'alt-shared', 'altv-xsync-entity-server'],
     plugins: [
         altvServerDev({
             hotReload: {
                 clientPath: './resources/livingyou/client-dist.js',
+            },
+            reconnectPlayers: {
+                delay: 500,
             },
         }),
     ],
