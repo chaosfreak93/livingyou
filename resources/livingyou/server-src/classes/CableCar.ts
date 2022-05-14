@@ -21,7 +21,7 @@ class CableCar extends xsync.Entity<ICableCarData> {
 
 const cableCar1 = new CableCar(
     cableCarRoute[0][0],
-    -getHeadingFromVector2d(cableCarRoute[0][1], cableCarRoute[0][0], true),
+    getHeadingToNextPoint(cableCarRoute[0][1], cableCarRoute[0][0], false),
     0,
     0,
     '',
@@ -30,171 +30,169 @@ const cableCar1 = new CableCar(
 
 const cableCar2 = new CableCar(
     cableCarRoute[1][0],
-    getHeadingFromVector2d(cableCarRoute[1][0], cableCarRoute[1][1], true),
+    getHeadingToNextPoint(cableCarRoute[1][0], cableCarRoute[1][1], true),
     1,
     0,
     '',
     'Down'
 );
 
-alt.setInterval(() => {
-    if (cableCar1.syncedMeta.direction == 'Up') {
-        if (cableCar1.syncedMeta.progress >= 13) {
-            cableCar1.setSyncedMeta({ direction: 'Down' });
-        } else {
-            cableCar1.setSyncedMeta({ progress: cableCar1.syncedMeta.progress + 1 });
+async function cableCar1Logic() {
+    await alt.Utils.wait(10);
+    try {
+        await updateProgress(cableCar1);
+        await playCableCarAnim(cableCar1);
+        cableCar1.setSyncedMeta({
+            heading: getHeadingToNextPoint(
+                cableCarRoute[cableCar1.syncedMeta.id][
+                    cableCar1.syncedMeta.progress >= 13
+                        ? cableCar1.syncedMeta.progress
+                        : cableCar1.syncedMeta.progress + 1
+                ],
+                cableCarRoute[cableCar1.syncedMeta.id][
+                    cableCar1.syncedMeta.progress >= 13
+                        ? cableCar1.syncedMeta.progress - 1
+                        : cableCar1.syncedMeta.progress
+                ],
+                false
+            ),
+        });
+        await moveCableCar(cableCar1);
+        if (
+            (cableCar1.syncedMeta.direction == 'Down' && cableCar1.syncedMeta.progress == 0) ||
+            (cableCar1.syncedMeta.direction == 'Up' && cableCar1.syncedMeta.progress == 13)
+        ) {
+            alt.log(cableCar1.syncedMeta.progress);
+            cableCarArrivAtStation(cableCar1);
+            //return;
         }
-    } else if (cableCar1.syncedMeta.direction == 'Down') {
-        if (cableCar1.syncedMeta.progress <= 0) {
-            cableCar1.setSyncedMeta({ direction: 'Up' });
-        } else {
-            cableCar1.setSyncedMeta({ progress: cableCar1.syncedMeta.progress - 1 });
-        }
-    }
-    playCableCarAnim(cableCar1);
-    cableCar1.pos = cableCarRoute[0][cableCar1.syncedMeta.progress];
-    cableCar1.setSyncedMeta({
-        heading: -getHeadingFromVector2d(
-            cableCarRoute[0][
-                cableCar1.syncedMeta.progress >= 13 ? cableCar1.syncedMeta.progress : cableCar1.syncedMeta.progress + 1
-            ],
-            cableCarRoute[0][
-                cableCar1.syncedMeta.progress >= 13 ? cableCar1.syncedMeta.progress - 1 : cableCar1.syncedMeta.progress
-            ],
-            true
-        ),
-    });
-    if (cableCar2.syncedMeta.direction == 'Up') {
-        if (cableCar2.syncedMeta.progress >= 13) {
-            cableCar2.setSyncedMeta({ direction: 'Down' });
-        } else {
-            cableCar2.setSyncedMeta({ progress: cableCar2.syncedMeta.progress + 1 });
-        }
-    } else if (cableCar2.syncedMeta.direction == 'Down') {
-        if (cableCar2.syncedMeta.progress <= 0) {
-            cableCar2.setSyncedMeta({ direction: 'Up' });
-        } else {
-            cableCar2.setSyncedMeta({ progress: cableCar2.syncedMeta.progress - 1 });
-        }
-    }
-    playCableCarAnim(cableCar2);
-    cableCar2.pos = cableCarRoute[1][cableCar2.syncedMeta.progress];
-    cableCar2.setSyncedMeta({
-        heading: getHeadingFromVector2d(
-            cableCarRoute[1][
-                cableCar2.syncedMeta.progress >= 13 ? cableCar2.syncedMeta.progress - 1 : cableCar2.syncedMeta.progress
-            ],
-            cableCarRoute[1][
-                cableCar2.syncedMeta.progress >= 13 ? cableCar2.syncedMeta.progress : cableCar2.syncedMeta.progress + 1
-            ],
-            true
-        ),
-    });
-}, 1000);
-
-function playCableCarAnim(cableCar: CableCar) {
-    if (alt.Player.all.length <= 0) return;
-    let animString: string = 'c';
-    animString += cableCar.syncedMeta.id + 1;
-    if (cableCar.syncedMeta.direction == 'Up') {
-        switch (cableCar.syncedMeta.progress) {
-            case 0:
-                animString += '_up_1';
-                break;
-            case 1:
-                animString += '_up_2';
-                break;
-            case 2:
-                animString += '_up_3';
-                break;
-            case 3:
-                animString += '_up_4';
-                break;
-            case 4:
-                animString += '_up_5';
-                break;
-            case 5:
-                animString += '_up_6';
-                break;
-            case 6:
-                animString += '_up_7';
-                break;
-            case 7:
-                animString += '_up_8';
-                break;
-            case 8:
-                animString += '_up_9';
-                break;
-            case 9:
-                animString += '_up_9';
-                break;
-            case 10:
-                animString += '_up_9';
-                break;
-            case 11:
-                animString += '_up_9';
-                break;
-            case 12:
-                animString += '_up_9';
-                break;
-            case 13:
-                animString += '_up_9';
-                break;
-            default:
-                return;
-        }
-    } else if (cableCar.syncedMeta.direction == 'Down') {
-        switch (cableCar.syncedMeta.progress) {
-            case 0:
-                animString += '_down_1';
-                break;
-            case 1:
-                animString += '_down_2';
-                break;
-            case 2:
-                animString += '_down_3';
-                break;
-            case 3:
-                animString += '_down_4';
-                break;
-            case 4:
-                animString += '_down_5';
-                break;
-            case 5:
-                animString += '_down_6';
-                break;
-            case 6:
-                animString += '_down_7';
-                break;
-            case 7:
-                animString += '_down_8';
-                break;
-            case 8:
-                animString += '_down_9';
-                break;
-            case 9:
-                animString += '_down_9';
-                break;
-            case 10:
-                animString += '_down_9';
-                break;
-            case 11:
-                animString += '_down_9';
-                break;
-            case 12:
-                animString += '_down_9';
-                break;
-            case 13:
-                animString += '_down_9';
-                break;
-            default:
-                return;
-        }
-    }
-    cableCar.setSyncedMeta({ animation: animString });
+    } catch {}
+    cableCar1Logic();
 }
 
-function getHeadingFromVector2d(pos1: alt.IVector3, pos2: alt.IVector3, unk: boolean): number {
+async function cableCar2Logic() {
+    await alt.Utils.wait(10);
+    try {
+        await updateProgress(cableCar2);
+        await playCableCarAnim(cableCar2);
+        cableCar2.setSyncedMeta({
+            heading: getHeadingToNextPoint(
+                cableCarRoute[cableCar2.syncedMeta.id][
+                    cableCar2.syncedMeta.progress >= 13
+                        ? cableCar2.syncedMeta.progress - 1
+                        : cableCar2.syncedMeta.progress
+                ],
+                cableCarRoute[cableCar2.syncedMeta.id][
+                    cableCar2.syncedMeta.progress >= 13
+                        ? cableCar2.syncedMeta.progress
+                        : cableCar2.syncedMeta.progress + 1
+                ],
+                true
+            ),
+        });
+        await moveCableCar(cableCar2);
+        if (
+            (cableCar2.syncedMeta.direction == 'Down' && cableCar2.syncedMeta.progress == 13) ||
+            (cableCar2.syncedMeta.direction == 'Up' && cableCar2.syncedMeta.progress == 0)
+        ) {
+            alt.log(cableCar2.syncedMeta.progress);
+            cableCarArrivAtStation(cableCar2);
+            //return;
+        }
+    } catch {}
+    cableCar2Logic();
+}
+
+async function updateProgress(cableCar: CableCar): Promise<void> {
+    return await new Promise((resolve) => {
+        if (cableCar.syncedMeta.direction == 'Up') {
+            if (cableCar.syncedMeta.progress >= 13) {
+                cableCar.setSyncedMeta({ direction: 'Down' });
+            } else {
+                cableCar.setSyncedMeta({ progress: cableCar.syncedMeta.progress + 1 });
+            }
+        } else if (cableCar.syncedMeta.direction == 'Down') {
+            if (cableCar.syncedMeta.progress <= 0) {
+                cableCar.setSyncedMeta({ direction: 'Up' });
+            } else {
+                cableCar.setSyncedMeta({ progress: cableCar.syncedMeta.progress - 1 });
+            }
+        }
+        resolve();
+    });
+}
+
+async function playCableCarAnim(cableCar: CableCar): Promise<void> {
+    return await new Promise((resolve) => {
+        let animString: string = 'c';
+        animString += cableCar.syncedMeta.id + 1;
+        if (cableCar.syncedMeta.direction == 'Up') {
+            switch (cableCar.syncedMeta.progress) {
+                case 0:
+                    animString += '_up_9';
+                    break;
+                case 1:
+                    animString += '_up_1';
+                    break;
+                case 3:
+                    animString += '_up_3';
+                    break;
+                case 5:
+                    animString += '_up_4';
+                    break;
+                case 7:
+                    animString += '_up_5';
+                    break;
+                case 9:
+                    animString += '_up_6';
+                    break;
+                case 11:
+                    animString += '_up_8';
+                    break;
+                case 12:
+                    animString += '_up_9';
+                    break;
+                default:
+                    resolve();
+                    return;
+            }
+        } else if (cableCar.syncedMeta.direction == 'Down') {
+            switch (cableCar.syncedMeta.progress) {
+                case 0:
+                    animString += '_down_1';
+                    break;
+                case 1:
+                    animString += '_down_2';
+                    break;
+                case 3:
+                    animString += '_down_3';
+                    break;
+                case 5:
+                    animString += '_down_4';
+                    break;
+                case 7:
+                    animString += '_down_5';
+                    break;
+                case 9:
+                    animString += '_down_6';
+                    break;
+                case 11:
+                    animString += '_down_8';
+                    break;
+                case 12:
+                    animString += '_down_9';
+                    break;
+                default:
+                    resolve();
+                    return;
+            }
+        }
+        cableCar.setSyncedMeta({ animation: animString });
+        resolve();
+    });
+}
+
+function getHeadingToNextPoint(pos1: alt.IVector3, pos2: alt.IVector3, unk: boolean): number {
     let fVar0 = 0;
     let fVar1 = 0;
     let fVar2 = 0;
@@ -216,3 +214,58 @@ function getHeadingFromVector2d(pos1: alt.IVector3, pos2: alt.IVector3, unk: boo
     }
     return (fVar0 * 180) / Math.PI;
 }
+
+async function moveCableCar(cableCar: CableCar): Promise<void> {
+    return await new Promise(async (resolve) => {
+        let route = await divideIntoSegments(
+            new alt.Vector3(
+                cableCarRoute[cableCar.syncedMeta.id][
+                    cableCar.syncedMeta.progress >= 13 ? cableCar.syncedMeta.progress - 1 : cableCar.syncedMeta.progress
+                ]
+            ),
+            new alt.Vector3(
+                cableCarRoute[cableCar.syncedMeta.id][
+                    cableCar.syncedMeta.progress >= 13 ? cableCar.syncedMeta.progress : cableCar.syncedMeta.progress + 1
+                ]
+            ),
+            new alt.Vector3(
+                cableCarRoute[cableCar.syncedMeta.id][
+                    cableCar.syncedMeta.progress >= 13 ? cableCar.syncedMeta.progress - 1 : cableCar.syncedMeta.progress
+                ]
+            ).distanceTo(
+                new alt.Vector3(
+                    cableCarRoute[cableCar.syncedMeta.id][
+                        cableCar.syncedMeta.progress >= 13
+                            ? cableCar.syncedMeta.progress
+                            : cableCar.syncedMeta.progress + 1
+                    ]
+                )
+            ) /** 4**/
+        );
+        for (let i = 0; i < route.length; i++) {
+            cableCar.pos = route[i];
+            await alt.Utils.wait(15); //25
+        }
+        resolve();
+    });
+}
+
+async function divideIntoSegments(pos1: alt.Vector3, pos2: alt.Vector3, pieces: number): Promise<alt.Vector3[]> {
+    return await new Promise((resolve) => {
+        let dx = (pos2.x - pos1.x) / pieces;
+        let dy = (pos2.y - pos1.y) / pieces;
+        let dz = (pos2.z - pos1.z) / pieces;
+
+        let interiorPoints = [];
+
+        for (let i = 1; i < pieces; i++)
+            interiorPoints.push(new alt.Vector3(pos1.x + i * dx, pos1.y + i * dy, pos1.z + i * dz));
+
+        resolve([pos1, ...interiorPoints, pos2]);
+    });
+}
+
+function cableCarArrivAtStation(cableCar: CableCar): void {}
+
+cableCar1Logic();
+cableCar2Logic();
