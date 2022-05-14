@@ -22,4 +22,5 @@ alt.everyTick(() => {
     native.hideHudComponentThisFrame(6); // Vehicle Name
     native.hideHudComponentThisFrame(8); // Vehicle Class
     native.hideHudComponentThisFrame(9); // Street Name
+    alt.setConfigFlag('DISABLE_IDLE_CAMERA', true);
 });
