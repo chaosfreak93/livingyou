@@ -92,8 +92,8 @@ async function cableCar2Logic() {
         });
         await moveCableCar(cableCar2);
         if (
-            (cableCar2.syncedMeta.direction == 'Down' && cableCar2.syncedMeta.progress == 13) ||
-            (cableCar2.syncedMeta.direction == 'Up' && cableCar2.syncedMeta.progress == 0)
+            (cableCar2.syncedMeta.direction == 'Down' && cableCar2.syncedMeta.progress == 0) ||
+            (cableCar2.syncedMeta.direction == 'Up' && cableCar2.syncedMeta.progress == 13)
         ) {
             alt.log(cableCar2.syncedMeta.progress);
             cableCarArrivAtStation(cableCar2);
