@@ -29,8 +29,7 @@ class CableCar extends xsync.Entity<ICableCarData> {
             false,
             false
         );
-        native.freezeEntityPosition(this.cableCar, false);
-        native.setEntityHasGravity(this.cableCar, false);
+        native.freezeEntityPosition(this.cableCar, true);
         native.setEntityCoords(this.cableCar, this.pos.x - 0.2, this.pos.y, this.pos.z, true, false, false, true);
         native.setEntityHeading(this.cableCar, this.heading);
         this.cableCarDoor_l[0] = native.createObject(
