@@ -218,33 +218,35 @@ function getHeadingToNextPoint(pos1: alt.IVector3, pos2: alt.IVector3, unk: bool
 async function moveCableCar(cableCar: CableCar): Promise<void> {
     return await new Promise(async (resolve) => {
         let route = await divideIntoSegments(
+            new alt.Vector3(cableCarRoute[cableCar.syncedMeta.id][cableCar.syncedMeta.progress]),
             new alt.Vector3(
                 cableCarRoute[cableCar.syncedMeta.id][
-                    cableCar.syncedMeta.progress >= 13 ? cableCar.syncedMeta.progress - 1 : cableCar.syncedMeta.progress
+                    cableCar.syncedMeta.direction == 'Down'
+                        ? cableCar.syncedMeta.progress <= 0
+                            ? cableCar.syncedMeta.progress
+                            : cableCar.syncedMeta.progress - 1
+                        : cableCar.syncedMeta.progress >= 13
+                        ? cableCar.syncedMeta.progress
+                        : cableCar.syncedMeta.progress + 1
                 ]
             ),
-            new alt.Vector3(
-                cableCarRoute[cableCar.syncedMeta.id][
-                    cableCar.syncedMeta.progress >= 13 ? cableCar.syncedMeta.progress : cableCar.syncedMeta.progress + 1
-                ]
-            ),
-            new alt.Vector3(
-                cableCarRoute[cableCar.syncedMeta.id][
-                    cableCar.syncedMeta.progress >= 13 ? cableCar.syncedMeta.progress - 1 : cableCar.syncedMeta.progress
-                ]
-            ).distanceTo(
+            new alt.Vector3(cableCarRoute[cableCar.syncedMeta.id][cableCar.syncedMeta.progress]).distanceTo(
                 new alt.Vector3(
                     cableCarRoute[cableCar.syncedMeta.id][
-                        cableCar.syncedMeta.progress >= 13
+                        cableCar.syncedMeta.direction == 'Down'
+                            ? cableCar.syncedMeta.progress <= 0
+                                ? cableCar.syncedMeta.progress
+                                : cableCar.syncedMeta.progress - 1
+                            : cableCar.syncedMeta.progress >= 13
                             ? cableCar.syncedMeta.progress
                             : cableCar.syncedMeta.progress + 1
                     ]
                 )
-            ) /** 4**/
+            ) * 4
         );
         for (let i = 0; i < route.length; i++) {
             cableCar.pos = route[i];
-            await alt.Utils.wait(15); //25
+            await alt.Utils.wait(25);
         }
         resolve();
     });
