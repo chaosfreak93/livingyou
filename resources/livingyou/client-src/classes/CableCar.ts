@@ -17,8 +17,8 @@ class CableCar extends xsync.Entity<ICableCarData> {
     private animation: string = '';
     private heading: number = 0;
 
-    private async streamIn(): Promise<void> {
-        await alt.Utils.requestAnimDict('p_cablecar_s');
+    private streamIn(): void {
+        alt.Utils.requestAnimDict('p_cablecar_s', 4000);
         this.heading = this.syncedMeta.heading;
         this.cableCar = native.createObject(
             alt.hash('p_cablecar_s'),
