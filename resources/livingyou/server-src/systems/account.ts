@@ -102,7 +102,7 @@ async function selectChar(player: alt.Player, character: ICharacter) {
 
     /**new alt.Vehicle('akuma', -1037.98681640625, -2738.3076171875, 20.1640625, 0, 0, 0);
     player.setPosition(player, -1037.98681640625, -2738.3076171875, 20.1640625);**/
-    new alt.Vehicle('akuma', -739.9563598632812, 5594.64990234375, 41.50177001953125, 0, 0, 0);
+    new alt.Vehicle('panto', -739.9563598632812, 5594.64990234375, 41.50177001953125, 0, 0, 0);
     player.setPosition(player, -739.9563598632812, 5594.64990234375, 41.50177001953125);
     player.visible = true;
     player.collision = true;
