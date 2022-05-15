@@ -1,7 +1,7 @@
 import { build } from 'esbuild';
 
 build({
-    watch: true,
+    watch: false,
     bundle: true,
     target: 'esnext',
     logLevel: 'info',
