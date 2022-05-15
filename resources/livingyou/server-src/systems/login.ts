@@ -20,7 +20,7 @@ export default class DiscordAuth {
         player.time(player);
         player.weather(player);
 
-        alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, 'http://localhost:3000');
+        alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, 'http://assets/webviews/index.html');
         alt.emitClient(player, SYSTEM_EVENTS.DISCORD_OPEN);
     }
 
