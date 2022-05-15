@@ -18,6 +18,7 @@ export default class IPLManager {
         alt.requestIpl('farm_props'); // Grapeseed's farm
         alt.requestIpl('des_farmhouse'); // Grapeseed's farm
         alt.requestIpl('fiblobby'); // FIB lobby
+        alt.removeIpl('fiblobbyfake'); // FIB lobby
         alt.requestIpl('atriumglmission'); // FIB Roof
         alt.removeIpl('dt1_05_hc_end'); // FIB Fountain
         alt.removeIpl('dt1_05_hc_req'); // FIB Fountain
