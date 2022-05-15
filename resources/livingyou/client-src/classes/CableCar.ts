@@ -160,7 +160,7 @@ class CableCar extends xsync.Entity<ICableCarData> {
     }
 
     public posChange(pos: alt.IVector3): void {
-        native.setEntityCoords(this.cableCar, pos.x - 0.2, pos.y, pos.z, true, false, false, true)
+        native.setEntityCoords(this.cableCar, pos.x - 0.2, pos.y, pos.z, true, false, false, true);
     }
 }
 
