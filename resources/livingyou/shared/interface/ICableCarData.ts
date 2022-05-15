@@ -6,4 +6,5 @@ export default interface ICableCarData {
     progress: number;
     animation: string;
     direction: 'Up' | 'Down';
+    doorStatus: 'Open' | 'Close';
 }

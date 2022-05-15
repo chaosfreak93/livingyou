@@ -16,10 +16,12 @@ class CableCar extends xsync.Entity<ICableCarData> {
     private cableCarDoor_l: number[] = [];
     private animation: string = '';
     private heading: number = 0;
+    private doorStatus: 'Open' | 'Close' = 'Close';
 
     private streamIn(): void {
         alt.Utils.requestAnimDict('p_cablecar_s', 4000);
         this.heading = this.syncedMeta.heading;
+        this.doorStatus = this.syncedMeta.doorStatus;
         this.cableCar = native.createObject(
             alt.hash('p_cablecar_s'),
             this.pos.x - 0.2,
@@ -156,6 +158,156 @@ class CableCar extends xsync.Entity<ICableCarData> {
         if (syncedMeta.heading != undefined && this.heading != syncedMeta.heading) {
             this.heading = syncedMeta.heading;
             native.setEntityHeading(this.cableCar, this.heading);
+        }
+        if (syncedMeta.doorStatus != undefined && this.doorStatus != syncedMeta.doorStatus) {
+            this.doorStatus = syncedMeta.doorStatus;
+            if (this.doorStatus == 'Close') {
+                native.detachEntity(this.cableCarDoor_l[0], true, true);
+                native.detachEntity(this.cableCarDoor_l[1], true, true);
+                native.detachEntity(this.cableCarDoor_r[0], true, true);
+                native.detachEntity(this.cableCarDoor_r[1], true, true);
+                native.attachEntityToEntity(
+                    this.cableCarDoor_l[0],
+                    this.cableCar,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+                native.attachEntityToEntity(
+                    this.cableCarDoor_l[1],
+                    this.cableCar,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+                native.attachEntityToEntity(
+                    this.cableCarDoor_r[0],
+                    this.cableCar,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    180,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+                native.attachEntityToEntity(
+                    this.cableCarDoor_r[1],
+                    this.cableCar,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    180,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+            } else if (this.doorStatus == 'Open') {
+                native.detachEntity(this.cableCarDoor_l[0], true, true);
+                native.detachEntity(this.cableCarDoor_l[1], true, true);
+                native.detachEntity(this.cableCarDoor_r[0], true, true);
+                native.detachEntity(this.cableCarDoor_r[1], true, true);
+                native.attachEntityToEntity(
+                    this.cableCarDoor_l[0],
+                    this.cableCar,
+                    0,
+                    0,
+                    0.88,
+                    0,
+                    0,
+                    0,
+                    0,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+                native.attachEntityToEntity(
+                    this.cableCarDoor_l[1],
+                    this.cableCar,
+                    0,
+                    0,
+                    -0.88,
+                    0,
+                    0,
+                    0,
+                    0,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+                native.attachEntityToEntity(
+                    this.cableCarDoor_r[0],
+                    this.cableCar,
+                    0,
+                    0,
+                    -0.88,
+                    0,
+                    0,
+                    0,
+                    180,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+                native.attachEntityToEntity(
+                    this.cableCarDoor_r[1],
+                    this.cableCar,
+                    0,
+                    0,
+                    0.88,
+                    0,
+                    0,
+                    0,
+                    180,
+                    false,
+                    false,
+                    true,
+                    false,
+                    2,
+                    true
+                );
+            }
         }
     }
 

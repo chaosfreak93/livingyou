@@ -13,9 +13,10 @@ class CableCar extends xsync.Entity<ICableCarData> {
         id: number,
         progress: number,
         animation: string,
-        direction: 'Up' | 'Down'
+        direction: 'Up' | 'Down',
+        doorStatus: 'Open' | 'Close'
     ) {
-        super(cableCarPool, pos, { id, heading, progress, animation, direction }, {}, 0, 3000);
+        super(cableCarPool, pos, { id, heading, progress, animation, direction, doorStatus }, {}, 0, 2000);
     }
 }
 
@@ -25,7 +26,8 @@ const cableCar1 = new CableCar(
     0,
     0,
     '',
-    'Up'
+    'Up',
+    'Close'
 );
 
 const cableCar2 = new CableCar(
@@ -34,7 +36,8 @@ const cableCar2 = new CableCar(
     1,
     0,
     '',
-    'Down'
+    'Down',
+    'Close'
 );
 
 async function cableCar1Logic() {
@@ -63,8 +66,8 @@ async function cableCar1Logic() {
             (cableCar1.syncedMeta.direction == 'Up' && cableCar1.syncedMeta.progress == 13)
         ) {
             alt.log(cableCar1.syncedMeta.progress);
-            cableCarArrivAtStation(cableCar1);
-            //return;
+            cableCarArrivAtStation(cableCar1, cableCar1Logic);
+            return;
         }
     } catch {}
     cableCar1Logic();
@@ -96,8 +99,8 @@ async function cableCar2Logic() {
             (cableCar2.syncedMeta.direction == 'Up' && cableCar2.syncedMeta.progress == 13)
         ) {
             alt.log(cableCar2.syncedMeta.progress);
-            cableCarArrivAtStation(cableCar2);
-            //return;
+            cableCarArrivAtStation(cableCar2, cableCar2Logic);
+            return;
         }
     } catch {}
     cableCar2Logic();
@@ -159,28 +162,28 @@ async function playCableCarAnim(cableCar: CableCar): Promise<void> {
         } else if (cableCar.syncedMeta.direction == 'Down') {
             switch (cableCar.syncedMeta.progress) {
                 case 0:
-                    animString += '_down_1';
+                    animString += '_down_9';
                     break;
                 case 1:
-                    animString += '_down_2';
-                    break;
-                case 3:
-                    animString += '_down_3';
-                    break;
-                case 5:
-                    animString += '_down_4';
-                    break;
-                case 7:
-                    animString += '_down_5';
-                    break;
-                case 9:
-                    animString += '_down_6';
-                    break;
-                case 11:
                     animString += '_down_8';
                     break;
+                case 3:
+                    animString += '_down_6';
+                    break;
+                case 5:
+                    animString += '_down_5';
+                    break;
+                case 7:
+                    animString += '_down_4';
+                    break;
+                case 9:
+                    animString += '_down_3';
+                    break;
+                case 11:
+                    animString += '_down_2';
+                    break;
                 case 12:
-                    animString += '_down_9';
+                    animString += '_down_1';
                     break;
                 default:
                     resolve();
@@ -267,7 +270,14 @@ async function divideIntoSegments(pos1: alt.Vector3, pos2: alt.Vector3, pieces: 
     });
 }
 
-function cableCarArrivAtStation(cableCar: CableCar): void {}
+async function cableCarArrivAtStation(cableCar: CableCar, logic: Function): Promise<void> {
+    await alt.Utils.wait(500);
+    cableCar.setSyncedMeta({ doorStatus: 'Open' });
+    await alt.Utils.wait(6000);
+    cableCar.setSyncedMeta({ doorStatus: 'Close' });
+    await alt.Utils.wait(500);
+    logic.call(cableCar);
+}
 
 cableCar1Logic();
 cableCar2Logic();
