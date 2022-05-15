@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import './events/playerDeath';
 import './events/resourceStart';
 import './prototype/player';
 import './systems/account';
