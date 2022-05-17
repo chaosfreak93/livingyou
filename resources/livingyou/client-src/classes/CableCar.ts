@@ -162,6 +162,36 @@ class CableCar extends xsync.Entity<ICableCarData> {
         if (syncedMeta.doorStatus != undefined && this.doorStatus != syncedMeta.doorStatus) {
             this.doorStatus = syncedMeta.doorStatus;
             if (this.doorStatus == 'Close') {
+                let rangeOffset1 = native.getOffsetFromEntityInWorldCoords(this.cableCar, 0, 1.3, -5.3);
+                let rangeOffset2 = native.getOffsetFromEntityInWorldCoords(this.cableCar, 0, -1.3, -5.3);
+                let attachOffset = native.getOffsetFromEntityGivenWorldCoords(
+                    this.cableCar,
+                    alt.Player.local.pos.x,
+                    alt.Player.local.pos.y,
+                    alt.Player.local.pos.z
+                );
+                if (
+                    rangeOffset1.isInRange(alt.Player.local.pos, 1.55) ||
+                    rangeOffset2.isInRange(alt.Player.local.pos, 1.55)
+                ) {
+                    native.attachEntityToEntity(
+                        alt.Player.local.scriptID,
+                        this.cableCar,
+                        0,
+                        attachOffset.x,
+                        attachOffset.y,
+                        attachOffset.z,
+                        0,
+                        0,
+                        0,
+                        false,
+                        false,
+                        true,
+                        false,
+                        2,
+                        true
+                    );
+                }
                 native.detachEntity(this.cableCarDoor_l[0], true, true);
                 native.detachEntity(this.cableCarDoor_l[1], true, true);
                 native.detachEntity(this.cableCarDoor_r[0], true, true);
@@ -235,6 +265,9 @@ class CableCar extends xsync.Entity<ICableCarData> {
                     true
                 );
             } else if (this.doorStatus == 'Open') {
+                if (native.isEntityAttachedToEntity(alt.Player.local.scriptID, this.cableCar)) {
+                    native.detachEntity(alt.Player.local.scriptID, true, false);
+                }
                 native.detachEntity(this.cableCarDoor_l[0], true, true);
                 native.detachEntity(this.cableCarDoor_l[1], true, true);
                 native.detachEntity(this.cableCarDoor_r[0], true, true);
