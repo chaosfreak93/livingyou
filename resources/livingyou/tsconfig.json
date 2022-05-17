@@ -1,0 +1,15 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "typeRoots": ["../../node_modules/@types", "../../node_modules/@altv"],
+        "module": "esnext",
+        "target": "esnext",
+        "rootDir": ".",
+        "allowSyntheticDefaultImports": true,
+        "composite": false,
+        "forceConsistentCasingInFileNames": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    },
+    "include": ["./client-src/**/*", "./server-src/**/*", "./shared/**/*"]
+}
