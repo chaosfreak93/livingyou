@@ -7,13 +7,15 @@ export class World {
     static weather: string;
     static hour: number = 0;
     static minute: number = 0;
+    static seconds: number = 0;
 
     static updateWorldTime(hour: number, minute: number) {
-        native.pauseClock(true);
+        alt.setMsPerGameMinute(60000);
 
         World.hour = hour;
         World.minute = minute;
-        native.setClockTime(hour, minute, 0);
+        World.seconds = native.getClockSeconds();
+        native.setClockTime(World.hour, World.minute, World.seconds);
     }
 
     static updateWeather(name: string) {
