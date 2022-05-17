@@ -2,6 +2,7 @@ node_modules
 altv-server
 client-dist.js
 server-dist.js
+assets/
 .vscode
 *.dll
 *.exe

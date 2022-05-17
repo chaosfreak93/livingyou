@@ -6,8 +6,9 @@
     "scripts": {
         "start-server": "node --es-module-specifier-resolution=node ./resources/livingyou/build-server.js",
         "start-client": "node --es-module-specifier-resolution=node ./resources/livingyou/build-client.js",
+        "start-webview": "node --es-module-specifier-resolution=node ./resources/webviews/build-webview.js",
         "start": "concurrently npm:start-*",
-        "update": "npx altv-pkg d rc"
+        "update": "altv-pkg d rc"
     },
     "devDependencies": {
         "@altv/types-client": "^2.1.7",
@@ -16,23 +17,24 @@
         "@altv/types-shared": "^1.2.4",
         "@altv/types-webview": "^1.0.2",
         "@altv/types-worker": "^1.0.6",
-        "@babel/types": "^7.17.10",
         "@types/node": "^17.0.33",
         "@vitejs/plugin-vue": "^2.3.3",
+        "@vue/compiler-sfc": "^3.2.33",
         "altv-pkg": "^2.0.3",
-        "concurrently": "^7.1.0",
+        "concurrently": "^7.2.0",
         "esbuild": "^0.14.39",
         "esbuild-plugin-altv-dev-server": "^2.1.3",
+        "esbuild-plugin-vue-next": "^0.1.4",
         "typescript": "4.6.4",
         "vite": "^2.9.9",
-        "vue": "^3.2.33",
-        "vue-resize-text": "^0.1.1",
-        "vue-tsc": "^0.34.13"
+        "vue-tsc": "^0.34.15"
     },
     "dependencies": {
         "@stuyk/ezmongodb": "^2.0.2",
         "altv-xsync-entity-client": "^2.3.1",
         "altv-xsync-entity-server": "^2.3.1",
-        "dotenv": "^16.0.1"
+        "axios": "^0.27.2",
+        "dotenv": "^16.0.1",
+        "vue": "^3.2.33"
     }
 }
