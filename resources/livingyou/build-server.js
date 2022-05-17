@@ -1,9 +1,8 @@
 import { build } from 'esbuild';
-import altvServerDev from 'esbuild-plugin-altv-dev-server';
-let devMode = false;
+import * as build_options from '../../build-options';
 
 build({
-    watch: devMode,
+    watch: build_options.default.devMode,
     bundle: true,
     target: 'esnext',
     logLevel: 'info',
@@ -12,16 +11,4 @@ build({
     outfile: './resources/livingyou/server-dist.js',
     platform: 'node',
     external: ['alt-server', 'alt-shared', 'altv-xsync-entity-server', 'dotenv', '@stuyk', 'axios'],
-    plugins: devMode
-        ? [
-              altvServerDev({
-                  hotReload: {
-                      clientPath: './resources/livingyou/client-dist.js',
-                  },
-                  reconnectPlayers: {
-                      delay: 500,
-                  },
-              }),
-          ]
-        : [],
 });

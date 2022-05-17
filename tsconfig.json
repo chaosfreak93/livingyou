@@ -12,4 +12,5 @@
         "moduleResolution": "node",
         "jsx": "preserve"
     },
+    "exclude": ["./build-options.js"]
 }

@@ -1,7 +1,8 @@
 import { build } from 'esbuild';
+import * as build_options from '../../build-options';
 
 build({
-    watch: false,
+    watch: build_options.default.devMode,
     bundle: true,
     target: 'esnext',
     logLevel: 'info',

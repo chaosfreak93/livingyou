@@ -1,8 +1,9 @@
 import { build } from 'esbuild';
 import pluginVue from 'esbuild-plugin-vue-next';
+import * as build_options from '../../build-options';
 
 build({
-    watch: true,
+    watch: build_options.default.devMode,
     bundle: true,
     target: 'esnext',
     logLevel: 'info',
