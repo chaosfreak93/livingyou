@@ -33,7 +33,7 @@ export default class CharSelector {
         WebViewController.showCursor(false);
         WebViewController.unfocus();
         WebViewController.closePages(['CharSelector']);
-        
+
         const view = await WebViewController.get();
         view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
         view.off('showPed', CharSelector.showPed);

@@ -59,7 +59,7 @@ export default interface ICharacterClothing {
             component: 11;
             drawable: number;
             texture: number;
-        },
+        }
     ];
     props: [
         hat: {
@@ -86,6 +86,6 @@ export default interface ICharacterClothing {
             component: 7;
             drawable: number;
             texture: number;
-        },
+        }
     ];
 }

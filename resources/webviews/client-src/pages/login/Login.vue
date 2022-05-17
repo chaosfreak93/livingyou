@@ -24,7 +24,7 @@ export default defineComponent({
 
             alt.emit('startLogin');
         },
-    }
+    },
 });
 </script>
 
