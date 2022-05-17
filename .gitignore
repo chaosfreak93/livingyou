@@ -12,5 +12,5 @@ modules/
 *.log
 cache/
 crashdumps/
-package-lock.json
+pnpm-lock.yaml
 .env
