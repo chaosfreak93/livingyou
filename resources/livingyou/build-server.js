@@ -3,12 +3,13 @@ import * as build_options from '../../build-options';
 
 build({
     watch: build_options.default.devMode,
+    tsconfig: './resources/livingyou/tsconfig.json',
     bundle: true,
+    platform: 'node',
     target: 'esnext',
     logLevel: 'info',
     format: 'esm',
     entryPoints: ['./resources/livingyou/server-src/startup.ts'],
     outfile: './resources/livingyou/server-dist.js',
-    platform: 'node',
-    external: ['alt-server', 'alt-shared', 'altv-xsync-entity-server', 'dotenv', '@stuyk', 'axios'],
+    external: ['alt-*', 'altv-xsync-entity-server', 'dotenv', '@stuyk', 'axios'],
 });

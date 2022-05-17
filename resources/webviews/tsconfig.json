@@ -3,12 +3,11 @@
     "compilerOptions": {
         "typeRoots": ["../../node_modules/@altv"],
         "target": "esnext",
-        "module": "commonjs",
+        "module": "esnext",
         "jsx": "preserve",
         "esModuleInterop": true,
-        "lib": ["esnext", "dom"],
-        "baseUrl": "."
+        "lib": ["esnext", "dom"]
     },
-    "include": ["client-src/**/*.ts", "client-src/**/*.d.ts", "client-src/**/*.tsx", "client-src/**/*.vue"],
-    "exclude": ["../livingyou/**"]
+    "include": ["client-src/**/*"],
+    "exclude": ["../livingyou/**/*"]
 }

@@ -3,7 +3,9 @@ import * as build_options from '../../build-options';
 
 build({
     watch: build_options.default.devMode,
+    tsconfig: './resources/livingyou/tsconfig.json',
     bundle: true,
+    platform: 'browser',
     target: 'esnext',
     logLevel: 'info',
     format: 'esm',
