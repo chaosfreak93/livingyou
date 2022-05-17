@@ -65,7 +65,6 @@ async function cableCar1Logic() {
             (cableCar1.syncedMeta.direction == 'Down' && cableCar1.syncedMeta.progress == 0) ||
             (cableCar1.syncedMeta.direction == 'Up' && cableCar1.syncedMeta.progress == 13)
         ) {
-            alt.log(cableCar1.syncedMeta.progress);
             cableCarArrivAtStation(cableCar1, cableCar1Logic);
             return;
         }
@@ -98,7 +97,6 @@ async function cableCar2Logic() {
             (cableCar2.syncedMeta.direction == 'Down' && cableCar2.syncedMeta.progress == 0) ||
             (cableCar2.syncedMeta.direction == 'Up' && cableCar2.syncedMeta.progress == 13)
         ) {
-            alt.log(cableCar2.syncedMeta.progress);
             cableCarArrivAtStation(cableCar2, cableCar2Logic);
             return;
         }
