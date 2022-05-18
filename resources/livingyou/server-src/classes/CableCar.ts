@@ -1,44 +1,61 @@
 import * as alt from 'alt-server';
 import * as xsync from 'altv-xsync-entity-server';
-import ICableCarData from '../../shared/interface/ICableCarData';
+import ICableCarSyncedMeta from '../../shared/interface/ICableCarSyncedMeta';
+import ICableCarMeta from '../../shared/interface/ICableCarMeta';
 import { EntityPools } from '../../shared/enums/entityPools';
 import cableCarRoute from '../../shared/data/cableCar';
 
 const cableCarPool = new xsync.EntityPool(EntityPools.CableCar, { maxStreamedIn: 3 });
 
-class CableCar extends xsync.Entity<ICableCarData> {
+class CableCar extends xsync.Entity<ICableCarSyncedMeta, ICableCarMeta> {
     constructor(
+        cableCarId: number,
         pos: alt.IVector3,
         heading: number,
-        id: number,
         progress: number,
         animation: string,
         direction: 'Up' | 'Down',
-        doorStatus: 'Open' | 'Close'
+        doorStatus: 'Open' | 'Close',
+        attachedPlayer: {
+            id: number;
+            pos: alt.IVector3;
+            rot: alt.IVector3;
+        }[]
     ) {
-        super(cableCarPool, pos, { id, heading, progress, animation, direction, doorStatus }, {}, 0, 2000);
+        super(
+            cableCarPool,
+            pos,
+            { heading, progress, animation, direction, doorStatus, attachedPlayer },
+            { cableCarId },
+            0,
+            2000
+        );
     }
 }
 
 const cableCar1 = new CableCar(
+    0,
     cableCarRoute[0][0],
     getHeadingToNextPoint(cableCarRoute[0][1], cableCarRoute[0][0], false),
     0,
-    0,
     '',
     'Up',
-    'Close'
+    'Close',
+    []
 );
 
 const cableCar2 = new CableCar(
+    1,
     cableCarRoute[1][0],
     getHeadingToNextPoint(cableCarRoute[1][0], cableCarRoute[1][1], true),
-    1,
     0,
     '',
     'Down',
-    'Close'
+    'Close',
+    []
 );
+
+cableCar1.id;
 
 async function cableCar1Logic() {
     await alt.Utils.wait(10);
@@ -47,12 +64,12 @@ async function cableCar1Logic() {
         await playCableCarAnim(cableCar1);
         cableCar1.setSyncedMeta({
             heading: getHeadingToNextPoint(
-                cableCarRoute[cableCar1.syncedMeta.id][
+                cableCarRoute[cableCar1.meta.cableCarId][
                     cableCar1.syncedMeta.progress >= 13
                         ? cableCar1.syncedMeta.progress
                         : cableCar1.syncedMeta.progress + 1
                 ],
-                cableCarRoute[cableCar1.syncedMeta.id][
+                cableCarRoute[cableCar1.meta.cableCarId][
                     cableCar1.syncedMeta.progress >= 13
                         ? cableCar1.syncedMeta.progress - 1
                         : cableCar1.syncedMeta.progress
@@ -65,7 +82,7 @@ async function cableCar1Logic() {
             (cableCar1.syncedMeta.direction == 'Down' && cableCar1.syncedMeta.progress == 0) ||
             (cableCar1.syncedMeta.direction == 'Up' && cableCar1.syncedMeta.progress == 13)
         ) {
-            cableCarArrivAtStation(cableCar1, cableCar1Logic);
+            cableCarArriveAtStation(cableCar1, cableCar1Logic);
             return;
         }
     } catch {}
@@ -79,12 +96,12 @@ async function cableCar2Logic() {
         await playCableCarAnim(cableCar2);
         cableCar2.setSyncedMeta({
             heading: getHeadingToNextPoint(
-                cableCarRoute[cableCar2.syncedMeta.id][
+                cableCarRoute[cableCar2.meta.cableCarId][
                     cableCar2.syncedMeta.progress >= 13
                         ? cableCar2.syncedMeta.progress - 1
                         : cableCar2.syncedMeta.progress
                 ],
-                cableCarRoute[cableCar2.syncedMeta.id][
+                cableCarRoute[cableCar2.meta.cableCarId][
                     cableCar2.syncedMeta.progress >= 13
                         ? cableCar2.syncedMeta.progress
                         : cableCar2.syncedMeta.progress + 1
@@ -97,7 +114,7 @@ async function cableCar2Logic() {
             (cableCar2.syncedMeta.direction == 'Down' && cableCar2.syncedMeta.progress == 0) ||
             (cableCar2.syncedMeta.direction == 'Up' && cableCar2.syncedMeta.progress == 13)
         ) {
-            cableCarArrivAtStation(cableCar2, cableCar2Logic);
+            cableCarArriveAtStation(cableCar2, cableCar2Logic);
             return;
         }
     } catch {}
@@ -126,7 +143,7 @@ async function updateProgress(cableCar: CableCar): Promise<void> {
 async function playCableCarAnim(cableCar: CableCar): Promise<void> {
     return await new Promise((resolve) => {
         let animString: string = 'c';
-        animString += cableCar.syncedMeta.id + 1;
+        animString += cableCar.meta.cableCarId + 1;
         if (cableCar.syncedMeta.direction == 'Up') {
             switch (cableCar.syncedMeta.progress) {
                 case 0:
@@ -219,9 +236,9 @@ function getHeadingToNextPoint(pos1: alt.IVector3, pos2: alt.IVector3, unk: bool
 async function moveCableCar(cableCar: CableCar): Promise<void> {
     return await new Promise(async (resolve) => {
         let route = await divideIntoSegments(
-            new alt.Vector3(cableCarRoute[cableCar.syncedMeta.id][cableCar.syncedMeta.progress]),
+            new alt.Vector3(cableCarRoute[cableCar.meta.cableCarId][cableCar.syncedMeta.progress]),
             new alt.Vector3(
-                cableCarRoute[cableCar.syncedMeta.id][
+                cableCarRoute[cableCar.meta.cableCarId][
                     cableCar.syncedMeta.direction == 'Down'
                         ? cableCar.syncedMeta.progress <= 0
                             ? cableCar.syncedMeta.progress
@@ -231,9 +248,9 @@ async function moveCableCar(cableCar: CableCar): Promise<void> {
                         : cableCar.syncedMeta.progress + 1
                 ]
             ),
-            new alt.Vector3(cableCarRoute[cableCar.syncedMeta.id][cableCar.syncedMeta.progress]).distanceTo(
+            new alt.Vector3(cableCarRoute[cableCar.meta.cableCarId][cableCar.syncedMeta.progress]).distanceTo(
                 new alt.Vector3(
-                    cableCarRoute[cableCar.syncedMeta.id][
+                    cableCarRoute[cableCar.meta.cableCarId][
                         cableCar.syncedMeta.direction == 'Down'
                             ? cableCar.syncedMeta.progress <= 0
                                 ? cableCar.syncedMeta.progress
@@ -268,7 +285,7 @@ async function divideIntoSegments(pos1: alt.Vector3, pos2: alt.Vector3, pieces: 
     });
 }
 
-async function cableCarArrivAtStation(cableCar: CableCar, logic: Function): Promise<void> {
+async function cableCarArriveAtStation(cableCar: CableCar, logic: Function): Promise<void> {
     await alt.Utils.wait(500);
     cableCar.setSyncedMeta({ doorStatus: 'Open' });
     await alt.Utils.wait(6000);

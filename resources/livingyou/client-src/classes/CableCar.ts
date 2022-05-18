@@ -1,7 +1,7 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
 import * as xsync from 'altv-xsync-entity-client';
-import ICableCarData from '../../shared/interface/ICableCarData';
+import ICableCarSyncedMeta from '../../shared/interface/ICableCarSyncedMeta';
 import { EntityPools } from '../../shared/enums/entityPools';
 
 @xsync.onEntityEvents<CableCar>({
@@ -10,7 +10,7 @@ import { EntityPools } from '../../shared/enums/entityPools';
     syncedMetaChange: (entity, syncedMeta) => entity.syncedMetaChange(syncedMeta),
     posChange: (entity, pos) => entity.posChange(pos),
 })
-class CableCar extends xsync.Entity<ICableCarData> {
+class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
     private cableCar: number = 0;
     private cableCarDoor_r: number[] = [];
     private cableCarDoor_l: number[] = [];
@@ -150,7 +150,7 @@ class CableCar extends xsync.Entity<ICableCarData> {
         native.deleteObject(this.cableCarDoor_l[1]);
     }
 
-    private syncedMetaChange(syncedMeta: Partial<ICableCarData>): void {
+    private syncedMetaChange(syncedMeta: Partial<ICableCarSyncedMeta>): void {
         if (syncedMeta.animation != undefined && this.animation != syncedMeta.animation) {
             this.animation = syncedMeta.animation;
             native.playEntityAnim(this.cableCar, this.animation, 'p_cablecar_s', 8, false, true, false, 0, 0);
