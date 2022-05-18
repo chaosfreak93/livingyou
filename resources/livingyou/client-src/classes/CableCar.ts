@@ -17,11 +17,17 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
     private animation: string = '';
     private heading: number = 0;
     private doorStatus: 'Open' | 'Close' = 'Close';
+    private attachedPlayer: {
+        id: number;
+        pos: alt.IVector3;
+        rot: alt.IVector3;
+    }[];
 
     private streamIn(): void {
         alt.Utils.requestAnimDict('p_cablecar_s', 4000);
         this.heading = this.syncedMeta.heading;
         this.doorStatus = this.syncedMeta.doorStatus;
+        this.attachedPlayer = this.syncedMeta.attachedPlayer;
         this.cableCar = native.createObject(
             alt.hash('p_cablecar_s'),
             this.pos.x - 0.2,
@@ -140,6 +146,27 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
             2,
             true
         );
+        for (let i = 0; i < this.attachedPlayer.length; i++) {
+            let player = alt.Player.getByID(this.attachedPlayer[i].id);
+            if (player == null || !player.valid) continue;
+            native.attachEntityToEntity(
+                player.scriptID,
+                this.cableCar,
+                0,
+                this.attachedPlayer[i].pos.x,
+                this.attachedPlayer[i].pos.y,
+                this.attachedPlayer[i].pos.z,
+                0,
+                0,
+                0,
+                false,
+                false,
+                true,
+                false,
+                2,
+                true
+            );
+        }
     }
 
     private streamOut(): void {
@@ -159,28 +186,29 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
             this.heading = syncedMeta.heading;
             native.setEntityHeading(this.cableCar, this.heading);
         }
-        if (syncedMeta.doorStatus != undefined && this.doorStatus != syncedMeta.doorStatus) {
-            this.doorStatus = syncedMeta.doorStatus;
-            if (this.doorStatus == 'Close') {
-                let rangeOffset1 = native.getOffsetFromEntityInWorldCoords(this.cableCar, 0, 1.3, -5.3);
-                let rangeOffset2 = native.getOffsetFromEntityInWorldCoords(this.cableCar, 0, -1.3, -5.3);
-                let attachOffset = native.getOffsetFromEntityGivenWorldCoords(
-                    this.cableCar,
-                    alt.Player.local.pos.x,
-                    alt.Player.local.pos.y,
-                    alt.Player.local.pos.z
-                );
+        if (syncedMeta.attachedPlayer != undefined && this.attachedPlayer != syncedMeta.attachedPlayer) {
+            let attachedToCableCar;
+            if (syncedMeta.attachedPlayer.length == 0) {
+                attachedToCableCar = this.attachedPlayer;
+            } else if (syncedMeta.attachedPlayer.length >= 1) {
+                attachedToCableCar = syncedMeta.attachedPlayer;
+            }
+            for (let i = 0; i < attachedToCableCar.length; i++) {
+                let player = alt.Player.getByID(attachedToCableCar[i].id);
+                if (player == null || !player.valid) continue;
                 if (
-                    rangeOffset1.isInRange(alt.Player.local.pos, 1.55) ||
-                    rangeOffset2.isInRange(alt.Player.local.pos, 1.55)
+                    native.isEntityAttachedToEntity(player.scriptID, this.cableCar) &&
+                    syncedMeta.attachedPlayer.length == 0
                 ) {
+                    native.detachEntity(player.scriptID, true, false);
+                } else {
                     native.attachEntityToEntity(
-                        alt.Player.local.scriptID,
+                        player.scriptID,
                         this.cableCar,
                         0,
-                        attachOffset.x,
-                        attachOffset.y,
-                        attachOffset.z,
+                        attachedToCableCar[i].pos.x,
+                        attachedToCableCar[i].pos.y,
+                        attachedToCableCar[i].pos.z,
                         0,
                         0,
                         0,
@@ -192,6 +220,12 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                         true
                     );
                 }
+            }
+            this.attachedPlayer = syncedMeta.attachedPlayer;
+        }
+        if (syncedMeta.doorStatus != undefined && this.doorStatus != syncedMeta.doorStatus) {
+            this.doorStatus = syncedMeta.doorStatus;
+            if (this.doorStatus == 'Close') {
                 native.detachEntity(this.cableCarDoor_l[0], true, true);
                 native.detachEntity(this.cableCarDoor_l[1], true, true);
                 native.detachEntity(this.cableCarDoor_r[0], true, true);
@@ -265,9 +299,6 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true
                 );
             } else if (this.doorStatus == 'Open') {
-                if (native.isEntityAttachedToEntity(alt.Player.local.scriptID, this.cableCar)) {
-                    native.detachEntity(alt.Player.local.scriptID, true, false);
-                }
                 native.detachEntity(this.cableCarDoor_l[0], true, true);
                 native.detachEntity(this.cableCarDoor_l[1], true, true);
                 native.detachEntity(this.cableCarDoor_r[0], true, true);
@@ -345,7 +376,7 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
     }
 
     public posChange(pos: alt.IVector3): void {
-        native.setEntityCoords(this.cableCar, pos.x - 0.2, pos.y, pos.z, true, false, false, true);
+        native.setEntityCoords(this.cableCar, pos.x - 0.2, pos.y, pos.z, true, false, false, false);
     }
 }
 

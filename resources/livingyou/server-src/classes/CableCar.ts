@@ -287,9 +287,29 @@ async function divideIntoSegments(pos1: alt.Vector3, pos2: alt.Vector3, pieces: 
 
 async function cableCarArriveAtStation(cableCar: CableCar, logic: Function): Promise<void> {
     await alt.Utils.wait(500);
+    cableCar.setSyncedMeta({ attachedPlayer: [] });
     cableCar.setSyncedMeta({ doorStatus: 'Open' });
-    await alt.Utils.wait(6000);
+    await alt.Utils.wait(10000);
     cableCar.setSyncedMeta({ doorStatus: 'Close' });
+    let players = alt.Player.all;
+    let playersToAttach: {
+        id: number;
+        pos: alt.IVector3;
+        rot: alt.IVector3;
+    }[] = [];
+    let rangeOffset1 = new alt.Vector3(cableCar.pos).add(1.3, 0, 0).sub(0, 0, 5.3);
+    let rangeOffset2 = new alt.Vector3(cableCar.pos).sub(1.3, 0, 0).sub(0, 0, 5.3);
+    for (let i = 0; i < players.length; i++) {
+        if (rangeOffset1.isInRange(players[i].pos, 1.55) || rangeOffset2.isInRange(players[i].pos, 1.55)) {
+            playersToAttach.push({
+                id: players[i].id,
+                // TODO Fix attach position
+                pos: players[i].pos.sub(new alt.Vector3(cableCar.pos)),
+                rot: players[i].rot.toDegrees(),
+            });
+        }
+    }
+    cableCar.setSyncedMeta({ attachedPlayer: playersToAttach });
     await alt.Utils.wait(500);
     logic.call(cableCar);
 }
