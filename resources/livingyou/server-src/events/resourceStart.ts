@@ -3,7 +3,7 @@ import Database from '@stuyk/ezmongodb';
 
 const url = process.env.MONGO_URL;
 const dbName = 'livingyou';
-const collections = ['accounts'];
+const collections = ['accounts', 'items'];
 
 alt.on('resourceStart', async (errored: boolean) => {
     // @ts-ignore
