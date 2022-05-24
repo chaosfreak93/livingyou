@@ -51,6 +51,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: |
-          ./git-version
+          echo ./git-version
         release_name: |
-          ./git-version
+          echo ./git-version
