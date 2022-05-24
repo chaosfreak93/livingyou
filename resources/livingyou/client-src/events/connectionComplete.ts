@@ -24,4 +24,5 @@ alt.everyTick(() => {
     native.hideHudComponentThisFrame(9); // Street Name
     alt.setConfigFlag('DISABLE_IDLE_CAMERA', true);
     native.setPedConfigFlag(alt.Player.local.scriptID, 35, false);
+    native.drawRect(0, 0, 0, 0, 0, 0, 0, 0, false);
 });
