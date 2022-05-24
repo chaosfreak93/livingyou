@@ -12,5 +12,4 @@ modules/
 *.log
 cache/
 crashdumps/
-pnpm-lock.yaml
 .env
