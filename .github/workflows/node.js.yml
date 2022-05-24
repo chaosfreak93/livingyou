@@ -10,8 +10,20 @@ on:
     branches: [ master, dev ]
 
 jobs:
+  version:
+    runs-on: ubuntu-lastest
+    
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      
+    steps:
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.5.4
+      
   build:
     runs-on: ubuntu-latest
+    needs: version
 
     strategy:
       matrix:
@@ -23,8 +35,6 @@ jobs:
       with:
         ref: ${{ github.head_ref }}   # checkout the correct branch name
         fetch-depth: 0                # fetch the whole repo history
-    - name: Git Version
-      uses: codacy/git-version@2.5.4
     - uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
       with:
         version: 7.1.5
@@ -46,7 +56,7 @@ jobs:
     - run: pnpm run start --if-present
     - run: chmod 777 altv-server && chmod 777 start.sh
     #- run: ./start.sh
-    - run: echo ${{ outputs.version }}
+    - run: echo ${{ needs.version.outputs.version }}
     - uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
