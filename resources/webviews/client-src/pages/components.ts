@@ -3,6 +3,7 @@ import Login from './login/Login.vue';
 import CharSelector from './charSelector/CharSelector.vue';
 import CharCreator from './charCreator/CharCreator.vue';
 import HUD from './hud/HUD.vue';
+import Inventory from './inventory/Inventory.vue';
 
 // Append components here...
 // All components that you want to load...
@@ -12,6 +13,7 @@ const componentList = {
     CharSelector: shallowRef(CharSelector),
     CharCreator: shallowRef(CharCreator),
     HUD: shallowRef(HUD),
+    Inventory: shallowRef(Inventory),
 };
 
 function generateComponentList(): Array<{ name: string; component: unknown }> {
