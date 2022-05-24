@@ -2,8 +2,9 @@ export enum SYSTEM_EVENTS {
     BEGIN_CONNECTION = 'connection:Begin',
     // Discord Login
     DISCORD_OPEN = 'discord:Open',
-    DISCORD_LOGIN = 'discord:Login',
+    DISCORD_PROCEED_TOKEN = 'discord:ProceedToken',
     DISCORD_FINISH_AUTH = 'discord:FinishAuth',
+    DISCORD_CLOSE = 'discord:Close',
     // Character Selector
     CHAR_SELECTOR_OPEN = 'charSelector:Open',
     CHAR_SELECTOR_SELECT_CHAR = 'charSelector:SelectChar',

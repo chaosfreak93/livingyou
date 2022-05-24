@@ -4,42 +4,48 @@ import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from './cameraManager';
 
+let loginInProgress = false;
+
 export default class DiscordAuth {
     static async open(): Promise<void> {
         await CameraManager.createCamera(new alt.Vector3(-2000, -1200, 55), new alt.Vector3(-15, 0, -70), 90, true);
         native.doScreenFadeIn(0);
         alt.toggleGameControls(false);
         const view = await WebViewController.get();
-        view.on('startLogin', DiscordAuth.startLogin);
+        view.on('startLogin', DiscordAuth.obtainToken);
 
         WebViewController.openPages(['Login']);
         WebViewController.focus();
         WebViewController.showCursor(true);
     }
 
-    static async startLogin(): Promise<void> {
+    static async obtainToken(): Promise<void> {
+        if (loginInProgress) return;
         try {
+            loginInProgress = true;
             const token = await alt.Discord.requestOAuth2Token('948363980743790683');
-            alt.emitServer(SYSTEM_EVENTS.DISCORD_LOGIN, token);
-        } catch (e) {
-            alt.logError(e);
+            alt.emitServer(SYSTEM_EVENTS.DISCORD_PROCEED_TOKEN, token);
+        } catch (err) {
+            alt.logError(err);
+            loginInProgress = false;
         }
     }
 
-    static async authFinished(): Promise<void> {
-        const view = await WebViewController.get();
-        view.off('startLogin', DiscordAuth.startLogin);
-
+    static async close(): Promise<void> {
         WebViewController.showCursor(false);
         WebViewController.unfocus();
         WebViewController.closePages(['Login']);
+
+        const view = await WebViewController.get();
+        view.off('startLogin', DiscordAuth.obtainToken);
         native.doScreenFadeOut(0);
         await alt.Utils.waitFor(() => native.isScreenFadedOut());
         CameraManager.destroyCamera();
+        loginInProgress = false;
     }
 }
 
 alt.on(SYSTEM_EVENTS.DISCORD_OPEN, DiscordAuth.open);
 alt.onServer(SYSTEM_EVENTS.DISCORD_OPEN, DiscordAuth.open);
-alt.on(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, DiscordAuth.authFinished);
-alt.onServer(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, DiscordAuth.authFinished);
+alt.on(SYSTEM_EVENTS.DISCORD_CLOSE, DiscordAuth.close);
+alt.onServer(SYSTEM_EVENTS.DISCORD_CLOSE, DiscordAuth.close);
