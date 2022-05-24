@@ -5,7 +5,7 @@ import ICableCarMeta from '../../shared/interface/ICableCarMeta';
 import { EntityPools } from '../../shared/enums/entityPools';
 import cableCarRoute from '../../shared/data/cableCar';
 
-const cableCarPool = new xsync.EntityPool(EntityPools.CableCar, { maxStreamedIn: 3 });
+const cableCarPool = new xsync.EntityPool(EntityPools.CableCar, { maxStreamedIn: 2 });
 
 class CableCar extends xsync.Entity<ICableCarSyncedMeta, ICableCarMeta> {
     constructor(
@@ -54,8 +54,6 @@ const cableCar2 = new CableCar(
     'Close',
     []
 );
-
-cableCar1.id;
 
 async function cableCar1Logic() {
     await alt.Utils.wait(10);
@@ -314,5 +312,5 @@ async function cableCarArriveAtStation(cableCar: CableCar, logic: Function): Pro
     logic.call(cableCar);
 }
 
-cableCar1Logic();
-cableCar2Logic();
+//cableCar1Logic();
+//cableCar2Logic();
