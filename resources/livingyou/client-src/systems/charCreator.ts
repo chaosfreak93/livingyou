@@ -3,6 +3,7 @@ import * as native from 'natives';
 import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from '../systems/cameraManager';
+import ScreenFade from '../utility/screenFade';
 
 let zpos = 0;
 let startPosition: alt.Vector3;
@@ -27,7 +28,7 @@ export default class CharCreator {
         await alt.Utils.waitFor(() => !native.isPedFalling(ped));
         CameraManager.pointCameraAtCoord(startPosition);
         handleCameraTick = alt.everyTick(CharCreator.cameraControls);
-        native.doScreenFadeIn(0);
+        await ScreenFade.fadeIn(0);
         const view = await WebViewController.get();
         view.on('charCreatorReady', CharCreator.charCreatorReady);
         view.on('changeGender', CharCreator.changeGender);
@@ -63,8 +64,7 @@ export default class CharCreator {
         view.off('setClothes', CharCreator.setClothes);
         view.off('setProps', CharCreator.setProps);
         view.off('finishCharacter', CharCreator.finishCharacter);
-        native.doScreenFadeOut(0);
-        await alt.Utils.waitFor(() => native.isScreenFadedOut());
+        await ScreenFade.fadeOut(0);
         alt.clearEveryTick(handleCameraTick);
         CameraManager.destroyCamera();
         native.deletePed(ped);

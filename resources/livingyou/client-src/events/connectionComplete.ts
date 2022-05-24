@@ -3,13 +3,13 @@ import * as native from 'natives';
 import IPLManager from '../systems/iplmanager';
 import CameraManager from '../systems/cameraManager';
 import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import ScreenFade from '../utility/screenFade';
 
 alt.on('resourceStart', handleConnectionComplete);
 
 async function handleConnectionComplete(): Promise<void> {
     CameraManager.destroyCamera();
     native.doScreenFadeOut(0);
-    //await alt.Utils.waitFor(() => native.isScreenFadedOut());
     native.displayHud(false);
     native.displayRadar(false);
     IPLManager.initializeDefaultIPLs();

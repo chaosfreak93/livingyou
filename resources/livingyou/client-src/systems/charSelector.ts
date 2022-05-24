@@ -6,6 +6,7 @@ import ICharacterAppearence from '../../shared/interface/ICharacterAppearence';
 import ICharacterClothing from '../../shared/interface/ICharacterClothing';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from '../systems/cameraManager';
+import ScreenFade from '../utility/screenFade';
 
 let ped: number;
 
@@ -17,7 +18,7 @@ export default class CharSelector {
             55,
             true
         );
-        native.doScreenFadeIn(0);
+        await ScreenFade.fadeIn(0);
         const view = await WebViewController.get();
         view.on('charSelectorReady', () => CharSelector.charSelectorReady(characters, allowSecondCharacter));
         view.on('showPed', CharSelector.showPed);
@@ -39,8 +40,7 @@ export default class CharSelector {
         view.off('showPed', CharSelector.showPed);
         view.off('createCharacter', CharSelector.createCharacter);
         view.off('selectPed', CharSelector.selectPed);
-        native.doScreenFadeOut(0);
-        await alt.Utils.waitFor(() => native.isScreenFadedOut());
+        await ScreenFade.fadeOut(0);
         CameraManager.destroyCamera();
     }
 

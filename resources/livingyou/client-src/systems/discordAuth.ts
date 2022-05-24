@@ -2,6 +2,7 @@ import * as alt from 'alt-client';
 import * as native from 'natives';
 import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import { WebViewController } from '../extensions/webViewController';
+import ScreenFade from '../utility/screenFade';
 import CameraManager from './cameraManager';
 
 let loginInProgress = false;
@@ -9,7 +10,7 @@ let loginInProgress = false;
 export default class DiscordAuth {
     static async open(): Promise<void> {
         await CameraManager.createCamera(new alt.Vector3(-2000, -1200, 55), new alt.Vector3(-15, 0, -70), 90, true);
-        native.doScreenFadeIn(0);
+        await ScreenFade.fadeIn(0);
         alt.toggleGameControls(false);
         const view = await WebViewController.get();
         view.on('startLogin', DiscordAuth.obtainToken);
@@ -38,8 +39,7 @@ export default class DiscordAuth {
 
         const view = await WebViewController.get();
         view.off('startLogin', DiscordAuth.obtainToken);
-        native.doScreenFadeOut(0);
-        await alt.Utils.waitFor(() => native.isScreenFadedOut());
+        await ScreenFade.fadeOut(0);
         CameraManager.destroyCamera();
         loginInProgress = false;
     }

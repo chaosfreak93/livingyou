@@ -1,12 +1,13 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
 import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import ScreenFade from '../utility/screenFade';
 
 export default class HUD {
-    static open() {
+    static async open() {
         native.displayHud(true);
         alt.toggleGameControls(true);
-        native.doScreenFadeIn(0);
+        await ScreenFade.fadeIn(0);
     }
 
     static showDriveHud() {
