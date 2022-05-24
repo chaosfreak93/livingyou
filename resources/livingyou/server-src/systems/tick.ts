@@ -18,4 +18,11 @@ function handleTick(player: alt.Player): void {
 
     player.time(player);
     player.weather(player);
+    
+    if (player.character == null || player.character == undefined) return;
+
+    player.character.lastKnownLocation = {
+        position: player.pos,
+        rotation: player.rot
+    }
 }
