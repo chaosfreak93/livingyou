@@ -3,6 +3,7 @@ import ICharacterAppearence from './ICharacterAppearence';
 import ICharacterClothing from './ICharacterClothing';
 
 export default interface ICharacter {
+    id: string; 
     firstName: string;
     secondName?: string;
     lastName: string;

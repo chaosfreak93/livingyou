@@ -3,10 +3,12 @@ import Database from '@stuyk/ezmongodb';
 import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import IAccount from '../interface/IAccount';
 import ICharacter from '../../shared/interface/ICharacter';
+import { ObjectID } from 'bson';
 
 async function finishChar(player: alt.Player, charInfoString) {
     let charInfo = JSON.parse(charInfoString);
     let characterData: ICharacter = {
+        id: new ObjectID().toString(),
         firstName: charInfo.firstName,
         secondName: charInfo.secondName != '' ? charInfo.secondName : null,
         lastName: charInfo.lastName,
