@@ -46,5 +46,3 @@ jobs:
     - run: pnpm run start --if-present
     - run: chmod 777 altv-server && chmod 777 start.sh
     - run: ./start.sh
-    
-    name: $VERSION
