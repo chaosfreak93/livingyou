@@ -31,7 +31,7 @@ jobs:
         cache: 'pnpm'
     - uses: DamianReeves/write-file-action@v1.0
       with:
-        path: ${{ env.home }}/build-options.js
+        path: build-options.js
         contents: |
           export default {
             devMode: false,
