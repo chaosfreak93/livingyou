@@ -274,7 +274,7 @@ async function finishChar(player: alt.Player, charInfoString) {
 
     alt.emitClient(player, SYSTEM_EVENTS.CHAR_CREATOR_CLOSE);
     await alt.Utils.wait(500);
-    alt.emitClient(player, SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, characterData, findAccount[0].allowSecondCharacter);
+    alt.emitClient(player, SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, findAccount[0].character, findAccount[0].allowSecondCharacter);
 }
 
 alt.onClient(SYSTEM_EVENTS.CHAR_CREATOR_FINISH_CHAR, finishChar);
