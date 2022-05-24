@@ -29,5 +29,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
+    - uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ env.home }}/build-options.js
+        contents: |
+          export default {
+            devMode: false,
+          };
+        write-mode: append
     - run: pnpm install
     - run: pnpm run start --if-present
