@@ -46,10 +46,10 @@ jobs:
     - run: pnpm run start --if-present
     - run: chmod 777 altv-server && chmod 777 start.sh
     #- run: ./start.sh
-    #- run: echo "VERSION=" + ./git-version >> $GITHUB_ENV
+    - run: echo "VERSION=" + ./git-version >> $GITHUB_ENV
     - uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ output.VERSION }}
-        release_name: ${{ output.VERSION }}
+        tag_name: ${{ env.VERSION }}
+        release_name: ${{ env.VERSION }}
