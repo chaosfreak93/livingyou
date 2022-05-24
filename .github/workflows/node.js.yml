@@ -17,6 +17,10 @@ jobs:
       version: ${{ steps.version.outputs.version }}
       
     steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}   # checkout the correct branch name
+          fetch-depth: 0                # fetch the whole repo history
       - name: Git Version
         id: version
         uses: codacy/git-version@2.5.4
@@ -32,9 +36,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}   # checkout the correct branch name
-        fetch-depth: 0                # fetch the whole repo history
     - uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
       with:
         version: 7.1.5
