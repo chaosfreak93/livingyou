@@ -31,6 +31,8 @@ async function authFinished(player: alt.Player, discordData: IDiscordData): Prom
 
     player.setPosition(player, -453.586, 276.909, 78.515);
     player.discordId = discordData.id;
+    alt.emitClient(player, SYSTEM_EVENTS.DISCORD_CLOSE);
+    await alt.Utils.wait(500);
     alt.emitClient(
         player,
         SYSTEM_EVENTS.CHAR_SELECTOR_OPEN,
@@ -100,10 +102,14 @@ async function selectChar(player: alt.Player, character: ICharacter) {
 
     alt.emitClient(player, SYSTEM_EVENTS.PLAYER_START_TICKS);
 
-    /**new alt.Vehicle('akuma', -1037.98681640625, -2738.3076171875, 20.1640625, 0, 0, 0);
-    player.setPosition(player, -1037.98681640625, -2738.3076171875, 20.1640625);**/
-    new alt.Vehicle('vortex', -739.9563598632812, 5594.64990234375, 41.50177001953125, 0, 0, 0);
-    player.setPosition(player, -739.9563598632812, 5594.64990234375, 41.50177001953125);
+    if (character.lastKnownLocation == null || character.lastKnownLocation == undefined) {
+        new alt.Vehicle('akuma', 221.6855926513672, -902.0967407226562, 30.69318962097168, 0, 0, 0);
+        player.setPosition(player, 221.6855926513672, -902.0967407226562, 30.69318962097168);
+    } else {
+        new alt.Vehicle('akuma', character.lastKnownLocation.position.x, character.lastKnownLocation.position.y, character.lastKnownLocation.position.z, character.lastKnownLocation.rotation.x, character.lastKnownLocation.rotation.y, character.lastKnownLocation.rotation.z);
+        player.setPosition(player, character.lastKnownLocation.position.x, character.lastKnownLocation.position.y, character.lastKnownLocation.position.z);
+        player.rot = character.lastKnownLocation.rotation;
+    }
     player.visible = true;
     player.collision = true;
     //player.frozen = false;
