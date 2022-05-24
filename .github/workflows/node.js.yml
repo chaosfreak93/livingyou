@@ -46,7 +46,7 @@ jobs:
     - run: pnpm run start --if-present
     - run: chmod 777 altv-server && chmod 777 start.sh
     #- run: ./start.sh
-    - run: echo ./git-version
+    - run: ./git-version
     - uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
