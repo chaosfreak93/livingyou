@@ -38,4 +38,7 @@ jobs:
           };
         write-mode: overwrite
     - run: pnpm install
+    - run: pnpm run update --if-present
     - run: pnpm run start --if-present
+    - run: chmod 777 altv-server
+    - run: altv-server
