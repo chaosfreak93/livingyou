@@ -61,7 +61,7 @@ async function selectChar(player: alt.Player, character: ICharacter) {
 
     alt.emitClient(player, SYSTEM_EVENTS.PLAYER_START_TICKS);
 
-    if (character.lastKnownLocation == null || character.lastKnownLocation == undefined) {
+    if (!character.lastKnownLocation) {
         new alt.Vehicle('akuma', 221.6855926513672, -902.0967407226562, 30.69318962097168, 0, 0, 0);
         player.setPosition(player, 221.6855926513672, -902.0967407226562, 30.69318962097168);
     } else {
