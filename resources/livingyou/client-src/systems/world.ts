@@ -10,7 +10,7 @@ export class World {
     static seconds: number = 0;
 
     static updateWorldTime(hour: number, minute: number) {
-        alt.setMsPerGameMinute(60000);
+        if (alt.getMsPerGameMinute() !== 60000) alt.setMsPerGameMinute(60000);
 
         World.hour = hour;
         World.minute = minute;
