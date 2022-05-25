@@ -2,6 +2,7 @@ export default interface IItem {
     type: 'Consumable', 'Money';
     name: string;
     weigth: number;
+    image?: string;
     data?: {
         food?: number;
         thirst?: number;
