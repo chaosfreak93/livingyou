@@ -16,6 +16,5 @@ async function playerDisconnect(player: alt.Player, reason: string) {
 
     const char = findAccount[0].character.find((char) => char.id == pC.id);
     char.lastKnownLocation = pC.lastKnownLocation;
-    alt.log(pC.lastKnownLocation);
     await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
 }
