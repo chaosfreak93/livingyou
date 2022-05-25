@@ -10,40 +10,22 @@ on:
     branches: [ master, dev ]
 
 jobs:
-  checkout:
-    name: Checkout Repository
+  build:
+    name: Internal Changelog
     runs-on: self-hosted
 
     steps:
-    - name: Checkout Repository
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5.2
+    - name: Checkout Code
       uses: actions/checkout@v3.0.2
       with:
         ref: ${{ github.head_ref }}
         fetch-depth: 0
-
-  get-data:
-    name: Get needed data
-    runs-on: self-hosted
-    needs: checkout
-
-    outputs:
-      current_branch: ${{ steps.branch-name.outputs.current_branch }}
-      version: ${{ steps.version.outputs.version }}
-      description: ${{ steps.version.outputs.description }}
-
-    steps:
-    - name: Get Branch name
-      id: branch-name
-      uses: tj-actions/branch-names@v5.2
     - name: Generate Version
       id: version
       uses: codacy/git-version@2.5.4
-
-  setup-node:
-    name: Setup Node.js
-    runs-on: self-hosted
-
-    steps:
     - name: Set up pnpm
       uses: pnpm/action-setup@v2.2.1
       with:
@@ -53,14 +35,6 @@ jobs:
       with:
         node-version: 17.7.0
         cache: 'pnpm'
-        post-if: ''
-
-  pre-build:
-    name: Prepare Build Environment
-    runs-on: self-hosted
-    needs: [checkout, setup-node]
-
-    steps:
     - name: Disable Dev Mode
       uses: DamianReeves/write-file-action@v1.0
       with:
@@ -74,39 +48,18 @@ jobs:
       run: pnpm install
     - name: Download alt:V Server
       run: pnpm run update --if-present
-
-  build:
-    name: Build Script
-    runs-on: self-hosted
-    needs: pre-build
-
-    steps:
     - name: Build Script
       run: pnpm run start --if-present
-
-  test:
-    name: Test Script
-    runs-on: self-hosted
-    needs: build
-
-    steps:
     - name: Grant alt:V Permissions to run
       run: chmod 777 altv-server && chmod 777 start.sh
     #- name: Run alt:V Server
     #  run: ./start.sh
-
-  release:
-    name: Publish Release
-    runs-on: self-hosted
-    needs: [get-data, test]
-
-    steps:
     - name: Publish new release
       uses: actions/create-release@v1.1.4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        prerelease: ${{ needs.get-data.outputs.current_branch == 'dev' }}
-        tag_name: ${{ needs.get-data.outputs.version }}
-        release_name: Release ${{ needs.get-data.outputs.version }}
-        body: ${{ needs.get-data.outputs.description }}
+        prerelease: ${{ steps.branch-name.outputs.current_branch == 'dev' }}
+        tag_name: ${{ steps.version.outputs.version }}
+        release_name: Release ${{ steps.version.outputs.version }}
+        body: ${{ steps.version.outputs.description }}
