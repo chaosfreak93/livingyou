@@ -21,8 +21,8 @@ jobs:
 
     steps:
     - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v5.2
+      id: branch-name
+      uses: tj-actions/branch-names@v5.2
     - name: Checkout Code
       uses: actions/checkout@v3
       with:
