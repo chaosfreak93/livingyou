@@ -1,0 +1,65 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: LivingYou
+
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:
+  build:
+    name: Internal Changelog
+    runs-on: self-hosted
+
+    steps:
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5.2
+    - name: Checkout Code
+      uses: actions/checkout@v3.0.2
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+    - name: Generate Version
+      id: version
+      uses: codacy/git-version@2.5.4
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2.2.1
+      with:
+        version: 7.1.5
+    - name: Use Node.js 17.7.0
+      uses: actions/setup-node@v3.2.0
+      with:
+        node-version: 17.7.0
+        cache: 'pnpm'
+    - name: Disable Dev Mode
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: build-options.js
+        contents: |
+          export default {
+            devMode: false,
+          };
+        write-mode: overwrite
+    - name: Install pnpm packages
+      run: pnpm install
+    - name: Download alt:V Server
+      run: pnpm run update --if-present
+    - name: Build Script
+      run: pnpm run start --if-present
+    - name: Grant alt:V Permissions to run
+      run: chmod 777 altv-server && chmod 777 start.sh
+    #- name: Run alt:V Server
+    #  run: ./start.sh
+    - name: Publish new release
+      uses: actions/create-release@v1.1.4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        prerelease: ${{ steps.branch-name.outputs.current_branch == 'dev' }}
+        tag_name: ${{ steps.version.outputs.version }}
+        release_name: Release ${{ steps.version.outputs.version }}
+        body: ${{ steps.version.outputs.description }}
