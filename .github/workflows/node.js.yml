@@ -10,24 +10,9 @@ on:
     branches: [ master, dev ]
 
 jobs:
-  version:
-    runs-on: self-hosted
-    
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-      
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}   # checkout the correct branch name
-          fetch-depth: 0                # fetch the whole repo history
-      - name: Git Version
-        id: version
-        uses: codacy/git-version@2.5.4
-      
   build:
+    name: Create Release
     runs-on: self-hosted
-    needs: version
 
     strategy:
       matrix:
@@ -35,8 +20,16 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
+    - name: Checkout Code
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+    - name: Generate Version
+      id: version
+      uses: codacy/git-version@2.5.4
+    - name: Setup pnpm
+      uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
       with:
         version: 7.1.5
     - name: Use Node.js ${{ matrix.node-version }}
@@ -56,11 +49,13 @@ jobs:
     - run: pnpm run update --if-present
     - run: pnpm run start --if-present
     - run: chmod 777 altv-server && chmod 777 start.sh
-    - run: ./start.sh
-    #- run: echo ${{ needs.version.outputs.version }}
-    #- uses: actions/create-release@v1
-    #  env:
-    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #  with:
-    #    tag_name: ${{ env.VERSION }}
-    #    release_name: ${{ env.VERSION }}
+    #- run: ./start.sh
+    - run: echo ${{ steps.version.outputs.version }}
+      shell: bash
+    - uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        release_name: Release ${{ steps.version.outputs.version }}
+        body: ${{ steps.version.outputs.description }}
