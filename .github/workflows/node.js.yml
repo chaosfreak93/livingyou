@@ -11,13 +11,8 @@ on:
 
 jobs:
   build:
-    name: Create Release
+    name: Internal Changelog
     runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [17.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - name: Get branch name
@@ -35,10 +30,10 @@ jobs:
       uses: pnpm/action-setup@v2.2.1
       with:
         version: 7.1.5
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 17.7.0
       uses: actions/setup-node@v3.2.0
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 17.7.0
         cache: 'pnpm'
     - name: Disable Dev Mode
       uses: DamianReeves/write-file-action@v1.0
