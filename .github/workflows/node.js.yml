@@ -20,6 +20,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
     - name: Checkout Code
       uses: actions/checkout@v3
       with:
@@ -28,7 +31,7 @@ jobs:
     - name: Generate Version
       id: version
       uses: codacy/git-version@2.5.4
-    - name: Setup pnpm
+    - name: Set up pnpm
       uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
       with:
         version: 7.1.5
@@ -37,7 +40,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-    - uses: DamianReeves/write-file-action@v1.0
+    - name: Disable Dev Mode
+      uses: DamianReeves/write-file-action@v1.0
       with:
         path: build-options.js
         contents: |
@@ -45,17 +49,22 @@ jobs:
             devMode: false,
           };
         write-mode: overwrite
-    - run: pnpm install
-    - run: pnpm run update --if-present
-    - run: pnpm run start --if-present
-    - run: chmod 777 altv-server && chmod 777 start.sh
-    #- run: ./start.sh
-    - run: echo ${{ steps.version.outputs.version }}
-      shell: bash
-    - uses: actions/create-release@v1
+    - name: Install pnpm packages
+      run: pnpm install
+    - name: Download alt:V Server
+      run: pnpm run update --if-present
+    - name: Build Script
+      run: pnpm run start --if-present
+    - name: Grant alt:V Permissions to run
+      run: chmod 777 altv-server && chmod 777 start.sh
+    - name: Run alt:V Server
+      run: ./start.sh
+    - name: Publish new release
+      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        pre-release: ${{ steps.branch-name.outputs.current_branch == 'dev' }}
         tag_name: ${{ steps.version.outputs.version }}
         release_name: Release ${{ steps.version.outputs.version }}
         body: ${{ steps.version.outputs.description }}
