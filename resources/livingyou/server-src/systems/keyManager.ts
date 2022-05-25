@@ -1,9 +1,9 @@
 import * as alt from 'alt-server';
-import { OnServer } from '../../client-src/systems/eventSystem/on';
 import { EmitClient } from './eventSystem/emit';
+import { OnClient } from './eventSystem/on';
 
 export default class KeyManager {
-    @OnServer('keyManager:KeyUp')
+    @OnClient('keyManager:KeyUp')
     static keyUp(player: alt.Player, key: number): void {
         switch (key) {
             case 112:
@@ -16,7 +16,7 @@ export default class KeyManager {
         }
     }
 
-    @OnServer('keyManager:KeyDown')
+    @OnClient('keyManager:KeyDown')
     static keyDown(player: alt.Player, key: number): void {
         switch (key) {
             default:

@@ -1,10 +1,10 @@
 import * as alt from 'alt-server';
-import { OnServer } from '../../client-src/systems/eventSystem/on';
 import ICharacter from '../../shared/interface/ICharacter';
 import { EmitClient } from './eventSystem/emit';
+import { OnClient } from './eventSystem/on';
 
 export default class CharSelector {
-    @OnServer('charSelector:SelectChar')
+    @OnClient('charSelector:SelectChar')
     static async selectChar(player: alt.Player, character: ICharacter) {
         player.character = character;
         player.dimension = 0;

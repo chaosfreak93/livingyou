@@ -1,13 +1,13 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
 import axios from 'axios';
-import { OnServer } from '../../client-src/systems/eventSystem/on';
 import IAccount from '../interface/IAccount';
 import IDiscordData from '../interface/IDiscordData';
 import { EmitClient } from './eventSystem/emit';
+import { OnClient } from './eventSystem/on';
 
 export default class DiscordAuth {
-    @OnServer('connection:Begin')
+    @OnClient('connection:Begin')
     static startLogin(player: alt.Player) {
         if (!player || !player.valid) {
             return;
@@ -29,7 +29,7 @@ export default class DiscordAuth {
         EmitClient(player, 'discord:Open');
     }
 
-    @OnServer('discord:ProceedToken')
+    @OnClient('discord:ProceedToken')
     static async proceedDiscordToken(player: alt.Player, token: string): Promise<void> {
         const request = await axios
             .get('https://discordapp.com/api/users/@me', {
@@ -51,7 +51,7 @@ export default class DiscordAuth {
         await DiscordAuth.finishLogin(player, request.data);
     }
 
-    @OnServer('discord:FinishAuth')
+    @OnClient('discord:FinishAuth')
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
         let findAccount = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
         if (findAccount.length <= 0) {
