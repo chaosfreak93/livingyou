@@ -1,5 +1,5 @@
 import * as alt from 'alt-server';
-import { ISystemEvents } from '../../../shared/enums/system';
+import { ISystemEvents } from '../../../shared/interface/ISystemEvents';
 
 export function EmitClient(player: alt.Player, eventName: keyof ISystemEvents, ...args: any[]): void {
     alt.emitClient(player, eventName, ...args);

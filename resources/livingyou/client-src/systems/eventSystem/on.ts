@@ -1,5 +1,5 @@
 import * as alt from 'alt-client';
-import { ISystemEvents } from '../../../shared/enums/system';
+import { ISystemEvents } from '../../../shared/interface/ISystemEvents';
 
 export function On(eventName: keyof alt.IClientEvent): Function {
     return (target: Object, _propertyKey: string, descriptor: PropertyDescriptor) => {

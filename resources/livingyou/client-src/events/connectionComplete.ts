@@ -2,7 +2,6 @@ import * as alt from 'alt-client';
 import * as native from 'natives';
 import IPLManager from '../systems/iplmanager';
 import CameraManager from '../systems/cameraManager';
-import ScreenFade from '../utility/screenFade';
 import { EmitServer } from '../systems/eventSystem/emit';
 
 alt.on('resourceStart', handleConnectionComplete);
