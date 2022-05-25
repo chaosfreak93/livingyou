@@ -1,16 +1,19 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import ICharacter from '../../shared/interface/ICharacter';
 import ICharacterAppearence from '../../shared/interface/ICharacterAppearence';
 import ICharacterClothing from '../../shared/interface/ICharacterClothing';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from '../systems/cameraManager';
 import ScreenFade from '../utility/screenFade';
+import CharCreator from './charCreator';
+import { EmitServer } from './eventSystem/emit';
+import { On, OnServer } from './eventSystem/on';
 
 let ped: number;
 
 export default class CharSelector {
+    @OnServer('charSelector:Open')
     static async open(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
         await CameraManager.createCamera(
             new alt.Vector3(-453.476, 277, 79.75),
@@ -30,6 +33,8 @@ export default class CharSelector {
         WebViewController.showCursor(true);
     }
 
+    @On('resourceStop')
+    @OnServer('charSelector:Close')
     static async close() {
         WebViewController.showCursor(false);
         WebViewController.unfocus();
@@ -132,22 +137,11 @@ export default class CharSelector {
 
     static async createCharacter() {
         await CharSelector.close();
-        alt.emit(SYSTEM_EVENTS.CHAR_CREATOR_OPEN);
+        await CharCreator.open();
     }
 
     static async selectPed(characterString: string) {
         let character: ICharacter = JSON.parse(characterString);
-        alt.emitServer(SYSTEM_EVENTS.CHAR_SELECTOR_SELECT_CHAR, character);
+        EmitServer('charSelector:SelectChar', character);
     }
 }
-
-alt.on(SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, CharSelector.open);
-alt.onServer(SYSTEM_EVENTS.CHAR_SELECTOR_OPEN, CharSelector.open);
-alt.on(SYSTEM_EVENTS.CHAR_SELECTOR_CLOSE, CharSelector.close);
-alt.onServer(SYSTEM_EVENTS.CHAR_SELECTOR_CLOSE, CharSelector.close);
-alt.on('resourceStop', () => {
-    if (ped != null) {
-        native.deletePed(ped);
-        ped = 0;
-    }
-});

@@ -1,31 +1,31 @@
-export enum SYSTEM_EVENTS {
-    BEGIN_CONNECTION = 'connection:Begin',
+export interface ISystemEvents {
+    'connection:Begin',
     // Discord Login
-    DISCORD_OPEN = 'discord:Open',
-    DISCORD_PROCEED_TOKEN = 'discord:ProceedToken',
-    DISCORD_FINISH_AUTH = 'discord:FinishAuth',
-    DISCORD_CLOSE = 'discord:Close',
+    'discord:Open': () => void,
+    'discord:ProceedToken',
+    'discord:FinishAuth',
+    'discord:Close': () => void,
     // Character Selector
-    CHAR_SELECTOR_OPEN = 'charSelector:Open',
-    CHAR_SELECTOR_SELECT_CHAR = 'charSelector:SelectChar',
-    CHAR_SELECTOR_CLOSE = 'charSelector:Close',
+    'charSelector:Open': () => void,
+    'charSelector:SelectChar',
+    'charSelector:Close': () => void,
     // Character Creator
-    CHAR_CREATOR_OPEN = 'charCreator:Open',
-    CHAR_CREATOR_CLOSE = 'charCreator:Close',
-    CHAR_CREATOR_FINISH_CHAR = 'charCreator:FinishChar',
+    'charCreator:Open': () => void,
+    'charCreator:FinishChar',
+    'charCreator:Close': () => void,
     // HUD
-    HUD_OPEN = 'hud:Open',
+    'hud:Open',
     // Webview
-    WEBVIEW_INFO = 'webView:Info',
+    'webView:Info',
     // KeyManager
-    KEY_MANAGER_KEY_UP = 'keyManager:KeyUp',
-    KEY_MANAGER_KEY_DOWN = 'keyManager:KeyDown',
+    'keyManager:KeyUp',
+    'keyManager:KeyDown',
     // Ticks
-    PLAYER_START_TICKS = 'player:StartTicks',
-    PLAYER_TICK = 'player:Tick',
+    'player:StartTicks',
+    'player:Tick',
     // World
-    WORLD_UPDATE_TIME = 'world:UpdateTime',
-    WORLD_UPDATE_WEATHER = 'world:UpdateWeather',
+    'world:UpdateTime',
+    'world:UpdateWeather',
     // Dev Tools
-    DEBUG = 'debug',
+    'debug',
 }

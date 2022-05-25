@@ -1,9 +1,10 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from '../systems/cameraManager';
 import ScreenFade from '../utility/screenFade';
+import { EmitServer } from './eventSystem/emit';
+import { On, OnServer } from './eventSystem/on';
 
 let zpos = 0;
 let startPosition: alt.Vector3;
@@ -12,6 +13,7 @@ let ped: number;
 let handleCameraTick: number;
 
 export default class CharCreator {
+    @OnServer('charCreator:Open')
     static async open(): Promise<void> {
         alt.toggleGameControls(true);
         await CharCreator.spawnPed(true);
@@ -47,6 +49,8 @@ export default class CharCreator {
         WebViewController.showCursor(true);
     }
 
+    @On('resourceStop')
+    @OnServer('charCreator:Close')
     static async close(): Promise<void> {
         WebViewController.showCursor(false);
         WebViewController.unfocus();
@@ -183,7 +187,7 @@ export default class CharCreator {
     }
 
     static finishCharacter(charInfo) {
-        alt.emitServer(SYSTEM_EVENTS.CHAR_CREATOR_FINISH_CHAR, charInfo);
+        EmitServer('charCreator:FinishChar', charInfo);
     }
 
     static cameraControls() {
@@ -300,19 +304,3 @@ export default class CharCreator {
         }
     }
 }
-
-alt.on(SYSTEM_EVENTS.CHAR_CREATOR_OPEN, CharCreator.open);
-alt.onServer(SYSTEM_EVENTS.CHAR_CREATOR_OPEN, CharCreator.open);
-alt.on(SYSTEM_EVENTS.CHAR_CREATOR_CLOSE, CharCreator.close);
-alt.onServer(SYSTEM_EVENTS.CHAR_CREATOR_CLOSE, CharCreator.close);
-alt.on('resourceStop', () => {
-    if (ped != null) {
-        native.deletePed(ped);
-        ped = 0;
-    }
-
-    if (handleCameraTick != null) {
-        alt.clearEveryTick(handleCameraTick);
-        handleCameraTick = 0;
-    }
-});

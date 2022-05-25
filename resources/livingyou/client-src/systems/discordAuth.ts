@@ -1,13 +1,15 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import { WebViewController } from '../extensions/webViewController';
+import { On, OnServer } from './eventSystem/on';
 import ScreenFade from '../utility/screenFade';
 import CameraManager from './cameraManager';
+import { EmitServer } from './eventSystem/emit';
 
 let loginInProgress = false;
 
 export default class DiscordAuth {
+    @OnServer('discord:Open')
     static async open(): Promise<void> {
         await CameraManager.createCamera(new alt.Vector3(-2000, -1200, 55), new alt.Vector3(-15, 0, -70), 90, true);
         await ScreenFade.fadeIn(0);
@@ -25,13 +27,14 @@ export default class DiscordAuth {
         try {
             loginInProgress = true;
             const token = await alt.Discord.requestOAuth2Token('948363980743790683');
-            alt.emitServer(SYSTEM_EVENTS.DISCORD_PROCEED_TOKEN, token);
+            EmitServer('discord:ProceedToken', token);
         } catch (err) {
             alt.logError(err);
             loginInProgress = false;
         }
     }
 
+    @OnServer('discord:Close')
     static async close(): Promise<void> {
         WebViewController.showCursor(false);
         WebViewController.unfocus();
@@ -44,8 +47,3 @@ export default class DiscordAuth {
         loginInProgress = false;
     }
 }
-
-alt.on(SYSTEM_EVENTS.DISCORD_OPEN, DiscordAuth.open);
-alt.onServer(SYSTEM_EVENTS.DISCORD_OPEN, DiscordAuth.open);
-alt.on(SYSTEM_EVENTS.DISCORD_CLOSE, DiscordAuth.close);
-alt.onServer(SYSTEM_EVENTS.DISCORD_CLOSE, DiscordAuth.close);

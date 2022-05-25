@@ -1,5 +1,14 @@
-import * as alt from 'alt-client';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import { EmitServer } from '../systems/eventSystem/emit';
+import { On } from '../systems/eventSystem/on';
 
-alt.on('keyup', (key: number) => alt.emitServer(SYSTEM_EVENTS.KEY_MANAGER_KEY_UP, key));
-alt.on('keydown', (key: number) => alt.emitServer(SYSTEM_EVENTS.KEY_MANAGER_KEY_DOWN, key));
+export default class KeyManager {
+    @On('keyup')
+    static keyup(key: number) {
+        EmitServer('keyManager:KeyUp', key);
+    }
+
+    @On('keydown')
+    static keydown(key: number) {
+        EmitServer('keyManager:KeyDown', key);
+    }
+}

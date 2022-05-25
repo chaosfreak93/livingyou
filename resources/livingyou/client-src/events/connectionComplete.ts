@@ -2,8 +2,8 @@ import * as alt from 'alt-client';
 import * as native from 'natives';
 import IPLManager from '../systems/iplmanager';
 import CameraManager from '../systems/cameraManager';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
 import ScreenFade from '../utility/screenFade';
+import { EmitServer } from '../systems/eventSystem/emit';
 
 alt.on('resourceStart', handleConnectionComplete);
 
@@ -15,7 +15,7 @@ async function handleConnectionComplete(): Promise<void> {
     IPLManager.initializeDefaultIPLs();
     IPLManager.initializeEntitySets();
 
-    alt.emitServer(SYSTEM_EVENTS.BEGIN_CONNECTION);
+    EmitServer('connection:Begin');
 }
 
 alt.everyTick(() => {

@@ -1,11 +1,13 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
 import axios from 'axios';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import { OnServer } from '../../client-src/systems/eventSystem/on';
 import IAccount from '../interface/IAccount';
 import IDiscordData from '../interface/IDiscordData';
+import { EmitClient } from './eventSystem/emit';
 
 export default class DiscordAuth {
+    @OnServer('connection:Begin')
     static startLogin(player: alt.Player) {
         if (!player || !player.valid) {
             return;
@@ -23,10 +25,11 @@ export default class DiscordAuth {
         player.time(player);
         player.weather(player);
 
-        alt.emitClient(player, SYSTEM_EVENTS.WEBVIEW_INFO, 'http://assets/webviews/index.html');
-        alt.emitClient(player, SYSTEM_EVENTS.DISCORD_OPEN);
+        EmitClient(player, 'webView:Info', 'http://assets/webviews/index.html');
+        EmitClient(player, 'discord:Open');
     }
 
+    @OnServer('discord:ProceedToken')
     static async proceedDiscordToken(player: alt.Player, token: string): Promise<void> {
         const request = await axios
             .get('https://discordapp.com/api/users/@me', {
@@ -45,9 +48,10 @@ export default class DiscordAuth {
             return;
         }
 
-        alt.emit(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, player, request.data);
+        await DiscordAuth.finishLogin(player, request.data);
     }
 
+    @OnServer('discord:FinishAuth')
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
         let findAccount = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
         if (findAccount.length <= 0) {
@@ -72,20 +76,13 @@ export default class DiscordAuth {
 
         player.setPosition(player, -453.586, 276.909, 78.515);
         player.discordId = discordData.id;
-        alt.emitClient(player, SYSTEM_EVENTS.DISCORD_CLOSE);
+        EmitClient(player, 'discord:Close');
         await alt.Utils.wait(500);
-        alt.emitClient(
+        EmitClient(
             player,
-            SYSTEM_EVENTS.CHAR_SELECTOR_OPEN,
+            'charSelector:Open',
             findAccount[0].character,
             findAccount[0].allowSecondCharacter
         );
     }
 }
-
-alt.on(SYSTEM_EVENTS.BEGIN_CONNECTION, DiscordAuth.startLogin);
-alt.onClient(SYSTEM_EVENTS.BEGIN_CONNECTION, DiscordAuth.startLogin);
-alt.on(SYSTEM_EVENTS.DISCORD_PROCEED_TOKEN, DiscordAuth.proceedDiscordToken);
-alt.onClient(SYSTEM_EVENTS.DISCORD_PROCEED_TOKEN, DiscordAuth.proceedDiscordToken);
-alt.on(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, DiscordAuth.finishLogin);
-alt.onClient(SYSTEM_EVENTS.DISCORD_FINISH_AUTH, DiscordAuth.finishLogin);

@@ -1,12 +1,14 @@
 import * as alt from 'alt-client';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import { EmitServer } from './eventSystem/emit';
+import { OnServer } from './eventSystem/on';
 
 const tickEvery = 5000;
 
-alt.onServer(SYSTEM_EVENTS.PLAYER_START_TICKS, startTick);
-
-function startTick() {
-    alt.setInterval(() => {
-        alt.emitServer(SYSTEM_EVENTS.PLAYER_TICK);
-    }, tickEvery);
+export default class PlayerTick {
+    @OnServer('player:StartTicks')
+    static startTick() {
+        alt.setInterval(() => {
+            EmitServer('player:Tick');
+        }, tickEvery);
+    }
 }

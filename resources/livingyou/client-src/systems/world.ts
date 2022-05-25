@@ -1,6 +1,6 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import { OnServer } from './eventSystem/on';
 
 export class World {
     static previousWeather = 'Overcast';
@@ -9,6 +9,7 @@ export class World {
     static minute: number = 0;
     static seconds: number = 0;
 
+    @OnServer('world:UpdateTime')
     static updateWorldTime(hour: number, minute: number) {
         if (alt.getMsPerGameMinute() !== 60000) alt.setMsPerGameMinute(60000);
 
@@ -18,6 +19,7 @@ export class World {
         native.setClockTime(World.hour, World.minute, World.seconds);
     }
 
+    @OnServer('world:UpdateWeather')
     static updateWeather(name: string) {
         World.weather = name;
 
@@ -27,6 +29,3 @@ export class World {
         }
     }
 }
-
-alt.onServer(SYSTEM_EVENTS.WORLD_UPDATE_TIME, World.updateWorldTime);
-alt.onServer(SYSTEM_EVENTS.WORLD_UPDATE_WEATHER, World.updateWeather);

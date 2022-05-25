@@ -1,7 +1,7 @@
 import * as native from 'natives';
 import * as alt from 'alt-client';
 
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import { On, OnServer } from '../systems/eventSystem/on';
 
 // Must be a blank index page.
 let _defaultURL = `http://assets/webviews/index.html`;
@@ -18,6 +18,7 @@ export class WebViewController {
      * @param {string} url
      * @memberof WebViewController
      */
+    @OnServer('webView:Info')
     static create(url: string) {
         _defaultURL = url;
 
@@ -123,6 +124,7 @@ export class WebViewController {
      * @static
      * @memberof WebViewController
      */
+    @On('resourceStop')
     static dispose() {
         if (!_webview.valid) return;
         _webview.destroy();
@@ -246,6 +248,3 @@ export class WebViewController {
         view.emit('view:Call', 'closePages', pageNames);
     }
 }
-
-alt.onServer(SYSTEM_EVENTS.WEBVIEW_INFO, WebViewController.create);
-alt.on('resourceStop', WebViewController.dispose);

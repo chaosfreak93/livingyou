@@ -1,11 +1,13 @@
 import * as alt from 'alt-server';
-import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import { OnServer } from '../../client-src/systems/eventSystem/on';
+import { EmitClient } from './eventSystem/emit';
 
 export default class KeyManager {
+    @OnServer('keyManager:KeyUp')
     static keyUp(player: alt.Player, key: number): void {
         switch (key) {
             case 112:
-                alt.emitClient(player, SYSTEM_EVENTS.DEBUG);
+                EmitClient(player, 'debug');
                 break;
             case 73:
                 break;
@@ -14,6 +16,7 @@ export default class KeyManager {
         }
     }
 
+    @OnServer('keyManager:KeyDown')
     static keyDown(player: alt.Player, key: number): void {
         switch (key) {
             default:
@@ -21,6 +24,3 @@ export default class KeyManager {
         }
     }
 }
-
-alt.onClient(SYSTEM_EVENTS.KEY_MANAGER_KEY_UP, KeyManager.keyUp);
-alt.onClient(SYSTEM_EVENTS.KEY_MANAGER_KEY_DOWN, KeyManager.keyDown);
