@@ -9,23 +9,21 @@ export default class PlayerTick {
         if (!player.nextTickTime) {
             player.nextTickTime = Date.now() + timeBetweenTicks;
         }
-    
+
         if (Date.now() < player.nextTickTime) {
             return;
         }
-    
+
         player.nextTickTime = Date.now() + timeBetweenTicks;
-    
+
         player.time(player);
         player.weather(player);
-        
+
         if (!player.character) return;
-    
+
         player.character.lastKnownLocation = {
             position: player.pos,
-            rotation: player.rot
-        }
+            rotation: player.rot,
+        };
     }
 }
-
-

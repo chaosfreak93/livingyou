@@ -78,11 +78,6 @@ export default class DiscordAuth {
         player.discordId = discordData.id;
         EmitClient(player, 'discord:Close');
         await alt.Utils.wait(500);
-        EmitClient(
-            player,
-            'charSelector:Open',
-            findAccount[0].character,
-            findAccount[0].allowSecondCharacter
-        );
+        EmitClient(player, 'charSelector:Open', findAccount[0].character, findAccount[0].allowSecondCharacter);
     }
 }

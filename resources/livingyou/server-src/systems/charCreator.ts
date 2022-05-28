@@ -6,10 +6,9 @@ import { ObjectID } from 'bson';
 import { OnClient } from './eventSystem/on';
 import { EmitClient } from './eventSystem/emit';
 
-
 export default class CharCreator {
     @OnClient('charCreator:FinishChar')
-    static async finishChar(player: alt.Player, charInfoString) {
+    static async finishChar(player: alt.Player, charInfoString: string) {
         let charInfo = JSON.parse(charInfoString);
         let characterData: ICharacter = {
             id: new ObjectID().toString(),
@@ -275,9 +274,9 @@ export default class CharCreator {
         let findAccount = await Database.fetchAllByField<IAccount>('discord', player.discordId, 'accounts');
         if (findAccount.length <= 0) return;
         findAccount[0].character.push(characterData);
-    
+
         await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
-    
+
         EmitClient(player, 'charCreator:Close');
         await alt.Utils.wait(500);
         EmitClient(player, 'charSelector:Open', findAccount[0].character, findAccount[0].allowSecondCharacter);

@@ -6,8 +6,6 @@ alt.on('playerDisconnect', playerDisconnect);
 
 async function playerDisconnect(player: alt.Player, reason: string) {
     if (!player || !player.valid || !player.discordId || !player.character) return;
-    const pP = player.pos;
-    const pR = player.rot;
     const pC = player.character;
     const pDI = player.discordId;
 
