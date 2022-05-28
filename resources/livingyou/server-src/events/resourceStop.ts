@@ -1,0 +1,29 @@
+import Database from '@stuyk/ezmongodb';
+import * as alt from 'alt-server';
+import { ppid } from 'process';
+import ICharacter from '../../shared/interface/ICharacter';
+import IAccount from '../interface/IAccount';
+
+alt.on('resourceStop', resourceStop);
+
+async function resourceStop() {
+    const pC: ICharacter[] = [];
+    const pDI: number[] = [];
+
+    let allPlayer = alt.Player.all;
+    for (let i = 0; i < allPlayer.length; i++) {
+        let player = allPlayer[i];
+        if (!player || !player.valid || !player.discordId || !player.character) return;
+        pC.push(player.character);
+        pDI.push(player.discordId);
+    }
+    
+    for (let i = 0; i < pDI.length; i++) {
+        let findAccount = await Database.fetchAllByField<IAccount>('discord', pDI[i], 'accounts');
+        if (findAccount.length <= 0) return;
+
+        const char = findAccount[0].character.find((char) => char.id == pC[i].id);
+        char.lastKnownLocation = pC[i].lastKnownLocation;
+        await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
+    }
+}
