@@ -270,6 +270,12 @@ export default class CharCreator {
             },
             hunger: 100,
             thirst: 100,
+            pocketInventory: {
+                type: 'Pocket',
+                maxWeight: 0,
+                currentWeight: 0,
+                items: [],
+            },
         };
         let findAccount = await Database.fetchAllByField<IAccount>('discord', player.discordId, 'accounts');
         if (findAccount.length <= 0) return;
