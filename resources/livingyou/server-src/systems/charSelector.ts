@@ -87,7 +87,7 @@ export default class CharSelector {
         }
         player.visible = true;
         player.collision = true;
-        //player.frozen = false;
+        player.frozen = false;
         player.time(player);
         player.weather(player);
 

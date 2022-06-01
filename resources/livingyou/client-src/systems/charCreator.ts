@@ -44,17 +44,17 @@ export default class CharCreator {
         view.on('setProps', CharCreator.setProps);
         view.on('finishCharacter', CharCreator.finishCharacter);
 
-        WebViewController.openPages(['CharCreator']);
-        WebViewController.focus();
-        WebViewController.showCursor(true);
+        await WebViewController.openPages(['CharCreator']);
+        await WebViewController.focus();
+        await WebViewController.showCursor(true);
     }
 
-    @On('resourceStop')
+    @On('disconnect')
     @OnServer('charCreator:Close')
     static async close(): Promise<void> {
-        WebViewController.showCursor(false);
-        WebViewController.unfocus();
-        WebViewController.closePages(['CharCreator']);
+        await WebViewController.showCursor(false);
+        await WebViewController.unfocus();
+        await WebViewController.closePages(['CharCreator']);
 
         const view = await WebViewController.get();
         view.off('charCreatorReady', CharCreator.charCreatorReady);

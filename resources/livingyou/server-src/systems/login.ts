@@ -20,7 +20,7 @@ export default class DiscordAuth {
         player.dimension = player.id + 1;
         player.setPosition(player, -1645.55, -1113.04, 13);
         player.visible = false;
-        //player.frozen = true;
+        player.frozen = true;
         player.collision = false;
         player.time(player);
         player.weather(player);
@@ -78,11 +78,6 @@ export default class DiscordAuth {
         player.discordId = discordData.id;
         EmitClient(player, 'discord:Close');
         await alt.Utils.wait(500);
-        EmitClient(
-            player,
-            'charSelector:Open',
-            findAccount[0].character,
-            findAccount[0].allowSecondCharacter
-        );
+        EmitClient(player, 'charSelector:Open', findAccount[0].character, findAccount[0].allowSecondCharacter);
     }
 }

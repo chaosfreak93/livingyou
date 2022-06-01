@@ -11,5 +11,5 @@ export function EmitAllClient(eventName: keyof ISystemEvents, ...args: any[]): v
 
 export default {
     EmitClient,
-    EmitAllClient
+    EmitAllClient,
 };
