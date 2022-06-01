@@ -7,7 +7,7 @@ on:
   push:
     branches: [ master, dev ]
   pull_request:
-    branches: [ master, dev ]
+    branches: master
 
 jobs:
   build:
@@ -27,9 +27,9 @@ jobs:
       id: version
       uses: codacy/git-version@2.5.4
     - name: Set up pnpm
-      uses: pnpm/action-setup@v2.2.1
+      uses: pnpm/action-setup@v2.2.2
       with:
-        version: 7.1.5
+        version: 7.1.7
     - name: Use Node.js 17.7.0
       uses: actions/setup-node@v3.2.0
       with:
@@ -42,6 +42,7 @@ jobs:
         contents: |
           export default {
             devMode: false,
+            testMode: true,
           };
         write-mode: overwrite
     - name: Install pnpm packages
@@ -52,14 +53,14 @@ jobs:
       run: pnpm run start --if-present
     - name: Grant alt:V Permissions to run
       run: chmod 777 altv-server && chmod 777 start.sh
-    #- name: Run alt:V Server
-    #  run: ./start.sh
+    - name: Run alt:V Server
+      run: ./start.sh
     - name: Publish new release
       uses: actions/create-release@v1.1.4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        prerelease: ${{ steps.branch-name.outputs.current_branch == 'dev' }}
+        prerelease: ${{ steps.branch-name.outputs.current_branch != 'master' }}
         tag_name: ${{ steps.version.outputs.version }}
         release_name: Release ${{ steps.version.outputs.version }}
         body: ${{ steps.version.outputs.description }}
