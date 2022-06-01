@@ -271,7 +271,6 @@ export default class CharCreator {
             hunger: 100,
             thirst: 100,
             pocketInventory: {
-                type: 'Pocket',
                 maxWeight: 0,
                 currentWeight: 0,
                 items: [],
