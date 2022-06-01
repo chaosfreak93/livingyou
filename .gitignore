@@ -6,6 +6,9 @@ assets/
 .vscode
 *.dll
 *.exe
+*.so.*
+start.bat
+start.sh
 update.json
 modules/
 /data/
