@@ -1,6 +1,6 @@
 export default interface IItem {
-    type: 'Consumable', 'Money';
     name: string;
+    description?: string;
     weigth: number;
     image?: string;
     data?: {
@@ -16,6 +16,11 @@ export default interface IItem {
             name: string;
             duration: number;
             flags: number;
-        }
-    }
+        };
+    };
+    flags: {
+        droppable: boolean;
+        useable: boolean;
+        giveable: boolean;
+    };
 }
