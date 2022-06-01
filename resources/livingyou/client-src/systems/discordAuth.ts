@@ -34,6 +34,7 @@ export default class DiscordAuth {
         }
     }
 
+    @On('disconnect')
     @OnServer('discord:Close')
     static async close(): Promise<void> {
         WebViewController.showCursor(false);

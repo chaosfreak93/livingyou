@@ -33,7 +33,7 @@ export default class CharSelector {
         WebViewController.showCursor(true);
     }
 
-    @On('resourceStop')
+    @On('disconnect')
     @OnServer('charSelector:Close')
     static async close() {
         WebViewController.showCursor(false);

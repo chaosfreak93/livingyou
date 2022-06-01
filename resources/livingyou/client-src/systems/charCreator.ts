@@ -49,7 +49,7 @@ export default class CharCreator {
         WebViewController.showCursor(true);
     }
 
-    @On('resourceStop')
+    @On('disconnect')
     @OnServer('charCreator:Close')
     static async close(): Promise<void> {
         WebViewController.showCursor(false);
