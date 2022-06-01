@@ -47,6 +47,8 @@ export default class CharSelector {
         view.off('selectPed', CharSelector.selectPed);
         await ScreenFade.fadeOut(0);
         CameraManager.destroyCamera();
+        native.deletePed(ped);
+        ped = 0;
     }
 
     static async charSelectorReady(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
