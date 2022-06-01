@@ -55,6 +55,7 @@ jobs:
     #- name: Run alt:V Server
     #  run: ./start.sh
     - name: Publish new release
+      if: ${{ steps.branch-name.outputs.current_branch == 'master' || steps.branch-name.outputs.current_branch == 'dev' }}
       uses: actions/create-release@v1.1.4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
