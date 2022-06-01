@@ -1,0 +1,13 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "typeRoots": ["../../node_modules/@altv"],
+        "target": "esnext",
+        "module": "esnext",
+        "jsx": "preserve",
+        "esModuleInterop": true,
+        "lib": ["esnext", "dom"]
+    },
+    "include": ["client-src/**/*"],
+    "exclude": ["../livingyou/**/*"]
+}
