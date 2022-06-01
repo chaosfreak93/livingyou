@@ -1,6 +1,7 @@
 import * as alt from 'alt-server';
 import ICharacterAppearence from './ICharacterAppearence';
 import ICharacterClothing from './ICharacterClothing';
+import IInventory from './IInventory';
 
 export default interface ICharacter {
     id: string; 
@@ -22,4 +23,6 @@ export default interface ICharacter {
     };
     hunger: number;
     thirst: number;
+    pocketInventory: IInventory;
+    backpackInventory?: IInventory;
 }
