@@ -6,7 +6,6 @@ const dbName = 'livingyou';
 const collections = ['accounts', 'items'];
 
 alt.on('resourceStart', async (errored: boolean) => {
-    // @ts-ignore
     const connected = await Database.init(url, dbName, collections);
     if (!connected) {
         throw new Error(`Did not connect to the database.`);

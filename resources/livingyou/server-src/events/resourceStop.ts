@@ -1,6 +1,5 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
-import { ppid } from 'process';
 import ICharacter from '../../shared/interface/ICharacter';
 import IAccount from '../interface/IAccount';
 
