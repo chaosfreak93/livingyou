@@ -1,7 +1,7 @@
 import * as native from 'natives';
 import * as alt from 'alt-client';
 
-import { On, OnServer } from '../systems/eventSystem/on';
+import { On, OnceServer } from '../systems/eventSystem/on';
 
 // Must be a blank index page.
 let _defaultURL = `http://assets/webviews/index.html`;
@@ -18,7 +18,7 @@ export class WebViewController {
      * @param {string} url
      * @memberof WebViewController
      */
-    @OnServer('webView:Info')
+    @OnceServer('webView:Info')
     static create(url: string) {
         _defaultURL = url;
 
