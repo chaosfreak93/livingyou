@@ -17,9 +17,9 @@ export default class DiscordAuth {
         const view = await WebViewController.get();
         view.on('startLogin', DiscordAuth.obtainToken);
 
-        WebViewController.openPages(['Login']);
-        WebViewController.focus();
-        WebViewController.showCursor(true);
+        await WebViewController.openPages(['Login']);
+        await WebViewController.focus();
+        await WebViewController.showCursor(true);
     }
 
     static async obtainToken(): Promise<void> {
@@ -37,9 +37,9 @@ export default class DiscordAuth {
     @On('disconnect')
     @OnServer('discord:Close')
     static async close(): Promise<void> {
-        WebViewController.showCursor(false);
-        WebViewController.unfocus();
-        WebViewController.closePages(['Login']);
+        await WebViewController.showCursor(false);
+        await WebViewController.unfocus();
+        await WebViewController.closePages(['Login']);
 
         const view = await WebViewController.get();
         view.off('startLogin', DiscordAuth.obtainToken);

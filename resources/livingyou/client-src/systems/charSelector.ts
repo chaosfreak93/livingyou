@@ -28,17 +28,17 @@ export default class CharSelector {
         view.on('createCharacter', CharSelector.createCharacter);
         view.on('selectPed', CharSelector.selectPed);
 
-        WebViewController.openPages(['CharSelector']);
-        WebViewController.focus();
-        WebViewController.showCursor(true);
+        await WebViewController.openPages(['CharSelector']);
+        await WebViewController.focus();
+        await WebViewController.showCursor(true);
     }
 
     @On('disconnect')
     @OnServer('charSelector:Close')
     static async close() {
-        WebViewController.showCursor(false);
-        WebViewController.unfocus();
-        WebViewController.closePages(['CharSelector']);
+        await WebViewController.showCursor(false);
+        await WebViewController.unfocus();
+        await WebViewController.closePages(['CharSelector']);
 
         const view = await WebViewController.get();
         view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
