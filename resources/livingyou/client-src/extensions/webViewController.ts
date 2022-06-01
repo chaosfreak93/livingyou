@@ -124,9 +124,9 @@ export class WebViewController {
      * @static
      * @memberof WebViewController
      */
-    @On('resourceStop')
+    @On('disconnect')
     static dispose() {
-        if (!_webview.valid) return;
+        alt.log('SHOULD BE KILLING OLD WEBVIEW');
         _webview.destroy();
     }
 
