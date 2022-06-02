@@ -27,7 +27,6 @@ import { defineComponent } from 'vue';
 const ComponentName = 'CharSelector';
 export default defineComponent({
     name: ComponentName,
-    components: {},
     data() {
         return {
             characters: [],

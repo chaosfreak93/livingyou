@@ -251,7 +251,6 @@ import { defineComponent } from 'vue';
 const ComponentName = 'CharCreator';
 export default defineComponent({
     name: ComponentName,
-    components: {},
     data() {
         return {
             pages: {

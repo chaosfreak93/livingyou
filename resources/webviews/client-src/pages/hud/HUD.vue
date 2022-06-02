@@ -7,7 +7,6 @@ import { defineComponent } from 'vue';
 const ComponentName = 'HUD';
 export default defineComponent({
     name: ComponentName,
-    components: {},
     data() {
         return {};
     },

@@ -13,7 +13,6 @@ import { defineComponent } from 'vue';
 const ComponentName = 'Inventory';
 export default defineComponent({
     name: ComponentName,
-    components: {},
     data() {
         return {
             title: '',
