@@ -8,6 +8,6 @@
         "esModuleInterop": true,
         "lib": ["esnext", "dom"]
     },
-    "include": ["client-src/**/*"],
+    "include": ["client-src/**/*", "../livingyou/shared/*"],
     "exclude": ["../livingyou/**/*"]
 }
