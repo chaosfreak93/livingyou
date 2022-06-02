@@ -60,11 +60,6 @@ export default defineComponent({
             if (!('alt' in window)) {
                 return;
             }
-            for (let i = 0; i < args.length; i++) {
-                if (typeof args === 'object') {
-                    args[i] = JSON.parse(JSON.stringify(args[i]));
-                }
-            }
             alt.emit(value, ...args);
         },
         // Call different internal controller functions from client-side with this.

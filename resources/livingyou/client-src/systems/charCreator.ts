@@ -1,5 +1,6 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import ICharacter from '../../shared/interface/ICharacter';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from '../systems/cameraManager';
 import ScreenFade from '../utility/screenFade';
@@ -186,8 +187,11 @@ export default class CharCreator {
         native.setPedPropIndex(ped, component, drawable, texture, true);
     }
 
-    static finishCharacter(charInfo) {
-        EmitServer('charCreator:FinishChar', charInfo);
+    static finishCharacter(character: ICharacter) {
+        alt.log(character);
+        alt.log(JSON.stringify(character));
+        alt.log(JSON.parse(JSON.stringify(character)));
+        EmitServer('charCreator:FinishChar', character);
     }
 
     static cameraControls() {

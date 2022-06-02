@@ -3,26 +3,27 @@
         <h1 id="title">{{ title }}</h1>
         <p id="weight">{{ current_weight }}kg / {{ max_weight }}kg</p>
         <div id="itemlist">
-            <div id="item" v-for="item in getItems" v-bind:key="item.index"></div>
+            <div id="item" v-for="item in getItems" v-bind:key="item.id"></div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import IInventoryItem from '../../../../livingyou/shared/interface/IInventoryItem';
 const ComponentName = 'Inventory';
 export default defineComponent({
     name: ComponentName,
     data() {
         return {
-            title: '',
-            current_weight: 0,
-            max_weight: 50,
-            items: [],
+            title: '' as string,
+            current_weight: 0 as number,
+            max_weight: 50 as number,
+            items: [] as IInventoryItem[],
         };
     },
     methods: {
-        setData(title, current_weight, max_weight, items) {
+        setData(title: string, current_weight: number, max_weight: number, items: IInventoryItem[]) {
             this.title = title;
             this.current_weight = current_weight;
             this.max_weight = max_weight;

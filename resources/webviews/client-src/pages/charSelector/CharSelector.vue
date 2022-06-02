@@ -24,26 +24,23 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ICharacter from '../../../../livingyou/shared/interface/ICharacter';
 const ComponentName = 'CharSelector';
 export default defineComponent({
     name: ComponentName,
     data() {
         return {
-            characters: [],
-            selectedCharacter: null,
-            allowSecondCharacter: null,
+            characters: [] as ICharacter[],
+            selectedCharacter: null as ICharacter,
+            allowSecondCharacter: false as boolean,
         };
     },
     methods: {
-        setData(characters, allowSecondCharacter: boolean) {
+        setData(characters: ICharacter[], allowSecondCharacter: boolean) {
             this.characters = characters;
             this.allowSecondCharacter = allowSecondCharacter;
         },
-        updateCharSelectorUi() {
-            if (this.characters.length <= 0) {
-            }
-        },
-        selectCharacter(index) {
+        selectCharacter(index: number) {
             if (!(`alt` in window)) {
                 return;
             }
@@ -52,12 +49,12 @@ export default defineComponent({
                 this.selectedCharacter = this.characters[index];
                 alt.emit(
                     'showPed',
-                    JSON.stringify(this.characters[index].characterClothing),
-                    JSON.stringify(this.characters[index].characterAppearence)
+                    this.characters[index].characterClothing,
+                    this.characters[index].characterAppearence
                 );
                 return;
             } else if (this.selectedCharacter != null && this.selectedCharacter == this.characters[index]) {
-                alt.emit('selectPed', JSON.stringify(this.selectedCharacter));
+                alt.emit('selectPed', this.selectedCharacter);
             }
         },
         createCharacter() {
