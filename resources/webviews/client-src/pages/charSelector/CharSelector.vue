@@ -49,12 +49,12 @@ export default defineComponent({
                 this.selectedCharacter = this.characters[index];
                 alt.emit(
                     'showPed',
-                    this.characters[index].characterClothing,
-                    this.characters[index].characterAppearence
+                    JSON.stringify(this.characters[index].characterClothing),
+                    JSON.stringify(this.characters[index].characterAppearence)
                 );
                 return;
             } else if (this.selectedCharacter != null && this.selectedCharacter == this.characters[index]) {
-                alt.emit('selectPed', this.selectedCharacter);
+                alt.emit('selectPed', JSON.stringify(this.selectedCharacter));
             }
         },
         createCharacter() {

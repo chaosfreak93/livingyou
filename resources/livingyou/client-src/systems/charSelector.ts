@@ -56,7 +56,9 @@ export default class CharSelector {
         view.emit('setData', characters, allowSecondCharacter);
     }
 
-    static async showPed(clothes: ICharacterClothing, appearance: ICharacterAppearence): Promise<void> {
+    static async showPed(clothes: any, appearance: any): Promise<void> {
+        clothes = JSON.parse(clothes) as ICharacterClothing;
+        appearance = JSON.parse(appearance) as ICharacterAppearence;
         appearance.male
             ? await alt.Utils.requestModel('mp_m_freemode_01')
             : await alt.Utils.requestModel('mp_f_freemode_01');
@@ -140,7 +142,7 @@ export default class CharSelector {
         await CharCreator.open();
     }
 
-    static async selectPed(character: ICharacter) {
+    static async selectPed(character: string) {
         EmitServer('charSelector:SelectChar', character);
     }
 }

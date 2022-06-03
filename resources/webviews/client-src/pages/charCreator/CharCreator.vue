@@ -821,7 +821,7 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('finishCharacter', this.characterData);
+            alt.emit('finishCharacter', JSON.stringify(this.characterData));
         },
     },
     mounted() {

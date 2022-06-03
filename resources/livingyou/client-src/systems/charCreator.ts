@@ -187,10 +187,7 @@ export default class CharCreator {
         native.setPedPropIndex(ped, component, drawable, texture, true);
     }
 
-    static finishCharacter(character: ICharacter) {
-        alt.log(character);
-        alt.log(JSON.stringify(character));
-        alt.log(JSON.parse(JSON.stringify(character)));
+    static finishCharacter(character: string) {
         EmitServer('charCreator:FinishChar', character);
     }
 

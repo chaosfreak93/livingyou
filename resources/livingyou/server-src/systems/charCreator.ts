@@ -8,7 +8,8 @@ import { EmitClient } from './eventSystem/emit';
 
 export default class CharCreator {
     @OnClient('charCreator:FinishChar')
-    static async finishChar(player: alt.Player, character: ICharacter) {
+    static async finishChar(player: alt.Player, character: any) {
+        character = JSON.parse(character) as ICharacter;
         character.id = new ObjectID().toString();
         character.alive = true;
         character.money = {
