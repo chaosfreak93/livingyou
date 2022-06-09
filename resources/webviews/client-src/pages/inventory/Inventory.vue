@@ -3,7 +3,10 @@
         <h1 id="title">{{ title }}</h1>
         <p id="weight">{{ current_weight }}kg / {{ max_weight }}kg</p>
         <div id="itemlist">
-            <div id="item" v-for="item in getItems" v-bind:key="item.id"></div>
+            <div id="item" v-for="item in getItems" v-bind:key="item.id">
+                {{ item.name }}
+                <div v-bind:style="{ 'background-image': 'url(../../images/' + item.image + '.png)' }"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -38,6 +41,7 @@ export default defineComponent({
     mounted() {
         if (`alt` in window) {
             alt.emit('inventoryReady');
+            alt.on('setData', this.setData);
         }
     },
 });
