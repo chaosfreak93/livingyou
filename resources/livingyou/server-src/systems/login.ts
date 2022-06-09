@@ -51,7 +51,6 @@ export default class DiscordAuth {
         await DiscordAuth.finishLogin(player, request.data);
     }
 
-    @OnClient('discord:FinishAuth')
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
         let findAccount = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
         if (findAccount.length <= 0) {
