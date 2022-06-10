@@ -24,7 +24,7 @@
         "esbuild": "^0.14.43",
         "esbuild-plugin-vue-next": "^0.1.4",
         "typescript": "4.7.2",
-        "vite": "^2.9.10"
+        "vite": "^2.9.11"
     },
     "dependencies": {
         "@stuyk/ezmongodb": "^2.0.2",
