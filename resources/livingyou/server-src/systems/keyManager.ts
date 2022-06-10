@@ -7,7 +7,7 @@ export default class KeyManager {
     static keyUp(player: alt.Player, key: number): void {
         switch (key) {
             case 112:
-                EmitClient(player, 'debug');
+                EmitClient(player, 'devTools:debug');
                 break;
             case 73:
                 EmitClient(player, 'inventory:Open', player.character.pocketInventory);

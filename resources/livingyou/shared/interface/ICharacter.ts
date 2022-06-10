@@ -4,7 +4,7 @@ import ICharacterClothing from './ICharacterClothing';
 import IInventory from './IInventory';
 
 export default interface ICharacter {
-    id: string; 
+    id: string;
     firstName: string;
     secondName?: string;
     lastName: string;

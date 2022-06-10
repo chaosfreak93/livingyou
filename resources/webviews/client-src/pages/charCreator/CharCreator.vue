@@ -239,7 +239,13 @@
                         step="1"
                         v-on:input="setClothes(index)"
                     />
-                    <input type="number" min="0" v-model.number="item.texture" step="1" v-on:input="setClothes(index)" />
+                    <input
+                        type="number"
+                        min="0"
+                        v-model.number="item.texture"
+                        step="1"
+                        v-on:input="setClothes(index)"
+                    />
                 </div>
             </div>
             <div id="props" v-for="(item, index) in characterData.characterClothing.props" :key="index">

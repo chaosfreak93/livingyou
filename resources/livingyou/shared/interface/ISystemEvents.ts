@@ -30,5 +30,5 @@ export interface ISystemEvents {
     'world:UpdateTime': (hour: number, minute: number) => void;
     'world:UpdateWeather': (weather: string) => void;
     // Dev Tools
-    'debug': () => void;
+    'devTools:debug': () => void;
 }

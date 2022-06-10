@@ -50,11 +50,11 @@ alt.Player.prototype.setPosition = function setPosition(player: alt.Player, x: n
 };
 
 alt.Player.prototype.time = function time(player: alt.Player) {
-    EmitClient(player,'world:UpdateTime', World.getWorldHour(), World.getWorldMinute());
+    EmitClient(player, 'world:UpdateTime', World.getWorldHour(), World.getWorldMinute());
 };
 
 alt.Player.prototype.weather = function weather(player: alt.Player) {
-   EmitClient(player, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(player)));
+    EmitClient(player, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(player)));
 };
 
 // Clothing

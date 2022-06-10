@@ -4,4 +4,3 @@ import IItem from '../../shared/interface/IItem';
 export default class Items {
     static items: IItem[];
 }
-
