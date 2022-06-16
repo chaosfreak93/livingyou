@@ -15,6 +15,7 @@ export interface ISystemEvents {
     'charCreator:FinishChar': (character: string) => void;
     'charCreator:Close': () => void;
     // HUD
+    'hud:Update': () => void;
     // Inventory
     'inventory:Open': (inventory: IInventory) => void;
     'inventory:Close': () => void;
