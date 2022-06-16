@@ -95,7 +95,7 @@ export default class CharSelector {
         player.weather(player);
 
         EmitClient(player, 'charSelector:Close');
-        await alt.Utils.wait(500);
-        EmitClient(player, 'hud:Open');
+        await alt.Utils.wait(750);
+        EmitClient(player, 'player:Spawned');
     }
 }

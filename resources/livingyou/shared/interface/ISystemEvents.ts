@@ -15,7 +15,6 @@ export interface ISystemEvents {
     'charCreator:FinishChar': (character: string) => void;
     'charCreator:Close': () => void;
     // HUD
-    'hud:Open': () => void;
     // Inventory
     'inventory:Open': (inventory: IInventory) => void;
     // Webview
@@ -26,6 +25,7 @@ export interface ISystemEvents {
     // Ticks
     'player:StartTicks': () => void;
     'player:Tick': () => void;
+    'player:Spawned': () => void;
     // World
     'world:UpdateTime': (hour: number, minute: number) => void;
     'world:UpdateWeather': (weather: string) => void;
