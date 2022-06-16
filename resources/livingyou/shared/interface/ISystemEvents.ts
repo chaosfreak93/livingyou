@@ -17,6 +17,7 @@ export interface ISystemEvents {
     // HUD
     // Inventory
     'inventory:Open': (inventory: IInventory) => void;
+    'inventory:Close': () => void;
     // Webview
     'webView:Info': (url: string) => void;
     // KeyManager

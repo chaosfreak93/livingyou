@@ -10,7 +10,13 @@ export default class KeyManager {
                 EmitClient(player, 'devTools:debug');
                 break;
             case 73:
-                EmitClient(player, 'inventory:Open', player.character.pocketInventory);
+                if (player.inventoryOpen) {
+                    EmitClient(player, 'inventory:Close');
+                    player.inventoryOpen = false;
+                } else {
+                    EmitClient(player, 'inventory:Open', player.character.pocketInventory);
+                    player.inventoryOpen = true;
+                }
                 break;
             default:
                 break;

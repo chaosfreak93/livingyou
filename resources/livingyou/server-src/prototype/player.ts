@@ -9,6 +9,7 @@ declare module 'alt-server' {
         character?: ICharacter;
         discordId?: number;
         nextTickTime?: number;
+        inventoryOpen: boolean;
 
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
         time(player: alt.Player): void;
