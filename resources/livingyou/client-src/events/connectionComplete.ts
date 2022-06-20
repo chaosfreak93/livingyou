@@ -11,7 +11,6 @@ async function handleConnectionComplete(): Promise<void> {
     native.doScreenFadeOut(0);
     native.displayHud(false);
     native.displayRadar(false);
-    alt.setWatermarkPosition(1);
     IPLManager.initializeDefaultIPLs();
     IPLManager.initializeEntitySets();
 
