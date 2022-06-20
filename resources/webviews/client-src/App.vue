@@ -60,11 +60,6 @@ export default defineComponent({
             if (!('alt' in window)) {
                 return;
             }
-            for (let i = 0; i < args.length; i++) {
-                if (typeof args === 'object') {
-                    args[i] = JSON.parse(JSON.stringify(args[i]));
-                }
-            }
             alt.emit(value, ...args);
         },
         // Call different internal controller functions from client-side with this.
@@ -249,5 +244,20 @@ export default defineComponent({
 .simple-link:hover {
     background: rgba(0, 0, 0, 0.2);
     cursor: pointer;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
 }
 </style>

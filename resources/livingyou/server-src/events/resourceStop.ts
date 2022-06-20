@@ -16,7 +16,7 @@ async function resourceStop() {
         pC.push(player.character);
         pDI.push(player.discordId);
     }
-    
+
     for (let i = 0; i < pDI.length; i++) {
         let findAccount = await Database.fetchAllByField<IAccount>('discord', pDI[i], 'accounts');
         if (findAccount.length <= 0) return;

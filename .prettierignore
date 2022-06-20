@@ -1,0 +1,8 @@
+.github/
+.vscode/
+package.json
+pnpm-lock.yaml
+client-dist.js
+server-dist.js
+assets/
+.env

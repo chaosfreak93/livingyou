@@ -1,43 +1,80 @@
 <template>
     <div>
-        <h1 id="title">{{ title }}</h1>
-        <p id="weight">{{ current_weight }}kg / {{ max_weight }}kg</p>
-        <div id="itemlist">
-            <div id="item" v-for="item in getItems" v-bind:key="item.index"></div>
+        <div id="pocketInventory" v-if="inventory1">
+            <h1 id="title">Pockets</h1>
+            <p id="weight">{{ inventory1.currentWeight }}kg / {{ inventory1.maxWeight }}kg</p>
+            <div id="itemlist">
+                <div id="item" v-for="item in getInventory1Items" v-bind:key="item.id">
+                    {{ item.name }}
+                    <div v-bind:style="{ 'background-image': 'url(../../images/' + item.image + '.png)' }"></div>
+                </div>
+            </div>
+        </div>
+        <div id="backpackInventory" v-if="inventory2">
+            <h1 id="title">Backpack</h1>
+            <p id="weight">{{ inventory2.currentWeight }}kg / {{ inventory2.maxWeight }}kg</p>
+            <div id="itemlist">
+                <div id="item" v-for="item in getInventory2Items" v-bind:key="item.id">
+                    {{ item.name }}
+                    <div v-bind:style="{ 'background-image': 'url(../../images/' + item.image + '.png)' }"></div>
+                </div>
+            </div>
+        </div>
+        <div id="otherInventory" v-if="inventory3">
+            <h1 id="title">Other</h1>
+            <p id="weight">{{ inventory3.currentWeight }}kg / {{ inventory3.maxWeight }}kg</p>
+            <div id="itemlist">
+                <div id="item" v-for="item in getInventory3Items" v-bind:key="item.id">
+                    {{ item.name }}
+                    <div v-bind:style="{ 'background-image': 'url(../../images/' + item.image + '.png)' }"></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import IInventory from '../../../../livingyou/shared/interface/IInventory';
+import IInventoryItem from '../../../../livingyou/shared/interface/IInventoryItem';
 const ComponentName = 'Inventory';
 export default defineComponent({
     name: ComponentName,
-    components: {},
     data() {
         return {
-            title: '',
-            current_weight: 0,
-            max_weight: 50,
-            items: [],
+            inventory1: null as IInventory,
+            inventory2: null as IInventory,
+            inventory3: null as IInventory,
         };
     },
     methods: {
-        setData(title, current_weight, max_weight, items) {
-            this.title = title;
-            this.current_weight = current_weight;
-            this.max_weight = max_weight;
-            this.items = items;
+        setData(inventory1: IInventory, inventory2: IInventory, inventory3: IInventory) {
+            this.inventory1 = inventory1;
+            this.inventory2 = inventory2;
+            this.inventory3 = inventory3;
         },
     },
     computed: {
-        getItems() {
-            return this.items;
+        getInventory1Items(): IInventoryItem[] {
+            return this.inventory1.items;
+        },
+        getInventory2Items(): IInventoryItem[] {
+            return this.inventory2.items;
+        },
+        getInventory3Items(): IInventoryItem[] {
+            return this.inventory3.items;
         },
     },
     mounted() {
         if (`alt` in window) {
             alt.emit('inventoryReady');
+            alt.on('setData', this.setData);
+        } else {
+            this.setData(
+                { currentWeight: 0, maxWeight: 50, items: [] },
+                { currentWeight: 0, maxWeight: 50, items: [] },
+                { currentWeight: 0, maxWeight: 50, items: [] }
+            );
         }
     },
 });
@@ -46,12 +83,30 @@ export default defineComponent({
 <style scoped>
 #page-Inventory {
     text-align: center;
-    position: absolute;
-    top: 2.5%;
-    left: 1%;
-    transform: translate(0%, 0%);
-    width: 30vw;
-    min-height: 95%;
+    padding: 1%;
+    height: 95%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 27.5% 27.5% 27.5%;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+#pocketInventory {
+    width: 25vw;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-radius: 10px;
+}
+
+#backpackInventory {
+    width: 25vw;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-radius: 10px;
+}
+
+#otherInventory {
+    width: 25vw;
     background-color: rgba(0, 0, 0, 0.55);
     border-radius: 10px;
 }

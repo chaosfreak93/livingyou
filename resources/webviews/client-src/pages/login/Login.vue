@@ -10,12 +10,6 @@ import { defineComponent } from 'vue';
 const ComponentName = 'Login';
 export default defineComponent({
     name: ComponentName,
-    components: {},
-    data() {
-        return {
-            url: null,
-        };
-    },
     methods: {
         startLogin() {
             if (!(`alt` in window)) {

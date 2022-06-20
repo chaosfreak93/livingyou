@@ -1,26 +1,27 @@
 export default interface IItem {
-    name: string;
-    description?: string;
-    weigth: number;
-    image?: string;
-    data?: {
-        food?: number;
-        thirst?: number;
-        effect?: {
-            name: string;
-            duration: number;
+    readonly id: string;
+    readonly name: string;
+    readonly description?: string;
+    readonly weigth: number;
+    readonly image?: string;
+    readonly data?: {
+        readonly food?: number;
+        readonly thirst?: number;
+        readonly effect?: {
+            readonly name: string;
+            readonly duration: number;
         };
-        protection?: number;
-        animation?: {
-            dictionary: string;
-            name: string;
-            duration: number;
-            flags: number;
+        readonly protection?: number;
+        readonly animation?: {
+            readonly dictionary: string;
+            readonly name: string;
+            readonly duration: number;
+            readonly flags: number;
         };
     };
-    flags: {
-        droppable: boolean;
-        useable: boolean;
-        giveable: boolean;
+    readonly flags: {
+        readonly droppable: boolean;
+        readonly useable: boolean;
+        readonly giveable: boolean;
     };
 }

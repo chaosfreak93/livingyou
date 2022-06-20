@@ -5,7 +5,8 @@ import { OnClient } from './eventSystem/on';
 
 export default class CharSelector {
     @OnClient('charSelector:SelectChar')
-    static async selectChar(player: alt.Player, character: ICharacter) {
+    static async selectChar(player: alt.Player, character: any) {
+        character = JSON.parse(character) as ICharacter;
         player.character = character;
         player.dimension = 0;
         player.setHeadBlendData(
@@ -25,7 +26,9 @@ export default class CharSelector {
         for (let i = 0; i < character.characterAppearence.headOverlay.length; i++) {
             player.setHeadOverlay(
                 i,
-                character.characterAppearence.headOverlay[i].index,
+                character.characterAppearence.headOverlay[i].index == -1
+                    ? 255
+                    : character.characterAppearence.headOverlay[0].index,
                 character.characterAppearence.headOverlay[i].opacity
             );
         }
@@ -92,7 +95,7 @@ export default class CharSelector {
         player.weather(player);
 
         EmitClient(player, 'charSelector:Close');
-        await alt.Utils.wait(500);
-        EmitClient(player, 'hud:Open');
+        await alt.Utils.wait(750);
+        EmitClient(player, 'player:Spawned');
     }
 }
