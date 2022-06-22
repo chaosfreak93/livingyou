@@ -28,7 +28,7 @@ export default class CharSelector {
                 i,
                 character.characterAppearence.headOverlay[i].index == -1
                     ? 255
-                    : character.characterAppearence.headOverlay[0].index,
+                    : character.characterAppearence.headOverlay[i].index,
                 character.characterAppearence.headOverlay[i].opacity
             );
         }
