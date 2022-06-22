@@ -1,7 +1,9 @@
 import * as alt from 'alt-server';
+import { arrayBuffer } from 'stream/consumers';
 import ICharacter from '../../shared/interface/ICharacter';
 import { EmitClient } from '../systems/eventSystem/emit';
 import { World } from '../systems/world';
+import Items from './items';
 
 declare module 'alt-server' {
     export interface Player {
@@ -14,6 +16,12 @@ declare module 'alt-server' {
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
         time(player: alt.Player): void;
         weather(player: alt.Player): void;
+
+        // Inventory
+        addItemByName(player: alt.Player, name: string, amount?: number): void;
+        addItemById(player: alt.Player, id: string, amount?: number): void;
+        removeItemByName(player: alt.Player, name: string, amount?: number): void;
+        removeItemById(player: alt.Player, id: string, amount?: number): void;
 
         // Clothing
         setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
@@ -56,6 +64,53 @@ alt.Player.prototype.time = function time(player: alt.Player) {
 
 alt.Player.prototype.weather = function weather(player: alt.Player) {
     EmitClient(player, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(player)));
+};
+
+// Inventory
+alt.Player.prototype.addItemByName = function addItemByName(player: alt.Player, name: string, amount?: number): void {
+    let item = Items.getItemByName(name);
+    if (!item) return;
+    player.character.pocketInventory.items.push({ amount: amount, ...item });
+};
+
+alt.Player.prototype.addItemById = function addItemById(player: alt.Player, id: string, amount?: number): void {
+    let item = Items.getItemById(id);
+    if (!item) return;
+    player.character.pocketInventory.items.push({ amount: amount, ...item });
+};
+
+alt.Player.prototype.removeItemByName = function removeItemByName(
+    player: alt.Player,
+    name: string,
+    amount?: number
+): void {
+    let item: any = Items.getItemByName(name);
+    if (!item) return;
+    item = player.character.pocketInventory.items.find((value) => {
+        value.name == name;
+    });
+    if (!item) return;
+    if (amount) {
+        item.amount -= amount;
+    } else {
+        const index = player.character.pocketInventory.items.indexOf(item);
+        player.character.pocketInventory.items.splice(index, 1);
+    }
+};
+
+alt.Player.prototype.removeItemById = function removeItemById(player: alt.Player, id: string, amount?: number): void {
+    let item: any = Items.getItemById(id);
+    if (!item) return;
+    item = player.character.pocketInventory.items.find((value) => {
+        value.id == id;
+    });
+    if (!item) return;
+    if (amount) {
+        item.amount -= amount;
+    } else {
+        const index = player.character.pocketInventory.items.indexOf(item);
+        player.character.pocketInventory.items.splice(index, 1);
+    }
 };
 
 // Clothing
