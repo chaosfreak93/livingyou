@@ -3,4 +3,7 @@ import IItem from '../../shared/interface/IItem';
 
 export default class Items {
     static items: IItem[];
+    static async fetchItems(): Promise<void> {
+        Items.items = await Database.fetchAllData<IItem>('items');
+    }
 }

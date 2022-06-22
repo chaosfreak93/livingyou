@@ -14,7 +14,7 @@ alt.on('resourceStart', async (errored: boolean) => {
     if (!connected) {
         throw new Error(`Did not connect to the database.`);
     }
-    Items.items = await Database.fetchAllData<IItem>('items');
+    await Items.fetchItems();
 });
 
 alt.on('serverStarted', () => {
