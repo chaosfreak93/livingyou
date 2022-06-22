@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@altv/types-client': ^2.1.9
+  '@altv/types-client': ^2.2.0
   '@altv/types-natives': ^1.4.4
   '@altv/types-server': ^2.3.7
   '@altv/types-shared': ^1.2.6
@@ -11,60 +11,60 @@ specifiers:
   '@types/node': ^17.0.45
   '@vue/compiler-sfc': ^3.2.37
   altv-pkg: ^2.0.4
-  altv-xsync-entity-client: ^2.4.0
-  altv-xsync-entity-server: ^2.4.2
+  altv-xsync-entity-client: ^3.0.0
+  altv-xsync-entity-server: ^3.0.0
   axios: ^0.27.2
   bson: ^4.6.4
   concurrently: ^7.2.2
   dotenv: ^16.0.1
   esbuild: ^0.14.47
   esbuild-plugin-vue-next: ^0.1.4
-  typescript: 4.7.2
+  typescript: ^4.7.4
   vite: ^2.9.12
   vue: ^3.2.37
 
 dependencies:
   '@stuyk/ezmongodb': 2.0.3
-  altv-xsync-entity-client: 2.4.0_rai267efhel7cuvcmfkqvj2jiu
-  altv-xsync-entity-server: 2.4.2_nz4d3olncqp24vh7th3ovam6he
+  altv-xsync-entity-client: 3.0.0_sjxgd5uzlvasm7wcsmvmmq7iee
+  altv-xsync-entity-server: 3.0.0_nz4d3olncqp24vh7th3ovam6he
   axios: 0.27.2
   bson: 4.6.4
   dotenv: 16.0.1
   vue: 3.2.37
 
 devDependencies:
-  '@altv/types-client': 2.1.9_ipvyjo6thx7mp75bikus5ttmkm
-  '@altv/types-natives': 1.4.4_@altv+types-client@2.1.9
+  '@altv/types-client': 2.2.0_ipvyjo6thx7mp75bikus5ttmkm
+  '@altv/types-natives': 1.4.4_@altv+types-client@2.2.0
   '@altv/types-server': 2.3.7_@altv+types-shared@1.2.6
   '@altv/types-shared': 1.2.6
   '@altv/types-webview': 1.0.2
-  '@altv/types-worker': 1.0.6_@altv+types-client@2.1.9
+  '@altv/types-worker': 1.0.6_@altv+types-client@2.2.0
   '@types/node': 17.0.45
   '@vue/compiler-sfc': 3.2.37
   altv-pkg: 2.0.4
   concurrently: 7.2.2
   esbuild: 0.14.47
   esbuild-plugin-vue-next: 0.1.4_@vue+compiler-sfc@3.2.37
-  typescript: 4.7.2
+  typescript: 4.7.4
   vite: 2.9.12
 
 packages:
 
-  /@altv/types-client/2.1.9_ipvyjo6thx7mp75bikus5ttmkm:
-    resolution: {integrity: sha512-M50D6slv2FZH1pcfUKbQ4XBQIKxTnpzi3h7tKLOJl8zKAx6BuOLjd2Yju1RFMJQU1XdHsks1QG9z+wIUsBEN6w==}
+  /@altv/types-client/2.2.0_ipvyjo6thx7mp75bikus5ttmkm:
+    resolution: {integrity: sha512-icEkY5YgvCCCMYCDyFI3IT6QiN8j+e6kJAPWYyUvvNgI7AAC5yoXjiZQXUOJ3sT41KpUg7BvH/wTldrPCoH9Cw==}
     peerDependencies:
       '@altv/types-shared': 1.2.x
       '@altv/types-worker': 1.0.x
     dependencies:
       '@altv/types-shared': 1.2.6
-      '@altv/types-worker': 1.0.6_@altv+types-client@2.1.9
+      '@altv/types-worker': 1.0.6_@altv+types-client@2.2.0
 
-  /@altv/types-natives/1.4.4_@altv+types-client@2.1.9:
+  /@altv/types-natives/1.4.4_@altv+types-client@2.2.0:
     resolution: {integrity: sha512-qcIPhpRAhGnErtf3p1iVGL6CIUJWc1IdYJl6K9T5c7W8Nd9RM2cv4JIyQg3TTXLiu+1gAZlkD8KyYKIfs5BqnQ==}
     peerDependencies:
       '@altv/types-client': '>=1.7.0'
     dependencies:
-      '@altv/types-client': 2.1.9_ipvyjo6thx7mp75bikus5ttmkm
+      '@altv/types-client': 2.2.0_ipvyjo6thx7mp75bikus5ttmkm
     dev: true
 
   /@altv/types-server/2.3.7_@altv+types-shared@1.2.6:
@@ -81,12 +81,12 @@ packages:
     resolution: {integrity: sha512-3RceTutIDS/XV8YUn/AiSe61BERBb6LfCCQxIcN5bvlh26lPXC0naxtQTcG39pSgj8a5iiVT8LaRNdEZP6JBcA==}
     dev: true
 
-  /@altv/types-worker/1.0.6_@altv+types-client@2.1.9:
+  /@altv/types-worker/1.0.6_@altv+types-client@2.2.0:
     resolution: {integrity: sha512-wsEG0PNHK2/jZvADOdWlzFGlKUAGM2esEFUtIRU7/pJsem6+aDS5E5GKp9lh3+5mk1ZByvzjbjxfS628U7O2LQ==}
     peerDependencies:
       '@altv/types-client': 2.1.x
     dependencies:
-      '@altv/types-client': 2.1.9_ipvyjo6thx7mp75bikus5ttmkm
+      '@altv/types-client': 2.2.0_ipvyjo6thx7mp75bikus5ttmkm
 
   /@babel/helper-validator-identifier/7.16.7:
     resolution: {integrity: sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==}
@@ -110,7 +110,7 @@ packages:
     resolution: {integrity: sha512-jtCUuGgzI79CLssN0WLdUGT7Tvbhn8/ioYXnSFaZ4xvxD5LtogpK+BbxNrE+XLkIxS5/H3ZxjCoqz3wdV1zeHQ==}
     dependencies:
       mongodb: 4.7.0
-      typescript: 4.7.2
+      typescript: 4.7.4
     dev: false
 
   /@types/node/17.0.45:
@@ -120,8 +120,8 @@ packages:
     resolution: {integrity: sha512-XAahCdThVuCFDQLT7R7Pk/vqeObFNL3YqRyFZg+AqAP/W1/w3xHaIxuW7WszQqTbIBOPRcItYJIou3i/mppu3Q==}
     dev: false
 
-  /@types/whatwg-url/8.2.1:
-    resolution: {integrity: sha512-2YubE1sjj5ifxievI5Ge1sckb9k/Er66HyR2c+3+I6VDUUg1TLPdYYTEbQ+DjRkS4nTxMJhgWfSfMRD2sl2EYQ==}
+  /@types/whatwg-url/8.2.2:
+    resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
       '@types/node': 17.0.45
       '@types/webidl-conversions': 6.1.1
@@ -214,18 +214,18 @@ packages:
       - debug
     dev: true
 
-  /altv-xsync-entity-client/2.4.0_rai267efhel7cuvcmfkqvj2jiu:
-    resolution: {integrity: sha512-A4NgT+8TSW8xiNtO6xJK1mQrITbh0UFMoLFXNW0+bvyfVtg4dbkkIPauHc/EIq1XRKpwEeXsieXD4kSwZEd+yA==}
+  /altv-xsync-entity-client/3.0.0_sjxgd5uzlvasm7wcsmvmmq7iee:
+    resolution: {integrity: sha512-mE7zumgZvtDpxJc7wVEF3RLbp9z5UpzLyYAFlhRCursrXkjmuZwkmzCBF8gHyeiJbIxatKRdNh/DxOrvHA+lhQ==}
     peerDependencies:
       '@altv/types-client': '>=2.x'
       '@altv/types-shared': '>=1.x'
     dependencies:
-      '@altv/types-client': 2.1.9_ipvyjo6thx7mp75bikus5ttmkm
+      '@altv/types-client': 2.2.0_ipvyjo6thx7mp75bikus5ttmkm
       '@altv/types-shared': 1.2.6
     dev: false
 
-  /altv-xsync-entity-server/2.4.2_nz4d3olncqp24vh7th3ovam6he:
-    resolution: {integrity: sha512-TQlHL2P2PBC910y+nmOjSAui9T850OdaJr4XhpSSmOCrPFHpJGcKa7iI/4jGzaoLQ6kqJSD0qkM6ekwoYyjTTw==}
+  /altv-xsync-entity-server/3.0.0_nz4d3olncqp24vh7th3ovam6he:
+    resolution: {integrity: sha512-KHn8RBWDYxyJasg0tB3LV0TcnAav5rRTM5orMUmxHrMJuCTn4HMV+S3aP25ffSMcTFK8s8Z8rK1XhN1VHS0+Sw==}
     peerDependencies:
       '@altv/types-server': '>=2.x'
       '@altv/types-shared': '>=1.x'
@@ -694,7 +694,7 @@ packages:
   /mongodb-connection-string-url/2.5.2:
     resolution: {integrity: sha512-tWDyIG8cQlI5k3skB6ywaEA5F9f5OntrKKsT/Lteub2zgwSUlhqEN2inGgBTm8bpYJf8QYBdA/5naz65XDpczA==}
     dependencies:
-      '@types/whatwg-url': 8.2.1
+      '@types/whatwg-url': 8.2.2
       whatwg-url: 11.0.0
     dev: false
 
@@ -870,8 +870,8 @@ packages:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: true
 
-  /typescript/4.7.2:
-    resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
+  /typescript/4.7.4:
+    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
 
