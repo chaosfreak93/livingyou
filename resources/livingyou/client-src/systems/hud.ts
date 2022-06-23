@@ -47,8 +47,12 @@ export default class HUD {
 
     static async ready() {
         const view = await WebViewController.get();
-        view.emit('closeVehicleHud');
-        view.emit('updateVehicleData', 0, 0);
+        if (alt.Player.local.vehicle) {
+            HUD.showDriveHud();
+        } else {
+            HUD.hideDriveHud();
+            view.emit('updateVehicleData', 0, 0);
+        }
     }
 
     @On('enteredVehicle')
