@@ -248,16 +248,16 @@ export default defineComponent({
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  height: 100vh;
-  width: 100vw;
+    height: 100vh;
+    width: 100vw;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 </style>
