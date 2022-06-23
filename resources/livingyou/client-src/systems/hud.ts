@@ -57,6 +57,7 @@ export default class HUD {
 
     @On('enteredVehicle')
     static async showDriveHud() {
+        if (isDisabled) return;
         const view = await WebViewController.get();
         native.displayRadar(true);
         view.emit('openVehicleHud');
@@ -72,6 +73,7 @@ export default class HUD {
 
     @On('leftVehicle')
     static async hideDriveHud() {
+        if (isDisabled) return;
         const view = await WebViewController.get();
         native.displayRadar(false);
         view.emit('closeVehicleHud');
