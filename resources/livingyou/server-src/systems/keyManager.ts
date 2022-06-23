@@ -8,7 +8,7 @@ export default class KeyManager {
         if (!player.character) return;
         switch (key) {
             case 112:
-                EmitClient(player, 'devTools:debug');
+                EmitClient(player, 'devTools:PosAndRot');
                 break;
             case 73:
                 if (player.inventoryOpen) {
