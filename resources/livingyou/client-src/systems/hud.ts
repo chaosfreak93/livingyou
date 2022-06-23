@@ -77,6 +77,7 @@ export default class HUD {
         const view = await WebViewController.get();
         native.displayRadar(false);
         view.emit('closeVehicleHud');
+        if (!vehicleTick) return;
         alt.clearEveryTick(vehicleTick);
     }
 }
