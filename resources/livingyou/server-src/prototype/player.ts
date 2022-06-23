@@ -68,15 +68,45 @@ alt.Player.prototype.weather = function weather(player: alt.Player) {
 
 // Inventory
 alt.Player.prototype.addItemByName = function addItemByName(player: alt.Player, name: string, amount?: number): void {
-    let item = Items.getItemByName(name);
+    let item: any = Items.getItemByName(name);
     if (!item) return;
-    player.character.pocketInventory.items.push({ amount: amount, ...item });
+    item = player.character.pocketInventory.items.find((value) => {
+        value.name == name;
+    });
+    if (item) {
+        if (amount) {
+            item.amount += amount;
+        } else {
+            item.amount += 1;
+        }
+    } else {
+        if (amount) {
+            player.character.pocketInventory.items.push({ amount: amount, ...item });
+        } else {
+            player.character.pocketInventory.items.push({ amount: 1, ...item });
+        }
+    }
 };
 
 alt.Player.prototype.addItemById = function addItemById(player: alt.Player, id: string, amount?: number): void {
-    let item = Items.getItemById(id);
+    let item: any = Items.getItemById(id);
     if (!item) return;
-    player.character.pocketInventory.items.push({ amount: amount, ...item });
+    item = player.character.pocketInventory.items.find((value) => {
+        value.id == id;
+    });
+    if (item) {
+        if (amount) {
+            item.amount += amount;
+        } else {
+            item.amount += 1;
+        }
+    } else {
+        if (amount) {
+            player.character.pocketInventory.items.push({ amount: amount, ...item });
+        } else {
+            player.character.pocketInventory.items.push({ amount: 1, ...item });
+        }
+    }
 };
 
 alt.Player.prototype.removeItemByName = function removeItemByName(
