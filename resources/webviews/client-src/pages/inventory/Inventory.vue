@@ -4,9 +4,13 @@
             <h1 id="title">Pockets</h1>
             <p id="weight">{{ inventory1.currentWeight }}kg / {{ inventory1.maxWeight }}kg</p>
             <div id="itemlist">
-                <div id="item" v-for="item in getInventory1Items" v-bind:key="item.id">
-                    {{ item.name }}
-                    <div v-bind:style="{ 'background-image': 'url(../../images/' + item.image + '.png)' }"></div>
+                <div
+                    id="item"
+                    v-for="item in getInventory1Items"
+                    v-bind:key="item.id"
+                    v-bind:style="{ 'background-image': 'url(./assets/images/' + item.image + '.png)' }"
+                >
+                    {{ item.amount }}
                 </div>
             </div>
         </div>
@@ -14,9 +18,13 @@
             <h1 id="title">Backpack</h1>
             <p id="weight">{{ inventory2.currentWeight }}kg / {{ inventory2.maxWeight }}kg</p>
             <div id="itemlist">
-                <div id="item" v-for="item in getInventory2Items" v-bind:key="item.id">
-                    {{ item.name }}
-                    <div v-bind:style="{ 'background-image': 'url(../../images/' + item.image + '.png)' }"></div>
+                <div
+                    id="item"
+                    v-for="item in getInventory2Items"
+                    v-bind:key="item.id"
+                    v-bind:style="{ 'background-image': 'url(./assets/images/' + item.image + '.png)' }"
+                >
+                    {{ item.amount }}
                 </div>
             </div>
         </div>
@@ -24,9 +32,13 @@
             <h1 id="title">Other</h1>
             <p id="weight">{{ inventory3.currentWeight }}kg / {{ inventory3.maxWeight }}kg</p>
             <div id="itemlist">
-                <div id="item" v-for="item in getInventory3Items" v-bind:key="item.id">
-                    {{ item.name }}
-                    <div v-bind:style="{ 'background-image': 'url(../../images/' + item.image + '.png)' }"></div>
+                <div
+                    id="item"
+                    v-for="item in getInventory3Items"
+                    v-bind:key="item.id"
+                    v-bind:style="{ 'background-image': 'url(./assets/images/' + item.image + '.png)' }"
+                >
+                    {{ item.amount }}
                 </div>
             </div>
         </div>
@@ -154,8 +166,13 @@ export default defineComponent({
 }
 
 #item {
+    border: 0.2px solid black;
+    border-radius: 5px;
     width: 70px;
     height: 74px;
-    background-color: #ffffff;
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 </style>
