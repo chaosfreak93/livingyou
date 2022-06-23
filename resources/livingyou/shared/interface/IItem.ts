@@ -2,7 +2,7 @@ export default interface IItem {
     readonly id: string;
     readonly name: string;
     readonly description?: string;
-    readonly weigth: number;
+    readonly weight: number;
     readonly image?: string;
     readonly data?: {
         readonly food?: number;
