@@ -71,7 +71,26 @@ export default defineComponent({
             alt.on('setData', this.setData);
         } else {
             this.setData(
-                { currentWeight: 0, maxWeight: 50, items: [] },
+                {
+                    currentWeight: 0,
+                    maxWeight: 50,
+                    items: [
+                        {
+                            id: '62b4388e3cd1640f71307efc',
+                            amount: 1,
+                            name: 'Bier',
+                            description: 'Eine Flasche Bier',
+                            weight: 0.3,
+                            image: 'beer',
+                            data: { thirst: 10 },
+                            flags: {
+                                droppable: true,
+                                useable: false,
+                                giveable: true,
+                            },
+                        },
+                    ],
+                },
                 { currentWeight: 0, maxWeight: 50, items: [] },
                 { currentWeight: 0, maxWeight: 50, items: [] }
             );
