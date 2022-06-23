@@ -50,8 +50,22 @@ export default defineComponent({
     methods: {
         setData(inventory1: IInventory, inventory2: IInventory, inventory3: IInventory) {
             this.inventory1 = inventory1;
-            this.inventory2 = inventory2;
-            this.inventory3 = inventory3;
+            this.inventory1.currentWeight = this.calculateCurrentWeight(this.inventory1);
+            if (inventory2) {
+                this.inventory2 = inventory2;
+                this.inventory2.currentWeight = this.calculateCurrentWeight(this.inventory2);
+            }
+            if (inventory3) {
+                this.inventory3 = inventory3;
+                this.inventory3.currentWeight = this.calculateCurrentWeight(this.inventory3);
+            }
+        },
+        calculateCurrentWeight(inventory: IInventory): number {
+            let weight = 0;
+            for (let i = 0; i < inventory.items.length; i++) {
+                weight += inventory.items[i].weight;
+            }
+            return weight;
         },
     },
     computed: {
