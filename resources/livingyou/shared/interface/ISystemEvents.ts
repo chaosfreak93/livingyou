@@ -33,4 +33,5 @@ export interface ISystemEvents {
     'world:UpdateWeather': (weather: string) => void;
     // Dev Tools
     'devTools:PosAndRot': () => void;
+    'devTools:SpawnVehicle': (player: any, hash: string) => void;
 }

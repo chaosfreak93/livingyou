@@ -10,6 +10,7 @@ import './systems/keyManager';
 import './systems/login';
 import './systems/tick';
 import './systems/world';
+import './utility/debug';
 
 // EntitySync
 import './systems/syncEntity';
