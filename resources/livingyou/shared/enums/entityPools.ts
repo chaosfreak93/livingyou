@@ -1,4 +1,4 @@
 export enum EntityPools {
     CableCar,
-    DroppedItem
+    DroppedItemEntity
 }

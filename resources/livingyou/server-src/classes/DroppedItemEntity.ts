@@ -4,10 +4,10 @@ import { EntityPools } from '../../shared/enums/entityPools';
 import IDroppedItemSyncedMeta from '../../shared/interface/syncEntity/IDroppedItemSyncedMeta';
 import IDroppedItemMeta from '../../shared/interface/syncEntity/IDroppedItemMeta';
 
-const droppedItemPool = new xsync.EntityPool(EntityPools.DroppedItem, { maxStreamedIn: 15 });
+const droppedItemEntityPool = new xsync.EntityPool(EntityPools.DroppedItemEntity, { maxStreamedIn: 15 });
 
-class DroppedItem extends xsync.Entity<IDroppedItemSyncedMeta, IDroppedItemMeta> {
+class DroppedItemEntity extends xsync.Entity<IDroppedItemSyncedMeta, IDroppedItemMeta> {
     constructor(droppedItemId: number, pos: alt.IVector3) {
-        super(droppedItemPool, pos, {}, { droppedItemId }, 0, 250);
+        super(droppedItemEntityPool, pos, {}, { droppedItemId }, 0, 250);
     }
 }

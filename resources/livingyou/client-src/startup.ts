@@ -18,4 +18,4 @@ import './utility/screenEffect';
 // EntitySync
 import './systems/syncEntity';
 import './classes/CableCar';
-import './classes/DroppedItem';
+import './classes/DroppedItemEntity';
