@@ -16,3 +16,4 @@ import './utility/debug';
 // EntitySync
 import './systems/syncEntity';
 import './classes/CableCar';
+import './classes/DroppedItem';

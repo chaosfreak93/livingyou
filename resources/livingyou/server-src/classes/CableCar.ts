@@ -1,7 +1,7 @@
 import * as alt from 'alt-server';
 import * as xsync from 'altv-xsync-entity-server';
-import ICableCarSyncedMeta from '../../shared/interface/ICableCarSyncedMeta';
-import ICableCarMeta from '../../shared/interface/ICableCarMeta';
+import ICableCarSyncedMeta from '../../shared/interface/syncEntity/ICableCarSyncedMeta';
+import ICableCarMeta from '../../shared/interface/syncEntity/ICableCarMeta';
 import { EntityPools } from '../../shared/enums/entityPools';
 import cableCarRoute from '../../shared/data/cableCar';
 
