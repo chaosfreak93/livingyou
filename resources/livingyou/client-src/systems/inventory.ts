@@ -1,4 +1,4 @@
-import IItem from '../../shared/interface/IItem';
+import IWebInventory from '../../shared/interface/IWebInventory';
 import { WebViewController } from '../extensions/webViewController';
 import { EmitServer } from './eventSystem/emit';
 import { On, OnServer } from './eventSystem/on';
@@ -6,9 +6,9 @@ import { On, OnServer } from './eventSystem/on';
 export default class Inventory {
     @OnServer('inventory:Open')
     static async open(
-        inventoryItems1: { item: IItem; amount: number }[],
-        inventoryItems2: { item: IItem; amount: number }[] = null,
-        inventoryItems3: { item: IItem; amount: number }[] = null
+        inventoryItems1: IWebInventory,
+        inventoryItems2: IWebInventory = null,
+        inventoryItems3: IWebInventory = null
     ): Promise<void> {
         const view = await WebViewController.get();
         view.on('inventoryReady', () => Inventory.inventoryReady(inventoryItems1, inventoryItems2, inventoryItems3));
@@ -21,9 +21,9 @@ export default class Inventory {
     }
 
     static async inventoryReady(
-        inventoryItems1: { item: IItem; amount: number }[],
-        inventoryItems2: { item: IItem; amount: number }[],
-        inventoryItems3: { item: IItem; amount: number }[]
+        inventoryItems1: IWebInventory,
+        inventoryItems2: IWebInventory,
+        inventoryItems3: IWebInventory
     ): Promise<void> {
         const view = await WebViewController.get();
         view.emit('setData', inventoryItems1, inventoryItems2, inventoryItems3);
