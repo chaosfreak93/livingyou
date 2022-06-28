@@ -2,7 +2,6 @@ import * as alt from 'alt-client';
 import * as native from 'natives';
 import IPLManager from '../systems/iplmanager';
 import CameraManager from '../systems/cameraManager';
-import ScreenFade from '../utility/screenFade';
 import { EmitServer } from '../systems/eventSystem/emit';
 
 alt.on('resourceStart', handleConnectionComplete);
@@ -12,6 +11,7 @@ async function handleConnectionComplete(): Promise<void> {
     native.doScreenFadeOut(0);
     native.displayHud(false);
     native.displayRadar(false);
+    alt.setWatermarkPosition(1);
     IPLManager.initializeDefaultIPLs();
     IPLManager.initializeEntitySets();
 

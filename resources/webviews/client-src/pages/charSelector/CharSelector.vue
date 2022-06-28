@@ -24,27 +24,23 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ICharacter from '../../../../livingyou/shared/interface/ICharacter';
 const ComponentName = 'CharSelector';
 export default defineComponent({
     name: ComponentName,
-    components: {},
     data() {
         return {
-            characters: [],
-            selectedCharacter: null,
-            allowSecondCharacter: null,
+            characters: [] as ICharacter[],
+            selectedCharacter: null as ICharacter,
+            allowSecondCharacter: false as boolean,
         };
     },
     methods: {
-        setData(characters, allowSecondCharacter: boolean) {
+        setData(characters: ICharacter[], allowSecondCharacter: boolean) {
             this.characters = characters;
             this.allowSecondCharacter = allowSecondCharacter;
         },
-        updateCharSelectorUi() {
-            if (this.characters.length <= 0) {
-            }
-        },
-        selectCharacter(index) {
+        selectCharacter(index: number) {
             if (!(`alt` in window)) {
                 return;
             }

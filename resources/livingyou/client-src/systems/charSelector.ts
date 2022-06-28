@@ -28,17 +28,17 @@ export default class CharSelector {
         view.on('createCharacter', CharSelector.createCharacter);
         view.on('selectPed', CharSelector.selectPed);
 
-        WebViewController.openPages(['CharSelector']);
-        WebViewController.focus();
-        WebViewController.showCursor(true);
+        await WebViewController.openPages(['CharSelector']);
+        await WebViewController.focus();
+        await WebViewController.showCursor(true);
     }
 
-    @On('resourceStop')
+    @On('disconnect')
     @OnServer('charSelector:Close')
     static async close() {
-        WebViewController.showCursor(false);
-        WebViewController.unfocus();
-        WebViewController.closePages(['CharSelector']);
+        await WebViewController.showCursor(false);
+        await WebViewController.unfocus();
+        await WebViewController.closePages(['CharSelector']);
 
         const view = await WebViewController.get();
         view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
@@ -47,6 +47,8 @@ export default class CharSelector {
         view.off('selectPed', CharSelector.selectPed);
         await ScreenFade.fadeOut(0);
         CameraManager.destroyCamera();
+        native.deletePed(ped);
+        ped = 0;
     }
 
     static async charSelectorReady(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
@@ -54,9 +56,9 @@ export default class CharSelector {
         view.emit('setData', characters, allowSecondCharacter);
     }
 
-    static async showPed(clothesString: string, appearanceString: string): Promise<void> {
-        let clothes: ICharacterClothing = JSON.parse(clothesString);
-        let appearance: ICharacterAppearence = JSON.parse(appearanceString);
+    static async showPed(clothes: any, appearance: any): Promise<void> {
+        clothes = JSON.parse(clothes) as ICharacterClothing;
+        appearance = JSON.parse(appearance) as ICharacterAppearence;
         appearance.male
             ? await alt.Utils.requestModel('mp_m_freemode_01')
             : await alt.Utils.requestModel('mp_f_freemode_01');
@@ -98,7 +100,12 @@ export default class CharSelector {
             native.setPedFaceFeature(ped, i, appearance.faceFeature[i].scale);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
-            native.setPedHeadOverlay(ped, i, appearance.headOverlay[i].index, appearance.headOverlay[i].opacity);
+            native.setPedHeadOverlay(
+                ped,
+                i,
+                appearance.headOverlay[i].index == -1 ? 255 : appearance.headOverlay[i].index,
+                appearance.headOverlay[i].opacity
+            );
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
             native.setPedHeadOverlayColor(
@@ -123,13 +130,17 @@ export default class CharSelector {
         }
 
         for (let i = 0; i < clothes.props.length; i++) {
-            native.setPedPropIndex(
-                ped,
-                clothes.props[i].component,
-                clothes.props[i].drawable,
-                clothes.props[i].texture,
-                true
-            );
+            if (clothes.props[i].drawable == -1) {
+                native.clearPedProp(ped, clothes.props[i].component);
+            } else {
+                native.setPedPropIndex(
+                    ped,
+                    clothes.props[i].component,
+                    clothes.props[i].drawable,
+                    clothes.props[i].texture,
+                    true
+                );
+            }
         }
 
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);
@@ -140,8 +151,7 @@ export default class CharSelector {
         await CharCreator.open();
     }
 
-    static async selectPed(characterString: string) {
-        let character: ICharacter = JSON.parse(characterString);
+    static async selectPed(character: string) {
         EmitServer('charSelector:SelectChar', character);
     }
 }
