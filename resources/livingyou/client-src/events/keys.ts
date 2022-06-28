@@ -1,3 +1,4 @@
+import * as alt from 'alt-client';
 import { EmitServer } from '../systems/eventSystem/emit';
 import { On } from '../systems/eventSystem/on';
 

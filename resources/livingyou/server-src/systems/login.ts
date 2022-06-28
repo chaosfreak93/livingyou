@@ -20,7 +20,7 @@ export default class DiscordAuth {
         player.dimension = player.id + 1;
         player.setPosition(player, -1645.55, -1113.04, 13);
         player.visible = false;
-        //player.frozen = true;
+        player.frozen = true;
         player.collision = false;
         player.time(player);
         player.weather(player);
@@ -51,7 +51,6 @@ export default class DiscordAuth {
         await DiscordAuth.finishLogin(player, request.data);
     }
 
-    @OnClient('discord:FinishAuth')
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
         let findAccount = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
         if (findAccount.length <= 0) {
@@ -78,11 +77,6 @@ export default class DiscordAuth {
         player.discordId = discordData.id;
         EmitClient(player, 'discord:Close');
         await alt.Utils.wait(500);
-        EmitClient(
-            player,
-            'charSelector:Open',
-            findAccount[0].character,
-            findAccount[0].allowSecondCharacter
-        );
+        EmitClient(player, 'charSelector:Open', findAccount[0].character, findAccount[0].allowSecondCharacter);
     }
 }

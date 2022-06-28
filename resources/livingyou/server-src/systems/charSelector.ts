@@ -5,7 +5,8 @@ import { OnClient } from './eventSystem/on';
 
 export default class CharSelector {
     @OnClient('charSelector:SelectChar')
-    static async selectChar(player: alt.Player, character: ICharacter) {
+    static async selectChar(player: alt.Player, character: any) {
+        character = JSON.parse(character) as ICharacter;
         player.character = character;
         player.dimension = 0;
         player.setHeadBlendData(
@@ -25,7 +26,9 @@ export default class CharSelector {
         for (let i = 0; i < character.characterAppearence.headOverlay.length; i++) {
             player.setHeadOverlay(
                 i,
-                character.characterAppearence.headOverlay[i].index,
+                character.characterAppearence.headOverlay[i].index == -1
+                    ? 255
+                    : character.characterAppearence.headOverlay[i].index,
                 character.characterAppearence.headOverlay[i].opacity
             );
         }
@@ -65,18 +68,8 @@ export default class CharSelector {
         EmitClient(player, 'player:StartTicks');
 
         if (!character.lastKnownLocation) {
-            new alt.Vehicle('akuma', 221.6855926513672, -902.0967407226562, 30.69318962097168, 0, 0, 0);
             player.setPosition(player, 221.6855926513672, -902.0967407226562, 30.69318962097168);
         } else {
-            new alt.Vehicle(
-                'akuma',
-                character.lastKnownLocation.position.x,
-                character.lastKnownLocation.position.y,
-                character.lastKnownLocation.position.z,
-                character.lastKnownLocation.rotation.x,
-                character.lastKnownLocation.rotation.y,
-                character.lastKnownLocation.rotation.z
-            );
             player.setPosition(
                 player,
                 character.lastKnownLocation.position.x,
@@ -87,12 +80,12 @@ export default class CharSelector {
         }
         player.visible = true;
         player.collision = true;
-        //player.frozen = false;
+        player.frozen = false;
         player.time(player);
         player.weather(player);
 
         EmitClient(player, 'charSelector:Close');
-        await alt.Utils.wait(500);
-        EmitClient(player, 'hud:Open');
+        await alt.Utils.wait(750);
+        EmitClient(player, 'player:Spawned');
     }
 }

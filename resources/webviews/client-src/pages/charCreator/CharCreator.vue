@@ -2,15 +2,15 @@
     <div>
         <div id="info" v-if="pages.info">
             <p style="color: white">Info</p>
-            <input type="text" v-model="firstName" placeholder="Vorname" />
-            <input type="text" v-model="secondName" placeholder="Zweitname (Optional)" />
-            <input type="text" v-model="lastName" placeholder="Nachname" />
+            <input type="text" v-model="characterData.firstName" placeholder="Vorname" />
+            <input type="text" v-model="characterData.secondName" placeholder="Zweitname (Optional)" />
+            <input type="text" v-model="characterData.lastName" placeholder="Nachname" />
             <p style="color: white">Age</p>
-            <input type="date" v-model="birthday" />
+            <input type="date" v-model="characterData.birthday" />
             <p style="color: white">Gender</p>
-            <select v-model="gender" v-on:change="changeGender">
-                <option :value="'male'">Male</option>
-                <option :value="'female'">Female</option>
+            <select v-model="characterData.characterAppearence.male" v-on:change="changeGender">
+                <option :value="true">Male</option>
+                <option :value="false">Female</option>
             </select>
             <div v-if="errorMessage">
                 {{ errorMessage }}
@@ -24,7 +24,7 @@
                 type="range"
                 min="0"
                 max="45"
-                v-model="headBlendData.mother"
+                v-model.number="characterData.characterAppearence.headBlendData.mother"
                 step="1"
                 v-on:input="setHeadBlendData"
             />
@@ -33,7 +33,7 @@
                 type="range"
                 min="0"
                 max="45"
-                v-model="headBlendData.father"
+                v-model.number="characterData.characterAppearence.headBlendData.father"
                 step="1"
                 v-on:input="setHeadBlendData"
             />
@@ -42,7 +42,7 @@
                 type="range"
                 min="0.0"
                 max="1.0"
-                v-model="headBlendData.similarityAnatomy"
+                v-model.number="characterData.characterAppearence.headBlendData.similarityAnatomy"
                 step="0.025"
                 v-on:input="setHeadBlendData"
             />
@@ -51,12 +51,19 @@
                 type="range"
                 min="0.0"
                 max="1.0"
-                v-model="headBlendData.similaritySkinColor"
+                v-model.number="characterData.characterAppearence.headBlendData.similaritySkinColor"
                 step="0.025"
                 v-on:input="setHeadBlendData"
             />
             <p style="color: white">Augenfarbe</p>
-            <input type="range" min="1" max="31" v-model="eyeColor" step="1" v-on:input="setEyeColor()" />
+            <input
+                type="range"
+                min="1"
+                max="31"
+                v-model.number="characterData.characterAppearence.eyeColor"
+                step="1"
+                v-on:input="setEyeColor()"
+            />
             <br />
             <input type="button" value="Vorherige Seite" v-on:click="switchPage(0)" />
             <input type="button" value="Nächste Seite" v-on:click="switchPage(2)" />
@@ -66,18 +73,25 @@
             <input
                 type="number"
                 min="0"
-                :max="clothes[2].maxDrawable"
-                v-model="clothes[2].drawable"
+                :max="characterData.characterClothing.clothes[2].maxDrawable"
+                v-model.number="characterData.characterClothing.clothes[2].drawable"
                 step="1"
                 v-on:input="setClothes(2)"
             />
             <p style="color: white">Haarefarbe</p>
-            <input type="number" min="0" max="63" v-model="hairColor.colorId" step="1" v-on:input="setHairColor()" />
             <input
                 type="number"
                 min="0"
                 max="63"
-                v-model="hairColor.highlightColorId"
+                v-model.number="characterData.characterAppearence.hairColor.colorId"
+                step="1"
+                v-on:input="setHairColor()"
+            />
+            <input
+                type="number"
+                min="0"
+                max="63"
+                v-model.number="characterData.characterAppearence.hairColor.highlightColorId"
                 step="1"
                 v-on:input="setHairColor()"
             />
@@ -85,8 +99,8 @@
             <input
                 type="number"
                 min="-1"
-                :max="headOverlay[1].maxIndex"
-                v-model="headOverlay[1].index"
+                :max="characterData.characterAppearence.headOverlay[1].maxIndex"
+                v-model.number="characterData.characterAppearence.headOverlay[1].index"
                 step="1"
                 v-on:input="setHeadOverlay(1)"
             />
@@ -94,7 +108,7 @@
                 type="range"
                 min="0.0"
                 max="1.0"
-                v-model="headOverlay[1].opacity"
+                v-model.number="characterData.characterAppearence.headOverlay[1].opacity"
                 step="0.025"
                 v-on:input="setHeadOverlay(1)"
             />
@@ -103,7 +117,7 @@
                 type="number"
                 min="0"
                 max="63"
-                v-model="headOverlay[1].colorIndex"
+                v-model.number="characterData.characterAppearence.headOverlay[1].colorIndex"
                 step="1"
                 v-on:input="setHeadOverlayColor(1)"
             />
@@ -111,8 +125,8 @@
             <input
                 type="number"
                 min="-1"
-                :max="headOverlay[2].maxIndex"
-                v-model="headOverlay[2].index"
+                :max="characterData.characterAppearence.headOverlay[2].maxIndex"
+                v-model.number="characterData.characterAppearence.headOverlay[2].index"
                 step="1"
                 v-on:input="setHeadOverlay(2)"
             />
@@ -120,7 +134,7 @@
                 type="range"
                 min="0.0"
                 max="1.0"
-                v-model="headOverlay[2].opacity"
+                v-model.number="characterData.characterAppearence.headOverlay[2].opacity"
                 step="0.025"
                 v-on:input="setHeadOverlay(2)"
             />
@@ -129,7 +143,7 @@
                 type="number"
                 min="0"
                 max="63"
-                v-model="headOverlay[2].colorIndex"
+                v-model.number="characterData.characterAppearence.headOverlay[2].colorIndex"
                 step="1"
                 v-on:input="setHeadOverlayColor(2)"
             />
@@ -137,8 +151,8 @@
             <input
                 type="number"
                 min="-1"
-                :max="headOverlay[10].maxIndex"
-                v-model="headOverlay[10].index"
+                :max="characterData.characterAppearence.headOverlay[10].maxIndex"
+                v-model.number="characterData.characterAppearence.headOverlay[10].index"
                 step="1"
                 v-on:input="setHeadOverlay(10)"
             />
@@ -146,7 +160,7 @@
                 type="range"
                 min="0.0"
                 max="1.0"
-                v-model="headOverlay[10].opacity"
+                v-model.number="characterData.characterAppearence.headOverlay[10].opacity"
                 step="0.025"
                 v-on:input="setHeadOverlay(10)"
             />
@@ -155,7 +169,7 @@
                 type="number"
                 min="0"
                 max="63"
-                v-model="headOverlay[10].colorIndex"
+                v-model.number="characterData.characterAppearence.headOverlay[10].colorIndex"
                 step="1"
                 v-on:input="setHeadOverlayColor(10)"
             />
@@ -164,13 +178,13 @@
             <input type="button" value="Nächste Seite" v-on:click="switchPage(3)" />
         </div>
         <div id="structure" v-if="pages.structure">
-            <div id="faceFeature" v-for="(item, index) in faceFeature" :key="index">
+            <div id="faceFeature" v-for="(item, index) in characterData.characterAppearence.faceFeature" :key="index">
                 <p style="color: white">{{ item.name }}</p>
                 <input
                     type="range"
                     min="-1.0"
                     max="1.0"
-                    v-model="item.scale"
+                    v-model.number="item.scale"
                     step="0.025"
                     v-on:input="setFaceFeature(index)"
                 />
@@ -179,14 +193,14 @@
             <input type="button" value="Nächste Seite" v-on:click="switchPage(4)" />
         </div>
         <div id="overlays" v-if="pages.overlays">
-            <div id="headOverlay" v-for="(item, index) in headOverlay" :key="index">
+            <div id="headOverlay" v-for="(item, index) in characterData.characterAppearence.headOverlay" :key="index">
                 <div v-if="index != 1 && index != 2 && index != 10">
                     <p style="color: white">{{ item.name }}</p>
                     <input
                         type="number"
                         min="-1"
                         :max="item.maxIndex"
-                        v-model="item.index"
+                        v-model.number="item.index"
                         step="1"
                         v-on:input="setHeadOverlay(index)"
                     />
@@ -194,7 +208,7 @@
                         type="range"
                         min="0.0"
                         max="1.0"
-                        v-model="item.opacity"
+                        v-model.number="item.opacity"
                         step="0.025"
                         v-on:input="setHeadOverlay(index)"
                     />
@@ -203,7 +217,7 @@
                             type="number"
                             min="0"
                             max="63"
-                            v-model="item.colorIndex"
+                            v-model.number="item.colorIndex"
                             step="1"
                             v-on:input="setHeadOverlayColor(index)"
                         />
@@ -214,31 +228,37 @@
             <input type="button" value="Nächste Seite" v-on:click="switchPage(5)" />
         </div>
         <div id="clothing" v-if="pages.clothes">
-            <div id="clothes" v-for="(item, index) in clothes" :key="index">
+            <div id="clothes" v-for="(item, index) in characterData.characterClothing.clothes" :key="index">
                 <div v-if="index != 2 && index != 9">
                     <p style="color: white">{{ item.name }}</p>
                     <input
                         type="number"
                         min="0"
                         :max="item.maxDrawable"
-                        v-model="item.drawable"
+                        v-model.number="item.drawable"
                         step="1"
                         v-on:input="setClothes(index)"
                     />
-                    <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setClothes(index)" />
+                    <input
+                        type="number"
+                        min="0"
+                        v-model.number="item.texture"
+                        step="1"
+                        v-on:input="setClothes(index)"
+                    />
                 </div>
             </div>
-            <div id="props" v-for="(item, index) in props" :key="index">
+            <div id="props" v-for="(item, index) in characterData.characterClothing.props" :key="index">
                 <p style="color: white">{{ item.name }}</p>
                 <input
                     type="number"
                     min="-1"
                     :max="item.maxDrawable"
-                    v-model="item.drawable"
+                    v-model.number="item.drawable"
                     step="1"
                     v-on:input="setProps(index)"
                 />
-                <input type="number" min="0" v-model="item.texture" step="1" v-on:input="setProps(index)" />
+                <input type="number" min="0" v-model.number="item.texture" step="1" v-on:input="setProps(index)" />
             </div>
             <input type="button" value="Vorherige Seite" v-on:click="switchPage(4)" />
             <input type="button" value="Charakter fertigstellen" v-on:click="finishCharacter()" />
@@ -248,10 +268,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ICharacter from '../../../../livingyou/shared/interface/ICharacter';
 const ComponentName = 'CharCreator';
 export default defineComponent({
     name: ComponentName,
-    components: {},
     data() {
         return {
             pages: {
@@ -262,393 +282,401 @@ export default defineComponent({
                 overlays: false,
                 clothes: false,
             },
-            firstName: '',
-            secondName: '',
-            lastName: '',
-            birthday: '',
-            gender: 'male',
-            headBlendData: {
-                mother: 0,
-                father: 0,
-                similarityAnatomy: 0.5,
-                similaritySkinColor: 0.5,
-            },
-            faceFeature: [
-                {
-                    name: 'Nose_Width',
-                    scale: 0,
+            characterData: {
+                firstName: '',
+                secondName: '',
+                lastName: '',
+                birthday: '',
+                characterAppearence: {
+                    male: true,
+                    headBlendData: {
+                        mother: 0,
+                        father: 0,
+                        similarityAnatomy: 0.5,
+                        similaritySkinColor: 0.5,
+                    },
+                    faceFeature: [
+                        {
+                            name: 'nose_width',
+                            scale: 0,
+                        },
+                        {
+                            name: 'nose_peak_height',
+                            scale: 0,
+                        },
+                        {
+                            name: 'nose_peak_length',
+                            scale: 0,
+                        },
+                        {
+                            name: 'nose_bone_height',
+                            scale: 0,
+                        },
+                        {
+                            name: 'nose_peak_lowering',
+                            scale: 0,
+                        },
+                        {
+                            name: 'nose_bone_twist',
+                            scale: 0,
+                        },
+                        {
+                            name: 'eye_brown_height',
+                            scale: 0,
+                        },
+                        {
+                            name: 'eye_brown_forward',
+                            scale: 0,
+                        },
+                        {
+                            name: 'cheeks_bone_height',
+                            scale: 0,
+                        },
+                        {
+                            name: 'cheeks_bone_width',
+                            scale: 0,
+                        },
+                        {
+                            name: 'cheeks_width',
+                            scale: 0,
+                        },
+                        {
+                            name: 'eyes_opening',
+                            scale: 0,
+                        },
+                        {
+                            name: 'lips_thickness',
+                            scale: 0,
+                        },
+                        {
+                            name: 'jaw_bone_width',
+                            scale: 0,
+                        },
+                        {
+                            name: 'jaw_bone_back_length',
+                            scale: 0,
+                        },
+                        {
+                            name: 'chimp_bone_lowering',
+                            scale: 0,
+                        },
+                        {
+                            name: 'chimp_bone_length',
+                            scale: 0,
+                        },
+                        {
+                            name: 'chimp_bone_width',
+                            scale: 0,
+                        },
+                        {
+                            name: 'chimp_hole',
+                            scale: 0,
+                        },
+                        {
+                            name: 'neck_thickness',
+                            scale: 0,
+                        },
+                    ],
+                    headOverlay: [
+                        {
+                            name: 'Blemishes',
+                            index: -1,
+                            maxIndex: 23,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Facial Hair',
+                            index: -1,
+                            maxIndex: 28,
+                            opacity: 1.0,
+                            colorType: 1,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Eyebrows',
+                            index: -1,
+                            maxIndex: 33,
+                            opacity: 1.0,
+                            colorType: 1,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Ageing',
+                            index: -1,
+                            maxIndex: 14,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Makeup',
+                            index: -1,
+                            maxIndex: 74,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Blush',
+                            index: -1,
+                            maxIndex: 6,
+                            opacity: 1.0,
+                            colorType: 2,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Complexion',
+                            index: -1,
+                            maxIndex: 11,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Sun Damage',
+                            index: -1,
+                            maxIndex: 10,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Lipstick',
+                            index: -1,
+                            maxIndex: 9,
+                            opacity: 1.0,
+                            colorType: 2,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Moles/Freckles',
+                            index: -1,
+                            maxIndex: 17,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Chest Hair',
+                            index: -1,
+                            maxIndex: 16,
+                            opacity: 1.0,
+                            colorType: 1,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Body Blemishes',
+                            index: -1,
+                            maxIndex: 11,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                        {
+                            name: 'Add Body Blemishes',
+                            index: -1,
+                            maxIndex: 1,
+                            opacity: 1.0,
+                            colorType: 0,
+                            colorIndex: 0,
+                        },
+                    ],
+                    eyeColor: 1,
+                    hairColor: {
+                        colorId: 0,
+                        highlightColorId: 0,
+                    },
                 },
-                {
-                    name: 'Nose_Peak_Hight',
-                    scale: 0,
+                characterClothing: {
+                    clothes: [
+                        {
+                            name: 'head',
+                            component: 0,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'mask',
+                            component: 1,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'hairStyle',
+                            component: 2,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'torso',
+                            component: 3,
+                            drawable: 15,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'legs',
+                            component: 4,
+                            drawable: 14,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'bag',
+                            component: 5,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'shoes',
+                            component: 6,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'accessories',
+                            component: 7,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'undershirt',
+                            component: 8,
+                            drawable: 15,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'armor',
+                            component: 9,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'decals',
+                            component: 10,
+                            drawable: 0,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'top',
+                            component: 11,
+                            drawable: 15,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                    ],
+                    props: [
+                        {
+                            name: 'hat',
+                            component: 0,
+                            drawable: -1,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'glasses',
+                            component: 1,
+                            drawable: -1,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'ear',
+                            component: 2,
+                            drawable: -1,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'watch',
+                            component: 6,
+                            drawable: -1,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                        {
+                            name: 'bracelet',
+                            component: 7,
+                            drawable: -1,
+                            maxDrawable: 0,
+                            texture: 0,
+                        },
+                    ],
                 },
-                {
-                    name: 'Nose_Peak_Lenght',
-                    scale: 0,
-                },
-                {
-                    name: 'Nose_Bone_High',
-                    scale: 0,
-                },
-                {
-                    name: 'Nose_Peak_Lowering',
-                    scale: 0,
-                },
-                {
-                    name: 'Nose_Bone_Twist',
-                    scale: 0,
-                },
-                {
-                    name: 'EyeBrown_High',
-                    scale: 0,
-                },
-                {
-                    name: 'EyeBrown_Forward',
-                    scale: 0,
-                },
-                {
-                    name: 'Cheeks_Bone_High',
-                    scale: 0,
-                },
-                {
-                    name: 'Cheeks_Bone_Width',
-                    scale: 0,
-                },
-                {
-                    name: 'Cheeks_Width',
-                    scale: 0,
-                },
-                {
-                    name: 'Eyes_Openning',
-                    scale: 0,
-                },
-                {
-                    name: 'Lips_Thickness',
-                    scale: 0,
-                },
-                {
-                    name: 'Jaw_Bone_Width',
-                    scale: 0,
-                },
-                {
-                    name: 'Jaw_Bone_Back_Lenght',
-                    scale: 0,
-                },
-                {
-                    name: 'Chimp_Bone_Lowering',
-                    scale: 0,
-                },
-                {
-                    name: 'Chimp_Bone_Lenght',
-                    scale: 0,
-                },
-                {
-                    name: 'Chimp_Bone_Width',
-                    scale: 0,
-                },
-                {
-                    name: 'Chimp_Hole',
-                    scale: 0,
-                },
-                {
-                    name: 'Neck_Thikness',
-                    scale: 0,
-                },
-            ],
-            headOverlay: [
-                {
-                    name: 'Blemishes',
-                    index: -1,
-                    maxIndex: 23,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Facial Hair',
-                    index: -1,
-                    maxIndex: 28,
-                    opacity: 1.0,
-                    colorType: 1,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Eyebrows',
-                    index: -1,
-                    maxIndex: 33,
-                    opacity: 1.0,
-                    colorType: 1,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Ageing',
-                    index: -1,
-                    maxIndex: 14,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Makeup',
-                    index: -1,
-                    maxIndex: 74,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Blush',
-                    index: -1,
-                    maxIndex: 6,
-                    opacity: 1.0,
-                    colorType: 2,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Complexion',
-                    index: -1,
-                    maxIndex: 11,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Sun Damage',
-                    index: -1,
-                    maxIndex: 10,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Lipstick',
-                    index: -1,
-                    maxIndex: 9,
-                    opacity: 1.0,
-                    colorType: 2,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Moles/Freckles',
-                    index: -1,
-                    maxIndex: 17,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Chest Hair',
-                    index: -1,
-                    maxIndex: 16,
-                    opacity: 1.0,
-                    colorType: 1,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Body Blemishes',
-                    index: -1,
-                    maxIndex: 11,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-                {
-                    name: 'Add Body Blemishes',
-                    index: -1,
-                    maxIndex: 1,
-                    opacity: 1.0,
-                    colorType: 0,
-                    colorIndex: 0,
-                },
-            ],
-            clothes: [
-                {
-                    name: 'head',
-                    component: 0,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'mask',
-                    component: 1,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'hairStyle',
-                    component: 2,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'torso',
-                    component: 3,
-                    drawable: 15,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'legs',
-                    component: 4,
-                    drawable: 14,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'bag',
-                    component: 5,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'shoes',
-                    component: 6,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'accessories',
-                    component: 7,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'undershirt',
-                    component: 8,
-                    drawable: 15,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'armor',
-                    component: 9,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'decals',
-                    component: 10,
-                    drawable: 0,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'top',
-                    component: 11,
-                    drawable: 15,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-            ],
-            props: [
-                {
-                    name: 'hat',
-                    component: 0,
-                    drawable: -1,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'glasses',
-                    component: 1,
-                    drawable: -1,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'ear',
-                    component: 2,
-                    drawable: -1,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'watch',
-                    component: 6,
-                    drawable: -1,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-                {
-                    name: 'bracelet',
-                    component: 7,
-                    drawable: -1,
-                    maxDrawable: 0,
-                    texture: 0,
-                },
-            ],
-            eyeColor: 1,
-            hairColor: {
-                colorId: 0,
-                highlightColorId: 0,
-            },
-            errorMessage: null,
+            } as ICharacter,
+            errorMessage: null as string,
         };
     },
     methods: {
         finishCharCreatorLoading(clothesMax: number[], propsMax: number[]) {
             for (let i = 0; i < clothesMax.length; i++) {
-                this.clothes[i].maxDrawable = clothesMax[i];
+                this.characterData.characterClothing.clothes[i].maxDrawable = clothesMax[i];
             }
             for (let i = 0; i < propsMax.length; i++) {
-                this.props[i].maxDrawable = propsMax[i];
+                this.characterData.characterClothing.props[i].maxDrawable = propsMax[i];
             }
 
             this.switchPage(0);
         },
         finishCharInfo() {
-            if (this.firstName.length < 3) {
+            if (this.characterData.firstName.length < 3) {
                 this.errorMessage = 'First name must be at least 3 characters';
                 return;
             }
 
-            if (!new RegExp(/^[a-zA-Z\u00DF]+$/gm).test(this.firstName)) {
+            if (!new RegExp(/^[a-zA-Z\u00DF]+$/gm).test(this.characterData.firstName)) {
                 this.errorMessage = 'First name cannot include special characters';
                 return;
             }
 
-            if (this.secondName.length > 0) {
-                if (this.secondName.length < 3) {
+            if (this.characterData.secondName.length > 0) {
+                if (this.characterData.secondName.length < 3) {
                     this.errorMessage = 'Second name must be at least 3 characters';
                     return;
                 }
 
-                if (!new RegExp(/^[a-zA-Z\u00DF]+$/gm).test(this.secondName)) {
+                if (!new RegExp(/^[a-zA-Z\u00DF]+$/gm).test(this.characterData.secondName)) {
                     this.errorMessage = 'Second name cannot include special characters';
                     return;
                 }
             }
 
-            if (this.lastName.length < 3) {
+            if (this.characterData.lastName.length < 3) {
                 this.errorMessage = 'Last name must be at least 3 characters';
                 return;
             }
 
-            if (!new RegExp(/^[a-zA-Z\u00DF]+$/gm).test(this.lastName)) {
+            if (!new RegExp(/^[a-zA-Z\u00DF]+$/gm).test(this.characterData.lastName)) {
                 this.errorMessage = 'Last name cannot include special characters';
                 return;
             }
 
-            let [y, m, d] = this.birthday.split('-');
-            if (y < 1940) {
+            let [y, m, d] = this.characterData.birthday.split('-');
+            if (parseInt(y) < 1940) {
                 this.errorMessage = 'Minimum Year: 1940';
+                return;
             }
 
-            if (y > 2004) {
+            if (parseInt(y) > 2004) {
                 this.errorMessage = 'Maximum Year: 2004';
+                return;
             }
 
             this.errorMessage = null;
             this.switchPage(1);
         },
-        switchPage(page) {
+        switchPage(page: number) {
             this.pages.info = false;
             this.pages.appearance = false;
             this.pages.hair = false;
@@ -681,23 +709,19 @@ export default defineComponent({
                 return;
             }
 
-            this.headBlendData.mother = 0;
-            this.headBlendData.father = 0;
-            this.headBlendData.similarityAnatomy = 0.5;
-            this.headBlendData.similaritySkinColor = 0.5;
-            for (let i = 0; i < this.faceFeature.length; i++) {
-                this.faceFeature[i].scale = 0;
+            this.characterData.characterAppearence.headBlendData.mother = 0;
+            this.characterData.characterAppearence.headBlendData.father = 0;
+            this.characterData.characterAppearence.headBlendData.similarityAnatomy = 0.5;
+            this.characterData.characterAppearence.headBlendData.similaritySkinColor = 0.5;
+            for (let i = 0; i < this.characterData.characterAppearence.faceFeature.length; i++) {
+                this.characterData.characterAppearence.faceFeature[i].scale = 0;
             }
-            for (let i = 0; i < this.headOverlay.length; i++) {
-                this.headOverlay[i].index = -1;
-                this.headOverlay[i].opacity = 1.0;
+            for (let i = 0; i < this.characterData.characterAppearence.headOverlay.length; i++) {
+                this.characterData.characterAppearence.headOverlay[i].index = -1;
+                this.characterData.characterAppearence.headOverlay[i].opacity = 1.0;
             }
 
-            if (this.gender == 'male') {
-                alt.emit('changeGender', true);
-            } else if (this.gender == 'female') {
-                alt.emit('changeGender', false);
-            }
+            alt.emit('changeGender', this.characterData.characterAppearence.male);
         },
         setHeadBlendData() {
             if (!(`alt` in window)) {
@@ -706,45 +730,54 @@ export default defineComponent({
 
             alt.emit(
                 'setHeadBlendData',
-                parseInt(this.headBlendData.mother),
-                parseInt(this.headBlendData.father),
-                parseFloat(this.headBlendData.similarityAnatomy),
-                parseFloat(this.headBlendData.similaritySkinColor)
+                this.characterData.characterAppearence.headBlendData.mother,
+                this.characterData.characterAppearence.headBlendData.father,
+                this.characterData.characterAppearence.headBlendData.similarityAnatomy,
+                this.characterData.characterAppearence.headBlendData.similaritySkinColor
             );
         },
-        setFaceFeature(index) {
+        setFaceFeature(faceFeatureId: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
-            alt.emit('setFaceFeature', parseInt(index), parseFloat(this.faceFeature[index].scale));
+            alt.emit(
+                'setFaceFeature',
+                faceFeatureId,
+                this.characterData.characterAppearence.faceFeature[faceFeatureId].scale
+            );
         },
-        setHeadOverlay(overlayId) {
+        setHeadOverlay(overlayId: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
-            if (parseInt(this.headOverlay[overlayId].index) == -1) {
-                alt.emit('setHeadOverlay', parseInt(overlayId), 255, parseFloat(this.headOverlay[overlayId].opacity));
+            if (this.characterData.characterAppearence.headOverlay[overlayId].index == -1) {
+                alt.emit(
+                    'setHeadOverlay',
+                    overlayId,
+                    255,
+                    this.characterData.characterAppearence.headOverlay[overlayId].opacity
+                );
             } else {
                 alt.emit(
                     'setHeadOverlay',
-                    parseInt(overlayId),
-                    parseInt(this.headOverlay[overlayId].index),
-                    parseFloat(this.headOverlay[overlayId].opacity)
+                    overlayId,
+                    this.characterData.characterAppearence.headOverlay[overlayId].index,
+                    this.characterData.characterAppearence.headOverlay[overlayId].opacity
                 );
             }
         },
-        setHeadOverlayColor(overlayId) {
+        setHeadOverlayColor(overlayColorId: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
             alt.emit(
                 'setHeadOverlayColor',
-                parseInt(overlayId),
-                parseInt(this.headOverlay[overlayId].colorType),
-                parseInt(this.headOverlay[overlayId].colorIndex)
+                overlayColorId,
+                this.characterData.characterAppearence.headOverlay[overlayColorId].colorType,
+                this.characterData.characterAppearence.headOverlay[overlayColorId].colorIndex
             );
         },
         setEyeColor() {
@@ -752,37 +785,41 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('setEyeColor', parseInt(this.eyeColor));
+            alt.emit('setEyeColor', this.characterData.characterAppearence.eyeColor);
         },
         setHairColor() {
             if (!(`alt` in window)) {
                 return;
             }
 
-            alt.emit('setHairColor', parseInt(this.hairColor.colorId), parseInt(this.hairColor.highlightColorId));
+            alt.emit(
+                'setHairColor',
+                this.characterData.characterAppearence.hairColor.colorId,
+                this.characterData.characterAppearence.hairColor.highlightColorId
+            );
         },
-        setClothes(index) {
+        setClothes(clotheIndex: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
             alt.emit(
                 'setClothes',
-                parseInt(this.clothes[index].component),
-                parseInt(this.clothes[index].drawable),
-                parseInt(this.clothes[index].texture)
+                this.characterData.characterClothing.clothes[clotheIndex].component,
+                this.characterData.characterClothing.clothes[clotheIndex].drawable,
+                this.characterData.characterClothing.clothes[clotheIndex].texture
             );
         },
-        setProps(index) {
+        setProps(propIndex: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
             alt.emit(
                 'setProps',
-                parseInt(this.props[index].component),
-                parseInt(this.props[index].drawable),
-                parseInt(this.props[index].texture)
+                this.characterData.characterClothing.props[propIndex].component,
+                this.characterData.characterClothing.props[propIndex].drawable,
+                this.characterData.characterClothing.props[propIndex].texture
             );
         },
         finishCharacter() {
@@ -790,22 +827,7 @@ export default defineComponent({
                 return;
             }
 
-            let charInfo = {
-                firstName: this.firstName,
-                secondName: this.secondName,
-                lastName: this.lastName,
-                birthday: this.birthday,
-                male: this.gender == 'male' ? true : false,
-                headBlendData: this.headBlendData,
-                faceFeature: this.faceFeature,
-                headOverlay: this.headOverlay,
-                hairColor: this.hairColor,
-                eyeColor: this.eyeColor,
-                clothes: this.clothes,
-                props: this.props,
-            };
-
-            alt.emit('finishCharacter', JSON.stringify(charInfo));
+            alt.emit('finishCharacter', JSON.stringify(this.characterData));
         },
     },
     mounted() {

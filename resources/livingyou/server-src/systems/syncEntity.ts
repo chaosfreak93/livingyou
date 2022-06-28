@@ -1,6 +1,9 @@
 import * as xsync from 'altv-xsync-entity-server';
 
-new xsync.XSyncEntity(100, {
-    port: 25565,
-    localhost: true,
+new xsync.XSyncEntity({
+    streamDelay: 200,
+    wss: {
+        port: 19132,
+        localhost: true,
+    },
 });

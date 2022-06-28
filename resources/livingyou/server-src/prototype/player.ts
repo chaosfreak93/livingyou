@@ -1,7 +1,9 @@
 import * as alt from 'alt-server';
+import { arrayBuffer } from 'stream/consumers';
 import ICharacter from '../../shared/interface/ICharacter';
 import { EmitClient } from '../systems/eventSystem/emit';
 import { World } from '../systems/world';
+import Items from './items';
 
 declare module 'alt-server' {
     export interface Player {
@@ -9,10 +11,26 @@ declare module 'alt-server' {
         character?: ICharacter;
         discordId?: number;
         nextTickTime?: number;
+        inventoryOpen: boolean;
+        screenEffect: {
+            name: string;
+            ticks: number;
+        };
 
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
         time(player: alt.Player): void;
         weather(player: alt.Player): void;
+        startScreenEffect(player: alt.Player, effectName: string, ticks: number, looped: boolean): void;
+        stopScreenEffect(player: alt.Player, effectName: string): void;
+
+        updateFood(player: alt.Player, food: number): void;
+        updateThirst(player: alt.Player, thirst: number): void;
+
+        // Inventory
+        addItemByName(player: alt.Player, name: string, amount?: number): void;
+        addItemById(player: alt.Player, id: string, amount?: number): void;
+        removeItemByName(player: alt.Player, name: string, amount?: number): void;
+        removeItemById(player: alt.Player, id: string, amount?: number): void;
 
         // Clothing
         setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
@@ -50,11 +68,122 @@ alt.Player.prototype.setPosition = function setPosition(player: alt.Player, x: n
 };
 
 alt.Player.prototype.time = function time(player: alt.Player) {
-    EmitClient(player,'world:UpdateTime', World.getWorldHour(), World.getWorldMinute());
+    EmitClient(player, 'world:UpdateTime', World.getWorldHour(), World.getWorldMinute());
 };
 
 alt.Player.prototype.weather = function weather(player: alt.Player) {
-   EmitClient(player, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(player)));
+    EmitClient(player, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(player)));
+};
+
+alt.Player.prototype.startScreenEffect = function startScreenEffect(
+    player: alt.Player,
+    effectName: string,
+    ticks: number,
+    looped: boolean = false
+) {
+    if (looped || ticks == 0) {
+        player.screenEffect = {
+            name: effectName,
+            ticks: ticks,
+        };
+        EmitClient(player, 'player:StartScreenEffect', effectName, ticks * 5000, looped);
+    } else {
+        player.screenEffect = {
+            name: effectName,
+            ticks: parseInt((ticks / 5000).toFixed(0)),
+        };
+        EmitClient(player, 'player:StartScreenEffect', effectName, ticks, looped);
+    }
+};
+
+alt.Player.prototype.stopScreenEffect = function stopScreenEffect(player: alt.Player, effectName: string) {
+    EmitClient(player, 'player:StopScreenEffect', effectName);
+};
+
+// Inventory
+alt.Player.prototype.addItemByName = function addItemByName(player: alt.Player, name: string, amount?: number): void {
+    let item: any = Items.getItemByName(name);
+    if (!item) return;
+    item = player.character.pocketInventory.items.find((value) => value.name == name);
+    if (item) {
+        if (amount) {
+            item.amount += amount;
+        } else {
+            item.amount += 1;
+        }
+    } else {
+        if (amount) {
+            player.character.pocketInventory.items.push({ amount: amount, ...item });
+        } else {
+            player.character.pocketInventory.items.push({ amount: 1, ...item });
+        }
+    }
+};
+
+alt.Player.prototype.addItemById = function addItemById(player: alt.Player, id: string, amount?: number): void {
+    let item: any = Items.getItemById(id);
+    if (!item) return;
+    item = player.character.pocketInventory.items.find((value) => value.id == id);
+    if (item) {
+        if (amount) {
+            item.amount += amount;
+        } else {
+            item.amount += 1;
+        }
+    } else {
+        if (amount) {
+            player.character.pocketInventory.items.push({ amount: amount, ...item });
+        } else {
+            player.character.pocketInventory.items.push({ amount: 1, ...item });
+        }
+    }
+};
+
+alt.Player.prototype.removeItemByName = function removeItemByName(
+    player: alt.Player,
+    name: string,
+    amount?: number
+): void {
+    let item: any = Items.getItemByName(name);
+    if (!item) return;
+    item = player.character.pocketInventory.items.find((value) => value.name == name);
+    if (!item) return;
+    if (amount && item.amount - amount >= 1) {
+        item.amount -= amount;
+    } else {
+        const index = player.character.pocketInventory.items.indexOf(item);
+        player.character.pocketInventory.items.splice(index, 1);
+    }
+};
+
+alt.Player.prototype.removeItemById = function removeItemById(player: alt.Player, id: string, amount?: number): void {
+    let item: any = Items.getItemById(id);
+    if (!item) return;
+    item = player.character.pocketInventory.items.find((value) => value.id == id);
+    if (!item) return;
+    if (amount && item.amount - amount >= 1) {
+        item.amount -= amount;
+    } else {
+        const index = player.character.pocketInventory.items.indexOf(item);
+        player.character.pocketInventory.items.splice(index, 1);
+    }
+};
+
+alt.Player.prototype.updateFood = function updateFood(player: alt.Player, food: number): void {
+    player.character.hunger += food;
+    if (player.character.hunger <= 0) {
+        player.character.hunger = 0;
+    } else if (player.character.hunger >= 100) {
+        player.character.hunger = 100;
+    }
+};
+alt.Player.prototype.updateThirst = function updateThirst(player: alt.Player, thirst: number): void {
+    player.character.thirst += thirst;
+    if (player.character.thirst <= 0) {
+        player.character.thirst = 0;
+    } else if (player.character.thirst >= 100) {
+        player.character.thirst = 100;
+    }
 };
 
 // Clothing

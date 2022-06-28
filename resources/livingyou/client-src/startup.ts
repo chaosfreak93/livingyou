@@ -8,10 +8,12 @@ import './systems/charCreator';
 import './systems/charSelector';
 import './systems/discordAuth';
 import './systems/hud';
+import './systems/inventory';
 import './systems/iplmanager';
 import './systems/tick';
 import './systems/world';
 import './utility/debug';
+import './utility/screenEffect';
 
 // EntitySync
 import './systems/syncEntity';
