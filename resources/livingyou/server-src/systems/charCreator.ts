@@ -31,7 +31,7 @@ export default class CharCreator {
         await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
 
         EmitClient(player, 'charCreator:Close');
-        await alt.Utils.wait(500);
+        await alt.Utils.wait(750);
         EmitClient(player, 'charSelector:Open', findAccount[0].character, findAccount[0].allowSecondCharacter);
     }
 }

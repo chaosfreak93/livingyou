@@ -4,7 +4,6 @@ import * as build_options from '../../../../build-options';
 import Items from '../prototype/items';
 import IItem from '../../shared/interface/IItem';
 
-
 const url = process.env.MONGO_URL;
 const dbName = 'livingyou';
 const collections = ['accounts', 'items'];

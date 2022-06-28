@@ -94,7 +94,6 @@ export default defineComponent({
                 document.getElementById('actions').style.top = '0px';
                 document.getElementById('actions').style.left = '0px';
             }
-
             document.getElementById('actions').style.display = 'block';
             document.getElementById('actions').style.top = event.pageY + 'px';
             document.getElementById('actions').style.left = event.pageX + 'px';
@@ -105,7 +104,6 @@ export default defineComponent({
             if (!(`alt` in window)) {
                 return;
             }
-
             alt.emit('useItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
         },
         giveItem(event: MouseEvent): void {},
@@ -187,25 +185,21 @@ export default defineComponent({
     justify-content: center;
     align-items: center;
 }
-
 #pocketInventory {
     width: 25vw;
     background-color: rgba(0, 0, 0, 0.55);
     border-radius: 10px;
 }
-
 #backpackInventory {
     width: 25vw;
     background-color: rgba(0, 0, 0, 0.55);
     border-radius: 10px;
 }
-
 #otherInventory {
     width: 25vw;
     background-color: rgba(0, 0, 0, 0.55);
     border-radius: 10px;
 }
-
 #itemlist {
     margin: 0px 25px;
     display: grid;
@@ -214,7 +208,6 @@ export default defineComponent({
     justify-content: center;
     align-items: center;
 }
-
 #item {
     position: relative;
     border: 0.2px solid black;
@@ -226,24 +219,20 @@ export default defineComponent({
     background-repeat: no-repeat;
     background-position: center;
 }
-
 #actions {
     position: absolute;
     color: white;
     background-color: grey;
     z-index: 1;
 }
-
 #use {
     border-top: 0.1px solid black;
     border-left: 0.1px solid black;
     border-right: 0.1px solid black;
 }
-
 #give {
     border: 0.1px solid black;
 }
-
 #drop {
     border-left: 0.1px solid black;
     border-right: 0.1px solid black;
