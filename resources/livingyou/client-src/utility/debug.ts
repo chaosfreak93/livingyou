@@ -4,7 +4,7 @@ import { OnServer } from '../systems/eventSystem/on';
 import { World } from '../systems/world';
 
 export default class DevTools {
-    @OnServer('devTools:debug')
+    @OnServer('devTools:PosAndRot')
     static debug(): void {
         alt.log('POSITION:');
         const pos = { ...alt.Player.local.pos };

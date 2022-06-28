@@ -100,7 +100,12 @@ export default class CharSelector {
             native.setPedFaceFeature(ped, i, appearance.faceFeature[i].scale);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
-            native.setPedHeadOverlay(ped, i, appearance.headOverlay[i].index, appearance.headOverlay[i].opacity);
+            native.setPedHeadOverlay(
+                ped,
+                i,
+                appearance.headOverlay[i].index == -1 ? 255 : appearance.headOverlay[i].index,
+                appearance.headOverlay[i].opacity
+            );
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
             native.setPedHeadOverlayColor(
@@ -125,13 +130,17 @@ export default class CharSelector {
         }
 
         for (let i = 0; i < clothes.props.length; i++) {
-            native.setPedPropIndex(
-                ped,
-                clothes.props[i].component,
-                clothes.props[i].drawable,
-                clothes.props[i].texture,
-                true
-            );
+            if (clothes.props[i].drawable == -1) {
+                native.clearPedProp(ped, clothes.props[i].component);
+            } else {
+                native.setPedPropIndex(
+                    ped,
+                    clothes.props[i].component,
+                    clothes.props[i].drawable,
+                    clothes.props[i].texture,
+                    true
+                );
+            }
         }
 
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);

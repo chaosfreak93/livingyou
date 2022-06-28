@@ -245,19 +245,16 @@ export default defineComponent({
     background: rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
-
 html,
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
-
 body {
-  height: 100vh;
-  width: 100vw;
+    height: 100vh;
+    width: 100vw;
 }
-
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 </style>

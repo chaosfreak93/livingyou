@@ -2,7 +2,8 @@ node_modules
 altv-server
 client-dist.js
 server-dist.js
-assets/
+resources/webviews/assets/bundle.*
+resources/webviews/assets/*.png
 .vscode
 *.dll
 *.exe

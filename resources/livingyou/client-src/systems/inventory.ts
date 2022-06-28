@@ -1,7 +1,6 @@
-import * as alt from 'alt-client';
-import * as native from 'natives';
 import IInventory from '../../shared/interface/IInventory';
 import { WebViewController } from '../extensions/webViewController';
+import { EmitServer } from './eventSystem/emit';
 import { On, OnServer } from './eventSystem/on';
 
 export default class Inventory {
@@ -13,6 +12,7 @@ export default class Inventory {
     ): Promise<void> {
         const view = await WebViewController.get();
         view.on('inventoryReady', () => Inventory.inventoryReady(inventory1, inventory2, inventory3));
+        view.on('useItem', Inventory.useItem);
 
         await WebViewController.setOverlaysVisible(false);
         await WebViewController.openPages(['Inventory']);
@@ -25,6 +25,12 @@ export default class Inventory {
         view.emit('setData', inventory1, inventory2, inventory3);
     }
 
+    static useItem(inventory: any, item: any): void {
+        inventory = parseInt(inventory);
+        item = JSON.parse(item);
+        EmitServer('inventory:UseItem', inventory, item);
+    }
+
     @On('disconnect')
     @OnServer('inventory:Close')
     static async close(): Promise<void> {
@@ -35,5 +41,6 @@ export default class Inventory {
 
         const view = await WebViewController.get();
         view.off('inventoryReady', () => Inventory.inventoryReady(null, null, null));
+        view.off('useItem', Inventory.useItem);
     }
 }

@@ -6,7 +6,7 @@ import IItem from '../../shared/interface/IItem';
 
 const url = process.env.MONGO_URL;
 const dbName = 'livingyou';
-const collections = ['accounts', 'items', 'vehicles'];
+const collections = ['accounts', 'items'];
 
 alt.on('resourceStart', async (errored: boolean) => {
     if (build_options.default.testMode) return;
@@ -14,7 +14,11 @@ alt.on('resourceStart', async (errored: boolean) => {
     if (!connected) {
         throw new Error(`Did not connect to the database.`);
     }
-    Items.items = await Database.fetchAllData<IItem>('items');
+    await Items.fetchItems();
+});
+
+alt.on('serverStarted', () => {
+    if (build_options.default.testMode) alt.stopServer();
 });
 
 alt.on('serverStarted', () => {

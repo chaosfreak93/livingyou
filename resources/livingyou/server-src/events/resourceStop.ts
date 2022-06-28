@@ -22,7 +22,20 @@ async function resourceStop() {
         if (findAccount.length <= 0) return;
 
         const char = findAccount[0].character.find((char) => char.id == pC[i].id);
+        char.alive = pC[i].alive;
+        char.characterAppearence = pC[i].characterAppearence;
+        char.characterClothing = pC[i].characterClothing;
+        if (pC[i].phoneNumber) {
+            char.phoneNumber = pC[i].phoneNumber;
+        }
+        char.money = pC[i].money;
+        char.hunger = pC[i].hunger;
+        char.thirst = pC[i].thirst;
         char.lastKnownLocation = pC[i].lastKnownLocation;
+        char.pocketInventory = pC[i].pocketInventory;
+        if (pC[i].backpackInventory) {
+            char.backpackInventory = pC[i].backpackInventory;
+        }
         await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
     }
 }

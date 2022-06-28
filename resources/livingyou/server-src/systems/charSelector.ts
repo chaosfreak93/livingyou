@@ -28,7 +28,7 @@ export default class CharSelector {
                 i,
                 character.characterAppearence.headOverlay[i].index == -1
                     ? 255
-                    : character.characterAppearence.headOverlay[0].index,
+                    : character.characterAppearence.headOverlay[i].index,
                 character.characterAppearence.headOverlay[i].opacity
             );
         }
@@ -68,18 +68,8 @@ export default class CharSelector {
         EmitClient(player, 'player:StartTicks');
 
         if (!character.lastKnownLocation) {
-            new alt.Vehicle('akuma', 221.6855926513672, -902.0967407226562, 30.69318962097168, 0, 0, 0);
             player.setPosition(player, 221.6855926513672, -902.0967407226562, 30.69318962097168);
         } else {
-            new alt.Vehicle(
-                'akuma',
-                character.lastKnownLocation.position.x,
-                character.lastKnownLocation.position.y,
-                character.lastKnownLocation.position.z,
-                character.lastKnownLocation.rotation.x,
-                character.lastKnownLocation.rotation.y,
-                character.lastKnownLocation.rotation.z
-            );
             player.setPosition(
                 player,
                 character.lastKnownLocation.position.x,

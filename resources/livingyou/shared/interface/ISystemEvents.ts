@@ -19,6 +19,9 @@ export interface ISystemEvents {
     // Inventory
     'inventory:Open': (inventory: IInventory) => void;
     'inventory:Close': () => void;
+    'inventory:UseItem': () => void;
+    'inventory:GiveItem': () => void;
+    'inventory:DropItem': () => void;
     // Webview
     'webView:Info': (url: string) => void;
     // KeyManager
@@ -28,9 +31,14 @@ export interface ISystemEvents {
     'player:StartTicks': () => void;
     'player:Tick': () => void;
     'player:Spawned': () => void;
+    'player:StartScreenEffect': () => void;
+    'player:StopScreenEffect': () => void;
+    'player:StopAllScreenEffects': () => void;
     // World
     'world:UpdateTime': (hour: number, minute: number) => void;
     'world:UpdateWeather': (weather: string) => void;
     // Dev Tools
-    'devTools:debug': () => void;
+    'devTools:PosAndRot': () => void;
+    'devTools:SpawnVehicle': (player: any, hash: string) => void;
+    'devTools:DeleteVehicle': (player: any) => void;
 }

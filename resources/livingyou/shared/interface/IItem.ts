@@ -2,14 +2,15 @@ export default interface IItem {
     readonly id: string;
     readonly name: string;
     readonly description?: string;
-    readonly weigth: number;
+    readonly weight: number;
     readonly image?: string;
     readonly data?: {
         readonly food?: number;
         readonly thirst?: number;
-        readonly effect?: {
+        readonly screenEffect?: {
             readonly name: string;
             readonly duration: number;
+            readonly looped?: boolean;
         };
         readonly protection?: number;
         readonly animation?: {

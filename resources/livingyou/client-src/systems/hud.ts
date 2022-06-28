@@ -6,6 +6,7 @@ import { On, OnServer } from './eventSystem/on';
 
 let isDisabled = false;
 let hasRegistered = false;
+let vehicleTick = 0;
 
 export default class HUD {
     static async open() {
@@ -44,15 +45,39 @@ export default class HUD {
         native.displayHud(false);
     }
 
-    static ready() {}
+    static async ready() {
+        const view = await WebViewController.get();
+        if (alt.Player.local.vehicle) {
+            HUD.showDriveHud();
+        } else {
+            HUD.hideDriveHud();
+            view.emit('updateVehicleData', 0, 0);
+        }
+    }
 
     @On('enteredVehicle')
-    static showDriveHud() {
+    static async showDriveHud() {
+        if (isDisabled) return;
+        const view = await WebViewController.get();
         native.displayRadar(true);
+        view.emit('openVehicleHud');
+        vehicleTick = alt.everyTick(() => {
+            if (!alt.Player.local.vehicle) return;
+            view.emit(
+                'updateVehicleData',
+                alt.Player.local.vehicle.rpm,
+                (native.getEntitySpeed(alt.Player.local.vehicle) * 3.6).toFixed(0)
+            );
+        });
     }
 
     @On('leftVehicle')
-    static hideDriveHud() {
+    static async hideDriveHud() {
+        if (isDisabled) return;
+        const view = await WebViewController.get();
         native.displayRadar(false);
+        view.emit('closeVehicleHud');
+        if (!vehicleTick) return;
+        alt.clearEveryTick(vehicleTick);
     }
 }

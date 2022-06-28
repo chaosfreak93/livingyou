@@ -76,7 +76,7 @@ export default class DiscordAuth {
         player.setPosition(player, -453.586, 276.909, 78.515);
         player.discordId = discordData.id;
         EmitClient(player, 'discord:Close');
-        await alt.Utils.wait(750);
+        await alt.Utils.wait(500);
         EmitClient(player, 'charSelector:Open', findAccount[0].character, findAccount[0].allowSecondCharacter);
     }
 }

@@ -1,3 +1,5 @@
 import IItem from './IItem';
 
-export default interface IInventoryItem extends IItem {}
+export default interface IInventoryItem extends IItem {
+    amount: number;
+}
