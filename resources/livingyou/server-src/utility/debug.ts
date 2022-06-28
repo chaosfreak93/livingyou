@@ -6,7 +6,7 @@ export default class Debug {
     static spawnVehicle(player: alt.Player, hash: string) {
         try {
             let vehicle = new alt.Vehicle(
-                hash,
+                alt.hash(hash),
                 player.pos.x,
                 player.pos.y,
                 player.pos.z,
@@ -16,6 +16,16 @@ export default class Debug {
             );
             vehicle.dimension = 0;
             player.setIntoVehicle(vehicle, 1);
+        } catch (err) {
+            alt.logError(err);
+        }
+    }
+
+    @OnClient('devTools:DeleteVehicle')
+    static deleteVehicle(player: alt.Player) {
+        try {
+            if (player.vehicle.driver !== player) return;
+            player.vehicle.destroy();
         } catch (err) {
             alt.logError(err);
         }

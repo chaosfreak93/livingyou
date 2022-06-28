@@ -34,4 +34,5 @@ export interface ISystemEvents {
     // Dev Tools
     'devTools:PosAndRot': () => void;
     'devTools:SpawnVehicle': (player: any, hash: string) => void;
+    'devTools:DeleteVehicle': (player: any) => void;
 }
