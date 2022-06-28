@@ -1,13 +1,15 @@
 import * as alt from 'alt-server';
 import IInventoryItem from '../../shared/interface/IInventoryItem';
 import { OnClient } from './eventSystem/on';
+import Items from './items';
 
 export default class Inventory {
     @OnClient('inventory:UseItem')
-    static useItem(player: alt.Player, inventory: number, item: IInventoryItem) {
+    static useItem(player: alt.Player, inventory: number, inventoryItem: IInventoryItem) {
         switch (inventory) {
             case 0:
-                player.removeItemById(player, item.id, 1);
+                let item = Items.getItemById(inventoryItem.id);
+                player.removeItemById(player, inventoryItem.id, 1);
 
                 if (item.data.food) {
                     player.updateFood(player, item.data.food);
@@ -27,6 +29,8 @@ export default class Inventory {
                 }
                 break;
             case 1:
+                item = Items.getItemById(inventoryItem.id);
+
                 if (item.data.food) {
                     player.updateFood(player, item.data.food);
                 }

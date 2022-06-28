@@ -11,13 +11,12 @@
             <div id="itemlist">
                 <div
                     id="item"
-                    v-for="item in getInventory1Items"
-                    v-bind:key="item.id"
-                    :class="item.id"
-                    v-bind:style="{ 'background-image': 'url(./assets/images/' + item.image + '.png)' }"
-                    v-on:click="openActionsMenu($event, 0, item)"
+                    v-for="inventoryItem in getInventory1.items"
+                    v-bind:key="inventoryItem.item.id"
+                    v-bind:style="{ 'background-image': 'url(./assets/images/' + inventoryItem.item.image + '.png)' }"
+                    v-on:click="openActionsMenu($event, 0, inventoryItem.item)"
                 >
-                    {{ item.amount }}
+                    {{ inventoryItem.amount }}
                 </div>
             </div>
         </div>
@@ -27,12 +26,12 @@
             <div id="itemlist">
                 <div
                     id="item"
-                    v-for="item in getInventory2Items"
-                    v-bind:key="item.id"
-                    v-bind:style="{ 'background-image': 'url(./assets/images/' + item.image + '.png)' }"
-                    v-on:click="openActionsMenu($event, 1, item)"
+                    v-for="inventoryItem in getInventory2.items"
+                    v-bind:key="inventoryItem.item.id"
+                    v-bind:style="{ 'background-image': 'url(./assets/images/' + inventoryItem.item.image + '.png)' }"
+                    v-on:click="openActionsMenu($event, 1, inventoryItem.item)"
                 >
-                    {{ item.amount }}
+                    {{ inventoryItem.amount }}
                 </div>
             </div>
         </div>
@@ -42,12 +41,12 @@
             <div id="itemlist">
                 <div
                     id="item"
-                    v-for="item in getInventory3Items"
-                    v-bind:key="item.id"
-                    v-bind:style="{ 'background-image': 'url(./assets/images/' + item.image + '.png)' }"
-                    v-on:click="openActionsMenu($event, 2, item)"
+                    v-for="inventoryItem in getInventory3.items"
+                    v-bind:key="inventoryItem.item.id"
+                    v-bind:style="{ 'background-image': 'url(./assets/images/' + inventoryItem.item.image + '.png)' }"
+                    v-on:click="openActionsMenu($event, 2, inventoryItem.item)"
                 >
-                    {{ item.amount }}
+                    {{ inventoryItem.amount }}
                 </div>
             </div>
         </div>
@@ -56,20 +55,20 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import IInventory from '../../../../livingyou/shared/interface/IInventory';
-import IInventoryItem from '../../../../livingyou/shared/interface/IInventoryItem';
+import IItem from '../../../../livingyou/shared/interface/IItem';
+import IWebInventory from '../../../../livingyou/shared/interface/IWebInventory';
 const ComponentName = 'Inventory';
 export default defineComponent({
     name: ComponentName,
     data() {
         return {
-            inventory1: null as IInventory,
-            inventory2: null as IInventory,
-            inventory3: null as IInventory,
+            inventory1: null as IWebInventory,
+            inventory2: null as IWebInventory,
+            inventory3: null as IWebInventory,
         };
     },
     methods: {
-        setData(inventory1: IInventory, inventory2: IInventory, inventory3: IInventory) {
+        setData(inventory1: IWebInventory, inventory2: IWebInventory, inventory3: IWebInventory) {
             this.inventory1 = inventory1;
             this.inventory1.currentWeight = this.calculateCurrentWeight(this.inventory1);
             if (inventory2) {
@@ -81,14 +80,16 @@ export default defineComponent({
                 this.inventory3.currentWeight = this.calculateCurrentWeight(this.inventory3);
             }
         },
-        calculateCurrentWeight(inventory: IInventory): number {
+        calculateCurrentWeight(inventory: IWebInventory): number {
             let weight = 0;
             for (let i = 0; i < inventory.items.length; i++) {
-                weight += inventory.items[i].weight;
+                for (let j = 0; j < inventory.items[i].amount; j++) {
+                    weight += inventory.items[i].item.weight;
+                }
             }
             return weight;
         },
-        openActionsMenu(event: MouseEvent, inventory: number, item: IInventoryItem): void {
+        openActionsMenu(event: MouseEvent, inventory: number, item: IItem): void {
             if (document.getElementById('actions').style.display == 'block') {
                 document.getElementById('actions').style.display = 'none';
                 document.getElementById('actions').style.top = '0px';
@@ -110,14 +111,14 @@ export default defineComponent({
         dropItem(event: MouseEvent): void {},
     },
     computed: {
-        getInventory1Items(): IInventoryItem[] {
-            return this.inventory1.items;
+        getInventory1(): IWebInventory {
+            return this.inventory1;
         },
-        getInventory2Items(): IInventoryItem[] {
-            return this.inventory2.items;
+        getInventory2(): IWebInventory {
+            return this.inventory2;
         },
-        getInventory3Items(): IInventoryItem[] {
-            return this.inventory3.items;
+        getInventory3(): IWebInventory {
+            return this.inventory3;
         },
     },
     mounted() {
@@ -131,18 +132,21 @@ export default defineComponent({
                     maxWeight: 50,
                     items: [
                         {
-                            id: '62b4388e3cd1640f71307efc',
-                            amount: 1,
-                            name: 'Bier',
-                            description: 'Eine Flasche Bier',
-                            weight: 0.3,
-                            image: 'beer',
-                            data: { thirst: 10 },
-                            flags: {
-                                droppable: true,
-                                useable: true,
-                                giveable: true,
+                            item: {
+                                id: '62b4388e3cd1640f71307efc',
+
+                                name: 'Bier',
+                                description: 'Eine Flasche Bier',
+                                weight: 0.3,
+                                image: 'beer',
+                                data: { thirst: 10 },
+                                flags: {
+                                    droppable: true,
+                                    useable: true,
+                                    giveable: true,
+                                },
                             },
+                            amount: 1,
                         },
                     ],
                 },
@@ -151,18 +155,21 @@ export default defineComponent({
                     maxWeight: 50,
                     items: [
                         {
-                            id: '62b4388e3cd1640f71307efc',
-                            amount: 1,
-                            name: 'Bier',
-                            description: 'Eine Flasche Bier',
-                            weight: 0.3,
-                            image: 'beer',
-                            data: { thirst: 10 },
-                            flags: {
-                                droppable: true,
-                                useable: true,
-                                giveable: true,
+                            item: {
+                                id: '62b4388e3cd1640f71307efc',
+
+                                name: 'Bier',
+                                description: 'Eine Flasche Bier',
+                                weight: 0.3,
+                                image: 'beer',
+                                data: { thirst: 10 },
+                                flags: {
+                                    droppable: true,
+                                    useable: true,
+                                    giveable: true,
+                                },
                             },
+                            amount: 1,
                         },
                     ],
                 },
@@ -175,6 +182,7 @@ export default defineComponent({
 
 <style scoped>
 #page-Inventory {
+    color: white;
     text-align: center;
     padding: 1%;
     height: 95%;
@@ -210,7 +218,7 @@ export default defineComponent({
 }
 #item {
     position: relative;
-    border: 0.2px solid black;
+    border: 0.2px solid white;
     border-radius: 5px;
     width: 70px;
     height: 74px;
@@ -221,7 +229,6 @@ export default defineComponent({
 }
 #actions {
     position: absolute;
-    color: white;
     background-color: grey;
     z-index: 1;
 }
