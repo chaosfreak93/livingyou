@@ -101,9 +101,7 @@ alt.Player.prototype.stopScreenEffect = function stopScreenEffect(player: alt.Pl
 alt.Player.prototype.addItemByName = function addItemByName(player: alt.Player, name: string, amount?: number): void {
     let item: any = Items.getItemByName(name);
     if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => {
-        value.name == name;
-    });
+    item = player.character.pocketInventory.items.find((value) => value.name == name);
     if (item) {
         if (amount) {
             item.amount += amount;
@@ -122,9 +120,7 @@ alt.Player.prototype.addItemByName = function addItemByName(player: alt.Player, 
 alt.Player.prototype.addItemById = function addItemById(player: alt.Player, id: string, amount?: number): void {
     let item: any = Items.getItemById(id);
     if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => {
-        value.id == id;
-    });
+    item = player.character.pocketInventory.items.find((value) => value.id == id);
     if (item) {
         if (amount) {
             item.amount += amount;
@@ -147,9 +143,7 @@ alt.Player.prototype.removeItemByName = function removeItemByName(
 ): void {
     let item: any = Items.getItemByName(name);
     if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => {
-        value.name == name;
-    });
+    item = player.character.pocketInventory.items.find((value) => value.name == name);
     if (!item) return;
     if (amount) {
         item.amount -= amount;
@@ -162,9 +156,7 @@ alt.Player.prototype.removeItemByName = function removeItemByName(
 alt.Player.prototype.removeItemById = function removeItemById(player: alt.Player, id: string, amount?: number): void {
     let item: any = Items.getItemById(id);
     if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => {
-        value.id == id;
-    });
+    item = player.character.pocketInventory.items.find((value) => value.id == id);
     if (!item) return;
     if (amount) {
         item.amount -= amount;
