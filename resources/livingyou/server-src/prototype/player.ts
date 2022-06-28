@@ -23,6 +23,9 @@ declare module 'alt-server' {
         startScreenEffect(player: alt.Player, effectName: string, ticks: number, looped: boolean): void;
         stopScreenEffect(player: alt.Player, effectName: string): void;
 
+        updateFood(player: alt.Player, food: number): void;
+        updateThirst(player: alt.Player, thirst: number): void;
+
         // Inventory
         addItemByName(player: alt.Player, name: string, amount?: number): void;
         addItemById(player: alt.Player, id: string, amount?: number): void;
@@ -163,6 +166,23 @@ alt.Player.prototype.removeItemById = function removeItemById(player: alt.Player
     } else {
         const index = player.character.pocketInventory.items.indexOf(item);
         player.character.pocketInventory.items.splice(index, 1);
+    }
+};
+
+alt.Player.prototype.updateFood = function updateFood(player: alt.Player, food: number): void {
+    player.character.hunger += food;
+    if (player.character.hunger <= 0) {
+        player.character.hunger = 0;
+    } else if (player.character.hunger >= 100) {
+        player.character.hunger = 100;
+    }
+};
+alt.Player.prototype.updateThirst = function updateThirst(player: alt.Player, thirst: number): void {
+    player.character.thirst += thirst;
+    if (player.character.thirst <= 0) {
+        player.character.thirst = 0;
+    } else if (player.character.thirst >= 100) {
+        player.character.thirst = 100;
     }
 };
 
