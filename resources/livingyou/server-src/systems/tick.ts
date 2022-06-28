@@ -1,4 +1,5 @@
 import * as alt from 'alt-server';
+import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 
 const timeBetweenTicks = 4950;
@@ -19,7 +20,13 @@ export default class PlayerTick {
         player.time(player);
         player.weather(player);
 
-        if (!player.character) return;
+        if (player.character) {
+            player.character.lastKnownLocation = {
+                position: player.pos,
+                rotation: player.rot,
+            };
+        }
+
         if (player.screenEffect) {
             player.screenEffect.ticks -= 1;
 
