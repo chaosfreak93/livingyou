@@ -20,10 +20,12 @@ export default class PlayerTick {
         player.weather(player);
 
         if (!player.character) return;
+        if (player.screenEffect) {
+            player.screenEffect.ticks -= 1;
 
-        player.character.lastKnownLocation = {
-            position: player.pos,
-            rotation: player.rot,
-        };
+            if (player.screenEffect.ticks <= 0) {
+                player.stopScreenEffect(player, player.screenEffect.name);
+            }
+        }
     }
 }

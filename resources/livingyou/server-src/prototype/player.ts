@@ -12,10 +12,16 @@ declare module 'alt-server' {
         discordId?: number;
         nextTickTime?: number;
         inventoryOpen: boolean;
+        screenEffect: {
+            name: string;
+            ticks: number;
+        };
 
         setPosition(player: alt.Player, x: number, y: number, z: number): void;
         time(player: alt.Player): void;
         weather(player: alt.Player): void;
+        startScreenEffect(player: alt.Player, effectName: string, ticks: number, looped: boolean): void;
+        stopScreenEffect(player: alt.Player, effectName: string): void;
 
         // Inventory
         addItemByName(player: alt.Player, name: string, amount?: number): void;
@@ -64,6 +70,31 @@ alt.Player.prototype.time = function time(player: alt.Player) {
 
 alt.Player.prototype.weather = function weather(player: alt.Player) {
     EmitClient(player, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(player)));
+};
+
+alt.Player.prototype.startScreenEffect = function startScreenEffect(
+    player: alt.Player,
+    effectName: string,
+    ticks: number,
+    looped: boolean = false
+) {
+    if (looped || ticks == 0) {
+        player.screenEffect = {
+            name: effectName,
+            ticks: ticks,
+        };
+        EmitClient(player, 'player:StartScreenEffect', effectName, ticks * 5000, looped);
+    } else {
+        player.screenEffect = {
+            name: effectName,
+            ticks: parseInt((ticks / 5000).toFixed(0)),
+        };
+        EmitClient(player, 'player:StartScreenEffect', effectName, ticks, looped);
+    }
+};
+
+alt.Player.prototype.stopScreenEffect = function stopScreenEffect(player: alt.Player, effectName: string) {
+    EmitClient(player, 'player:StopScreenEffect', effectName);
 };
 
 // Inventory

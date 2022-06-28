@@ -7,9 +7,10 @@ export default interface IItem {
     readonly data?: {
         readonly food?: number;
         readonly thirst?: number;
-        readonly effect?: {
+        readonly screenEffect?: {
             readonly name: string;
             readonly duration: number;
+            readonly looped?: boolean;
         };
         readonly protection?: number;
         readonly animation?: {

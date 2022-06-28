@@ -28,6 +28,9 @@ export interface ISystemEvents {
     'player:StartTicks': () => void;
     'player:Tick': () => void;
     'player:Spawned': () => void;
+    'player:StartScreenEffect': () => void;
+    'player:StopScreenEffect': () => void;
+    'player:StopAllScreenEffects': () => void;
     // World
     'world:UpdateTime': (hour: number, minute: number) => void;
     'world:UpdateWeather': (weather: string) => void;
