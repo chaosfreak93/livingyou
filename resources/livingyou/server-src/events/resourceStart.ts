@@ -1,11 +1,11 @@
 import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
 import * as build_options from '../../../../build-options';
-import Items from '../prototype/items';
+import Items from '../systems/items';
 
 const url = process.env.MONGO_URL;
 const dbName = 'livingyou';
-const collections = ['accounts', 'items', 'vehicles'];
+const collections = ['accounts', 'items', 'vehicles', 'droppedItems'];
 
 alt.on('resourceStart', async (errored: boolean) => {
     if (build_options.default.testMode) return;
