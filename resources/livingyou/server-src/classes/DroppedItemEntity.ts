@@ -6,8 +6,8 @@ import IDroppedItemMeta from '../../shared/interface/syncEntity/IDroppedItemMeta
 
 const droppedItemEntityPool = new xsync.EntityPool(EntityPools.DroppedItemEntity, { maxStreamedIn: 15 });
 
-class DroppedItemEntity extends xsync.Entity<IDroppedItemSyncedMeta, IDroppedItemMeta> {
-    constructor(droppedItemId: number, pos: alt.IVector3) {
-        super(droppedItemEntityPool, pos, {}, { droppedItemId }, 0, 250);
+export default class DroppedItemEntity extends xsync.Entity<IDroppedItemSyncedMeta, IDroppedItemMeta> {
+    constructor(droppedItemId: number, pos: alt.IVector3, rot: alt.IVector3, model: string) {
+        super(droppedItemEntityPool, pos, { rot, model }, { droppedItemId }, 0, 250);
     }
 }
