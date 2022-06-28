@@ -145,7 +145,7 @@ alt.Player.prototype.removeItemByName = function removeItemByName(
     if (!item) return;
     item = player.character.pocketInventory.items.find((value) => value.name == name);
     if (!item) return;
-    if (amount) {
+    if (amount && item.amount - amount >= 1) {
         item.amount -= amount;
     } else {
         const index = player.character.pocketInventory.items.indexOf(item);
@@ -158,7 +158,7 @@ alt.Player.prototype.removeItemById = function removeItemById(player: alt.Player
     if (!item) return;
     item = player.character.pocketInventory.items.find((value) => value.id == id);
     if (!item) return;
-    if (amount) {
+    if (amount && item.amount - amount >= 1) {
         item.amount -= amount;
     } else {
         const index = player.character.pocketInventory.items.indexOf(item);
