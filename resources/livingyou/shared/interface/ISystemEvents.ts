@@ -20,6 +20,8 @@ export interface ISystemEvents {
     'inventory:Open': (inventory: IInventory) => void;
     'inventory:Close': () => void;
     'inventory:UseItem': () => void;
+    'inventory:GiveItem': () => void;
+    'inventory:DropItem': () => void;
     // Webview
     'webView:Info': (url: string) => void;
     // KeyManager
