@@ -19,6 +19,7 @@ export default interface IItem {
             readonly duration: number;
             readonly flags: number;
         };
+        readonly model?: string;
     };
     readonly flags: {
         readonly droppable: boolean;

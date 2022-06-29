@@ -1,3 +1,6 @@
+import IInventoryItem from '../IInventoryItem';
+
 export default interface IDroppedItemMeta {
-    droppedItemId: number;
+    droppedItemId: string;
+    item: IInventoryItem;
 }

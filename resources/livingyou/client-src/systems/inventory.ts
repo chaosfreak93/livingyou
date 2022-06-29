@@ -13,6 +13,7 @@ export default class Inventory {
         const view = await WebViewController.get();
         view.on('inventoryReady', () => Inventory.inventoryReady(inventoryItems1, inventoryItems2, inventoryItems3));
         view.on('useItem', Inventory.useItem);
+        view.on('dropItem', Inventory.dropItem);
 
         await WebViewController.setOverlaysVisible(false);
         await WebViewController.openPages(['Inventory']);
@@ -35,6 +36,12 @@ export default class Inventory {
         EmitServer('inventory:UseItem', inventory, item);
     }
 
+    static dropItem(inventory: any, item: any): void {
+        inventory = parseInt(inventory);
+        item = JSON.parse(item);
+        EmitServer('inventory:DropItem', inventory, item);
+    }
+
     @On('disconnect')
     @OnServer('inventory:Close')
     static async close(): Promise<void> {
@@ -46,5 +53,6 @@ export default class Inventory {
         const view = await WebViewController.get();
         view.off('inventoryReady', () => Inventory.inventoryReady(null, null, null));
         view.off('useItem', Inventory.useItem);
+        view.off('dropItem', Inventory.dropItem);
     }
 }

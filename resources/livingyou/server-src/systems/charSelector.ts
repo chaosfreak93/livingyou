@@ -1,5 +1,6 @@
 import * as alt from 'alt-server';
 import ICharacter from '../../shared/interface/ICharacter';
+import DroppedItems from './droppedItems';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 

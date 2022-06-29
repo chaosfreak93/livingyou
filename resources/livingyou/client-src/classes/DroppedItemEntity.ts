@@ -11,9 +11,26 @@ import IDroppedItemSyncedMeta from '../../shared/interface/syncEntity/IDroppedIt
     posChange: (entity, pos) => entity.posChange(pos),
 })
 class DroppedItemEntity extends xsync.Entity<IDroppedItemSyncedMeta> {
-    private streamIn(): void {}
+    private droppedItem: number = 0;
 
-    private streamOut(): void {}
+    private streamIn(): void {
+        this.droppedItem = native.createObject(
+            alt.hash(this.syncedMeta.model),
+            this.pos.x,
+            this.pos.y,
+            this.pos.z,
+            false,
+            false,
+            false
+        );
+        native.setEntityHeading(this.droppedItem, this.syncedMeta.rot.z);
+        native.freezeEntityPosition(this.droppedItem, true);
+    }
+
+    private streamOut(): void {
+        native.deleteObject(this.droppedItem);
+        this.droppedItem = 0;
+    }
 
     private syncedMetaChange(syncedMeta: Partial<IDroppedItemSyncedMeta>): void {}
 

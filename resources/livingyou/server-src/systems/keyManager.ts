@@ -1,5 +1,6 @@
 import * as alt from 'alt-server';
 import IWebInventory from '../../shared/interface/IWebInventory';
+import DroppedItems from './droppedItems';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 import Items from './items';
@@ -47,6 +48,16 @@ export default class KeyManager {
                     EmitClient(player, 'inventory:Open', pocketInventory, backpackInventory);
                     player.inventoryOpen = true;
                 }
+                break;
+            case 69:
+                let droppedItem = DroppedItems.nearestDroppedItem(player.pos);
+                if (!droppedItem || droppedItem.distance > 1.5) return;
+                DroppedItems.removeDroppedItem(droppedItem.droppedItem.meta.droppedItemId);
+                player.addItemById(
+                    player,
+                    droppedItem.droppedItem.meta.item.id,
+                    droppedItem.droppedItem.meta.item.amount
+                );
                 break;
             default:
                 break;
