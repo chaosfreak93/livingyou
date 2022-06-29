@@ -1,3 +1,9 @@
+// EntitySync
+import './systems/syncEntity';
+import './classes/CableCar';
+import './classes/DroppedItemEntity';
+
+// General
 import './events/connectionComplete';
 import './events/consoleCommand';
 import './events/disconnect';
@@ -14,8 +20,3 @@ import './systems/tick';
 import './systems/world';
 import './utility/debug';
 import './utility/screenEffect';
-
-// EntitySync
-import './systems/syncEntity';
-import './classes/CableCar';
-import './classes/DroppedItemEntity';
