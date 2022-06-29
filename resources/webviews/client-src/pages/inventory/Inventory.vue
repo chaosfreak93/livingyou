@@ -14,7 +14,7 @@
                     v-for="inventoryItem in getInventory1.items"
                     v-bind:key="inventoryItem.item.id"
                     v-bind:style="{ 'background-image': 'url(./assets/images/' + inventoryItem.item.image + '.png)' }"
-                    v-on:click="openActionsMenu($event, 0, inventoryItem.item)"
+                    v-on:click="openActionsMenu($event, 0, inventoryItem.item, inventoryItem.amount)"
                 >
                     {{ inventoryItem.amount }}
                 </div>
@@ -29,7 +29,7 @@
                     v-for="inventoryItem in getInventory2.items"
                     v-bind:key="inventoryItem.item.id"
                     v-bind:style="{ 'background-image': 'url(./assets/images/' + inventoryItem.item.image + '.png)' }"
-                    v-on:click="openActionsMenu($event, 1, inventoryItem.item)"
+                    v-on:click="openActionsMenu($event, 1, inventoryItem.item, inventoryItem.amount)"
                 >
                     {{ inventoryItem.amount }}
                 </div>
@@ -44,7 +44,7 @@
                     v-for="inventoryItem in getInventory3.items"
                     v-bind:key="inventoryItem.item.id"
                     v-bind:style="{ 'background-image': 'url(./assets/images/' + inventoryItem.item.image + '.png)' }"
-                    v-on:click="openActionsMenu($event, 2, inventoryItem.item)"
+                    v-on:click="openActionsMenu($event, 2, inventoryItem.item, inventoryItem.amount)"
                 >
                     {{ inventoryItem.amount }}
                 </div>
@@ -89,7 +89,7 @@ export default defineComponent({
             }
             return parseFloat(weight.toFixed(2));
         },
-        openActionsMenu(event: MouseEvent, inventory: number, item: IItem): void {
+        openActionsMenu(event: MouseEvent, inventory: number, item: IItem, amount: number): void {
             if (document.getElementById('actions').style.display == 'block') {
                 document.getElementById('actions').style.display = 'none';
                 document.getElementById('actions').style.top = '0px';
@@ -99,16 +99,23 @@ export default defineComponent({
             document.getElementById('actions').style.top = event.pageY + 'px';
             document.getElementById('actions').style.left = event.pageX + 'px';
             document.getElementById('actions').dataset.inventory = JSON.stringify(inventory);
-            document.getElementById('actions').dataset.item = JSON.stringify(item);
+            document.getElementById('actions').dataset.item = JSON.stringify({ ...item, amount });
         },
         useItem(event: MouseEvent): void {
             if (!(`alt` in window)) {
                 return;
             }
+            // @ts-ignore
             alt.emit('useItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
         },
         giveItem(event: MouseEvent): void {},
-        dropItem(event: MouseEvent): void {},
+        dropItem(event: MouseEvent): void {
+            if (!(`alt` in window)) {
+                return;
+            }
+            // @ts-ignore
+            alt.emit('dropItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
+        },
     },
     computed: {
         getInventory1(): IWebInventory {
