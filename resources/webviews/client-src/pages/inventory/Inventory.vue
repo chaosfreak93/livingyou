@@ -7,7 +7,7 @@
         </div>
         <div id="pocketInventory" v-if="inventory1">
             <h1 id="title">Pockets</h1>
-            <p id="weight">{{ inventory1.currentWeight }}kg / {{ inventory1.maxWeight }}kg</p>
+            <p id="weight">{{ inventory1.currentWeight }}g / {{ inventory1.maxWeight }}g</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -22,7 +22,7 @@
         </div>
         <div id="backpackInventory" v-if="inventory2">
             <h1 id="title">Backpack</h1>
-            <p id="weight">{{ inventory2.currentWeight }}kg / {{ inventory2.maxWeight }}kg</p>
+            <p id="weight">{{ inventory2.currentWeight }}g / {{ inventory2.maxWeight }}g</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -37,7 +37,7 @@
         </div>
         <div id="otherInventory" v-if="inventory3">
             <h1 id="title">Other</h1>
-            <p id="weight">{{ inventory3.currentWeight }}kg / {{ inventory3.maxWeight }}kg</p>
+            <p id="weight">{{ inventory3.currentWeight }}g / {{ inventory3.maxWeight }}g</p>
             <div id="itemlist">
                 <div
                     id="item"
