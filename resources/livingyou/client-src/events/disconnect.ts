@@ -1,7 +1,11 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import { On } from '../systems/eventSystem/on';
 
-alt.on('disconnect', async () => {
-    native.stopAudioScenes();
-    //native.freezeEntityPosition(alt.Player.local.scriptID, false);
-});
+export default class Disconnect {
+    @On('disconnect')
+    static disconnect() {
+        native.stopAudioScenes();
+        native.freezeEntityPosition(alt.Player.local.scriptID, false);
+    }
+}

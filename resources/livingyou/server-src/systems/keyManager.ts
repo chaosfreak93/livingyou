@@ -1,5 +1,4 @@
 import * as alt from 'alt-server';
-import IItem from '../../shared/interface/IItem';
 import IWebInventory from '../../shared/interface/IWebInventory';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';

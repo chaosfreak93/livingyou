@@ -1,5 +1,4 @@
 import * as alt from 'alt-server';
-import { arrayBuffer } from 'stream/consumers';
 import ICharacter from '../../shared/interface/ICharacter';
 import { EmitClient } from '../systems/eventSystem/emit';
 import { World } from '../systems/world';

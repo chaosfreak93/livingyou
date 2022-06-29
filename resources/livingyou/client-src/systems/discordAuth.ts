@@ -1,5 +1,4 @@
 import * as alt from 'alt-client';
-import * as native from 'natives';
 import { WebViewController } from '../extensions/webViewController';
 import { On, OnServer } from './eventSystem/on';
 import ScreenFade from '../utility/screenFade';

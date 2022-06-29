@@ -1,5 +1,9 @@
 import * as alt from 'alt-server';
+import { On } from '../systems/eventSystem/on';
 
-alt.on('playerDeath', (player: alt.Player, killer: alt.Entity, weaponHash: number) => {
-    player.spawn(player.pos);
-});
+export default class PlayerDeath {
+    @On('playerDeath')
+    static playerDeath(player: alt.Player, killer: alt.Entity, weaponHash: number) {
+        player.spawn(player.pos);
+    }
+}
