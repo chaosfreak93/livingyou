@@ -2,6 +2,7 @@
 import './systems/syncEntity';
 import './classes/CableCar';
 import './classes/DroppedItemEntity';
+import './classes/TextLabel';
 
 // General
 import './events/connectionComplete';
