@@ -87,7 +87,7 @@ export default defineComponent({
                     weight += inventory.items[i].item.weight;
                 }
             }
-            return weight;
+            return parseFloat(weight.toFixed(2));
         },
         openActionsMenu(event: MouseEvent, inventory: number, item: IItem): void {
             if (document.getElementById('actions').style.display == 'block') {
