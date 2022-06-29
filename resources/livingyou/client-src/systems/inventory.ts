@@ -1,4 +1,4 @@
-import IInventory from '../../shared/interface/IInventory';
+import IWebInventory from '../../shared/interface/IWebInventory';
 import { WebViewController } from '../extensions/webViewController';
 import { EmitServer } from './eventSystem/emit';
 import { On, OnServer } from './eventSystem/on';
@@ -6,13 +6,14 @@ import { On, OnServer } from './eventSystem/on';
 export default class Inventory {
     @OnServer('inventory:Open')
     static async open(
-        inventory1: IInventory,
-        inventory2: IInventory = null,
-        inventory3: IInventory = null
+        inventoryItems1: IWebInventory,
+        inventoryItems2: IWebInventory = null,
+        inventoryItems3: IWebInventory = null
     ): Promise<void> {
         const view = await WebViewController.get();
-        view.on('inventoryReady', () => Inventory.inventoryReady(inventory1, inventory2, inventory3));
+        view.on('inventoryReady', () => Inventory.inventoryReady(inventoryItems1, inventoryItems2, inventoryItems3));
         view.on('useItem', Inventory.useItem);
+        view.on('dropItem', Inventory.dropItem);
 
         await WebViewController.setOverlaysVisible(false);
         await WebViewController.openPages(['Inventory']);
@@ -20,15 +21,25 @@ export default class Inventory {
         await WebViewController.showCursor(true);
     }
 
-    static async inventoryReady(inventory1: IInventory, inventory2: IInventory, inventory3: IInventory): Promise<void> {
+    static async inventoryReady(
+        inventoryItems1: IWebInventory,
+        inventoryItems2: IWebInventory,
+        inventoryItems3: IWebInventory
+    ): Promise<void> {
         const view = await WebViewController.get();
-        view.emit('setData', inventory1, inventory2, inventory3);
+        view.emit('setData', inventoryItems1, inventoryItems2, inventoryItems3);
     }
 
     static useItem(inventory: any, item: any): void {
         inventory = parseInt(inventory);
         item = JSON.parse(item);
         EmitServer('inventory:UseItem', inventory, item);
+    }
+
+    static dropItem(inventory: any, item: any): void {
+        inventory = parseInt(inventory);
+        item = JSON.parse(item);
+        EmitServer('inventory:DropItem', inventory, item);
     }
 
     @On('disconnect')
@@ -42,5 +53,6 @@ export default class Inventory {
         const view = await WebViewController.get();
         view.off('inventoryReady', () => Inventory.inventoryReady(null, null, null));
         view.off('useItem', Inventory.useItem);
+        view.off('dropItem', Inventory.dropItem);
     }
 }

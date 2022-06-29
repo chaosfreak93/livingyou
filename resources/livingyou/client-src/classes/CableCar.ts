@@ -1,7 +1,7 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
 import * as xsync from 'altv-xsync-entity-client';
-import ICableCarSyncedMeta from '../../shared/interface/ICableCarSyncedMeta';
+import ICableCarSyncedMeta from '../../shared/interface/syncEntity/ICableCarSyncedMeta';
 import { EntityPools } from '../../shared/enums/entityPools';
 
 @xsync.onEntityEvents<CableCar>({

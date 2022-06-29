@@ -1,9 +1,10 @@
 import * as alt from 'alt-server';
-import { arrayBuffer } from 'stream/consumers';
 import ICharacter from '../../shared/interface/ICharacter';
 import { EmitClient } from '../systems/eventSystem/emit';
 import { World } from '../systems/world';
-import Items from './items';
+import Items from '../systems/items';
+import IItem from '../../shared/interface/IItem';
+import IInventoryItem from '../../shared/interface/IInventoryItem';
 
 declare module 'alt-server' {
     export interface Player {
@@ -101,58 +102,22 @@ alt.Player.prototype.stopScreenEffect = function stopScreenEffect(player: alt.Pl
 };
 
 // Inventory
-alt.Player.prototype.addItemByName = function addItemByName(player: alt.Player, name: string, amount?: number): void {
-    let item: any = Items.getItemByName(name);
-    if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => value.name == name);
-    if (item) {
-        if (amount) {
-            item.amount += amount;
-        } else {
-            item.amount += 1;
-        }
-    } else {
-        if (amount) {
-            player.character.pocketInventory.items.push({ amount: amount, ...item });
-        } else {
-            player.character.pocketInventory.items.push({ amount: 1, ...item });
-        }
-    }
-};
-
 alt.Player.prototype.addItemById = function addItemById(player: alt.Player, id: string, amount?: number): void {
-    let item: any = Items.getItemById(id);
+    let item: IItem = Items.getItemById(id);
     if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => value.id == id);
-    if (item) {
+    let inventoryItem: IInventoryItem = player.character.pocketInventory.items.find((value) => value.id == id);
+    if (inventoryItem) {
         if (amount) {
-            item.amount += amount;
+            inventoryItem.amount += amount;
         } else {
-            item.amount += 1;
+            inventoryItem.amount += 1;
         }
     } else {
         if (amount) {
-            player.character.pocketInventory.items.push({ amount: amount, ...item });
+            player.character.pocketInventory.items.push({ id: item.id, amount: amount, });
         } else {
-            player.character.pocketInventory.items.push({ amount: 1, ...item });
+            player.character.pocketInventory.items.push({ amount: 1, id: item.id });
         }
-    }
-};
-
-alt.Player.prototype.removeItemByName = function removeItemByName(
-    player: alt.Player,
-    name: string,
-    amount?: number
-): void {
-    let item: any = Items.getItemByName(name);
-    if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => value.name == name);
-    if (!item) return;
-    if (amount && item.amount - amount >= 1) {
-        item.amount -= amount;
-    } else {
-        const index = player.character.pocketInventory.items.indexOf(item);
-        player.character.pocketInventory.items.splice(index, 1);
     }
 };
 

@@ -1,5 +1,4 @@
 import * as alt from 'alt-server';
-import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 
 const timeBetweenTicks = 4950;
