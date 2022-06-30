@@ -17,12 +17,21 @@ export default class CharCreator {
             bank: 0,
         };
         character.hunger = 100;
-        (character.thirst = 100),
-            (character.pocketInventory = {
-                maxWeight: 0,
-                currentWeight: 0,
-                items: [],
-            });
+        character.thirst = 100;
+        character.pocketInventory = {
+            maxWeight: 10,
+            currentWeight: 0,
+            items: [
+                {
+                    id: '62bc49232a7e6946bc29d8d3',
+                    amount: 6,
+                },
+                {
+                    id: '62b439263cd1640f71307efd',
+                    amount: 12,
+                },
+            ],
+        };
 
         let findAccount = await Database.fetchAllByField<IAccount>('discord', player.discordId, 'accounts');
         if (findAccount.length <= 0) return;

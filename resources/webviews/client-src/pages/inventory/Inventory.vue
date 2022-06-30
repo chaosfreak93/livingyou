@@ -5,9 +5,9 @@
             <div id="give" v-on:click="giveItem($event)">Geben an 'Not found'</div>
             <div id="drop" v-on:click="dropItem($event)">Fallenlassen</div>
         </div>
-        <div id="pocketInventory" v-if="inventory1">
+        <div id="pocketInventory" v-if="getInventory1">
             <h1 id="title">Pockets</h1>
-            <p id="weight">{{ inventory1.currentWeight }}kg / {{ inventory1.maxWeight }}kg</p>
+            <p id="weight">{{ getInventory1.currentWeight }}kg / {{ getInventory1.maxWeight }}kg</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -20,9 +20,9 @@
                 </div>
             </div>
         </div>
-        <div id="backpackInventory" v-if="inventory2">
+        <div id="backpackInventory" v-if="getInventory2">
             <h1 id="title">Backpack</h1>
-            <p id="weight">{{ inventory2.currentWeight }}kg / {{ inventory2.maxWeight }}kg</p>
+            <p id="weight">{{ getInventory2.currentWeight }}kg / {{ getInventory2.maxWeight }}kg</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -35,9 +35,9 @@
                 </div>
             </div>
         </div>
-        <div id="otherInventory" v-if="inventory3">
+        <div id="otherInventory" v-if="getInventory3">
             <h1 id="title">Other</h1>
-            <p id="weight">{{ inventory3.currentWeight }}kg / {{ inventory3.maxWeight }}kg</p>
+            <p id="weight">{{ getInventory3.currentWeight }}kg / {{ getInventory3.maxWeight }}kg</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -70,36 +70,28 @@ export default defineComponent({
     methods: {
         setData(inventory1: IWebInventory, inventory2: IWebInventory, inventory3: IWebInventory) {
             this.inventory1 = inventory1;
-            this.inventory1.currentWeight = this.calculateCurrentWeight(this.inventory1);
             if (inventory2) {
                 this.inventory2 = inventory2;
-                this.inventory2.currentWeight = this.calculateCurrentWeight(this.inventory2);
             }
             if (inventory3) {
                 this.inventory3 = inventory3;
-                this.inventory3.currentWeight = this.calculateCurrentWeight(this.inventory3);
             }
-        },
-        calculateCurrentWeight(inventory: IWebInventory): number {
-            let weight = 0;
-            for (let i = 0; i < inventory.items.length; i++) {
-                for (let j = 0; j < inventory.items[i].amount; j++) {
-                    weight += inventory.items[i].item.weight;
-                }
-            }
-            return parseFloat(weight.toFixed(2));
         },
         openActionsMenu(event: MouseEvent, inventory: number, item: IItem, amount: number): void {
+            if (document.getElementById('actions').style.display == 'none') {
+                document.getElementById('actions').style.display = 'block';
+                document.getElementById('actions').style.top = event.pageY + 'px';
+                document.getElementById('actions').style.left = event.pageX + 'px';
+                document.getElementById('actions').dataset.inventory = JSON.stringify(inventory);
+                document.getElementById('actions').dataset.item = JSON.stringify({ ...item, amount });
+            }
+        },
+        closeActionsMenu(): void {
             if (document.getElementById('actions').style.display == 'block') {
                 document.getElementById('actions').style.display = 'none';
                 document.getElementById('actions').style.top = '0px';
                 document.getElementById('actions').style.left = '0px';
             }
-            document.getElementById('actions').style.display = 'block';
-            document.getElementById('actions').style.top = event.pageY + 'px';
-            document.getElementById('actions').style.left = event.pageX + 'px';
-            document.getElementById('actions').dataset.inventory = JSON.stringify(inventory);
-            document.getElementById('actions').dataset.item = JSON.stringify({ ...item, amount });
         },
         useItem(event: MouseEvent): void {
             if (!(`alt` in window)) {
@@ -107,24 +99,28 @@ export default defineComponent({
             }
             // @ts-ignore
             alt.emit('useItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
+            this.closeActionsMenu();
         },
-        giveItem(event: MouseEvent): void {},
+        giveItem(event: MouseEvent): void {
+            this.closeActionsMenu();
+        },
         dropItem(event: MouseEvent): void {
             if (!(`alt` in window)) {
                 return;
             }
             // @ts-ignore
             alt.emit('dropItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
+            this.closeActionsMenu();
         },
     },
     computed: {
-        getInventory1(): IWebInventory {
+        getInventory1: function (): IWebInventory {
             return this.inventory1;
         },
-        getInventory2(): IWebInventory {
+        getInventory2: function (): IWebInventory {
             return this.inventory2;
         },
-        getInventory3(): IWebInventory {
+        getInventory3: function (): IWebInventory {
             return this.inventory3;
         },
     },

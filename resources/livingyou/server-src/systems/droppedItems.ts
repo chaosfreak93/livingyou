@@ -41,7 +41,6 @@ export default class DroppedItems {
                 true
             ),
         });
-        await Database.insertData<IDroppedItem>(droppedItem, 'droppedItems', true);
     }
 
     static async removeDroppedItem(id: string): Promise<void> {
@@ -54,8 +53,6 @@ export default class DroppedItems {
         droppedItemEntity.label.destroy();
         const droppedItemEntityIndex = this.droppedItemEntitys.indexOf(droppedItemEntity);
         this.droppedItemEntitys.splice(droppedItemEntityIndex, 1);
-        let findDroppedItems = await Database.fetchAllByField<IDroppedItem>('id', id, 'droppedItems');
-        await Database.deleteById(findDroppedItems[0]._id, 'droppedItems');
     }
 
     static nearestDroppedItem(pos: alt.Vector3): { droppedItem: DroppedItemEntity; distance: number } {
