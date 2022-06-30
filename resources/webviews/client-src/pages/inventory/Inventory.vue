@@ -7,7 +7,7 @@
         </div>
         <div id="pocketInventory" v-if="inventory1">
             <h1 id="title">Pockets</h1>
-            <p id="weight">{{ inventory1.currentWeight }}g / {{ inventory1.maxWeight }}g</p>
+            <p id="weight">{{ getInventory1.currentWeight }}g / {{ getInventory1.maxWeight }}g</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -22,7 +22,7 @@
         </div>
         <div id="backpackInventory" v-if="inventory2">
             <h1 id="title">Backpack</h1>
-            <p id="weight">{{ inventory2.currentWeight }}g / {{ inventory2.maxWeight }}g</p>
+            <p id="weight">{{ getInventory2.currentWeight }}g / {{ getInventory2.maxWeight }}g</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -37,7 +37,7 @@
         </div>
         <div id="otherInventory" v-if="inventory3">
             <h1 id="title">Other</h1>
-            <p id="weight">{{ inventory3.currentWeight }}g / {{ inventory3.maxWeight }}g</p>
+            <p id="weight">{{ getInventory3.currentWeight }}g / {{ getInventory3.maxWeight }}g</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -70,24 +70,12 @@ export default defineComponent({
     methods: {
         setData(inventory1: IWebInventory, inventory2: IWebInventory, inventory3: IWebInventory) {
             this.inventory1 = inventory1;
-            this.inventory1.currentWeight = this.calculateCurrentWeight(this.inventory1);
             if (inventory2) {
                 this.inventory2 = inventory2;
-                this.inventory2.currentWeight = this.calculateCurrentWeight(this.inventory2);
             }
             if (inventory3) {
                 this.inventory3 = inventory3;
-                this.inventory3.currentWeight = this.calculateCurrentWeight(this.inventory3);
             }
-        },
-        calculateCurrentWeight(inventory: IWebInventory): number {
-            let weight = 0;
-            for (let i = 0; i < inventory.items.length; i++) {
-                for (let j = 0; j < inventory.items[i].amount; j++) {
-                    weight += inventory.items[i].item.weight;
-                }
-            }
-            return parseFloat(weight.toFixed(2));
         },
         openActionsMenu(event: MouseEvent, inventory: number, item: IItem, amount: number): void {
             if (document.getElementById('actions').style.display == 'block') {

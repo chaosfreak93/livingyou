@@ -28,10 +28,11 @@ declare module 'alt-server' {
         updateThirst(player: alt.Player, thirst: number): void;
 
         // Inventory
-        addItemByName(player: alt.Player, name: string, amount?: number): void;
-        addItemById(player: alt.Player, id: string, amount?: number): void;
-        removeItemByName(player: alt.Player, name: string, amount?: number): void;
-        removeItemById(player: alt.Player, id: string, amount?: number): void;
+        addItemToPockets(player: alt.Player, id: string, amount?: number): void;
+        removeItemFromPockets(player: alt.Player, id: string, amount?: number): void;
+        addItemToBackpack(player: alt.Player, id: string, amount?: number): void;
+        removeItemFromBackpack(player: alt.Player, id: string, amount?: number): void;
+        calculateInventoryWeight(player: alt.Player): void;
 
         // Clothing
         setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
@@ -102,7 +103,11 @@ alt.Player.prototype.stopScreenEffect = function stopScreenEffect(player: alt.Pl
 };
 
 // Inventory
-alt.Player.prototype.addItemById = function addItemById(player: alt.Player, id: string, amount?: number): void {
+alt.Player.prototype.addItemToPockets = function addItemToPockets(
+    player: alt.Player,
+    id: string,
+    amount?: number
+): void {
     let item: IItem = Items.getItemById(id);
     if (!item) return;
     let inventoryItem: IInventoryItem = player.character.pocketInventory.items.find((value) => value.id == id);
@@ -114,14 +119,19 @@ alt.Player.prototype.addItemById = function addItemById(player: alt.Player, id: 
         }
     } else {
         if (amount) {
-            player.character.pocketInventory.items.push({ id: item.id, amount: amount, });
+            player.character.pocketInventory.items.push({ id: item.id, amount: amount });
         } else {
             player.character.pocketInventory.items.push({ amount: 1, id: item.id });
         }
     }
+    player.calculateInventoryWeight(player);
 };
 
-alt.Player.prototype.removeItemById = function removeItemById(player: alt.Player, id: string, amount?: number): void {
+alt.Player.prototype.removeItemFromPockets = function removeItemFromPockets(
+    player: alt.Player,
+    id: string,
+    amount?: number
+): void {
     let item: any = Items.getItemById(id);
     if (!item) return;
     item = player.character.pocketInventory.items.find((value) => value.id == id);
@@ -132,8 +142,72 @@ alt.Player.prototype.removeItemById = function removeItemById(player: alt.Player
         const index = player.character.pocketInventory.items.indexOf(item);
         player.character.pocketInventory.items.splice(index, 1);
     }
+    player.calculateInventoryWeight(player);
 };
 
+alt.Player.prototype.addItemToBackpack = function addItemToBackpack(
+    player: alt.Player,
+    id: string,
+    amount?: number
+): void {
+    let item: IItem = Items.getItemById(id);
+    if (!item) return;
+    let inventoryItem: IInventoryItem = player.character.backpackInventory.items.find((value) => value.id == id);
+    if (inventoryItem) {
+        if (amount) {
+            inventoryItem.amount += amount;
+        } else {
+            inventoryItem.amount += 1;
+        }
+    } else {
+        if (amount) {
+            player.character.backpackInventory.items.push({ id: item.id, amount: amount });
+        } else {
+            player.character.backpackInventory.items.push({ amount: 1, id: item.id });
+        }
+    }
+    player.calculateInventoryWeight(player);
+};
+
+alt.Player.prototype.removeItemFromBackpack = function removeItemFromBackpack(
+    player: alt.Player,
+    id: string,
+    amount?: number
+): void {
+    let item: any = Items.getItemById(id);
+    if (!item) return;
+    item = player.character.backpackInventory.items.find((value) => value.id == id);
+    if (!item) return;
+    if (amount && item.amount - amount >= 1) {
+        item.amount -= amount;
+    } else {
+        const index = player.character.backpackInventory.items.indexOf(item);
+        player.character.backpackInventory.items.splice(index, 1);
+    }
+    player.calculateInventoryWeight(player);
+};
+
+alt.Player.prototype.calculateInventoryWeight = function calculateInventoryWeight(player: alt.Player): void {
+    let weight = 0;
+    for (let i = 0; i < player.character.pocketInventory.items.length; i++) {
+        for (let j = 0; j < player.character.pocketInventory.items[i].amount; j++) {
+            weight += Items.getItemById(player.character.pocketInventory.items[i].id).weight;
+        }
+    }
+    player.character.pocketInventory.currentWeight = weight;
+
+    if (player.character.backpackInventory) {
+        weight = 0;
+        for (let i = 0; i < player.character.backpackInventory.items.length; i++) {
+            for (let j = 0; j < player.character.backpackInventory.items[i].amount; j++) {
+                weight += Items.getItemById(player.character.backpackInventory.items[i].id).weight;
+            }
+        }
+        player.character.backpackInventory.currentWeight = weight;
+    }
+};
+
+// Food & Thirst
 alt.Player.prototype.updateFood = function updateFood(player: alt.Player, food: number): void {
     player.character.hunger += food;
     if (player.character.hunger <= 0) {

@@ -18,6 +18,7 @@ export default class KeyManager {
                     EmitClient(player, 'inventory:Close');
                     player.inventoryOpen = false;
                 } else {
+                    player.calculateInventoryWeight(player);
                     let pocketInventory: IWebInventory = {
                         currentWeight: player.character.pocketInventory.currentWeight,
                         maxWeight: player.character.pocketInventory.maxWeight,
@@ -53,7 +54,7 @@ export default class KeyManager {
                 let droppedItem = DroppedItems.nearestDroppedItem(player.pos);
                 if (!droppedItem || droppedItem.distance > 1.5) return;
                 DroppedItems.removeDroppedItem(droppedItem.droppedItem.meta.droppedItemId);
-                player.addItemById(
+                player.addItemToPockets(
                     player,
                     droppedItem.droppedItem.meta.item.id,
                     droppedItem.droppedItem.meta.item.amount
