@@ -1,6 +1,4 @@
-import IVehicle from "./IVehicle";
-
-export default interface IPlayerVehicle extends IVehicle {
+export default interface IPlayerVehicle {
     id: string;
     ownerId: string;
 }
