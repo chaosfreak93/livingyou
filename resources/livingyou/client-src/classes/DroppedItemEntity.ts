@@ -24,6 +24,7 @@ class DroppedItemEntity extends xsync.Entity<IDroppedItemSyncedMeta> {
             false
         );
         native.setEntityHeading(this.droppedItem, this.syncedMeta.rot.z);
+        native.setEntityInvincible(this.droppedItem, true);
         native.freezeEntityPosition(this.droppedItem, true);
     }
 
