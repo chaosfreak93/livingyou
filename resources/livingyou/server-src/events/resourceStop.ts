@@ -1,7 +1,9 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
 import ICharacter from '../../shared/interface/ICharacter';
+import IDroppedItem from '../../shared/interface/IDroppedItem';
 import IAccount from '../interface/IAccount';
+import DroppedItems from '../systems/droppedItems';
 import { On } from '../systems/eventSystem/on';
 
 export default class ServerStop {
@@ -38,6 +40,13 @@ export default class ServerStop {
                 char.backpackInventory = pC[i].backpackInventory;
             }
             await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
+        }
+
+        await Database.dropCollection('droppedItems');
+        await Database.createCollection('droppedItems');
+        const droppedItems = DroppedItems.droppedItems;
+        for (let i = 0; i < droppedItems.length; i++) {
+            await Database.insertData<IDroppedItem>(droppedItems[i], 'droppedItems', false);
         }
     }
 }
