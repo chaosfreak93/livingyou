@@ -69,9 +69,10 @@ export default class CharSelector {
         EmitClient(player, 'player:StartTicks');
 
         if (!character.lastKnownLocation) {
-            player.setPosition(221.6855926513672, -902.0967407226562, 30.69318962097168);
+            player.setPosition(player, 221.6855926513672, -902.0967407226562, 30.69318962097168);
         } else {
             player.setPosition(
+                player,
                 character.lastKnownLocation.position.x,
                 character.lastKnownLocation.position.y,
                 character.lastKnownLocation.position.z
@@ -81,8 +82,8 @@ export default class CharSelector {
         player.visible = true;
         player.collision = true;
         player.frozen = false;
-        player.time();
-        player.weather();
+        player.time(player);
+        player.weather(player);
 
         EmitClient(player, 'charSelector:Close');
         await alt.Utils.wait(750);
