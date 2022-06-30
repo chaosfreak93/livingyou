@@ -5,6 +5,7 @@ import { World } from '../systems/world';
 import Items from '../systems/items';
 import IItem from '../../shared/interface/IItem';
 import IInventoryItem from '../../shared/interface/IInventoryItem';
+import Inventory from '../systems/inventory';
 
 declare module 'alt-server' {
     export interface Player {
@@ -32,7 +33,6 @@ declare module 'alt-server' {
         removeItemFromPockets(player: alt.Player, id: string, amount?: number): void;
         addItemToBackpack(player: alt.Player, id: string, amount?: number): void;
         removeItemFromBackpack(player: alt.Player, id: string, amount?: number): void;
-        calculateInventoryWeight(player: alt.Player): void;
 
         // Clothing
         setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
@@ -124,7 +124,6 @@ alt.Player.prototype.addItemToPockets = function addItemToPockets(
             player.character.pocketInventory.items.push({ amount: 1, id: item.id });
         }
     }
-    player.calculateInventoryWeight(player);
 };
 
 alt.Player.prototype.removeItemFromPockets = function removeItemFromPockets(
@@ -142,7 +141,6 @@ alt.Player.prototype.removeItemFromPockets = function removeItemFromPockets(
         const index = player.character.pocketInventory.items.indexOf(item);
         player.character.pocketInventory.items.splice(index, 1);
     }
-    player.calculateInventoryWeight(player);
 };
 
 alt.Player.prototype.addItemToBackpack = function addItemToBackpack(
@@ -166,7 +164,6 @@ alt.Player.prototype.addItemToBackpack = function addItemToBackpack(
             player.character.backpackInventory.items.push({ amount: 1, id: item.id });
         }
     }
-    player.calculateInventoryWeight(player);
 };
 
 alt.Player.prototype.removeItemFromBackpack = function removeItemFromBackpack(
@@ -183,27 +180,6 @@ alt.Player.prototype.removeItemFromBackpack = function removeItemFromBackpack(
     } else {
         const index = player.character.backpackInventory.items.indexOf(item);
         player.character.backpackInventory.items.splice(index, 1);
-    }
-    player.calculateInventoryWeight(player);
-};
-
-alt.Player.prototype.calculateInventoryWeight = function calculateInventoryWeight(player: alt.Player): void {
-    let weight = 0;
-    for (let i = 0; i < player.character.pocketInventory.items.length; i++) {
-        for (let j = 0; j < player.character.pocketInventory.items[i].amount; j++) {
-            weight += Items.getItemById(player.character.pocketInventory.items[i].id).weight;
-        }
-    }
-    player.character.pocketInventory.currentWeight = weight;
-
-    if (player.character.backpackInventory) {
-        weight = 0;
-        for (let i = 0; i < player.character.backpackInventory.items.length; i++) {
-            for (let j = 0; j < player.character.backpackInventory.items[i].amount; j++) {
-                weight += Items.getItemById(player.character.backpackInventory.items[i].id).weight;
-            }
-        }
-        player.character.backpackInventory.currentWeight = weight;
     }
 };
 

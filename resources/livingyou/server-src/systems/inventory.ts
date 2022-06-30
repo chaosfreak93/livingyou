@@ -54,7 +54,6 @@ export default class Inventory {
                 }
                 break;
         }
-        player.calculateInventoryWeight(player);
         let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
         let backpackInventory: IWebInventory = null;
         if (player.character.backpackInventory) {
@@ -89,7 +88,6 @@ export default class Inventory {
                 );
                 break;
         }
-        player.calculateInventoryWeight(player);
         let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
         let backpackInventory: IWebInventory = null;
         if (player.character.backpackInventory) {
@@ -100,7 +98,7 @@ export default class Inventory {
 
     static createWebinventory(inventory: IInventory): IWebInventory {
         let webInventory: IWebInventory = {
-            currentWeight: inventory.currentWeight,
+            currentWeight: Inventory.calculateInventoryWeight(inventory),
             maxWeight: inventory.maxWeight,
             items: [],
         };
@@ -112,5 +110,15 @@ export default class Inventory {
             });
         }
         return webInventory;
+    }
+
+    static calculateInventoryWeight(inventory: IInventory): number {
+        let weight = 0;
+        for (let i = 0; i < inventory.items.length; i++) {
+            for (let j = 0; j < inventory.items[i].amount; j++) {
+                weight += Items.getItemById(inventory.items[i].id).weight;
+            }
+        }
+        return parseFloat(weight.toFixed(2));
     }
 }

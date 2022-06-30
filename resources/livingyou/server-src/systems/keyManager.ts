@@ -18,7 +18,6 @@ export default class KeyManager {
                     EmitClient(player, 'inventory:Close');
                     player.inventoryOpen = false;
                 } else {
-                    player.calculateInventoryWeight(player);
                     let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
                     let backpackInventory: IWebInventory = null;
                     if (player.character.backpackInventory) {
@@ -38,7 +37,6 @@ export default class KeyManager {
                     droppedItem.droppedItem.meta.item.amount
                 );
                 if (player.inventoryOpen) {
-                    player.calculateInventoryWeight(player);
                     let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
                     let backpackInventory: IWebInventory = null;
                     if (player.character.backpackInventory) {
