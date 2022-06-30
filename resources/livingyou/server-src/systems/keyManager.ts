@@ -31,11 +31,7 @@ export default class KeyManager {
                 let droppedItem = DroppedItems.nearestDroppedItem(player.pos);
                 if (!droppedItem || droppedItem.distance > 1.5) return;
                 DroppedItems.removeDroppedItem(droppedItem.droppedItem.meta.droppedItemId);
-                player.addItemToPockets(
-                    player,
-                    droppedItem.droppedItem.meta.item.id,
-                    droppedItem.droppedItem.meta.item.amount
-                );
+                player.addItemToPockets(droppedItem.droppedItem.meta.item.id, droppedItem.droppedItem.meta.item.amount);
                 if (player.inventoryOpen) {
                     let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
                     let backpackInventory: IWebInventory = null;
