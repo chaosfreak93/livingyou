@@ -7,7 +7,7 @@
         </div>
         <div id="pocketInventory" v-if="getInventory1">
             <h1 id="title">Pockets</h1>
-            <p id="weight">{{ getInventory1.currentWeight }}g / {{ getInventory1.maxWeight }}g</p>
+            <p id="weight">{{ getInventory1.currentWeight }}kg / {{ getInventory1.maxWeight }}kg</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -22,7 +22,7 @@
         </div>
         <div id="backpackInventory" v-if="getInventory2">
             <h1 id="title">Backpack</h1>
-            <p id="weight">{{ getInventory2.currentWeight }}g / {{ getInventory2.maxWeight }}g</p>
+            <p id="weight">{{ getInventory2.currentWeight }}kg / {{ getInventory2.maxWeight }}kg</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -37,7 +37,7 @@
         </div>
         <div id="otherInventory" v-if="getInventory3">
             <h1 id="title">Other</h1>
-            <p id="weight">{{ getInventory3.currentWeight }}g / {{ getInventory3.maxWeight }}g</p>
+            <p id="weight">{{ getInventory3.currentWeight }}kg / {{ getInventory3.maxWeight }}kg</p>
             <div id="itemlist">
                 <div
                     id="item"
@@ -99,6 +99,7 @@ export default defineComponent({
             }
             // @ts-ignore
             alt.emit('useItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
+            this.closeActionsMenu();
         },
         giveItem(event: MouseEvent): void {
             this.closeActionsMenu();
