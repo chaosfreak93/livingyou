@@ -1,17 +1,23 @@
+import * as alt from 'alt-client';
 import IWebInventory from '../../shared/interface/IWebInventory';
 import { WebViewController } from '../extensions/webViewController';
 import { EmitServer } from './eventSystem/emit';
 import { On, OnServer } from './eventSystem/on';
 
 export default class Inventory {
+    static ready: boolean = false;
+
     @OnServer('inventory:Open')
     static async open(
-        inventoryItems1: IWebInventory,
-        inventoryItems2: IWebInventory = null,
-        inventoryItems3: IWebInventory = null
+        pockets: IWebInventory,
+        backpack: IWebInventory = null,
+        other: IWebInventory = null
     ): Promise<void> {
         const view = await WebViewController.get();
-        view.on('inventoryReady', () => Inventory.inventoryReady(inventoryItems1, inventoryItems2, inventoryItems3));
+        view.on('inventoryReady', () => {
+            Inventory.ready = true;
+            Inventory.update(pockets, backpack, other);
+        });
         view.on('useItem', Inventory.useItem);
         view.on('dropItem', Inventory.dropItem);
 
@@ -21,13 +27,15 @@ export default class Inventory {
         await WebViewController.showCursor(true);
     }
 
-    static async inventoryReady(
-        inventoryItems1: IWebInventory,
-        inventoryItems2: IWebInventory,
-        inventoryItems3: IWebInventory
+    @OnServer('inventory:Update')
+    static async update(
+        pockets: IWebInventory,
+        backpack: IWebInventory = null,
+        other: IWebInventory = null
     ): Promise<void> {
+        await alt.Utils.waitFor(() => Inventory.ready == true);
         const view = await WebViewController.get();
-        view.emit('setData', inventoryItems1, inventoryItems2, inventoryItems3);
+        view.emit('setData', pockets, backpack, other);
     }
 
     static useItem(inventory: any, item: any): void {
@@ -51,7 +59,10 @@ export default class Inventory {
         await WebViewController.setOverlaysVisible(true);
 
         const view = await WebViewController.get();
-        view.off('inventoryReady', () => Inventory.inventoryReady(null, null, null));
+        view.off('inventoryReady', () => {
+            Inventory.update(null, null, null);
+            Inventory.ready = false;
+        });
         view.off('useItem', Inventory.useItem);
         view.off('dropItem', Inventory.dropItem);
     }

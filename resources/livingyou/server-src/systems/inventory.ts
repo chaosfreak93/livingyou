@@ -1,6 +1,9 @@
 import * as alt from 'alt-server';
+import IInventory from '../../shared/interface/IInventory';
 import IItem from '../../shared/interface/IItem';
+import IWebInventory from '../../shared/interface/IWebInventory';
 import DroppedItems from './droppedItems';
+import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 import Items from './items';
 
@@ -51,6 +54,13 @@ export default class Inventory {
                 }
                 break;
         }
+        player.calculateInventoryWeight(player);
+        let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
+        let backpackInventory: IWebInventory = null;
+        if (player.character.backpackInventory) {
+            backpackInventory = Inventory.createWebinventory(player.character.backpackInventory);
+        }
+        EmitClient(player, 'inventory:Update', pocketInventory, backpackInventory);
     }
 
     @OnClient('inventory:DropItem')
@@ -79,5 +89,28 @@ export default class Inventory {
                 );
                 break;
         }
+        player.calculateInventoryWeight(player);
+        let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
+        let backpackInventory: IWebInventory = null;
+        if (player.character.backpackInventory) {
+            backpackInventory = Inventory.createWebinventory(player.character.backpackInventory);
+        }
+        EmitClient(player, 'inventory:Update', pocketInventory, backpackInventory);
+    }
+
+    static createWebinventory(inventory: IInventory): IWebInventory {
+        let webInventory: IWebInventory = {
+            currentWeight: inventory.currentWeight,
+            maxWeight: inventory.maxWeight,
+            items: [],
+        };
+        for (let i = 0; i < inventory.items.length; i++) {
+            let item = Items.getItemById(inventory.items[i].id);
+            webInventory.items.push({
+                item: item,
+                amount: inventory.items[i].amount,
+            });
+        }
+        return webInventory;
     }
 }

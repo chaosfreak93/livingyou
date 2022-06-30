@@ -1,4 +1,4 @@
-import IInventory from './IInventory';
+import IWebInventory from './IWebInventory';
 
 export interface ISystemEvents {
     'connection:Begin': () => void;
@@ -17,7 +17,8 @@ export interface ISystemEvents {
     // HUD
     'hud:Update': () => void;
     // Inventory
-    'inventory:Open': (inventory: IInventory) => void;
+    'inventory:Open': (pockets: IWebInventory, backpack: IWebInventory, other: IWebInventory) => void;
+    'inventory:Update': (pockets: IWebInventory, backpack: IWebInventory, other: IWebInventory) => void;
     'inventory:Close': () => void;
     'inventory:UseItem': () => void;
     'inventory:GiveItem': () => void;

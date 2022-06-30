@@ -5,7 +5,7 @@
             <div id="give" v-on:click="giveItem($event)">Geben an 'Not found'</div>
             <div id="drop" v-on:click="dropItem($event)">Fallenlassen</div>
         </div>
-        <div id="pocketInventory" v-if="inventory1">
+        <div id="pocketInventory" v-if="getInventory1">
             <h1 id="title">Pockets</h1>
             <p id="weight">{{ getInventory1.currentWeight }}g / {{ getInventory1.maxWeight }}g</p>
             <div id="itemlist">
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div id="backpackInventory" v-if="inventory2">
+        <div id="backpackInventory" v-if="getInventory2">
             <h1 id="title">Backpack</h1>
             <p id="weight">{{ getInventory2.currentWeight }}g / {{ getInventory2.maxWeight }}g</p>
             <div id="itemlist">
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div id="otherInventory" v-if="inventory3">
+        <div id="otherInventory" v-if="getInventory3">
             <h1 id="title">Other</h1>
             <p id="weight">{{ getInventory3.currentWeight }}g / {{ getInventory3.maxWeight }}g</p>
             <div id="itemlist">
@@ -78,16 +78,20 @@ export default defineComponent({
             }
         },
         openActionsMenu(event: MouseEvent, inventory: number, item: IItem, amount: number): void {
+            if (document.getElementById('actions').style.display == 'none') {
+                document.getElementById('actions').style.display = 'block';
+                document.getElementById('actions').style.top = event.pageY + 'px';
+                document.getElementById('actions').style.left = event.pageX + 'px';
+                document.getElementById('actions').dataset.inventory = JSON.stringify(inventory);
+                document.getElementById('actions').dataset.item = JSON.stringify({ ...item, amount });
+            }
+        },
+        closeActionsMenu(): void {
             if (document.getElementById('actions').style.display == 'block') {
                 document.getElementById('actions').style.display = 'none';
                 document.getElementById('actions').style.top = '0px';
                 document.getElementById('actions').style.left = '0px';
             }
-            document.getElementById('actions').style.display = 'block';
-            document.getElementById('actions').style.top = event.pageY + 'px';
-            document.getElementById('actions').style.left = event.pageX + 'px';
-            document.getElementById('actions').dataset.inventory = JSON.stringify(inventory);
-            document.getElementById('actions').dataset.item = JSON.stringify({ ...item, amount });
         },
         useItem(event: MouseEvent): void {
             if (!(`alt` in window)) {
@@ -96,23 +100,26 @@ export default defineComponent({
             // @ts-ignore
             alt.emit('useItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
         },
-        giveItem(event: MouseEvent): void {},
+        giveItem(event: MouseEvent): void {
+            this.closeActionsMenu();
+        },
         dropItem(event: MouseEvent): void {
             if (!(`alt` in window)) {
                 return;
             }
             // @ts-ignore
             alt.emit('dropItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
+            this.closeActionsMenu();
         },
     },
     computed: {
-        getInventory1(): IWebInventory {
+        getInventory1: function (): IWebInventory {
             return this.inventory1;
         },
-        getInventory2(): IWebInventory {
+        getInventory2: function (): IWebInventory {
             return this.inventory2;
         },
-        getInventory3(): IWebInventory {
+        getInventory3: function (): IWebInventory {
             return this.inventory3;
         },
     },
