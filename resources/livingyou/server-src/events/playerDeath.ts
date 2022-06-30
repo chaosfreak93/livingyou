@@ -3,21 +3,7 @@ import { On } from '../systems/eventSystem/on';
 
 export default class PlayerDeath {
     @On('playerDeath')
-    static playerDeath(victim: alt.Player, killer: alt.Entity, weaponHash: number) {
-        victim.spawn(victim.pos);
-        victim.clearBloodDamage();
-    }
-
-    @On('playerDamage')
-    static playerDamage(
-        victim: alt.Player,
-        attacker: alt.Entity,
-        healthDamage: number,
-        armourDamage: number,
-        weaponHash: number
-    ) {
-        if (victim.health <= 0) {
-            victim.health = victim.maxHealth;
-        }
+    static playerDeath(player: alt.Player, killer: alt.Entity, weaponHash: number) {
+        player.spawn(player.pos);
     }
 }
