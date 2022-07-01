@@ -12,6 +12,7 @@ import './events/playerDisconnect';
 import './events/resourceStart';
 import './events/resourceStop';
 import './prototype/player';
+import './prototype/vehicle';
 import './systems/charCreator';
 import './systems/charSelector';
 import './systems/inventory';

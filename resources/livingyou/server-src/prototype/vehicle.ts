@@ -5,5 +5,11 @@ declare module 'alt-server' {
         oilLevel: number;
         fuelLevel: number;
         engineTemperature: number;
+
+        setFuelLevel(fuel: number): void;
     }
 }
+
+alt.Vehicle.prototype.setFuelLevel = function setFuelLevel(fuel: number) {
+    this.setStreamSyncedMeta('fuelLevel', fuel);
+};

@@ -4,6 +4,7 @@ import * as build_options from '../../../../build-options';
 import Items from '../systems/items';
 import DroppedItems from '../systems/droppedItems';
 import { On } from '../systems/eventSystem/on';
+import Vehicles from '../systems/vehicles';
 
 const url = process.env.MONGO_URL;
 const dbName = 'livingyou';
@@ -18,6 +19,7 @@ export default class ServerStart {
             throw new Error(`Did not connect to the database.`);
         }
         await Items.fetchItems();
+        await Vehicles.fetchVehicles();
         await DroppedItems.setupDroppedItems();
     }
 

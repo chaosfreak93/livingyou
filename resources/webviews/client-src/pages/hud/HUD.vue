@@ -2,6 +2,7 @@
     <div>
         <div id="hud"></div>
         <div id="vehicle_hud" v-if="showVehicleHud">
+            <div id="fuel" style="color: white">{{ vehicleFuel }}</div>
             <div id="speedometer">
                 <div id="speedometer_body">
                     <div id="speedometer_fill" :style="'transform: rotate(' + vehicleRpm / 2 + 'turn)'"></div>
@@ -21,6 +22,7 @@ export default defineComponent({
         return {
             vehicleRpm: 0 as number,
             vehicleSpeed: 0 as number,
+            vehicleFuel: 0 as number,
             showVehicleHud: false as boolean,
         };
     },
@@ -31,9 +33,10 @@ export default defineComponent({
         closeVehicleHud() {
             this.showVehicleHud = false;
         },
-        updateVehicleData(rpm: number, speed: number) {
+        updateVehicleData(rpm: number, speed: number, fuel: number) {
             this.vehicleRpm = rpm;
             this.vehicleSpeed = speed;
+            this.vehicleFuel = fuel;
         },
     },
     mounted() {
