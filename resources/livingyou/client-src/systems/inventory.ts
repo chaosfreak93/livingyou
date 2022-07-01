@@ -13,6 +13,7 @@ export default class Inventory {
         backpack: IWebInventory = null,
         other: IWebInventory = null
     ): Promise<void> {
+        alt.toggleGameControls(false);
         const view = await WebViewController.get();
         view.on('inventoryReady', () => {
             Inventory.ready = true;
@@ -65,5 +66,6 @@ export default class Inventory {
         });
         view.off('useItem', Inventory.useItem);
         view.off('dropItem', Inventory.dropItem);
+        alt.toggleGameControls(true);
     }
 }
