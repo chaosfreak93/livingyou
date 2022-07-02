@@ -8,7 +8,7 @@
             "start-client": "node --es-module-specifier-resolution=node ./resources/livingyou/build-client.js",
             "start-webview": "node --es-module-specifier-resolution=node ./resources/webviews/build-webview.js",
             "start": "concurrently npm:start-*",
-            "update": "altv-pkg d dev"
+            "update": "altv-pkg d rc"
         },
         "devDependencies": {
             "@altv/types-client": "^2.2.1",
