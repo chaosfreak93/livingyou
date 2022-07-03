@@ -14,18 +14,19 @@ export default class Inventory {
         if (!item) return;
         switch (inventory) {
             case 0:
-                player.removeItemFromPockets(inventoryItem.id, 1);
+                player.removeItemFromPockets(player, inventoryItem.id, 1);
 
                 if (item.data.food) {
-                    player.updateFood(item.data.food);
+                    player.updateFood(player, item.data.food);
                 }
 
                 if (item.data.thirst) {
-                    player.updateThirst(item.data.thirst);
+                    player.updateThirst(player, item.data.thirst);
                 }
 
                 if (item.data.screenEffect) {
                     player.startScreenEffect(
+                        player,
                         item.data.screenEffect.name,
                         item.data.screenEffect.duration,
                         item.data.screenEffect.looped
@@ -33,18 +34,19 @@ export default class Inventory {
                 }
                 break;
             case 1:
-                player.removeItemFromBackpack(inventoryItem.id, 1);
+                player.removeItemFromBackpack(player, inventoryItem.id, 1);
 
                 if (item.data.food) {
-                    player.updateFood(item.data.food);
+                    player.updateFood(player, item.data.food);
                 }
 
                 if (item.data.thirst) {
-                    player.updateThirst(item.data.thirst);
+                    player.updateThirst(player, item.data.thirst);
                 }
 
                 if (item.data.screenEffect) {
                     player.startScreenEffect(
+                        player,
                         item.data.screenEffect.name,
                         item.data.screenEffect.duration,
                         item.data.screenEffect.looped
@@ -66,7 +68,7 @@ export default class Inventory {
         if (!item) return;
         switch (inventory) {
             case 0:
-                player.removeItemFromPockets(inventoryItem.id);
+                player.removeItemFromPockets(player, inventoryItem.id);
                 DroppedItems.addDroppedItem(
                     new alt.Vector3(player.pos.x, player.pos.y, player.pos.z - 1),
                     player.rot.toDegrees(),
@@ -76,7 +78,7 @@ export default class Inventory {
                 );
                 break;
             case 1:
-                player.removeItemFromBackpack(inventoryItem.id);
+                player.removeItemFromBackpack(player, inventoryItem.id);
                 DroppedItems.addDroppedItem(
                     new alt.Vector3(player.pos.x, player.pos.y, player.pos.z - 1),
                     player.rot.toDegrees(),

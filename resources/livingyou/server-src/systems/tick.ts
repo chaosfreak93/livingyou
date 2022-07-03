@@ -16,8 +16,8 @@ export default class PlayerTick {
 
         player.nextTickTime = Date.now() + timeBetweenTicks;
 
-        player.time();
-        player.weather();
+        player.time(player);
+        player.weather(player);
 
         if (player.character) {
             player.character.lastKnownLocation = {
@@ -30,7 +30,7 @@ export default class PlayerTick {
             player.screenEffect.ticks -= 1;
 
             if (player.screenEffect.ticks <= 0) {
-                player.stopScreenEffect(player.screenEffect.name);
+                player.stopScreenEffect(player, player.screenEffect.name);
             }
         }
     }
