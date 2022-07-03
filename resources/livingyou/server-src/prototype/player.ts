@@ -5,7 +5,6 @@ import { World } from '../systems/world';
 import Items from '../systems/items';
 import IItem from '../../shared/interface/IItem';
 import IInventoryItem from '../../shared/interface/IInventoryItem';
-import Inventory from '../systems/inventory';
 
 declare module 'alt-server' {
     export interface Player {
@@ -19,98 +18,93 @@ declare module 'alt-server' {
             ticks: number;
         };
 
-        setPosition(player: alt.Player, x: number, y: number, z: number): void;
-        time(player: alt.Player): void;
-        weather(player: alt.Player): void;
-        startScreenEffect(player: alt.Player, effectName: string, ticks: number, looped: boolean): void;
-        stopScreenEffect(player: alt.Player, effectName: string): void;
+        setPosition(x: number, y: number, z: number): void;
+        time(): void;
+        weather(): void;
+        startScreenEffect(effectName: string, ticks: number, looped: boolean): void;
+        stopScreenEffect(effectName: string): void;
 
-        updateFood(player: alt.Player, food: number): void;
-        updateThirst(player: alt.Player, thirst: number): void;
+        updateFood(food: number): void;
+        updateThirst(thirst: number): void;
 
         // Inventory
-        addItemToPockets(player: alt.Player, id: string, amount?: number): void;
-        removeItemFromPockets(player: alt.Player, id: string, amount?: number): void;
-        addItemToBackpack(player: alt.Player, id: string, amount?: number): void;
-        removeItemFromBackpack(player: alt.Player, id: string, amount?: number): void;
+        addItemToPockets(id: string, amount?: number): void;
+        removeItemFromPockets(id: string, amount?: number): void;
+        addItemToBackpack(id: string, amount?: number): void;
+        removeItemFromBackpack(id: string, amount?: number): void;
 
         // Clothing
-        setHead(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setMask(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setHairStyle(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setTorso(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setLegs(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setBag(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setShoes(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setAccessories(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setUndershirt(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setClothArmor(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setDecals(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setTop(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setHead(drawable: number, texture: number, applyClothing: boolean): void;
+        setMask(drawable: number, texture: number, applyClothing: boolean): void;
+        setHairStyle(drawable: number, texture: number, applyClothing: boolean): void;
+        setTorso(drawable: number, texture: number, applyClothing: boolean): void;
+        setLegs(drawable: number, texture: number, applyClothing: boolean): void;
+        setBag(drawable: number, texture: number, applyClothing: boolean): void;
+        setShoes(drawable: number, texture: number, applyClothing: boolean): void;
+        setAccessories(drawable: number, texture: number, applyClothing: boolean): void;
+        setUndershirt(drawable: number, texture: number, applyClothing: boolean): void;
+        setClothArmor(drawable: number, texture: number, applyClothing: boolean): void;
+        setDecals(drawable: number, texture: number, applyClothing: boolean): void;
+        setTop(drawable: number, texture: number, applyClothing: boolean): void;
 
         // Props
-        setHat(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setGlasses(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setEar(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setWatch(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
-        setBracelet(player: alt.Player, applyClothing: boolean, drawable: number, texture: number): void;
+        setHat(drawable: number, texture: number, applyClothing: boolean): void;
+        setGlasses(drawable: number, texture: number, applyClothing: boolean): void;
+        setEar(drawable: number, texture: number, applyClothing: boolean): void;
+        setWatch(drawable: number, texture: number, applyClothing: boolean): void;
+        setBracelet(drawable: number, texture: number, applyClothing: boolean): void;
 
-        applyClothing(player: alt.Player): void;
+        applyClothing(): void;
     }
 }
 
-alt.Player.prototype.setPosition = function setPosition(player: alt.Player, x: number, y: number, z: number): void {
-    if (!player.hasModel) {
-        player.hasModel = true;
-        player.spawn(x, y, z, 0);
-        player.model = 'mp_m_freemode_01';
+alt.Player.prototype.setPosition = function setPosition(x: number, y: number, z: number): void {
+    if (!this.hasModel) {
+        this.hasModel = true;
+        this.spawn(x, y, z, 0);
+        this.model = 'mp_m_freemode_01';
     }
 
-    player.pos = new alt.Vector3(x, y, z);
+    this.pos = new alt.Vector3(x, y, z);
 };
 
-alt.Player.prototype.time = function time(player: alt.Player) {
-    EmitClient(player, 'world:UpdateTime', World.getWorldHour(), World.getWorldMinute());
+alt.Player.prototype.time = function time() {
+    EmitClient(this, 'world:UpdateTime', World.getWorldHour(), World.getWorldMinute());
 };
 
-alt.Player.prototype.weather = function weather(player: alt.Player) {
-    EmitClient(player, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(player)));
+alt.Player.prototype.weather = function weather() {
+    EmitClient(this, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(this)));
 };
 
 alt.Player.prototype.startScreenEffect = function startScreenEffect(
-    player: alt.Player,
     effectName: string,
     ticks: number,
     looped: boolean = false
 ) {
     if (looped || ticks == 0) {
-        player.screenEffect = {
+        this.screenEffect = {
             name: effectName,
             ticks: ticks,
         };
-        EmitClient(player, 'player:StartScreenEffect', effectName, ticks * 5000, looped);
+        EmitClient(this, 'player:StartScreenEffect', effectName, ticks * 5000, looped);
     } else {
-        player.screenEffect = {
+        this.screenEffect = {
             name: effectName,
             ticks: parseInt((ticks / 5000).toFixed(0)),
         };
-        EmitClient(player, 'player:StartScreenEffect', effectName, ticks, looped);
+        EmitClient(this, 'player:StartScreenEffect', effectName, ticks, looped);
     }
 };
 
-alt.Player.prototype.stopScreenEffect = function stopScreenEffect(player: alt.Player, effectName: string) {
-    EmitClient(player, 'player:StopScreenEffect', effectName);
+alt.Player.prototype.stopScreenEffect = function stopScreenEffect(effectName: string) {
+    EmitClient(this, 'player:StopScreenEffect', effectName);
 };
 
 // Inventory
-alt.Player.prototype.addItemToPockets = function addItemToPockets(
-    player: alt.Player,
-    id: string,
-    amount?: number
-): void {
+alt.Player.prototype.addItemToPockets = function addItemToPockets(id: string, amount?: number): void {
     let item: IItem = Items.getItemById(id);
     if (!item) return;
-    let inventoryItem: IInventoryItem = player.character.pocketInventory.items.find((value) => value.id == id);
+    let inventoryItem: IInventoryItem = this.character.pocketInventory.items.find((value) => value.id == id);
     if (inventoryItem) {
         if (amount) {
             inventoryItem.amount += amount;
@@ -119,38 +113,30 @@ alt.Player.prototype.addItemToPockets = function addItemToPockets(
         }
     } else {
         if (amount) {
-            player.character.pocketInventory.items.push({ id: item.id, amount: amount });
+            this.character.pocketInventory.items.push({ id: item.id, amount: amount });
         } else {
-            player.character.pocketInventory.items.push({ amount: 1, id: item.id });
+            this.character.pocketInventory.items.push({ amount: 1, id: item.id });
         }
     }
 };
 
-alt.Player.prototype.removeItemFromPockets = function removeItemFromPockets(
-    player: alt.Player,
-    id: string,
-    amount?: number
-): void {
+alt.Player.prototype.removeItemFromPockets = function removeItemFromPockets(id: string, amount?: number): void {
     let item: any = Items.getItemById(id);
     if (!item) return;
-    item = player.character.pocketInventory.items.find((value) => value.id == id);
+    item = this.character.pocketInventory.items.find((value) => value.id == id);
     if (!item) return;
     if (amount && item.amount - amount >= 1) {
         item.amount -= amount;
     } else {
-        const index = player.character.pocketInventory.items.indexOf(item);
-        player.character.pocketInventory.items.splice(index, 1);
+        const index = this.character.pocketInventory.items.indexOf(item);
+        this.character.pocketInventory.items.splice(index, 1);
     }
 };
 
-alt.Player.prototype.addItemToBackpack = function addItemToBackpack(
-    player: alt.Player,
-    id: string,
-    amount?: number
-): void {
+alt.Player.prototype.addItemToBackpack = function addItemToBackpack(id: string, amount?: number): void {
     let item: IItem = Items.getItemById(id);
     if (!item) return;
-    let inventoryItem: IInventoryItem = player.character.backpackInventory.items.find((value) => value.id == id);
+    let inventoryItem: IInventoryItem = this.character.backpackInventory.items.find((value) => value.id == id);
     if (inventoryItem) {
         if (amount) {
             inventoryItem.amount += amount;
@@ -159,280 +145,211 @@ alt.Player.prototype.addItemToBackpack = function addItemToBackpack(
         }
     } else {
         if (amount) {
-            player.character.backpackInventory.items.push({ id: item.id, amount: amount });
+            this.character.backpackInventory.items.push({ id: item.id, amount: amount });
         } else {
-            player.character.backpackInventory.items.push({ amount: 1, id: item.id });
+            this.character.backpackInventory.items.push({ amount: 1, id: item.id });
         }
     }
 };
 
-alt.Player.prototype.removeItemFromBackpack = function removeItemFromBackpack(
-    player: alt.Player,
-    id: string,
-    amount?: number
-): void {
+alt.Player.prototype.removeItemFromBackpack = function removeItemFromBackpack(id: string, amount?: number): void {
     let item: any = Items.getItemById(id);
     if (!item) return;
-    item = player.character.backpackInventory.items.find((value) => value.id == id);
+    item = this.character.backpackInventory.items.find((value) => value.id == id);
     if (!item) return;
     if (amount && item.amount - amount >= 1) {
         item.amount -= amount;
     } else {
-        const index = player.character.backpackInventory.items.indexOf(item);
-        player.character.backpackInventory.items.splice(index, 1);
+        const index = this.character.backpackInventory.items.indexOf(item);
+        this.character.backpackInventory.items.splice(index, 1);
     }
 };
 
 // Food & Thirst
-alt.Player.prototype.updateFood = function updateFood(player: alt.Player, food: number): void {
-    player.character.hunger += food;
-    if (player.character.hunger <= 0) {
-        player.character.hunger = 0;
-    } else if (player.character.hunger >= 100) {
-        player.character.hunger = 100;
+alt.Player.prototype.updateFood = function updateFood(food: number): void {
+    this.character.hunger += food;
+    if (this.character.hunger <= 0) {
+        this.character.hunger = 0;
+    } else if (this.character.hunger >= 100) {
+        this.character.hunger = 100;
     }
 };
-alt.Player.prototype.updateThirst = function updateThirst(player: alt.Player, thirst: number): void {
-    player.character.thirst += thirst;
-    if (player.character.thirst <= 0) {
-        player.character.thirst = 0;
-    } else if (player.character.thirst >= 100) {
-        player.character.thirst = 100;
+alt.Player.prototype.updateThirst = function updateThirst(thirst: number): void {
+    this.character.thirst += thirst;
+    if (this.character.thirst <= 0) {
+        this.character.thirst = 0;
+    } else if (this.character.thirst >= 100) {
+        this.character.thirst = 100;
     }
 };
 
 // Clothing
-alt.Player.prototype.setHead = function setHead(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[0].drawable = drawable;
-    player.character.characterClothing.clothes[0].texture = texture;
+alt.Player.prototype.setHead = function setHead(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[0].drawable = drawable;
+    this.character.characterClothing.clothes[0].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setMask = function setMask(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[1].drawable = drawable;
-    player.character.characterClothing.clothes[1].texture = texture;
+alt.Player.prototype.setMask = function setMask(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[1].drawable = drawable;
+    this.character.characterClothing.clothes[1].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
 alt.Player.prototype.setHairStyle = function setHairStyle(
-    player: alt.Player,
-    applyClothing: boolean,
     drawable: number,
-    texture: number
+    texture: number,
+    applyClothing: boolean
 ): void {
-    player.character.characterClothing.clothes[2].drawable = drawable;
-    player.character.characterClothing.clothes[2].texture = texture;
+    this.character.characterClothing.clothes[2].drawable = drawable;
+    this.character.characterClothing.clothes[2].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setTorso = function setTorso(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[3].drawable = drawable;
-    player.character.characterClothing.clothes[3].texture = texture;
+alt.Player.prototype.setTorso = function setTorso(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[3].drawable = drawable;
+    this.character.characterClothing.clothes[3].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setLegs = function setLegs(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[4].drawable = drawable;
-    player.character.characterClothing.clothes[4].texture = texture;
+alt.Player.prototype.setLegs = function setLegs(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[4].drawable = drawable;
+    this.character.characterClothing.clothes[4].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setBag = function setBag(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[5].drawable = drawable;
-    player.character.characterClothing.clothes[5].texture = texture;
+alt.Player.prototype.setBag = function setBag(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[5].drawable = drawable;
+    this.character.characterClothing.clothes[5].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setShoes = function setShoes(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[6].drawable = drawable;
-    player.character.characterClothing.clothes[6].texture = texture;
+alt.Player.prototype.setShoes = function setShoes(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[6].drawable = drawable;
+    this.character.characterClothing.clothes[6].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
 alt.Player.prototype.setAccessories = function setAccessories(
-    player: alt.Player,
-    applyClothing: boolean,
     drawable: number,
-    texture: number
+    texture: number,
+    applyClothing: boolean
 ): void {
-    player.character.characterClothing.clothes[7].drawable = drawable;
-    player.character.characterClothing.clothes[7].texture = texture;
+    this.character.characterClothing.clothes[7].drawable = drawable;
+    this.character.characterClothing.clothes[7].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
 alt.Player.prototype.setUndershirt = function setUndershirt(
-    player: alt.Player,
-    applyClothing: boolean,
     drawable: number,
-    texture: number
+    texture: number,
+    applyClothing: boolean
 ): void {
-    player.character.characterClothing.clothes[8].drawable = drawable;
-    player.character.characterClothing.clothes[8].texture = texture;
+    this.character.characterClothing.clothes[8].drawable = drawable;
+    this.character.characterClothing.clothes[8].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
 alt.Player.prototype.setClothArmor = function setClothArmor(
-    player: alt.Player,
-    applyClothing: boolean,
     drawable: number,
-    texture: number
+    texture: number,
+    applyClothing: boolean
 ): void {
-    player.character.characterClothing.clothes[9].drawable = drawable;
-    player.character.characterClothing.clothes[9].texture = texture;
+    this.character.characterClothing.clothes[9].drawable = drawable;
+    this.character.characterClothing.clothes[9].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setDecals = function setDecals(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[10].drawable = drawable;
-    player.character.characterClothing.clothes[10].texture = texture;
+alt.Player.prototype.setDecals = function setDecals(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[10].drawable = drawable;
+    this.character.characterClothing.clothes[10].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setTop = function setTop(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.clothes[11].drawable = drawable;
-    player.character.characterClothing.clothes[11].texture = texture;
+alt.Player.prototype.setTop = function setTop(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.clothes[11].drawable = drawable;
+    this.character.characterClothing.clothes[11].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
 // Props
-alt.Player.prototype.setHat = function setHat(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.props[0].drawable = drawable;
-    player.character.characterClothing.props[0].texture = texture;
+alt.Player.prototype.setHat = function setHat(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.props[0].drawable = drawable;
+    this.character.characterClothing.props[0].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setGlasses = function setGlasses(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.props[1].drawable = drawable;
-    player.character.characterClothing.props[1].texture = texture;
+alt.Player.prototype.setGlasses = function setGlasses(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.props[1].drawable = drawable;
+    this.character.characterClothing.props[1].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setEar = function setEar(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.props[2].drawable = drawable;
-    player.character.characterClothing.props[2].texture = texture;
+alt.Player.prototype.setEar = function setEar(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.props[2].drawable = drawable;
+    this.character.characterClothing.props[2].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.setWatch = function setWatch(
-    player: alt.Player,
-    applyClothing: boolean,
-    drawable: number,
-    texture: number
-): void {
-    player.character.characterClothing.props[3].drawable = drawable;
-    player.character.characterClothing.props[3].texture = texture;
+alt.Player.prototype.setWatch = function setWatch(drawable: number, texture: number, applyClothing: boolean): void {
+    this.character.characterClothing.props[3].drawable = drawable;
+    this.character.characterClothing.props[3].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
 alt.Player.prototype.setBracelet = function setBracelet(
-    player: alt.Player,
-    applyClothing: boolean,
     drawable: number,
-    texture: number
+    texture: number,
+    applyClothing: boolean
 ): void {
-    player.character.characterClothing.props[4].drawable = drawable;
-    player.character.characterClothing.props[4].texture = texture;
+    this.character.characterClothing.props[4].drawable = drawable;
+    this.character.characterClothing.props[4].texture = texture;
     if (applyClothing) {
-        player.applyClothing(player);
+        this.applyClothing();
     }
 };
 
-alt.Player.prototype.applyClothing = function applyClothing(player: alt.Player): void {
-    let clothes = player.character.characterClothing.clothes;
-    let props = player.character.characterClothing.props;
+alt.Player.prototype.applyClothing = function applyClothing(): void {
+    let clothes = this.character.characterClothing.clothes;
+    let props = this.character.characterClothing.props;
 
     for (let i = 0; i < clothes.length; i++) {
-        player.setClothes(clothes[i].component, clothes[i].drawable, clothes[i].texture, 0);
+        this.setClothes(clothes[i].component, clothes[i].drawable, clothes[i].texture, 0);
     }
 
     for (let i = 0; i < props.length; i++) {
-        player.setProp(props[i].component, clothes[i].drawable, clothes[i].texture);
+        this.setProp(props[i].component, clothes[i].drawable, clothes[i].texture);
     }
 };
