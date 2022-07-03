@@ -18,12 +18,12 @@ export default class DiscordAuth {
         }
 
         player.dimension = player.id + 1;
-        player.setPosition(player, -1645.55, -1113.04, 13);
+        player.setPosition(-1645.55, -1113.04, 13);
         player.visible = false;
         player.frozen = true;
         player.collision = false;
-        player.time(player);
-        player.weather(player);
+        player.time();
+        player.weather();
 
         EmitClient(player, 'webView:Info', 'http://assets/webviews/index.html');
         EmitClient(player, 'discord:Open');
@@ -73,7 +73,7 @@ export default class DiscordAuth {
         }
         await Database.updatePartialData(findAccount[0]._id, { lastJoinTimestamp: new Date().getTime() }, 'accounts');
 
-        player.setPosition(player, -453.586, 276.909, 78.515);
+        player.setPosition(-453.586, 276.909, 78.515);
         player.discordId = discordData.id;
         EmitClient(player, 'discord:Close');
         await alt.Utils.wait(500);
