@@ -15,6 +15,7 @@ export default class Debug {
                 player.rot.z
             );
             vehicle.dimension = 0;
+            vehicle.numberPlateText = 'ADMIN';
             player.setIntoVehicle(vehicle, 1);
         } catch (err) {
             alt.logError(err);
