@@ -2,7 +2,7 @@ import * as alt from 'alt-client';
 import * as native from 'natives';
 import { WebViewController } from '../extensions/webViewController';
 import ScreenFade from '../utility/screenFade';
-import { On, OnServer } from './eventSystem/on';
+import { OnServer } from './eventSystem/on';
 
 let isDisabled = false;
 let hasRegistered = false;
@@ -55,7 +55,7 @@ export default class HUD {
         }
     }
 
-    @On('enteredVehicle')
+    @OnServer('hud:ShowDriveHud')
     static async showDriveHud() {
         if (isDisabled) return;
         const view = await WebViewController.get();
@@ -66,12 +66,13 @@ export default class HUD {
             view.emit(
                 'updateVehicleData',
                 alt.Player.local.vehicle.rpm,
-                (native.getEntitySpeed(alt.Player.local.vehicle) * 3.6).toFixed(0)
+                (native.getEntitySpeed(alt.Player.local.vehicle) * 3.6).toFixed(0),
+                alt.Player.local.vehicle.fuelLevel
             );
         });
     }
 
-    @On('leftVehicle')
+    @OnServer('hud:HideDriveHud')
     static async hideDriveHud() {
         if (isDisabled) return;
         const view = await WebViewController.get();
