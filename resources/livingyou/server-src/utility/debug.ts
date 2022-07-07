@@ -3,7 +3,7 @@ import { OnClient } from '../systems/eventSystem/on';
 
 export default class Debug {
     @OnClient('devTools:SpawnVehicle')
-    static spawnVehicle(player: alt.Player, hash: string) {
+    static async spawnVehicle(player: alt.Player, hash: string) {
         try {
             let vehicle = new alt.Vehicle(
                 alt.hash(hash),
@@ -17,6 +17,8 @@ export default class Debug {
             vehicle.dimension = 0;
             vehicle.numberPlateText = 'ADMIN';
             player.setIntoVehicle(vehicle, 1);
+            vehicle.setFuelLevel(25);
+            vehicle.setOilLevel(1);
         } catch (err) {
             alt.logError(err);
         }

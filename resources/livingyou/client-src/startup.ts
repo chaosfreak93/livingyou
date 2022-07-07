@@ -9,6 +9,7 @@ import './events/connectionComplete';
 import './events/consoleCommand';
 import './events/disconnect';
 import './events/keys';
+import './events/streamSyncedMetaChange';
 import './extensions/webViewController';
 import './systems/cameraManager';
 import './systems/charCreator';
