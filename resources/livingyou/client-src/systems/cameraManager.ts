@@ -1,6 +1,5 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { loadSceneAtCoords } from '../utility/scene';
 
 let camera: number;
 
@@ -16,9 +15,7 @@ export default class CameraManager {
         }
 
         if (loadScene) {
-            native.requestCollisionAtCoord(position.x, position.y, position.z);
-            native.setFocusPosAndVel(position.x, position.y, position.z, 0, 0, 0);
-            await loadSceneAtCoords(position);
+            alt.FocusData.overrideFocus(position);
         }
 
         camera = native.createCam('DEFAULT_SCRIPTED_CAMERA', false);
@@ -34,7 +31,7 @@ export default class CameraManager {
             camera = 0;
         }
 
-        native.clearFocus();
+        alt.FocusData.clearFocus();
         native.destroyAllCams(true);
         native.renderScriptCams(false, false, 0, false, false, 0);
     }
