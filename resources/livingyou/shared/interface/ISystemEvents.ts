@@ -16,6 +16,8 @@ export interface ISystemEvents {
     'charCreator:Close': () => void;
     // HUD
     'hud:Update': () => void;
+    'hud:ShowDriveHud': () => void;
+    'hud:HideDriveHud': () => void;
     // Inventory
     'inventory:Open': (pockets: IWebInventory, backpack: IWebInventory, other: IWebInventory) => void;
     'inventory:Update': (pockets: IWebInventory, backpack: IWebInventory, other: IWebInventory) => void;
