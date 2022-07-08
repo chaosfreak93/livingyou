@@ -1,6 +1,6 @@
 import * as alt from 'alt-server';
+import xsync from './syncEntity';
 import ICharacter from '../../shared/interface/ICharacter';
-import DroppedItems from './droppedItems';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 
@@ -67,6 +67,7 @@ export default class CharSelector {
         }
 
         EmitClient(player, 'player:StartTicks');
+        xsync.initClient(player);
 
         if (!character.lastKnownLocation) {
             player.setPosition(221.6855926513672, -902.0967407226562, 30.69318962097168);
