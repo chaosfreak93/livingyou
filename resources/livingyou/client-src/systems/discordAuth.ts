@@ -21,11 +21,29 @@ export default class DiscordAuth {
         await WebViewController.showCursor(true);
     }
 
-    static async obtainToken(): Promise<void> {
+    @OnServer('discord:ObtainToken')
+    static async obtainToken(reset: boolean): Promise<void> {
+        if (reset) {
+            alt.LocalStorage.delete('token');
+            alt.LocalStorage.delete('tokenDate');
+            loginInProgress = false;
+        }
         if (loginInProgress) return;
         try {
             loginInProgress = true;
-            const token = await alt.Discord.requestOAuth2Token('948363980743790683');
+            let token = alt.LocalStorage.get('token');
+            let currentDate = alt.LocalStorage.get('tokenDate') as number;
+            alt.log(token);
+            alt.log(currentDate);
+            alt.log(currentDate <= new Date().getTime());
+            if (!token && !currentDate || currentDate <= new Date().getTime()) {
+                token = await alt.Discord.requestOAuth2Token('948363980743790683');
+                alt.LocalStorage.set('token', token);
+                let newDate = new Date();
+                newDate.setDate(newDate.getDate() + 30);
+                alt.LocalStorage.set('tokenDate', newDate.getTime()); // 30 Days
+                alt.LocalStorage.save();
+            }
             EmitServer('discord:ProceedToken', token);
         } catch (err) {
             alt.logError(err);

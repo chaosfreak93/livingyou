@@ -40,10 +40,15 @@ export default class DiscordAuth {
             })
             .catch((err) => {
                 alt.logError(err);
-                return null;
+                return err.toJSON().status;
             });
 
-        if (!request || !request.data || !request.data.id || !request.data.email) {
+        if (request === 401) {
+            EmitClient(player, 'discord:ObtainToken', true);
+            return;
+        }
+
+        if (!request || !request.data || !request.data.id || !request.data.username || !request.data.discriminator) {
             player.kick('Authorization failed');
             return;
         }
@@ -57,7 +62,7 @@ export default class DiscordAuth {
             const insertedData = await Database.insertData<IAccount>(
                 {
                     discord: discordData.id,
-                    email: discordData.email,
+                    username: discordData.username + '#' + discordData.discriminator,
                     firstJoinTimestamp: new Date().getTime(),
                     lastJoinTimestamp: new Date().getTime(),
                     allowSecondCharacter: false,

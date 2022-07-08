@@ -1,8 +1,7 @@
 export default interface IDiscordData {
     id: number;
     username: string;
+    avatar: string;
     discriminator: number;
-    local: string;
-    email: string;
-    verified: boolean;
+    locale: string;
 }

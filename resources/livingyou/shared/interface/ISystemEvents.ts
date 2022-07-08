@@ -5,6 +5,7 @@ export interface ISystemEvents {
     // Discord Login
     'discord:Open': () => void;
     'discord:ProceedToken': (token: string) => void;
+    'discord:ObtainToken': (reset: boolean) => void;
     'discord:Close': () => void;
     // Character Selector
     'charSelector:Open': () => void;
