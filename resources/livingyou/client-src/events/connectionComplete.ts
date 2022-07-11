@@ -28,6 +28,8 @@ export default class ConnectionComplete {
     static setPedConfigFlags() {
         alt.setConfigFlag('DISABLE_IDLE_CAMERA', true);
         alt.setConfigFlag('DISABLE_AUTO_WEAPON_SWAP', true);
+        native.setPedConfigFlag(alt.Player.local, 241, true);
+        native.setPedConfigFlag(alt.Player.local, 429, true);
     }
 
     static fixWebviewFlickering() {
