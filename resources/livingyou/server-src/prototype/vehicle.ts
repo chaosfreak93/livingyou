@@ -2,8 +2,6 @@ import * as alt from 'alt-server';
 
 declare module 'alt-server' {
     export interface Vehicle {
-        engineTemperature: number;
-
         setFuelLevel(fuel: number): void;
         getFuelLevel(): number;
         setOilLevel(oil: number): void;
