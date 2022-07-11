@@ -41,6 +41,9 @@ export default class KeyManager {
                     EmitClient(player, 'inventory:Update', pocketInventory, backpackInventory);
                 }
                 break;
+            case 77:
+                if (!player.vehicle || player.vehicle.driver != player) return;
+                player.vehicle.engineOn = !player.vehicle.engineOn;
             default:
                 break;
         }

@@ -15,6 +15,8 @@ export default class Debug {
                 player.rot.z
             );
             vehicle.dimension = 0;
+            vehicle.engineOn = false;
+            vehicle.manualEngineControl = true;
             vehicle.numberPlateText = 'ADMIN';
             player.setIntoVehicle(vehicle, 1);
             vehicle.setFuelLevel(25);

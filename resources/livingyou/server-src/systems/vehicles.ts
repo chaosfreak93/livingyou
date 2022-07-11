@@ -19,6 +19,7 @@ export default class Vehicles {
     static playerEnteredVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number) {
         if (seat == 1) {
             EmitClient(player, 'hud:ShowDriveHud');
+            vehicle.manualEngineControl = true;
         }
     }
 
@@ -29,6 +30,7 @@ export default class Vehicles {
         }
         if (newSeat == 1) {
             EmitClient(player, 'hud:ShowDriveHud');
+            vehicle.manualEngineControl = true;
         }
     }
 
