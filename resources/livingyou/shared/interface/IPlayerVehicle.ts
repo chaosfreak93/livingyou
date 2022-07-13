@@ -4,6 +4,7 @@ export default interface IPlayerVehicle {
     id: string;
     vehicleId: string;
     data: {
+        dimension: number;
         fuelLevel: number;
         oilLevel: number;
         numberPlateText: string;
