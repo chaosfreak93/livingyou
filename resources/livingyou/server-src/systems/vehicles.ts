@@ -7,6 +7,7 @@ import IPlayerVehicle from '../../shared/interface/IPlayerVehicle';
 
 export default class Vehicles {
     static vehicles: IVehicle[];
+    static spawnedVehicles: alt.Vehicle[];
 
     static getVehicleByHash(hash: string): IVehicle | undefined {
         return Vehicles.vehicles.find((value: IVehicle) => value.hash === hash);
@@ -32,6 +33,7 @@ export default class Vehicles {
             vehicle.engineHealth = vehicleData.damage.engineDamage;
         }
         vehicle.engineOn = engineOn;
+        Vehicles.spawnedVehicles.push(vehicle);
         return vehicle;
     }
 
