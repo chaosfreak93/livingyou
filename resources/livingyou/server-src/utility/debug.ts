@@ -19,7 +19,7 @@ export default class Debug {
     static deleteVehicle(player: alt.Player) {
         try {
             if (player.vehicle.driver !== player) return;
-            player.vehicle.destroy();
+            Vehicles.deleteVehicle(player.vehicle);
         } catch (err) {
             alt.logError(err);
         }

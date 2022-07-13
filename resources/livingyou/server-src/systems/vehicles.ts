@@ -37,6 +37,22 @@ export default class Vehicles {
         return vehicle;
     }
 
+    static deleteVehicle(vehicle: alt.Vehicle, player?: alt.Player) {
+        if (vehicle.vehicleData && player) {
+            let vehicleData = player.character.vehicles.find(
+                (value: IPlayerVehicle) => value.id === vehicle.vehicleData.id
+            );
+            const vehicleDataIndex = player.character.vehicles.indexOf(vehicleData);
+            player.character.vehicles[vehicleDataIndex].data = vehicle.vehicleData.data;
+            player.character.vehicles[vehicleDataIndex].damage = vehicle.vehicleData.damage;
+            player.character.vehicles[vehicleDataIndex].tuning = vehicle.vehicleData.tuning;
+        }
+        vehicle = Vehicles.spawnedVehicles.find((value: alt.Vehicle) => value.id === vehicle.id);
+        const vehicleIndex = Vehicles.spawnedVehicles.indexOf(vehicle);
+        Vehicles.spawnedVehicles.splice(vehicleIndex, 1);
+        vehicle.destroy();
+    }
+
     @On('playerEnteredVehicle')
     static playerEnteredVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number) {
         if (seat == 1) {
