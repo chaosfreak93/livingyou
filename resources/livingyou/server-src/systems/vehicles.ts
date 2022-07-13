@@ -3,6 +3,7 @@ import Database from '@stuyk/ezmongodb';
 import IVehicle from '../../shared/interface/IVehicle';
 import { On } from './eventSystem/on';
 import { EmitClient } from './eventSystem/emit';
+import IPlayerVehicle from '../../shared/interface/IPlayerVehicle';
 
 export default class Vehicles {
     static vehicles: IVehicle[];
@@ -13,6 +14,25 @@ export default class Vehicles {
 
     static async fetchVehicles(): Promise<void> {
         Vehicles.vehicles = await Database.fetchAllData<IVehicle>('vehicles');
+    }
+
+    static createVehicle(
+        modelHash: number,
+        pos: alt.Vector3,
+        rot: alt.Vector3,
+        engineOn: boolean,
+        vehicleData?: IPlayerVehicle
+    ): alt.Vehicle {
+        let vehicle = new alt.Vehicle(modelHash, pos, rot);
+        if (vehicleData) {
+            vehicle.vehicleData = vehicleData;
+            vehicle.setFuelLevel(vehicleData.data.fuelLevel);
+            vehicle.setOilLevel(vehicleData.data.oilLevel);
+            vehicle.numberPlateText = vehicleData.data.numberPlateText;
+            vehicle.engineHealth = vehicleData.damage.engineDamage;
+        }
+        vehicle.engineOn = engineOn;
+        return vehicle;
     }
 
     @On('playerEnteredVehicle')

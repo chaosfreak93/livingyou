@@ -1,7 +1,10 @@
 import * as alt from 'alt-server';
+import IPlayerVehicle from '../../shared/interface/IPlayerVehicle';
 
 declare module 'alt-server' {
     export interface Vehicle {
+        vehicleData: IPlayerVehicle;
+
         setFuelLevel(fuel: number): void;
         getFuelLevel(): number;
         setOilLevel(oil: number): void;
