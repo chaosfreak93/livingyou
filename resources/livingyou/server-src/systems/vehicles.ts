@@ -6,8 +6,8 @@ import { EmitClient } from './eventSystem/emit';
 import IPlayerVehicle from '../../shared/interface/IPlayerVehicle';
 
 export default class Vehicles {
-    static vehicles: IVehicle[];
-    static spawnedVehicles: alt.Vehicle[];
+    static vehicles: IVehicle[] = [];
+    static spawnedVehicles: alt.Vehicle[] = [];
 
     static getVehicleByHash(hash: string): IVehicle | undefined {
         return Vehicles.vehicles.find((value: IVehicle) => value.hash === hash);
