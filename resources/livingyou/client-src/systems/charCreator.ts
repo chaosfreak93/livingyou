@@ -9,8 +9,8 @@ import { On, OnServer } from './eventSystem/on';
 let zpos = 0;
 let startPosition: alt.Vector3;
 let startCamPosition: alt.Vector3;
-let ped: number;
-let handleCameraTick: number;
+let ped: number = 0;
+let handleCameraTick: number = 0;
 
 export default class CharCreator {
     @OnServer('charCreator:Open')
@@ -69,7 +69,10 @@ export default class CharCreator {
         view.off('setProps', CharCreator.setProps);
         view.off('finishCharacter', CharCreator.finishCharacter);
         await ScreenFade.fadeOut(0);
-        alt.clearEveryTick(handleCameraTick);
+        if (handleCameraTick != 0) {
+            alt.clearEveryTick(handleCameraTick);
+            handleCameraTick = 0;
+        }
         CameraManager.destroyCamera();
         native.deletePed(ped);
         ped = 0;
@@ -92,7 +95,7 @@ export default class CharCreator {
     }
 
     static async spawnPed(male: boolean): Promise<void> {
-        if (ped != null) {
+        if (ped != 0) {
             native.deletePed(ped);
             ped = 0;
         }
@@ -207,7 +210,7 @@ export default class CharCreator {
             return;
         }
 
-        if (ped == null || !native.doesEntityExist(ped)) {
+        if (ped === 0 || !native.doesEntityExist(ped)) {
             return;
         }
 
