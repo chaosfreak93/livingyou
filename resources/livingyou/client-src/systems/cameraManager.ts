@@ -1,7 +1,7 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
 
-let camera: number;
+let camera: number = 0;
 
 export default class CameraManager {
     static async createCamera(
@@ -10,11 +10,14 @@ export default class CameraManager {
         fov: number,
         loadScene: boolean
     ): Promise<void> {
-        if (camera != null) {
+        if (camera != 0) {
             CameraManager.destroyCamera();
         }
 
         if (loadScene) {
+            if (alt.FocusData.isFocusOverriden) {
+                alt.FocusData.clearFocus();
+            }
             alt.FocusData.overrideFocus(position);
         }
 
@@ -26,13 +29,13 @@ export default class CameraManager {
     }
 
     static destroyCamera(): void {
-        if (camera) {
+        if (camera != 0) {
             native.destroyCam(camera, true);
             camera = 0;
         }
 
         alt.FocusData.clearFocus();
-        native.destroyAllCams(true);
+        native.destroyAllCams(false);
         native.renderScriptCams(false, false, 0, false, false, 0);
     }
 
