@@ -33,7 +33,7 @@ export default class DiscordAuth {
             loginInProgress = true;
             let token = alt.LocalStorage.get('token');
             let currentDate = alt.LocalStorage.get('tokenDate') as number;
-            if (!token && !currentDate || currentDate <= new Date().getTime()) {
+            if ((!token && !currentDate) || currentDate <= new Date().getTime()) {
                 token = await alt.Discord.requestOAuth2Token('948363980743790683');
                 alt.LocalStorage.set('token', token);
                 let newDate = new Date();
