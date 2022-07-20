@@ -20,11 +20,11 @@ export default class CharCreator {
         startPosition = native.getOffsetFromEntityInWorldCoords(ped, 0.125, 0, 0) as alt.Vector3;
 
         const forwardVector = native.getEntityForwardVector(ped) as alt.Vector3;
-        const forwardCameraPosition = {
-            x: startPosition.x + forwardVector.x * 1.2,
-            y: startPosition.y + forwardVector.y * 1.2,
-            z: startPosition.z + zpos,
-        } as alt.Vector3;
+        const forwardCameraPosition = new alt.Vector3(
+            startPosition.x + forwardVector.x * 1.2,
+            startPosition.y + forwardVector.y * 1.2,
+            startPosition.z + zpos
+        );
         startCamPosition = forwardCameraPosition;
         await CameraManager.createCamera(startCamPosition, new alt.Vector3(0, 0, 0), 50, true);
         await alt.Utils.waitFor(() => !native.isPedFalling(ped));
