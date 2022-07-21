@@ -4,7 +4,7 @@ import Vehicles from '../systems/vehicles';
 
 export default class Debug {
     @OnClient('devTools:SpawnVehicle')
-    static async spawnVehicle(player: alt.Player, hash: string) {
+    static spawnVehicle(player: alt.Player, hash: string): void {
         try {
             let vehicle = Vehicles.createVehicle(alt.hash(hash), player.pos, player.rot, true);
             vehicle.dimension = 0;
