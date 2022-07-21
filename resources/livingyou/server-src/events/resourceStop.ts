@@ -12,19 +12,19 @@ export default class ServerStop {
         const pC: ICharacter[] = [];
         const pDI: number[] = [];
 
-        let allPlayer = alt.Player.all;
+        let allPlayer: readonly alt.Player[] = alt.Player.all;
         for (let i = 0; i < allPlayer.length; i++) {
-            let player = allPlayer[i];
+            let player: alt.Player = allPlayer[i];
             if (!player || !player.valid || !player.discordId || !player.character) return;
             pC.push(player.character);
             pDI.push(player.discordId);
         }
 
         for (let i = 0; i < pDI.length; i++) {
-            let findAccount = await Database.fetchAllByField<IAccount>('discord', pDI[i], 'accounts');
+            let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', pDI[i], 'accounts');
             if (findAccount.length <= 0) return;
 
-            const char = findAccount[0].character.find((char) => char.id == pC[i].id);
+            const char: ICharacter = findAccount[0].character.find((char) => char.id == pC[i].id);
             char.alive = pC[i].alive;
             char.characterAppearence = pC[i].characterAppearence;
             char.characterClothing = pC[i].characterClothing;
@@ -44,7 +44,7 @@ export default class ServerStop {
 
         await Database.dropCollection('droppedItems');
         await Database.createCollection('droppedItems');
-        const droppedItems = DroppedItems.droppedItems;
+        const droppedItems: IDroppedItem[] = DroppedItems.droppedItems;
         for (let i = 0; i < droppedItems.length; i++) {
             await Database.insertData<IDroppedItem>(droppedItems[i], 'droppedItems', false);
         }

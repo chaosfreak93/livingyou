@@ -3,7 +3,7 @@ import { On } from '../systems/eventSystem/on';
 
 export default class StreamSyncedMetaChange {
     @On('streamSyncedMetaChange')
-    static async streamSyncedMetaChange(entity: alt.Entity, key: string, value: any, oldValue: any) {
+    static async streamSyncedMetaChange(entity: alt.Entity, key: string, value: any, oldValue: any): Promise<void> {
         if (entity instanceof alt.Vehicle) {
             await alt.Utils.waitFor(() => entity.isSpawned && entity.valid, 500);
             switch (key) {

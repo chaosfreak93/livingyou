@@ -17,8 +17,8 @@ export default class DroppedItems {
         model: string,
         item: IInventoryItem
     ): Promise<void> {
-        let id = new ObjectId().toString();
-        let droppedItem = {
+        let id: string = new ObjectId().toString();
+        let droppedItem: IDroppedItem = {
             id: id,
             location: pos,
             rotation: rot,
@@ -26,7 +26,7 @@ export default class DroppedItems {
             item: item,
         };
         this.droppedItems.push(droppedItem);
-        let itemName = Items.getItemById(item.id).name;
+        let itemName: string = Items.getItemById(item.id).name;
         DroppedItems.droppedItemEntitys.push({
             item: new DroppedItemEntity(id, pos, rot, model, item),
             label: new TextLabel(
@@ -44,14 +44,14 @@ export default class DroppedItems {
     }
 
     static async removeDroppedItem(id: string): Promise<void> {
-        let droppedItem = this.droppedItems.find((value) => value.id == id);
-        const droppedItemIndex = this.droppedItems.indexOf(droppedItem);
+        let droppedItem: IDroppedItem = this.droppedItems.find((value) => value.id == id);
+        const droppedItemIndex: number = this.droppedItems.indexOf(droppedItem);
         this.droppedItems.splice(droppedItemIndex, 1);
 
         let droppedItemEntity = this.droppedItemEntitys.find((value) => value.item.meta.droppedItemId == id);
         droppedItemEntity.item.destroy();
         droppedItemEntity.label.destroy();
-        const droppedItemEntityIndex = this.droppedItemEntitys.indexOf(droppedItemEntity);
+        const droppedItemEntityIndex: number = this.droppedItemEntitys.indexOf(droppedItemEntity);
         this.droppedItemEntitys.splice(droppedItemEntityIndex, 1);
     }
 
@@ -59,8 +59,8 @@ export default class DroppedItems {
         let distance: number;
         let droppedItem: DroppedItemEntity;
         for (let i = 0; i < this.droppedItemEntitys.length; i++) {
-            let itemPos = this.droppedItemEntitys[i].item.pos;
-            let newDistance = pos.distanceTo(itemPos);
+            let itemPos: alt.IVector3 = this.droppedItemEntitys[i].item.pos;
+            let newDistance: number = pos.distanceTo(itemPos);
             if (distance == undefined || distance >= newDistance) {
                 distance = newDistance;
                 droppedItem = this.droppedItemEntitys[i].item;
@@ -70,11 +70,11 @@ export default class DroppedItems {
         return { droppedItem, distance };
     }
 
-    static async setupDroppedItems() {
+    static async setupDroppedItems(): Promise<void> {
         DroppedItems.droppedItems = await Database.fetchAllData<IDroppedItem>('droppedItems');
         for (let i = 0; i < DroppedItems.droppedItems.length; i++) {
             let pos = DroppedItems.droppedItems[i].location;
-            let itemName = Items.getItemById(DroppedItems.droppedItems[i].item.id).name;
+            let itemName: string = Items.getItemById(DroppedItems.droppedItems[i].item.id).name;
             DroppedItems.droppedItemEntitys.push({
                 item: new DroppedItemEntity(
                     DroppedItems.droppedItems[i].id,

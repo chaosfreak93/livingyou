@@ -24,7 +24,7 @@ export default class Vehicles {
         engineOn: boolean,
         vehicleData?: IPlayerVehicle
     ): alt.Vehicle {
-        let vehicle = new alt.Vehicle(modelHash, pos, rot);
+        let vehicle: alt.Vehicle = new alt.Vehicle(modelHash, pos, rot);
         if (vehicleData) {
             vehicle.vehicleData = vehicleData;
             vehicle.setFuelLevel(vehicleData.data.fuelLevel);
@@ -37,24 +37,24 @@ export default class Vehicles {
         return vehicle;
     }
 
-    static deleteVehicle(vehicle: alt.Vehicle, player?: alt.Player) {
+    static deleteVehicle(vehicle: alt.Vehicle, player?: alt.Player): void {
         if (vehicle.vehicleData && player) {
-            let vehicleData = player.character.vehicles.find(
+            let vehicleData: IPlayerVehicle = player.character.vehicles.find(
                 (value: IPlayerVehicle) => value.id === vehicle.vehicleData.id
             );
-            const vehicleDataIndex = player.character.vehicles.indexOf(vehicleData);
+            const vehicleDataIndex: number = player.character.vehicles.indexOf(vehicleData);
             player.character.vehicles[vehicleDataIndex].data = vehicle.vehicleData.data;
             player.character.vehicles[vehicleDataIndex].damage = vehicle.vehicleData.damage;
             player.character.vehicles[vehicleDataIndex].tuning = vehicle.vehicleData.tuning;
         }
         vehicle = Vehicles.spawnedVehicles.find((value: alt.Vehicle) => value.id === vehicle.id);
-        const vehicleIndex = Vehicles.spawnedVehicles.indexOf(vehicle);
+        const vehicleIndex: number = Vehicles.spawnedVehicles.indexOf(vehicle);
         Vehicles.spawnedVehicles.splice(vehicleIndex, 1);
         vehicle.destroy();
     }
 
     @On('playerEnteredVehicle')
-    static playerEnteredVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number) {
+    static playerEnteredVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number): void {
         if (seat == 1) {
             EmitClient(player, 'hud:ShowDriveHud');
             vehicle.manualEngineControl = true;
@@ -62,7 +62,7 @@ export default class Vehicles {
     }
 
     @On('playerChangedVehicleSeat')
-    static playerChangedVehicleSeat(player: alt.Player, vehicle: alt.Vehicle, oldSeat: number, newSeat: number) {
+    static playerChangedVehicleSeat(player: alt.Player, vehicle: alt.Vehicle, oldSeat: number, newSeat: number): void {
         if (oldSeat == 1) {
             EmitClient(player, 'hud:HideDriveHud');
         }
@@ -73,7 +73,7 @@ export default class Vehicles {
     }
 
     @On('playerLeftVehicle')
-    static playerLeftVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number) {
+    static playerLeftVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number): void {
         if (seat == 1) {
             EmitClient(player, 'hud:HideDriveHud');
         }

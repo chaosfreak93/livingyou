@@ -22,7 +22,7 @@ export default class CharSelector {
             true
         );
         await ScreenFade.fadeIn(0);
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.on('charSelectorReady', () => CharSelector.charSelectorReady(characters, allowSecondCharacter));
         view.on('showPed', CharSelector.showPed);
         view.on('createCharacter', CharSelector.createCharacter);
@@ -35,12 +35,12 @@ export default class CharSelector {
 
     @On('disconnect')
     @OnServer('charSelector:Close')
-    static async close() {
+    static async close(): Promise<void> {
         await WebViewController.showCursor(false);
         await WebViewController.unfocus();
         await WebViewController.closePages(['CharSelector']);
 
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
         view.off('showPed', CharSelector.showPed);
         view.off('createCharacter', CharSelector.createCharacter);
@@ -52,7 +52,7 @@ export default class CharSelector {
     }
 
     static async charSelectorReady(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.emit('setData', characters, allowSecondCharacter);
     }
 
@@ -146,12 +146,12 @@ export default class CharSelector {
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);
     }
 
-    static async createCharacter() {
+    static async createCharacter(): Promise<void> {
         await CharSelector.close();
         await CharCreator.open();
     }
 
-    static async selectPed(character: string) {
+    static selectPed(character: string): void {
         EmitServer('charSelector:SelectChar', character);
     }
 }

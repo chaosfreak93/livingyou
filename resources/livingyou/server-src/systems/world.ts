@@ -1,9 +1,9 @@
 import * as alt from 'alt-server';
 
-const worldDivision = 6;
-const maxY = 8000;
-const minY = -4000;
-const WEATHER_ROTATION = [
+const worldDivision: number = 6;
+const maxY: number = 8000;
+const minY: number = -4000;
+const WEATHER_ROTATION: string[] = [
     'EXTRASUNNY',
     'EXTRASUNNY',
     'CLEAR',
@@ -24,7 +24,7 @@ export class World {
 
     static generateGrid(division: number): void {
         let groups: Array<{ minY: number; maxY: number }> = [];
-        let total = maxY + Math.abs(minY);
+        let total: number = maxY + Math.abs(minY);
 
         for (let i = 0; i < division; i++) {
             const result = {
@@ -39,7 +39,7 @@ export class World {
     }
 
     static updateWorldTime(): void {
-        const time = new Date(Date.now());
+        const time: Date = new Date(Date.now());
         World.minute = time.getMinutes();
         World.hour = time.getHours();
 
@@ -47,12 +47,12 @@ export class World {
             return;
         }
 
-        const endElement = WEATHER_ROTATION.pop();
+        const endElement: string = WEATHER_ROTATION.pop();
         WEATHER_ROTATION.unshift(endElement);
     }
 
     static getGridSpace(player: alt.Player): number {
-        const gridSpace = World.minMaxGroups.findIndex(
+        const gridSpace: number = World.minMaxGroups.findIndex(
             (pos) => player && player.valid && player.pos.y > pos.minY && player.pos.y < pos.maxY
         );
 

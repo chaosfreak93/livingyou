@@ -8,7 +8,7 @@ import { OnClient } from './eventSystem/on';
 
 export default class DiscordAuth {
     @OnClient('connection:Begin')
-    static startLogin(player: alt.Player) {
+    static startLogin(player: alt.Player): void {
         if (!player || !player.valid) {
             return;
         }
@@ -57,9 +57,9 @@ export default class DiscordAuth {
     }
 
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
-        let findAccount = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
+        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
         if (findAccount.length <= 0) {
-            const insertedData = await Database.insertData<IAccount>(
+            const insertedData: IAccount = await Database.insertData<IAccount>(
                 {
                     discord: discordData.id,
                     username: discordData.username + '#' + discordData.discriminator,

@@ -12,9 +12,9 @@ const collections = ['accounts', 'items', 'vehicles', 'droppedItems'];
 
 export default class ServerStart {
     @On('resourceStart')
-    static async resourceStart(errored: boolean) {
+    static async resourceStart(errored: boolean): Promise<void> {
         if (build_options.default.testMode) return;
-        const connected = await Database.init(url, dbName, collections);
+        const connected: boolean = await Database.init(url, dbName, collections);
         if (!connected) {
             throw new Error(`Did not connect to the database.`);
         }
@@ -24,7 +24,7 @@ export default class ServerStart {
     }
 
     @On('serverStarted')
-    static serverStarted() {
+    static serverStarted(): void {
         if (build_options.default.testMode) alt.stopServer();
     }
 }

@@ -6,7 +6,7 @@ export default class Debug {
     @OnClient('devTools:SpawnVehicle')
     static spawnVehicle(player: alt.Player, hash: string): void {
         try {
-            let vehicle = Vehicles.createVehicle(alt.hash(hash), player.pos, player.rot, true);
+            let vehicle: alt.Vehicle = Vehicles.createVehicle(alt.hash(hash), player.pos, player.rot, true);
             vehicle.dimension = 0;
             vehicle.numberPlateText = 'ADMIN';
             player.setIntoVehicle(vehicle, 1);
@@ -16,7 +16,7 @@ export default class Debug {
     }
 
     @OnClient('devTools:DeleteVehicle')
-    static deleteVehicle(player: alt.Player) {
+    static deleteVehicle(player: alt.Player): void {
         try {
             if (player.vehicle.driver !== player) return;
             Vehicles.deleteVehicle(player.vehicle);

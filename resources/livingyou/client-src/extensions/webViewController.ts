@@ -4,7 +4,7 @@ import * as alt from 'alt-client';
 import { On, OnceServer } from '../systems/eventSystem/on';
 
 // Must be a blank index page.
-let _defaultURL = `http://assets/webviews/index.html`;
+let _defaultURL: string = `http://assets/webviews/index.html`;
 let _isReady: boolean = false;
 let _webview: alt.WebView;
 let _currentEvents: { eventName: string; callback: any }[] = [];
@@ -19,7 +19,7 @@ export class WebViewController {
      * @memberof WebViewController
      */
     @OnceServer('webView:Info')
-    static create(url: string) {
+    static create(url: string): void {
         _defaultURL = url;
 
         if (url.includes('localhost')) {
@@ -52,7 +52,7 @@ export class WebViewController {
      * @param {(isVisible: boolean) => void} callback
      * @memberof WebViewController
      */
-    static registerOverlay(pageName: string, callback: (isVisible: boolean) => void) {
+    static registerOverlay(pageName: string, callback: (isVisible: boolean) => void): void {
         const index = _overlays.findIndex((x) => x.name === pageName);
         if (index >= 0) {
             _overlays[index] = {
@@ -73,7 +73,7 @@ export class WebViewController {
      * @param {boolean} value
      * @memberof WebViewController
      */
-    static async setOverlaysVisible(value: boolean) {
+    static async setOverlaysVisible(value: boolean): Promise<void> {
         for (let i = 0; i < _overlays.length; i++) {
             _overlays[i].callback(value);
         }
@@ -86,7 +86,7 @@ export class WebViewController {
      * @param {boolean} state
      * @memberof WebViewController
      */
-    static setOverlayVisible(pageName: string, state: boolean) {
+    static setOverlayVisible(pageName: string, state: boolean): void {
         const index = _overlays.findIndex((page) => page.name === pageName);
 
         if (index === -1) {
@@ -125,7 +125,7 @@ export class WebViewController {
      * @memberof WebViewController
      */
     @On('disconnect')
-    static dispose() {
+    static dispose(): void {
         alt.log('SHOULD BE KILLING OLD WEBVIEW');
         _webview.destroy();
     }
@@ -138,7 +138,7 @@ export class WebViewController {
      * @return {*}
      * @memberof WebViewController
      */
-    static async on(eventName: string, listener: (...args: any[]) => void) {
+    static async on(eventName: string, listener: (...args: any[]) => void): Promise<void> {
         const view = await WebViewController.get();
         const index: number = _currentEvents.findIndex((e) => e.eventName === eventName);
         if (index >= 0) {
@@ -157,7 +157,7 @@ export class WebViewController {
      * @return {*}
      * @memberof WebViewController
      */
-    static async off(eventName: string, listener: (...args: any[]) => void) {
+    static async off(eventName: string, listener: (...args: any[]) => void): Promise<void> {
         const view = await WebViewController.get();
         view.off(eventName, listener);
 
@@ -176,7 +176,7 @@ export class WebViewController {
      * @param {...any[]} args
      * @memberof WebViewController
      */
-    static async emit(eventName: string, ...args: any[]) {
+    static async emit(eventName: string, ...args: any[]): Promise<void> {
         const view = await WebViewController.get();
         view.emit(eventName, ...args);
     }
@@ -188,7 +188,7 @@ export class WebViewController {
      * @param {string} pageName
      * @memberof WebViewController
      */
-    static async openPages(pageNames: Array<string>) {
+    static async openPages(pageNames: Array<string>): Promise<void> {
         const view = await WebViewController.get();
         view.emit('view:Call', 'setPages', pageNames);
     }
@@ -198,7 +198,7 @@ export class WebViewController {
      * @static
      * @memberof WebViewController
      */
-    static async focus() {
+    static async focus(): Promise<void> {
         const view = await WebViewController.get();
         view.focus();
     }
@@ -208,7 +208,7 @@ export class WebViewController {
      * @static
      * @memberof WebViewController
      */
-    static async unfocus() {
+    static async unfocus(): Promise<void> {
         const view = await WebViewController.get();
         view.unfocus();
     }
@@ -219,7 +219,7 @@ export class WebViewController {
      * @param {boolean} state
      * @memberof WebViewController
      */
-    static async showCursor(state: boolean) {
+    static async showCursor(state: boolean): Promise<void> {
         if (state) {
             _cursorCount += 1;
             try {
@@ -243,7 +243,7 @@ export class WebViewController {
      * @param {Array<string>} pageNames
      * @memberof WebViewController
      */
-    static async closePages(pageNames: Array<string>) {
+    static async closePages(pageNames: Array<string>): Promise<void> {
         const view = await WebViewController.get();
         view.emit('view:Call', 'closePages', pageNames);
     }

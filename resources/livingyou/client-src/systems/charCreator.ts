@@ -6,7 +6,7 @@ import ScreenFade from '../utility/screenFade';
 import { EmitServer } from './eventSystem/emit';
 import { On, OnServer } from './eventSystem/on';
 
-let zpos = 0;
+let zpos: number = 0;
 let startPosition: alt.Vector3;
 let startCamPosition: alt.Vector3;
 let ped: number = 0;
@@ -31,7 +31,7 @@ export default class CharCreator {
         CameraManager.pointCameraAtCoord(startPosition);
         handleCameraTick = alt.everyTick(CharCreator.cameraControls);
         await ScreenFade.fadeIn(0);
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.on('charCreatorReady', CharCreator.charCreatorReady);
         view.on('changeGender', CharCreator.changeGender);
         view.on('setHeadBlendData', CharCreator.setHeadBlendData);
@@ -56,7 +56,7 @@ export default class CharCreator {
         await WebViewController.unfocus();
         await WebViewController.closePages(['CharCreator']);
 
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.off('charCreatorReady', CharCreator.charCreatorReady);
         view.off('changeGender', CharCreator.changeGender);
         view.off('setHeadBlendData', CharCreator.setHeadBlendData);
@@ -80,8 +80,8 @@ export default class CharCreator {
     }
 
     static async charCreatorReady(): Promise<void> {
-        let clothesMax = [];
-        let propsMax = [];
+        let clothesMax: number[] = [];
+        let propsMax: number[] = [];
         for (let i = 0; i <= 11; i++) {
             clothesMax[i] = native.getNumberOfPedDrawableVariations(ped, i);
         }
@@ -214,12 +214,12 @@ export default class CharCreator {
             return;
         }
 
-        const res = alt.getScreenResolution();
-        const width = res.x;
-        const cursor = alt.getCursorPos();
-        const _x = cursor.x;
-        let oldHeading = native.getEntityHeading(ped);
-        let fov = CameraManager.getCameraFov();
+        const res: alt.Vector2 = alt.getScreenResolution();
+        const width: number = res.x;
+        const cursor: alt.Vector2 = alt.getCursorPos();
+        const _x: number = cursor.x;
+        let oldHeading: number = native.getEntityHeading(ped);
+        let fov: number = CameraManager.getCameraFov();
 
         //Scroll Up
         if (native.isDisabledControlPressed(0, 15)) {
@@ -283,26 +283,26 @@ export default class CharCreator {
         if (native.isDisabledControlPressed(0, 25)) {
             // Rotate Negative
             if (_x < width / 2) {
-                const newHeading = (oldHeading -= 2);
+                const newHeading: number = (oldHeading -= 2);
                 native.setEntityHeading(ped, newHeading);
             }
 
             // Rotate Positive
             if (_x > width / 2) {
-                const newHeading = (oldHeading += 2);
+                const newHeading: number = (oldHeading += 2);
                 native.setEntityHeading(ped, newHeading);
             }
         }
 
         // D
         if (native.isDisabledControlPressed(0, 35)) {
-            const newHeading = (oldHeading += 2);
+            const newHeading: number = (oldHeading += 2);
             native.setEntityHeading(ped, newHeading);
         }
 
         // A
         if (native.isDisabledControlPressed(0, 34)) {
-            const newHeading = (oldHeading -= 2);
+            const newHeading: number = (oldHeading -= 2);
             native.setEntityHeading(ped, newHeading);
         }
     }

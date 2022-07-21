@@ -5,7 +5,7 @@ import ScreenFade from '../utility/screenFade';
 import CameraManager from './cameraManager';
 import { EmitServer } from './eventSystem/emit';
 
-let loginInProgress = false;
+let loginInProgress: boolean = false;
 
 export default class DiscordAuth {
     @OnServer('discord:Open')
@@ -13,7 +13,7 @@ export default class DiscordAuth {
         await CameraManager.createCamera(new alt.Vector3(-2000, -1200, 55), new alt.Vector3(-15, 0, -70), 90, true);
         await ScreenFade.fadeIn(0);
         alt.toggleGameControls(false);
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.on('startLogin', DiscordAuth.obtainToken);
 
         await WebViewController.openPages(['Login']);
@@ -31,8 +31,8 @@ export default class DiscordAuth {
         if (loginInProgress) return;
         try {
             loginInProgress = true;
-            let token = alt.LocalStorage.get('token');
-            let currentDate = alt.LocalStorage.get('tokenDate') as number;
+            let token: string = alt.LocalStorage.get('token');
+            let currentDate: number = alt.LocalStorage.get('tokenDate') as number;
             if ((!token && !currentDate) || currentDate <= new Date().getTime()) {
                 token = await alt.Discord.requestOAuth2Token('948363980743790683');
                 alt.LocalStorage.set('token', token);
@@ -55,7 +55,7 @@ export default class DiscordAuth {
         await WebViewController.unfocus();
         await WebViewController.closePages(['Login']);
 
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.off('startLogin', DiscordAuth.obtainToken);
         await ScreenFade.fadeOut(0);
         CameraManager.destroyCamera();

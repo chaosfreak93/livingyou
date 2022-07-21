@@ -68,11 +68,11 @@ alt.Player.prototype.setPosition = function setPosition(x: number, y: number, z:
     this.pos = new alt.Vector3(x, y, z);
 };
 
-alt.Player.prototype.time = function time() {
+alt.Player.prototype.time = function time(): void {
     EmitClient(this, 'world:UpdateTime', World.getWorldHour(), World.getWorldMinute());
 };
 
-alt.Player.prototype.weather = function weather() {
+alt.Player.prototype.weather = function weather(): void {
     EmitClient(this, 'world:UpdateWeather', World.getWeatherByGrid(World.getGridSpace(this)));
 };
 
@@ -80,7 +80,7 @@ alt.Player.prototype.startScreenEffect = function startScreenEffect(
     effectName: string,
     ticks: number,
     looped: boolean = false
-) {
+): void {
     if (looped || ticks == 0) {
         this.screenEffect = {
             name: effectName,
@@ -96,7 +96,7 @@ alt.Player.prototype.startScreenEffect = function startScreenEffect(
     }
 };
 
-alt.Player.prototype.stopScreenEffect = function stopScreenEffect(effectName: string) {
+alt.Player.prototype.stopScreenEffect = function stopScreenEffect(effectName: string): void {
     EmitClient(this, 'player:StopScreenEffect', effectName);
 };
 

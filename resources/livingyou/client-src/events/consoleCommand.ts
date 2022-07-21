@@ -4,7 +4,7 @@ import { On } from '../systems/eventSystem/on';
 
 export default class ConsoleCommand {
     @On('consoleCommand')
-    static consoleCommand(name: string, ...args: string[]) {
+    static consoleCommand(name: string, ...args: string[]): void {
         switch (name) {
             case 'sv':
                 EmitServer('devTools:SpawnVehicle', args[0]);

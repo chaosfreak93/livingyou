@@ -15,7 +15,7 @@ export default class HUD {
             hasRegistered = true;
         }
 
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.on(`hudReady`, HUD.ready);
 
         await WebViewController.openPages(['HUD']);
@@ -40,13 +40,13 @@ export default class HUD {
 
         await WebViewController.closePages(['HUD']);
 
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.off(`hudReady`, HUD.ready);
         native.displayHud(false);
     }
 
     static async ready(): Promise<void> {
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         if (alt.Player.local.vehicle) {
             HUD.showDriveHud();
         } else {
@@ -58,7 +58,7 @@ export default class HUD {
     @OnServer('hud:ShowDriveHud')
     static async showDriveHud(): Promise<void> {
         if (isDisabled) return;
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         native.displayRadar(true);
         view.emit('openVehicleHud');
         vehicleTick = alt.everyTick(() => {
@@ -74,7 +74,7 @@ export default class HUD {
     @OnServer('hud:HideDriveHud')
     static async hideDriveHud(): Promise<void> {
         if (isDisabled) return;
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         native.displayRadar(false);
         view.emit('closeVehicleHud');
         if (vehicleTick === 0) return;

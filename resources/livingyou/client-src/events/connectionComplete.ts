@@ -7,7 +7,7 @@ import { On } from '../systems/eventSystem/on';
 
 export default class ConnectionComplete {
     @On('connectionComplete')
-    static connectionComplete() {
+    static connectionComplete(): void {
         CameraManager.destroyCamera();
         native.doScreenFadeOut(0);
         native.displayHud(false);
@@ -19,20 +19,20 @@ export default class ConnectionComplete {
         EmitServer('connection:Begin');
     }
 
-    static hideHudComponents() {
+    static hideHudComponents(): void {
         native.hideHudComponentThisFrame(6); // Vehicle Name
         native.hideHudComponentThisFrame(8); // Vehicle Class
         native.hideHudComponentThisFrame(9); // Street Name
     }
 
-    static setPedConfigFlags() {
+    static setPedConfigFlags(): void {
         alt.setConfigFlag('DISABLE_IDLE_CAMERA', true);
         alt.setConfigFlag('DISABLE_AUTO_WEAPON_SWAP', true);
         native.setPedConfigFlag(alt.Player.local, 241, true);
         native.setPedConfigFlag(alt.Player.local, 429, true);
     }
 
-    static fixWebviewFlickering() {
+    static fixWebviewFlickering(): void {
         native.drawRect(0, 0, 0, 0, 0, 0, 0, 0, false);
     }
 }

@@ -1,19 +1,20 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
+import ICharacter from '../../shared/interface/ICharacter';
 import IAccount from '../interface/IAccount';
 import { On } from '../systems/eventSystem/on';
 
 export default class PlayerDisconnect {
     @On('playerDisconnect')
-    static async playerDisconnect(player: alt.Player, reason: string) {
+    static async playerDisconnect(player: alt.Player, reason: string): Promise<void> {
         if (!player || !player.valid || !player.discordId || !player.character) return;
-        const pC = player.character;
-        const pDI = player.discordId;
+        const pC: ICharacter = player.character;
+        const pDI: number = player.discordId;
 
-        let findAccount = await Database.fetchAllByField<IAccount>('discord', pDI, 'accounts');
+        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', pDI, 'accounts');
         if (findAccount.length <= 0) return;
 
-        const char = findAccount[0].character.find((char) => char.id == pC.id);
+        const char: ICharacter = findAccount[0].character.find((char) => char.id == pC.id);
         char.alive = pC.alive;
         char.characterAppearence = pC.characterAppearence;
         char.characterClothing = pC.characterClothing;

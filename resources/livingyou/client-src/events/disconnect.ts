@@ -4,7 +4,7 @@ import { On } from '../systems/eventSystem/on';
 
 export default class Disconnect {
     @On('disconnect')
-    static disconnect() {
+    static disconnect(): void {
         native.stopAudioScenes();
         native.freezeEntityPosition(alt.Player.local.scriptID, false);
     }

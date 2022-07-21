@@ -55,7 +55,7 @@ const cableCar2 = new CableCar(
     []
 );
 
-async function cableCar1Logic() {
+async function cableCar1Logic(): Promise<void> {
     await alt.Utils.wait(10);
     try {
         await updateProgress(cableCar1);
@@ -87,7 +87,7 @@ async function cableCar1Logic() {
     cableCar1Logic();
 }
 
-async function cableCar2Logic() {
+async function cableCar2Logic(): Promise<void> {
     await alt.Utils.wait(10);
     try {
         await updateProgress(cableCar2);

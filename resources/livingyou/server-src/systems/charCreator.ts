@@ -8,7 +8,7 @@ import { EmitClient } from './eventSystem/emit';
 
 export default class CharCreator {
     @OnClient('charCreator:FinishChar')
-    static async finishChar(player: alt.Player, character: any) {
+    static async finishChar(player: alt.Player, character: any): Promise<void> {
         character = JSON.parse(character) as ICharacter;
         character.id = new ObjectID().toString();
         character.alive = true;
@@ -33,7 +33,7 @@ export default class CharCreator {
             ],
         };
 
-        let findAccount = await Database.fetchAllByField<IAccount>('discord', player.discordId, 'accounts');
+        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', player.discordId, 'accounts');
         if (findAccount.length <= 0) return;
         findAccount[0].character.push(character);
 

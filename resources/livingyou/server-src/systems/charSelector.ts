@@ -6,7 +6,7 @@ import { OnClient } from './eventSystem/on';
 
 export default class CharSelector {
     @OnClient('charSelector:SelectChar')
-    static async selectChar(player: alt.Player, character: any) {
+    static async selectChar(player: alt.Player, character: any): Promise<void> {
         character = JSON.parse(character) as ICharacter;
         player.character = character;
         player.dimension = 0;
