@@ -1,4 +1,4 @@
-import * as alt from 'alt-server';
+import * as alt from 'alt-shared';
 import ICharacterAppearence from './ICharacterAppearence';
 import ICharacterClothing from './ICharacterClothing';
 import IInventory from './IInventory';

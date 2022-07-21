@@ -1,6 +1,6 @@
-import * as alt from 'alt-server';
+import * as alt from 'alt-shared';
 
 export default interface IDroppedItemSyncedMeta {
-    rot: alt.IVector3;
+    rot: alt.Vector3;
     model: string;
 }
