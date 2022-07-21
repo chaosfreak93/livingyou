@@ -8,14 +8,14 @@
             "start-client": "node --es-module-specifier-resolution=node ./resources/livingyou/build-client.js",
             "start-webview": "node --es-module-specifier-resolution=node ./resources/webviews/build-webview.js",
             "start": "concurrently npm:start-*",
-            "update": "altv-pkg d release"
+            "update": "altv-pkg d dev"
         },
         "devDependencies": {
-            "@altv/types-client": "^2.2.6",
+            "@altv/types-client": "^2.2.7",
             "@altv/types-natives": "^1.4.4",
             "@altv/types-server": "^2.4.1",
             "@altv/types-shared": "^1.2.6",
-            "@altv/types-webview": "^1.0.2",
+            "@altv/types-webview": "^1.0.3",
             "@altv/types-worker": "^1.0.7",
             "@types/node": "^17.0.45",
             "@vue/compiler-sfc": "^3.2.37",
