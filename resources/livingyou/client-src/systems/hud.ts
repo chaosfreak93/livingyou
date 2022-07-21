@@ -65,7 +65,7 @@ export default class HUD {
             if (!alt.Player.local.vehicle) return;
             view.emit(
                 'updateVehicleData',
-                native.getIsVehicleEngineRunning(alt.Player.local.vehicle) ? alt.Player.local.vehicle.rpm : 0,
+                alt.Player.local.vehicle.engineOn ? alt.Player.local.vehicle.rpm : 0,
                 (alt.Player.local.vehicle.speed * 3.6).toFixed(0)
             );
         });
