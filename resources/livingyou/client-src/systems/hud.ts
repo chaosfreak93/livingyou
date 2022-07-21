@@ -4,12 +4,12 @@ import { WebViewController } from '../extensions/webViewController';
 import ScreenFade from '../utility/screenFade';
 import { OnServer } from './eventSystem/on';
 
-let isDisabled = false;
-let hasRegistered = false;
-let vehicleTick = 0;
+let isDisabled: boolean = false;
+let hasRegistered: boolean = false;
+let vehicleTick: number = 0;
 
 export default class HUD {
-    static async open() {
+    static async open(): Promise<void> {
         if (!hasRegistered) {
             WebViewController.registerOverlay('HUD', HUD.setVisible);
             hasRegistered = true;
@@ -22,14 +22,14 @@ export default class HUD {
     }
 
     @OnServer('player:Spawned')
-    static async playerSpawned() {
+    static async playerSpawned(): Promise<void> {
         native.displayHud(true);
         alt.toggleGameControls(true);
         await ScreenFade.fadeIn(0);
         await HUD.open();
     }
 
-    static async setVisible(value: boolean) {
+    static async setVisible(value: boolean): Promise<void> {
         isDisabled = !value;
 
         if (!isDisabled) {
@@ -45,7 +45,7 @@ export default class HUD {
         native.displayHud(false);
     }
 
-    static async ready() {
+    static async ready(): Promise<void> {
         const view = await WebViewController.get();
         if (alt.Player.local.vehicle) {
             HUD.showDriveHud();
@@ -56,7 +56,7 @@ export default class HUD {
     }
 
     @OnServer('hud:ShowDriveHud')
-    static async showDriveHud() {
+    static async showDriveHud(): Promise<void> {
         if (isDisabled) return;
         const view = await WebViewController.get();
         native.displayRadar(true);
@@ -72,7 +72,7 @@ export default class HUD {
     }
 
     @OnServer('hud:HideDriveHud')
-    static async hideDriveHud() {
+    static async hideDriveHud(): Promise<void> {
         if (isDisabled) return;
         const view = await WebViewController.get();
         native.displayRadar(false);
