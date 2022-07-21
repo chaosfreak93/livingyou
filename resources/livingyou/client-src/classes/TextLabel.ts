@@ -15,6 +15,7 @@ class TextLabel extends xsync.Entity<ITextLabelSyncedMeta> {
 
     private streamIn(): void {
         this.drawTick = alt.everyTick(() => {
+            if (!alt.isPointOnScreen(this.pos.x, this.pos.y, this.pos.z)) return;
             let entity = alt.Player.local.vehicle ? alt.Player.local.vehicle : alt.Player.local;
             let vector = native.getEntityVelocity(entity);
             let frameTime = native.getFrameTime();
