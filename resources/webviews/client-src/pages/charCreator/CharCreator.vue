@@ -845,7 +845,7 @@ export default defineComponent({
 #page-CharCreator {
     text-align: center;
     position: absolute;
-    top: 0%;
+    top: 0;
     left: 0;
     transform: translate(0%, 0%);
     width: 25vw;

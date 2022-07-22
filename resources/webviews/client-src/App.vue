@@ -119,7 +119,6 @@ export default defineComponent({
                     }
                     console.log(`[Vue] Closed Page -> ${currentPages[i].name}`);
                     currentPages.splice(i, 1);
-                    continue;
                 }
                 this.pages = currentPages;
                 this.isClosingPage = false;
@@ -161,10 +160,8 @@ export default defineComponent({
             this.pages = newPagesArray;
         },
         isDevMenu() {
-            if (!('alt' in window)) {
-                return true;
-            }
-            return false;
+            return !('alt' in window);
+
         },
     },
     mounted() {
@@ -205,8 +202,8 @@ export default defineComponent({
 }
 .devMenu {
     position: absolute;
-    left: 0px;
-    top: 0px;
+    left: 0;
+    top: 0;
     min-width: 5px;
     max-width: 5px;
     height: 100vh;
