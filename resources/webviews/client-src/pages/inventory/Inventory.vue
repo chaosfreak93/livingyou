@@ -212,7 +212,7 @@ export default defineComponent({
     border-radius: 10px;
 }
 #itemlist {
-    margin: 0px 25px;
+    margin: 0 25px;
     display: grid;
     grid-template-columns: auto auto auto auto auto;
     gap: 10px;
