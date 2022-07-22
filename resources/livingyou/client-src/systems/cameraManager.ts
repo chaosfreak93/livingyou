@@ -10,7 +10,7 @@ export default class CameraManager {
         fov: number,
         loadScene: boolean
     ): Promise<void> {
-        if (camera != 0) {
+        if (CameraManager.cameraExists()) {
             CameraManager.destroyCamera();
         }
 
@@ -29,7 +29,7 @@ export default class CameraManager {
     }
 
     static destroyCamera(): void {
-        if (camera != 0) {
+        if (CameraManager.cameraExists()) {
             native.destroyCam(camera, true);
             camera = 0;
         }
