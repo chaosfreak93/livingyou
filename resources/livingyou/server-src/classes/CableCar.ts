@@ -18,8 +18,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta, ICableCarMeta> {
         doorStatus: 'Open' | 'Close',
         attachedPlayer: {
             id: number;
-            pos: alt.IVector3;
-            rot: alt.IVector3;
+            pos: alt.Vector3;
+            rot: alt.Vector3;
         }[]
     ) {
         super(
@@ -292,8 +292,8 @@ async function cableCarArriveAtStation(cableCar: CableCar, logic: Function): Pro
     let players = alt.Player.all;
     let playersToAttach: {
         id: number;
-        pos: alt.IVector3;
-        rot: alt.IVector3;
+        pos: alt.Vector3;
+        rot: alt.Vector3;
     }[] = [];
     let rangeOffset1 = new alt.Vector3(cableCar.pos).add(1.3, 0, 0).sub(0, 0, 5.3);
     let rangeOffset2 = new alt.Vector3(cableCar.pos).sub(1.3, 0, 0).sub(0, 0, 5.3);
