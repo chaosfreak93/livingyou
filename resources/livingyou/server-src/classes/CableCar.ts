@@ -215,7 +215,7 @@ function getHeadingToNextPoint(pos1: alt.IVector3, pos2: alt.IVector3, unk: bool
 
     fVar1 = pos2.x - pos1.x;
     fVar2 = pos2.y - pos1.y;
-    if (fVar2 != 0) {
+    if (fVar2 !== 0) {
         fVar0 = Math.atan2(fVar1, fVar2);
     } else if (fVar1 < 0) {
         fVar0 = -90;

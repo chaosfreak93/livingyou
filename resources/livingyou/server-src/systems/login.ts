@@ -72,7 +72,7 @@ export default class DiscordAuth {
                 'accounts',
                 true
             );
-            if (insertedData.discord != discordData.id) return;
+            if (insertedData.discord !== discordData.id) return;
             findAccount = [];
             findAccount.push(insertedData);
         }

@@ -45,7 +45,7 @@ export default defineComponent({
                 return;
             }
 
-            if (this.selectedCharacter == null || this.selectedCharacter != this.characters[index]) {
+            if (this.selectedCharacter == null || this.selectedCharacter !== this.characters[index]) {
                 this.selectedCharacter = this.characters[index];
                 alt.emit(
                     'showPed',
@@ -53,7 +53,7 @@ export default defineComponent({
                     JSON.stringify(this.characters[index].characterAppearence)
                 );
                 return;
-            } else if (this.selectedCharacter != null && this.selectedCharacter == this.characters[index]) {
+            } else if (this.selectedCharacter !== null && this.selectedCharacter == this.characters[index]) {
                 alt.emit('selectPed', JSON.stringify(this.selectedCharacter));
             }
         },

@@ -40,7 +40,7 @@ export default class CameraManager {
     }
 
     static cameraExists(): boolean {
-        return camera !== null;
+        return camera !== 0;
     }
 
     static setCameraPosition(position: alt.Vector3): void {

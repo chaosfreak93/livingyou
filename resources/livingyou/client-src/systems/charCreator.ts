@@ -69,7 +69,7 @@ export default class CharCreator {
         view.off('setProps', CharCreator.setProps);
         view.off('finishCharacter', CharCreator.finishCharacter);
         await ScreenFade.fadeOut(0);
-        if (handleCameraTick != 0) {
+        if (handleCameraTick !== 0) {
             alt.clearEveryTick(handleCameraTick);
             handleCameraTick = 0;
         }
@@ -95,7 +95,7 @@ export default class CharCreator {
     }
 
     static async spawnPed(male: boolean): Promise<void> {
-        if (ped != 0) {
+        if (ped !== 0) {
             native.deletePed(ped);
             ped = 0;
         }

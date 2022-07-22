@@ -42,7 +42,7 @@ export default class KeyManager {
                 }
                 break;
             case 77:
-                if (!player.vehicle || player.vehicle.driver != player) return;
+                if (!player.vehicle || player.vehicle.driver !== player) return;
                 player.vehicle.engineOn = !player.vehicle.engineOn;
             default:
                 break;

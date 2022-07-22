@@ -62,7 +62,7 @@ export default class CharSelector {
         appearance.male
             ? await alt.Utils.requestModel('mp_m_freemode_01')
             : await alt.Utils.requestModel('mp_f_freemode_01');
-        if (ped != 0) {
+        if (ped !== 0) {
             native.taskGoStraightToCoord(ped, -457.725, 274.483, 78.515, 1, -1, 0, 0);
             await alt.Utils.waitFor(() => {
                 return native.getScriptTaskStatus(ped, 0x7d8f4411) == 7;

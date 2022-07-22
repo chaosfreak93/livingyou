@@ -178,15 +178,15 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
     }
 
     private syncedMetaChange(syncedMeta: Partial<ICableCarSyncedMeta>): void {
-        if (syncedMeta.animation != undefined && this.animation != syncedMeta.animation) {
+        if (syncedMeta.animation !== undefined && this.animation !== syncedMeta.animation) {
             this.animation = syncedMeta.animation;
             native.playEntityAnim(this.cableCar, this.animation, 'p_cablecar_s', 8, false, true, false, 0, 0);
         }
-        if (syncedMeta.heading != undefined && this.heading != syncedMeta.heading) {
+        if (syncedMeta.heading !== undefined && this.heading !== syncedMeta.heading) {
             this.heading = syncedMeta.heading;
             native.setEntityHeading(this.cableCar, this.heading);
         }
-        if (syncedMeta.attachedPlayer != undefined && this.attachedPlayer != syncedMeta.attachedPlayer) {
+        if (syncedMeta.attachedPlayer !== undefined && this.attachedPlayer !== syncedMeta.attachedPlayer) {
             let attachedToCableCar;
             if (syncedMeta.attachedPlayer.length == 0) {
                 attachedToCableCar = this.attachedPlayer;
@@ -223,7 +223,7 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
             }
             this.attachedPlayer = syncedMeta.attachedPlayer;
         }
-        if (syncedMeta.doorStatus != undefined && this.doorStatus != syncedMeta.doorStatus) {
+        if (syncedMeta.doorStatus !== undefined && this.doorStatus !== syncedMeta.doorStatus) {
             this.doorStatus = syncedMeta.doorStatus;
             if (this.doorStatus == 'Close') {
                 native.detachEntity(this.cableCarDoor_l[0], true, true);
