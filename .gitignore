@@ -18,3 +18,4 @@ cache/
 crashdumps/
 .env
 fuel/
+.idea
