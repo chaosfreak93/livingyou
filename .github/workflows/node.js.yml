@@ -17,7 +17,7 @@ jobs:
         steps:
             - name: Get branch name
               id: branch-name
-              uses: tj-actions/branch-names@v5.2
+              uses: tj-actions/branch-names@v5.4
             - name: Checkout Code
               uses: actions/checkout@v3.0.2
               with:
@@ -29,14 +29,14 @@ jobs:
             - name: Set up pnpm
               uses: pnpm/action-setup@v2.2.2
               with:
-                  version: 7.3.0
+                  version: 7.6.0
             - name: Use Node.js 17.7.0
-              uses: actions/setup-node@v3.3.0
+              uses: actions/setup-node@v3.4.1
               with:
                   node-version: 17.7.0
                   cache: 'pnpm'
             - name: Disable Dev Mode
-              uses: DamianReeves/write-file-action@v1.0
+              uses: DamianReeves/write-file-action@v1.1
               with:
                   path: build-options.js
                   contents: |
@@ -53,8 +53,8 @@ jobs:
               run: pnpm run start --if-present
             - name: Grant alt:V Permissions to run
               run: chmod 777 altv-server && chmod 777 start.sh
-            #- name: Run alt:V Server
-            #  run: ./start.sh
+            - name: Run alt:V Server
+              run: ./start.sh
             - name: Publish new release
               uses: actions/create-release@v1.1.4
               env:
