@@ -26,6 +26,11 @@ export interface ISystemEvents {
     'inventory:UseItem': () => void;
     'inventory:GiveItem': () => void;
     'inventory:DropItem': () => void;
+    // Actions Menu
+    'actionMenu:OpenInVehicleActions': (id: number) => void;
+    'actionMenu:OpenPlayerActions': (id: number) => void;
+    'actionMenu:OpenVehicleActions': (id: number) => void;
+    'actionMenu:CloseActions': () => void;
     // Webview
     'webView:Info': (url: string) => void;
     // KeyManager

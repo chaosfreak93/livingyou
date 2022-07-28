@@ -1,5 +1,6 @@
 import * as alt from 'alt-server';
 import IWebInventory from '../../shared/interface/IWebInventory';
+import { nearestEntity } from '../utility/nearest';
 import DroppedItems from './droppedItems';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
@@ -44,6 +45,11 @@ export default class KeyManager {
             case 77:
                 if (!player.vehicle || player.vehicle.driver !== player) return;
                 player.vehicle.engineOn = !player.vehicle.engineOn;
+            case 88:
+                if (!player.actionMenuOpen) return;
+                EmitClient(player, 'actionMenu:CloseActions');
+                player.actionMenuOpen = false;
+                break;
             default:
                 break;
         }
@@ -53,6 +59,22 @@ export default class KeyManager {
     static keyDown(player: alt.Player, key: number): void {
         if (!player.character) return;
         switch (key) {
+            case 88:
+                if (player.actionMenuOpen) return;
+                if (player.vehicle) {
+                    EmitClient(player, 'actionMenu:OpenInVehicleActions', player.vehicle.id);
+                    player.actionMenuOpen = true;
+                    return;
+                }
+                let { entity, distance } = nearestEntity(player);
+                if (distance >= 5) return;
+                if (entity instanceof alt.Player) {
+                    EmitClient(player, 'actionMenu:OpenPlayerActions', entity.id);
+                } else if (entity instanceof alt.Vehicle) {
+                    EmitClient(player, 'actionMenu:OpenVehicleActions', entity.id);
+                }
+                player.actionMenuOpen = true;
+                break;
             default:
                 break;
         }

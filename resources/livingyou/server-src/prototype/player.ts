@@ -13,6 +13,7 @@ declare module 'alt-server' {
         discordId?: number;
         nextTickTime?: number;
         inventoryOpen: boolean;
+        actionMenuOpen: boolean;
         screenEffect: {
             name: string;
             ticks: number;
