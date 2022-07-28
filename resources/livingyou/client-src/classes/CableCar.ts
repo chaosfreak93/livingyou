@@ -19,8 +19,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
     private doorStatus: 'Open' | 'Close' = 'Close';
     private attachedPlayer: {
         id: number;
-        pos: alt.IVector3;
-        rot: alt.IVector3;
+        pos: alt.Vector3;
+        rot: alt.Vector3;
     }[];
 
     private streamIn(): void {

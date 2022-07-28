@@ -59,7 +59,11 @@ export default class DroppedItems {
         let distance: number;
         let droppedItem: DroppedItemEntity;
         for (let i = 0; i < this.droppedItemEntitys.length; i++) {
-            let itemPos: alt.IVector3 = this.droppedItemEntitys[i].item.pos;
+            let itemPos: alt.Vector3 = new alt.Vector3(
+                this.droppedItemEntitys[i].item.pos.x,
+                this.droppedItemEntitys[i].item.pos.y,
+                this.droppedItemEntitys[i].item.pos.z
+            );
             let newDistance: number = pos.distanceTo(itemPos);
             if (distance == undefined || distance >= newDistance) {
                 distance = newDistance;

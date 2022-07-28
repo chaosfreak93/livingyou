@@ -9,7 +9,7 @@ const textLabelEntityPool = new xsync.EntityPool(EntityPools.TextLabel, { maxStr
 export default class TextLabel extends xsync.Entity<ITextLabelSyncedMeta, ITextLabelMeta> {
     constructor(
         textLabelId: string,
-        pos: alt.IVector3,
+        pos: alt.Vector3,
         text: string,
         font: number,
         scale: number,
