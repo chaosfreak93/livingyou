@@ -31,29 +31,28 @@ export default class DiscordAuth {
 
     @OnClient('discord:ProceedToken')
     static async proceedDiscordToken(player: alt.Player, token: string): Promise<void> {
-        const request = await axios
-            .get('https://discordapp.com/api/users/@me', {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .catch((err) => {
-                alt.logError(err);
-                return err.toJSON().status;
-            });
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Bearer ${token}` },
+        }).then((response) => {
+            alt.log(response);
+            /**if (response.status === 401) {
+                EmitClient(player, 'discord:ObtainToken', true);
+                return;
+            }
 
-        if (request === 401) {
-            EmitClient(player, 'discord:ObtainToken', true);
-            return;
-        }
+            if (
+                !response ||
+                !response.data ||
+                !response.id ||
+                !response.username ||
+                !response.discriminator
+            ) {
+                player.kick('Authorization failed');
+                return;
+            }
 
-        if (!request || !request.data || !request.data.id || !request.data.username || !request.data.discriminator) {
-            player.kick('Authorization failed');
-            return;
-        }
-
-        await DiscordAuth.finishLogin(player, request.data);
+            DiscordAuth.finishLogin(player, request.data);**/
+        });
     }
 
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
