@@ -14,7 +14,6 @@ export default class ServerStart {
     @On('resourceStart')
     static async resourceStart(errored: boolean): Promise<void> {
         if (build_options.default.testMode) return;
-        alt.log('~lk~[~y~LivingYou~lk~] ~b~Loading LivingYou...~w~');
         const connected: boolean = await Database.init(url, dbName, collections);
         if (!connected) {
             throw new Error(`Did not connect to the database.`);
@@ -22,7 +21,7 @@ export default class ServerStart {
         await Items.fetchItems();
         await Vehicles.fetchVehicles();
         await DroppedItems.setupDroppedItems();
-        alt.log('~lk~[~y~LivingYou~lk~] ~b~LivingYou loaded~w~');
+        alt.log('~lk~[~y~LivingYou~lk~] ~b~Loaded LivingYou~w~');
     }
 
     @On('serverStarted')
