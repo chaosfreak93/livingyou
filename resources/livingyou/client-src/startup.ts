@@ -11,6 +11,7 @@ import './events/disconnect';
 import './events/keys';
 import './events/streamSyncedMetaChange';
 import './extensions/webViewController';
+import './systems/actionMenu';
 import './systems/cameraManager';
 import './systems/charCreator';
 import './systems/charSelector';
