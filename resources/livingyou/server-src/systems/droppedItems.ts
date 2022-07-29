@@ -100,5 +100,6 @@ export default class DroppedItems {
                 ),
             });
         }
+        alt.log(`~lk~[~y~LivingYou~lk~] ~b~DroppedItems - ${DroppedItems.droppedItems.length}~w~`);
     }
 }

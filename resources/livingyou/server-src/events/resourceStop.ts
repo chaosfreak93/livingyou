@@ -9,6 +9,8 @@ import { On } from '../systems/eventSystem/on';
 export default class ServerStop {
     @On('resourceStop')
     static async resourceStop() {
+        alt.log('~lk~[~y~LivingYou~lk~] ~b~Stopping LivingYou...~w~');
+        alt.log('~lk~[~y~LivingYou~lk~] ~b~Saving Player Data...~w~');
         const pC: ICharacter[] = [];
         const pDI: number[] = [];
 
@@ -41,12 +43,16 @@ export default class ServerStop {
             }
             await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
         }
+        alt.log('~lk~[~y~LivingYou~lk~] ~b~Player Data Saved~w~');
 
+        alt.log('~lk~[~y~LivingYou~lk~] ~b~Saving DroppedItems...~w~');
         await Database.dropCollection('droppedItems');
         await Database.createCollection('droppedItems');
         const droppedItems: IDroppedItem[] = DroppedItems.droppedItems;
         for (let i = 0; i < droppedItems.length; i++) {
             await Database.insertData<IDroppedItem>(droppedItems[i], 'droppedItems', false);
         }
+        alt.log('~lk~[~y~LivingYou~lk~] ~b~DroppedItems saved~w~');
+        alt.log('~lk~[~y~LivingYou~lk~] ~b~Stopped LivingYou~w~');
     }
 }

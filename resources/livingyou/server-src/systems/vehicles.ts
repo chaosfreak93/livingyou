@@ -15,6 +15,7 @@ export default class Vehicles {
 
     static async fetchVehicles(): Promise<void> {
         Vehicles.vehicles = await Database.fetchAllData<IVehicle>('vehicles');
+        alt.log(`~lk~[~y~LivingYou~lk~] ~b~Vehicles - ${Vehicles.vehicles.length}~w~`);
     }
 
     static createVehicle(
