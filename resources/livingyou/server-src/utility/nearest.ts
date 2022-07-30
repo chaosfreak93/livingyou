@@ -5,6 +5,7 @@ export function nearestEntity(sourceEntity: alt.Entity): { entity: alt.Entity; d
     let distance: number;
     let entity: alt.Entity;
     for (let i = 0; i < entitys.length; i++) {
+        if (sourceEntity === entitys[i]) continue;
         let entityPos: alt.Vector3 = entitys[i].pos;
         let newDistance: number = sourceEntity.pos.distanceTo(entityPos);
         if (distance == undefined || distance >= newDistance) {
@@ -21,6 +22,7 @@ export function nearestPlayer(sourceEntity: alt.Entity): { player: alt.Player; d
     let distance: number;
     let player: alt.Player;
     for (let i = 0; i < players.length; i++) {
+        if (sourceEntity === players[i]) continue;
         let playerPos: alt.Vector3 = players[i].pos;
         let newDistance: number = sourceEntity.pos.distanceTo(playerPos);
         if (distance == undefined || distance >= newDistance) {
@@ -37,6 +39,7 @@ export function nearestVehicle(sourceEntity: alt.Entity): { vehicle: alt.Vehicle
     let distance: number;
     let vehicle: alt.Vehicle;
     for (let i = 0; i < vehicles.length; i++) {
+        if (sourceEntity === vehicles[i]) continue;
         let vehiclePos: alt.Vector3 = vehicles[i].pos;
         let newDistance: number = sourceEntity.pos.distanceTo(vehiclePos);
         if (distance == undefined || distance >= newDistance) {
