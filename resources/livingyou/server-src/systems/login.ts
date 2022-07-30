@@ -1,6 +1,5 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
-import axios from 'axios';
 import IAccount from '../interface/IAccount';
 import IDiscordData from '../interface/IDiscordData';
 import { EmitClient } from './eventSystem/emit';
@@ -31,28 +30,22 @@ export default class DiscordAuth {
 
     @OnClient('discord:ProceedToken')
     static async proceedDiscordToken(player: alt.Player, token: string): Promise<void> {
-        fetch('https://discordapp.com/api/users/@me', {
+        const res = await fetch('https://discordapp.com/api/users/@me', {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Bearer ${token}` },
-        }).then((response) => {
-            alt.log(response);
-            /**if (response.status === 401) {
-                EmitClient(player, 'discord:ObtainToken', true);
-                return;
-            }
-
-            if (
-                !response ||
-                !response.data ||
-                !response.id ||
-                !response.username ||
-                !response.discriminator
-            ) {
-                player.kick('Authorization failed');
-                return;
-            }
-
-            DiscordAuth.finishLogin(player, request.data);**/
         });
+        if (res.status === 401) {
+            EmitClient(player, 'discord:ObtainToken', true);
+            return;
+        }
+
+        const data = await res.json();
+
+        if (!data || !data.id || !data.username || !data.discriminator) {
+            player.kick('Authorization failed');
+            return;
+        }
+
+        await DiscordAuth.finishLogin(player, data);
     }
 
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
