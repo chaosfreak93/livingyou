@@ -2,21 +2,24 @@ import * as alt from 'alt-client';
 import * as native from 'natives';
 import { WebViewController } from '../extensions/webViewController';
 import ScreenFade from '../utility/screenFade';
+import { EmitServer } from './eventSystem/emit';
 import { OnServer } from './eventSystem/on';
 
-let isDisabled: boolean = false;
-let hasRegistered: boolean = false;
-let vehicleTick: number = 0;
-
 export default class HUD {
+    static isDisabled: boolean = false;
+    static hasRegistered: boolean = false;
+    static vehicleTick: number = 0;
+    static cameraControlTick: number = 0;
+
     static async open(): Promise<void> {
-        if (!hasRegistered) {
+        if (!HUD.hasRegistered) {
             WebViewController.registerOverlay('HUD', HUD.setVisible);
-            hasRegistered = true;
+            HUD.hasRegistered = true;
         }
 
         const view: alt.WebView = await WebViewController.get();
-        view.on(`hudReady`, HUD.ready);
+        view.on('hudReady', HUD.ready);
+        view.on('proceedAction', HUD.proceedAction);
 
         await WebViewController.openPages(['HUD']);
     }
@@ -30,9 +33,9 @@ export default class HUD {
     }
 
     static async setVisible(value: boolean): Promise<void> {
-        isDisabled = !value;
+        HUD.isDisabled = !value;
 
-        if (!isDisabled) {
+        if (!HUD.isDisabled) {
             native.displayHud(true);
             HUD.open();
             return;
@@ -41,7 +44,8 @@ export default class HUD {
         await WebViewController.closePages(['HUD']);
 
         const view: alt.WebView = await WebViewController.get();
-        view.off(`hudReady`, HUD.ready);
+        view.off('hudReady', HUD.ready);
+        view.off('proceedAction', HUD.proceedAction);
         native.displayHud(false);
     }
 
@@ -57,11 +61,11 @@ export default class HUD {
 
     @OnServer('hud:ShowDriveHud')
     static async showDriveHud(): Promise<void> {
-        if (isDisabled) return;
+        if (HUD.isDisabled) return;
         const view: alt.WebView = await WebViewController.get();
         native.displayRadar(true);
         view.emit('openVehicleHud');
-        vehicleTick = alt.everyTick(() => {
+        HUD.vehicleTick = alt.everyTick(() => {
             if (!alt.Player.local.vehicle) return;
             view.emit(
                 'updateVehicleData',
@@ -73,12 +77,79 @@ export default class HUD {
 
     @OnServer('hud:HideDriveHud')
     static async hideDriveHud(): Promise<void> {
-        if (isDisabled) return;
+        if (HUD.isDisabled) return;
         const view: alt.WebView = await WebViewController.get();
         native.displayRadar(false);
         view.emit('closeVehicleHud');
-        if (vehicleTick === 0) return;
-        alt.clearEveryTick(vehicleTick);
-        vehicleTick = 0;
+        if (HUD.vehicleTick === 0) return;
+        alt.clearEveryTick(HUD.vehicleTick);
+        HUD.vehicleTick = 0;
+    }
+
+    @OnServer('actionMenu:OpenInVehicleActions')
+    static async openInVehicleActions(vehicleId: number): Promise<void> {
+        if (HUD.isDisabled) return;
+        const view: alt.WebView = await WebViewController.get();
+        WebViewController.showCursor(true);
+        HUD.cameraControlTick = alt.everyTick(() => {
+            native.disableControlAction(1, 1, true);
+            native.disableControlAction(1, 2, true);
+            native.disableControlAction(1, 3, true);
+            native.disableControlAction(1, 4, true);
+            native.disableControlAction(1, 5, true);
+            native.disableControlAction(1, 6, true);
+        });
+        view.emit('openInVehicleActions', vehicleId);
+        view.focus();
+    }
+
+    @OnServer('actionMenu:OpenVehicleActions')
+    static async openVehicleActions(vehicleId: number): Promise<void> {
+        if (HUD.isDisabled) return;
+        const view: alt.WebView = await WebViewController.get();
+        WebViewController.showCursor(true);
+        HUD.cameraControlTick = alt.everyTick(() => {
+            native.disableControlAction(1, 1, true);
+            native.disableControlAction(1, 2, true);
+            native.disableControlAction(1, 3, true);
+            native.disableControlAction(1, 4, true);
+            native.disableControlAction(1, 5, true);
+            native.disableControlAction(1, 6, true);
+        });
+        view.emit('openVehicleActions', vehicleId);
+        view.focus();
+    }
+
+    @OnServer('actionMenu:OpenPlayerActions')
+    static async openPlayerActions(playerId: number): Promise<void> {
+        if (HUD.isDisabled) return;
+        const view: alt.WebView = await WebViewController.get();
+        WebViewController.showCursor(true);
+        HUD.cameraControlTick = alt.everyTick(() => {
+            native.disableControlAction(1, 1, true);
+            native.disableControlAction(1, 2, true);
+            native.disableControlAction(1, 3, true);
+            native.disableControlAction(1, 4, true);
+            native.disableControlAction(1, 5, true);
+            native.disableControlAction(1, 6, true);
+        });
+        view.emit('openPlayerActions', playerId);
+        view.focus();
+    }
+
+    @OnServer('actionMenu:CloseActions')
+    static async closeActions(): Promise<void> {
+        if (HUD.isDisabled) return;
+        const view: alt.WebView = await WebViewController.get();
+        WebViewController.showCursor(false);
+        view.emit('closeActions');
+        view.unfocus();
+        if (HUD.cameraControlTick === 0) return;
+        alt.clearEveryTick(HUD.cameraControlTick);
+        HUD.cameraControlTick = 0;
+    }
+
+    static proceedAction(menuType: string, menuAction: string, entityId: number) {
+        EmitServer('actionMenu:ProceedAction', menuType, menuAction, entityId);
     }
 }

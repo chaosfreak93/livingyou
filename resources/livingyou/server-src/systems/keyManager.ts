@@ -42,9 +42,6 @@ export default class KeyManager {
                     EmitClient(player, 'inventory:Update', pocketInventory, backpackInventory);
                 }
                 break;
-            case 77:
-                if (!player.vehicle || player.vehicle.driver !== player) return;
-                player.vehicle.engineOn = !player.vehicle.engineOn;
             case 88:
                 if (!player.actionMenuOpen) return;
                 EmitClient(player, 'actionMenu:CloseActions');
@@ -66,12 +63,12 @@ export default class KeyManager {
                     player.actionMenuOpen = true;
                     return;
                 }
-                let { entity, distance } = nearestEntity(player);
-                if (distance >= 5) return;
-                if (entity instanceof alt.Player) {
-                    EmitClient(player, 'actionMenu:OpenPlayerActions', entity.id);
-                } else if (entity instanceof alt.Vehicle) {
-                    EmitClient(player, 'actionMenu:OpenVehicleActions', entity.id);
+                let result = nearestEntity(player);
+                if (!result || result.distance >= 5) return;
+                if (result.entity instanceof alt.Player) {
+                    EmitClient(player, 'actionMenu:OpenPlayerActions', result.entity.id);
+                } else if (result.entity instanceof alt.Vehicle) {
+                    EmitClient(player, 'actionMenu:OpenVehicleActions', result.entity.id);
                 }
                 player.actionMenuOpen = true;
                 break;

@@ -31,6 +31,7 @@ export interface ISystemEvents {
     'actionMenu:OpenPlayerActions': (id: number) => void;
     'actionMenu:OpenVehicleActions': (id: number) => void;
     'actionMenu:CloseActions': () => void;
+    'actionMenu:ProceedAction': (menuType: string, menuAction: string, entityId: number) => void;
     // Webview
     'webView:Info': (url: string) => void;
     // KeyManager

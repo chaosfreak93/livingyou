@@ -1,6 +1,37 @@
 <template>
     <div>
-        <div id="hud"></div>
+        <div id="hud">
+            <div v-if="showPlayerActionMenu" id="playerActionMenu" class="menu_container"></div>
+            <div v-if="showVehicleActionMenu" id="vehicleActionMenu" class="menu_container">
+                <div id="menu">
+                    <li
+                        style="--i: 0"
+                        v-on:mouseenter="menuAction = 'changeLockState'"
+                        v-on:mouseleave="if (showVehicleActionMenu) menuAction = null;"
+                    >
+                        <p>Schloss</p>
+                    </li>
+                </div>
+            </div>
+            <div v-if="showInVehicleActionMenu" id="inVehicleActionMenu" class="menu_container">
+                <div id="menu">
+                    <li
+                        style="--i: 0"
+                        v-on:mouseenter="menuAction = 'toggleEngine'"
+                        v-on:mouseleave="if (showInVehicleActionMenu) menuAction = null;"
+                    >
+                        <p>Motor</p>
+                    </li>
+                    <li
+                        style="--i: 1"
+                        v-on:mouseenter="menuAction = 'changeLockState'"
+                        v-on:mouseleave="if (showInVehicleActionMenu) menuAction = null;"
+                    >
+                        <p>Schloss</p>
+                    </li>
+                </div>
+            </div>
+        </div>
         <div id="vehicle_hud" v-if="showVehicleHud">
             <div id="speedometer">
                 <div id="speedometer_body">
@@ -22,16 +53,46 @@ export default defineComponent({
             vehicleRpm: 0 as number,
             vehicleSpeed: 0 as number,
             showVehicleHud: false as boolean,
+            showInVehicleActionMenu: false as boolean,
+            showVehicleActionMenu: false as boolean,
+            showPlayerActionMenu: false as boolean,
+            menuAction: null as string,
+            menuType: null as string,
+            entityId: null as number,
         };
     },
     methods: {
-        openVehicleHud() {
+        openInVehicleActions(vehicleID: number): void {
+            this.menuType = 'inVehicle';
+            this.entityId = vehicleID;
+            this.showInVehicleActionMenu = true;
+        },
+        openVehicleActions(vehicleID: number): void {
+            this.menuType = 'vehicle';
+            this.entityId = vehicleID;
+            this.showVehicleActionMenu = true;
+        },
+        openPlayerActions(playerId: number): void {
+            this.menuType = 'player';
+            this.entityId = playerId;
+            this.showPlayerActionMenu = true;
+        },
+        closeActions(): void {
+            this.showInVehicleActionMenu = false;
+            this.showVehicleActionMenu = false;
+            this.showPlayerActionMenu = false;
+            alt.emit('proceedAction', this.menuType, this.menuAction, this.entityId);
+            this.menuAction = null;
+            this.menuType = null;
+            this.entityId = null;
+        },
+        openVehicleHud(): void {
             this.showVehicleHud = true;
         },
-        closeVehicleHud() {
+        closeVehicleHud(): void {
             this.showVehicleHud = false;
         },
-        updateVehicleData(rpm: number, speed: number) {
+        updateVehicleData(rpm: number, speed: number): void {
             this.vehicleRpm = rpm;
             this.vehicleSpeed = speed;
         },
@@ -39,6 +100,10 @@ export default defineComponent({
     mounted() {
         if (`alt` in window) {
             alt.emit('hudReady');
+            alt.on('openInVehicleActions', this.openInVehicleActions);
+            alt.on('openVehicleActions', this.openVehicleActions);
+            alt.on('openPlayerActions', this.openPlayerActions);
+            alt.on('closeActions', this.closeActions);
             alt.on('openVehicleHud', this.openVehicleHud);
             alt.on('closeVehicleHud', this.closeVehicleHud);
             alt.on('updateVehicleData', this.updateVehicleData);
@@ -104,5 +169,45 @@ export default defineComponent({
     justify-content: center;
     padding-bottom: 25%;
     box-sizing: border-box;
+}
+
+.menu_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#menu {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menu li {
+    position: absolute;
+    left: 0;
+    list-style: none;
+    transform-origin: 100px;
+    transform: rotate(calc(360deg / 8 * var(--i)));
+}
+
+#menu li p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: grey;
+    border-radius: 50%;
+    transform: rotate(calc(360deg / -8 * var(--i)));
+    color: #111;
+}
+
+#menu li p:hover {
+    color: #ff1252;
 }
 </style>
