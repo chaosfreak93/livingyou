@@ -4,6 +4,7 @@ import IVehicle from '../../shared/interface/IVehicle';
 import { On } from './eventSystem/on';
 import { EmitClient } from './eventSystem/emit';
 import IPlayerVehicle from '../../shared/interface/IPlayerVehicle';
+import { DBCollections } from '../../shared/enums/dbCollections';
 
 export default class Vehicles {
     static vehicles: IVehicle[] = [];
@@ -14,7 +15,7 @@ export default class Vehicles {
     }
 
     static async fetchVehicles(): Promise<void> {
-        Vehicles.vehicles = await Database.fetchAllData<IVehicle>('vehicles');
+        Vehicles.vehicles = await Database.fetchAllData<IVehicle>(DBCollections.VEHICLES);
         alt.log(`~lk~[~y~LivingYou~lk~] ~b~Vehicles - ${Vehicles.vehicles.length}~w~`);
     }
 

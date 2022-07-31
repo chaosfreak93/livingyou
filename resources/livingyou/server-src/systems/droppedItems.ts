@@ -6,6 +6,7 @@ import TextLabel from '../classes/TextLabel';
 import Items from './items';
 import { ObjectId } from 'bson';
 import IInventoryItem from '../../shared/interface/IInventoryItem';
+import { DBCollections } from '../../shared/enums/dbCollections';
 
 export default class DroppedItems {
     static droppedItems: IDroppedItem[] = [];
@@ -75,7 +76,7 @@ export default class DroppedItems {
     }
 
     static async setupDroppedItems(): Promise<void> {
-        DroppedItems.droppedItems = await Database.fetchAllData<IDroppedItem>('droppedItems');
+        DroppedItems.droppedItems = await Database.fetchAllData<IDroppedItem>(DBCollections.DROPPED_ITEMS);
         for (let i = 0; i < DroppedItems.droppedItems.length; i++) {
             let pos = DroppedItems.droppedItems[i].location;
             let itemName: string = Items.getItemById(DroppedItems.droppedItems[i].item.id).name;

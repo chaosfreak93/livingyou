@@ -1,5 +1,6 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
+import { DBCollections } from '../../shared/enums/dbCollections';
 import ICharacter from '../../shared/interface/ICharacter';
 import IDroppedItem from '../../shared/interface/IDroppedItem';
 import IAccount from '../interface/IAccount';
@@ -23,7 +24,11 @@ export default class ServerStop {
         }
 
         for (let i = 0; i < pDI.length; i++) {
-            let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', pDI[i], 'accounts');
+            let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>(
+                'discord',
+                pDI[i],
+                DBCollections.ACCOUNTS
+            );
             if (findAccount.length <= 0) return;
 
             const char: ICharacter = findAccount[0].character.find((char) => char.id == pC[i].id);
@@ -41,16 +46,16 @@ export default class ServerStop {
             if (pC[i].backpackInventory) {
                 char.backpackInventory = pC[i].backpackInventory;
             }
-            await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
+            await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, DBCollections.ACCOUNTS);
         }
         alt.log('~lk~[~y~LivingYou~lk~] ~b~Player Data Saved~w~');
 
         alt.log('~lk~[~y~LivingYou~lk~] ~b~Saving DroppedItems...~w~');
-        await Database.dropCollection('droppedItems');
-        await Database.createCollection('droppedItems');
+        await Database.dropCollection(DBCollections.DROPPED_ITEMS);
+        await Database.createCollection(DBCollections.DROPPED_ITEMS);
         const droppedItems: IDroppedItem[] = DroppedItems.droppedItems;
         for (let i = 0; i < droppedItems.length; i++) {
-            await Database.insertData<IDroppedItem>(droppedItems[i], 'droppedItems', false);
+            await Database.insertData<IDroppedItem>(droppedItems[i], DBCollections.DROPPED_ITEMS, false);
         }
         alt.log('~lk~[~y~LivingYou~lk~] ~b~DroppedItems saved~w~');
         alt.log('~lk~[~y~LivingYou~lk~] ~b~Stopped LivingYou~w~');

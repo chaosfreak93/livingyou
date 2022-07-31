@@ -5,10 +5,11 @@ import Items from '../systems/items';
 import DroppedItems from '../systems/droppedItems';
 import { On } from '../systems/eventSystem/on';
 import Vehicles from '../systems/vehicles';
+import { DBCollections } from '../../shared/enums/dbCollections';
 
 const url = process.env.MONGO_URL;
 const dbName = 'livingyou';
-const collections = ['accounts', 'items', 'vehicles', 'droppedItems'];
+const collections = Object.values(DBCollections);
 
 export default class ServerStart {
     @On('resourceStart')

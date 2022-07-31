@@ -1,5 +1,6 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
+import { DBCollections } from '../../shared/enums/dbCollections';
 import IAccount from '../interface/IAccount';
 import IDiscordData from '../interface/IDiscordData';
 import { EmitClient } from './eventSystem/emit';
@@ -49,7 +50,7 @@ export default class DiscordAuth {
     }
 
     static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
-        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
+        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', discordData.id, DBCollections.ACCOUNTS);
         if (findAccount.length <= 0) {
             const insertedData: IAccount = await Database.insertData<IAccount>(
                 {
@@ -61,14 +62,14 @@ export default class DiscordAuth {
                     character: [],
                     banned: false,
                 },
-                'accounts',
+                DBCollections.ACCOUNTS,
                 true
             );
             if (insertedData.discord !== discordData.id) return;
             findAccount = [];
             findAccount.push(insertedData);
         }
-        await Database.updatePartialData(findAccount[0]._id, { lastJoinTimestamp: new Date().getTime() }, 'accounts');
+        await Database.updatePartialData(findAccount[0]._id, { lastJoinTimestamp: new Date().getTime() }, DBCollections.ACCOUNTS);
 
         player.setPosition(-453.586, 276.909, 78.515);
         player.discordId = discordData.id;

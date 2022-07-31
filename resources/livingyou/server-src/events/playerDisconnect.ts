@@ -1,5 +1,6 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
+import { DBCollections } from '../../shared/enums/dbCollections';
 import ICharacter from '../../shared/interface/ICharacter';
 import IAccount from '../interface/IAccount';
 import { On } from '../systems/eventSystem/on';
@@ -11,7 +12,7 @@ export default class PlayerDisconnect {
         const pC: ICharacter = player.character;
         const pDI: number = player.discordId;
 
-        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', pDI, 'accounts');
+        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('discord', pDI, DBCollections.ACCOUNTS);
         if (findAccount.length <= 0) return;
 
         const char: ICharacter = findAccount[0].character.find((char) => char.id == pC.id);
@@ -29,6 +30,6 @@ export default class PlayerDisconnect {
         if (pC.backpackInventory) {
             char.backpackInventory = pC.backpackInventory;
         }
-        await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, 'accounts');
+        await Database.updatePartialData(findAccount[0]._id, { ...findAccount[0] }, DBCollections.ACCOUNTS);
     }
 }
