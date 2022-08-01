@@ -1,8 +1,8 @@
 // EntitySync
-import './systems/syncEntity';
-import './classes/CableCar';
-import './classes/DroppedItemEntity';
-import './classes/TextLabel';
+import './entitySync/entitySync';
+import './entitySync/CableCar';
+import './entitySync/DroppedItemEntity';
+import './entitySync/TextLabel';
 
 // General
 import './events/connectionComplete';
