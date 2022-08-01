@@ -158,7 +158,8 @@ export default class CharCreator {
     }
 
     static setFaceFeature(index: number, scale: number) {
-        native.setPedFaceFeature(ped, index, scale);
+        // @ts-ignore
+        native.setPedMicroMorphValue(ped, index, scale);
     }
 
     static setHeadOverlay(overlayId: number, index: number, opacity: number) {
