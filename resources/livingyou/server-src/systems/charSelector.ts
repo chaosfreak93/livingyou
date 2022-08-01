@@ -1,5 +1,5 @@
 import * as alt from 'alt-server';
-import xsync from './syncEntity';
+import xsync from '../entitySync/entitySync';
 import ICharacter from '../../shared/interface/ICharacter';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';

@@ -1,8 +1,8 @@
 import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
 import IDroppedItem from '../../shared/interface/IDroppedItem';
-import DroppedItemEntity from '../classes/DroppedItemEntity';
-import TextLabel from '../classes/TextLabel';
+import DroppedItemEntity from '../entitySync/DroppedItemEntity';
+import TextLabel from '../entitySync/TextLabel';
 import Items from './items';
 import { ObjectId } from 'bson';
 import IInventoryItem from '../../shared/interface/IInventoryItem';
