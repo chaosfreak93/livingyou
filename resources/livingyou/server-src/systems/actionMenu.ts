@@ -12,11 +12,12 @@ export default class ActionMenu {
                     inVehicle.engineOn = !inVehicle.engineOn;
                     break;
                 case 'changeLockState':
-                    alt.VehicleLockState.LockPlayerInside
                     if (inVehicle.lockState === 1) {
                         inVehicle.lockState = 2;
+                        inVehicle.setStreamSyncedMeta('lockState', 2);
                     } else {
                         inVehicle.lockState = 1;
+                        inVehicle.setStreamSyncedMeta('lockState', 1);
                     }
                     break;
             }
@@ -26,8 +27,10 @@ export default class ActionMenu {
                 case 'changeLockState':
                     if (vehicle.lockState === 1) {
                         vehicle.lockState = 2;
+                        vehicle.setStreamSyncedMeta('lockState', 2);
                     } else {
                         vehicle.lockState = 1;
+                        vehicle.setStreamSyncedMeta('lockState', 1);
                     }
                     break;
             }

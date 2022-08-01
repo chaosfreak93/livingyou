@@ -1,4 +1,5 @@
 import * as alt from 'alt-client';
+import * as native from 'natives';
 import { On } from '../systems/eventSystem/on';
 
 export default class StreamSyncedMetaChange {
@@ -12,6 +13,21 @@ export default class StreamSyncedMetaChange {
                     break;
                 case 'oilLevel':
                     entity.oilLevel = value;
+                    break;
+                case 'lockState':
+                    if (value === 2) {
+                        entity.indicatorLights = 8;
+                        await alt.Utils.wait(1000);
+                        entity.indicatorLights = 0;
+                    } else if (value === 1) {
+                        entity.indicatorLights = 8;
+                        await alt.Utils.wait(250);
+                        entity.indicatorLights = 0;
+                        await alt.Utils.wait(250);
+                        entity.indicatorLights = 8;
+                        await alt.Utils.wait(250);
+                        entity.indicatorLights = 0;
+                    }
                     break;
             }
         } else if (entity instanceof alt.Player) {
