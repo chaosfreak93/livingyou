@@ -12,7 +12,7 @@ specifiers:
   '@vue/compiler-sfc': ^3.2.37
   altv-pkg: ^2.0.4
   altv-xsync-entity-client: ^3.0.0
-  altv-xsync-entity-server: ^3.1.0
+  altv-xsync-entity-server: ^3.2.0
   altv-xsync-entity-shared: ^3.0.0
   bson: ^4.6.5
   concurrently: ^7.3.0
@@ -26,7 +26,7 @@ specifiers:
 dependencies:
   '@stuyk/ezmongodb': 2.0.3
   altv-xsync-entity-client: 3.0.0_nf3mxnbl5s7czfpupr2oimkll4
-  altv-xsync-entity-server: 3.1.0_o2tddc245rygn4e2wooquuwrya
+  altv-xsync-entity-server: 3.2.0_o2tddc245rygn4e2wooquuwrya
   altv-xsync-entity-shared: 3.0.0_@altv+types-shared@1.2.6
   bson: 4.6.5
   dotenv: 16.0.1
@@ -224,8 +224,8 @@ packages:
       '@altv/types-shared': 1.2.6
     dev: false
 
-  /altv-xsync-entity-server/3.1.0_o2tddc245rygn4e2wooquuwrya:
-    resolution: {integrity: sha512-0tR44YTWoH6Fyo5H2ixzMkPKdzZscrkfTgY8NuZenSlsrbZSCKI1bt0CiMO1r+XFjGqMS+e62BA2SC2FTMzNdA==}
+  /altv-xsync-entity-server/3.2.0_o2tddc245rygn4e2wooquuwrya:
+    resolution: {integrity: sha512-FS2/qxAAw4d8aV6YAhDYXVKWFdc5c6if8mLJ2HOkN56eV3O5BUObZf9bJcH0Qmiz3D0qvmNWB6M/eMQCM2YLGA==}
     peerDependencies:
       '@altv/types-server': '>=2.x'
       '@altv/types-shared': '>=1.x'
