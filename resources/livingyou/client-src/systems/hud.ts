@@ -70,7 +70,7 @@ export default class HUD {
             view.emit(
                 'updateVehicleData',
                 alt.Player.local.vehicle.engineOn ? alt.Player.local.vehicle.rpm : 0,
-                (alt.Player.local.vehicle.speed * 3.6).toFixed(0)
+                (native.getEntitySpeed(alt.Player.local.vehicle) * 3.6).toFixed(0)
             );
         });
     }
