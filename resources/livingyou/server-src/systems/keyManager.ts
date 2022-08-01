@@ -4,6 +4,7 @@ import { nearestEntity } from '../utility/nearest';
 import DroppedItems from './droppedItems';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
+import GasPumps from './gasPumps';
 import Inventory from './inventory';
 
 export default class KeyManager {
@@ -64,11 +65,16 @@ export default class KeyManager {
                     return;
                 }
                 let result = nearestEntity(player);
-                if (!result || result.distance >= 5) return;
+                if (!result || result.distance >= 3) return;
                 if (result.entity instanceof alt.Player) {
                     EmitClient(player, 'actionMenu:OpenPlayerActions', result.entity.id);
                 } else if (result.entity instanceof alt.Vehicle) {
-                    EmitClient(player, 'actionMenu:OpenVehicleActions', result.entity.id);
+                    let nearestGasPump = GasPumps.nearestGasPump(result.entity);
+                    if (nearestGasPump.distance <= 2) {
+                        EmitClient(player, 'actionMenu:OpenVehicleActions', result.entity.id, nearestGasPump);
+                    } else {
+                        EmitClient(player, 'actionMenu:OpenVehicleActions', result.entity.id);
+                    }
                 }
                 player.actionMenuOpen = true;
                 break;

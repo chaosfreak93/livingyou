@@ -1,5 +1,6 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import IGasPump from '../../shared/interface/IGasPump';
 import { WebViewController } from '../extensions/webViewController';
 import ScreenFade from '../utility/screenFade';
 import { EmitServer } from './eventSystem/emit';
@@ -104,7 +105,7 @@ export default class HUD {
     }
 
     @OnServer('actionMenu:OpenVehicleActions')
-    static async openVehicleActions(vehicleId: number): Promise<void> {
+    static async openVehicleActions(vehicleId: number, gasPump?: IGasPump): Promise<void> {
         if (HUD.isDisabled) return;
         const view: alt.WebView = await WebViewController.get();
         WebViewController.showCursor(true);
@@ -116,7 +117,7 @@ export default class HUD {
             native.disableControlAction(1, 5, true);
             native.disableControlAction(1, 6, true);
         });
-        view.emit('openVehicleActions', vehicleId);
+        view.emit('openVehicleActions', vehicleId, gasPump);
         view.focus();
     }
 

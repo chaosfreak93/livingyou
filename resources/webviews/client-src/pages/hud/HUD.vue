@@ -11,6 +11,14 @@
                     >
                         <p>Schloss</p>
                     </li>
+                    <li
+                        style="--i: 1"
+                        v-on:mouseenter="menuAction = 'refuel'"
+                        v-on:mouseleave="if (showVehicleActionMenu) menuAction = null;"
+                        v-if="gasPump != null"
+                    >
+                        <p>Tanken</p>
+                    </li>
                 </div>
             </div>
             <div v-if="showInVehicleActionMenu" id="inVehicleActionMenu" class="menu_container">
@@ -45,6 +53,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import IGasPump from '../../../../livingyou/shared/interface/IGasPump';
 const ComponentName = 'HUD';
 export default defineComponent({
     name: ComponentName,
@@ -56,6 +65,7 @@ export default defineComponent({
             showInVehicleActionMenu: false as boolean,
             showVehicleActionMenu: false as boolean,
             showPlayerActionMenu: false as boolean,
+            gasPump: null as IGasPump,
             menuAction: null as string,
             menuType: null as string,
             entityId: null as number,
@@ -67,10 +77,11 @@ export default defineComponent({
             this.entityId = vehicleID;
             this.showInVehicleActionMenu = true;
         },
-        openVehicleActions(vehicleID: number): void {
+        openVehicleActions(vehicleID: number, gasPump?: IGasPump): void {
             this.menuType = 'vehicle';
             this.entityId = vehicleID;
             this.showVehicleActionMenu = true;
+            this.gasPump = gasPump;
         },
         openPlayerActions(playerId: number): void {
             this.menuType = 'player';
@@ -82,6 +93,7 @@ export default defineComponent({
             this.showVehicleActionMenu = false;
             this.showPlayerActionMenu = false;
             alt.emit('proceedAction', this.menuType, this.menuAction, this.entityId);
+            this.gasPump = null;
             this.menuAction = null;
             this.menuType = null;
             this.entityId = null;

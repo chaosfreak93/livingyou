@@ -6,6 +6,7 @@ import DroppedItems from '../systems/droppedItems';
 import { On } from '../systems/eventSystem/on';
 import Vehicles from '../systems/vehicles';
 import { DBCollections } from '../../shared/enums/dbCollections';
+import GasPumps from '../systems/gasPumps';
 
 const url = process.env.MONGO_URL;
 const dbName = 'livingyou';
@@ -22,6 +23,7 @@ export default class ServerStart {
         await Items.fetchItems();
         await Vehicles.fetchVehicles();
         await DroppedItems.setupDroppedItems();
+        await GasPumps.fetchGasPumps();
         alt.log('~lk~[~y~LivingYou~lk~] ~b~Loaded LivingYou~w~');
     }
 
