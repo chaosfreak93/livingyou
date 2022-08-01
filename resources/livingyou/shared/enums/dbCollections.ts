@@ -3,4 +3,6 @@ export enum DBCollections {
     ITEMS = 'items',
     VEHICLES = 'vehicles',
     DROPPED_ITEMS = 'droppedItems',
+    GAS_PUMPS = 'gasPumps',
+    ATMS = 'atms',
 }
