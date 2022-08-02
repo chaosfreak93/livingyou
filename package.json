@@ -28,9 +28,9 @@
     },
     "dependencies": {
         "@stuyk/ezmongodb": "^2.0.3",
-        "altv-xsync-entity-client": "^3.0.0",
-        "altv-xsync-entity-server": "^3.1.0",
-        "altv-xsync-entity-shared": "^3.0.0",
+        "altv-xsync-entity-client": "^3.2.1",
+        "altv-xsync-entity-server": "^3.2.1",
+        "altv-xsync-entity-shared": "^3.2.1",
         "bson": "^4.6.5",
         "dotenv": "^16.0.1",
         "vue": "^3.2.37"
