@@ -11,9 +11,9 @@ specifiers:
   '@types/node': ^17.0.45
   '@vue/compiler-sfc': ^3.2.37
   altv-pkg: ^2.0.4
-  altv-xsync-entity-client: ^3.0.0
-  altv-xsync-entity-server: ^3.2.0
-  altv-xsync-entity-shared: ^3.0.0
+  altv-xsync-entity-client: ^3.2.1
+  altv-xsync-entity-server: ^3.2.1
+  altv-xsync-entity-shared: ^3.2.1
   bson: ^4.6.5
   concurrently: ^7.3.0
   dotenv: ^16.0.1
@@ -25,9 +25,9 @@ specifiers:
 
 dependencies:
   '@stuyk/ezmongodb': 2.0.3
-  altv-xsync-entity-client: 3.0.0_nf3mxnbl5s7czfpupr2oimkll4
-  altv-xsync-entity-server: 3.2.0_o2tddc245rygn4e2wooquuwrya
-  altv-xsync-entity-shared: 3.0.0_@altv+types-shared@1.2.6
+  altv-xsync-entity-client: 3.2.1_nf3mxnbl5s7czfpupr2oimkll4
+  altv-xsync-entity-server: 3.2.1_o2tddc245rygn4e2wooquuwrya
+  altv-xsync-entity-shared: 3.2.1_@altv+types-shared@1.2.6
   bson: 4.6.5
   dotenv: 16.0.1
   vue: 3.2.37
@@ -88,21 +88,26 @@ packages:
     dependencies:
       '@altv/types-client': 2.2.7_ra2dkx27xqmueyvbqiqrnhjjum
 
+  /@babel/helper-string-parser/7.18.10:
+    resolution: {integrity: sha512-XtIfWmeNY3i4t7t4D2t02q50HvqHybPqW2ki1kosnvWCwuCMeo81Jf0gwr85jy/neUdg5XDdeFE/80DXiO+njw==}
+    engines: {node: '>=6.9.0'}
+
   /@babel/helper-validator-identifier/7.18.6:
     resolution: {integrity: sha512-MmetCkz9ej86nJQV+sFCxoGGrUbU3q02kgLciwkrt9QqEB7cP39oKEY0PakknEO0Gu20SskMRi+AYZ3b1TpN9g==}
     engines: {node: '>=6.9.0'}
 
-  /@babel/parser/7.18.9:
-    resolution: {integrity: sha512-9uJveS9eY9DJ0t64YbIBZICtJy8a5QrDEVdiLCG97fVLpDTpGX7t8mMSb6OWw6Lrnjqj4O8zwjELX3dhoMgiBg==}
+  /@babel/parser/7.18.10:
+    resolution: {integrity: sha512-TYk3OA0HKL6qNryUayb5UUEhM/rkOQozIBEA5ITXh5DWrSp0TlUQXMyZmnWxG/DizSWBeeQ0Zbc5z8UGaaqoeg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.18.9
+      '@babel/types': 7.18.10
 
-  /@babel/types/7.18.9:
-    resolution: {integrity: sha512-WwMLAg2MvJmt/rKEVQBBhIVffMmnilX4oe0sRe7iPOHIGsqpruFHHdrfj4O1CMMtgMtCU4oPafZjDPCRgO57Wg==}
+  /@babel/types/7.18.10:
+    resolution: {integrity: sha512-MJvnbEiiNkpjo+LknnmRrqbY1GPUUggjv+wQVjetM/AONoupqRALB7I6jGqNUAZsKcRIEu2J6FRFvsczljjsaQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
+      '@babel/helper-string-parser': 7.18.10
       '@babel/helper-validator-identifier': 7.18.6
       to-fast-properties: 2.0.0
 
@@ -130,7 +135,7 @@ packages:
   /@vue/compiler-core/3.2.37:
     resolution: {integrity: sha512-81KhEjo7YAOh0vQJoSmAD68wLfYqJvoiD4ulyedzF+OEk/bk6/hx3fTNVfuzugIIaTrOx4PGx6pAiBRe5e9Zmg==}
     dependencies:
-      '@babel/parser': 7.18.9
+      '@babel/parser': 7.18.10
       '@vue/shared': 3.2.37
       estree-walker: 2.0.2
       source-map: 0.6.1
@@ -144,7 +149,7 @@ packages:
   /@vue/compiler-sfc/3.2.37:
     resolution: {integrity: sha512-+7i/2+9LYlpqDv+KTtWhOZH+pa8/HnX/905MdVmAcI/mPQOBwkHHIzrsEsucyOIZQYMkXUiTkmZq5am/NyXKkg==}
     dependencies:
-      '@babel/parser': 7.18.9
+      '@babel/parser': 7.18.10
       '@vue/compiler-core': 3.2.37
       '@vue/compiler-dom': 3.2.37
       '@vue/compiler-ssr': 3.2.37
@@ -164,7 +169,7 @@ packages:
   /@vue/reactivity-transform/3.2.37:
     resolution: {integrity: sha512-IWopkKEb+8qpu/1eMKVeXrK0NLw9HicGviJzhJDEyfxTR9e1WtpnnbYkJWurX6WwoFP0sz10xQg8yL8lgskAZg==}
     dependencies:
-      '@babel/parser': 7.18.9
+      '@babel/parser': 7.18.10
       '@vue/compiler-core': 3.2.37
       '@vue/shared': 3.2.37
       estree-walker: 2.0.2
@@ -214,8 +219,8 @@ packages:
       - debug
     dev: true
 
-  /altv-xsync-entity-client/3.0.0_nf3mxnbl5s7czfpupr2oimkll4:
-    resolution: {integrity: sha512-mE7zumgZvtDpxJc7wVEF3RLbp9z5UpzLyYAFlhRCursrXkjmuZwkmzCBF8gHyeiJbIxatKRdNh/DxOrvHA+lhQ==}
+  /altv-xsync-entity-client/3.2.1_nf3mxnbl5s7czfpupr2oimkll4:
+    resolution: {integrity: sha512-ZhUjIV2TYqs59jA433h1nH68knSKsoENjn45VToM9Yn15S/qhm+glW6bQmm38x5cE9M0S7dWYQEDnfA48he5IA==}
     peerDependencies:
       '@altv/types-client': '>=2.x'
       '@altv/types-shared': '>=1.x'
@@ -224,8 +229,8 @@ packages:
       '@altv/types-shared': 1.2.6
     dev: false
 
-  /altv-xsync-entity-server/3.2.0_o2tddc245rygn4e2wooquuwrya:
-    resolution: {integrity: sha512-FS2/qxAAw4d8aV6YAhDYXVKWFdc5c6if8mLJ2HOkN56eV3O5BUObZf9bJcH0Qmiz3D0qvmNWB6M/eMQCM2YLGA==}
+  /altv-xsync-entity-server/3.2.1_o2tddc245rygn4e2wooquuwrya:
+    resolution: {integrity: sha512-3r5EfZFda7fO9RLxN5fHdD2xo+UmBoV5CrfZARgEI3gnfhx2LNW61kvKTCsyplo0qH2E6bVV9RCMOlcLLSomZQ==}
     peerDependencies:
       '@altv/types-server': '>=2.x'
       '@altv/types-shared': '>=1.x'
@@ -234,8 +239,8 @@ packages:
       '@altv/types-shared': 1.2.6
     dev: false
 
-  /altv-xsync-entity-shared/3.0.0_@altv+types-shared@1.2.6:
-    resolution: {integrity: sha512-WEG4+CjGPwGKYfLI3gzjL78wE0ggyqNQpbD8kZWPrWmvYtul9PxkIMu/QeqPshL3EM6xBPzbUJCZo/DZ10Fnjg==}
+  /altv-xsync-entity-shared/3.2.1_@altv+types-shared@1.2.6:
+    resolution: {integrity: sha512-5/oEQAOBYpPRntcnlAc9iYpxV/feOQGOrXAtp1LEZUItGfX9xn0C/Qo0cI77e/rXjSGn75ipFUilcXeZIHNNzw==}
     peerDependencies:
       '@altv/types-shared': '>=1.x'
     dependencies:
