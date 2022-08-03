@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { WebViewEvents } from '../../../../livingyou/shared/enums/WebViewEvents';
 const ComponentName = 'Login';
 export default defineComponent({
     name: ComponentName,
@@ -16,7 +17,7 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('startLogin');
+            alt.emit(WebViewEvents.DISCORD_AUTH_START_LOGIN);
         },
     },
 });
