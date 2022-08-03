@@ -7,6 +7,11 @@ export const enum WebViewEvents {
     CHAR_SELECTOR_SHOW_PED = 'charSelector:ShowPed',
     CHAR_SELECTOR_OPEN_CHAR_CREATOR = 'charSelector:OpenCharCreator',
     CHAR_SELECTOR_SELECT_CHARACTER = 'charSelector:SelectCharacter',
+    // Inventory
+    INVENTORY_READY = 'inventory:Ready',
+    INVENTORY_SET_DATA = 'inventory:SetData',
+    INVENTORY_USE_ITEM = 'inventory:UseItem',
+    INVENTORY_DROP_ITEM = 'inventory:DropItem',
     // HUD
     HUD_READY = 'hud:Ready',
     HUD_OPEN_VEHICLE_HUD = 'hud:OpenVehicleHUD',
