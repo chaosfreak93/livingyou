@@ -19,3 +19,4 @@ crashdumps/
 .env
 fuel/
 .idea
+.gitconfig
