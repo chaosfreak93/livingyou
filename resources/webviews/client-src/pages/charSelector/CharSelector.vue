@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="characterOne">
-            <div id="no_char" v-if="characters == null || characters.length <= 0" v-on:click="createCharacter()">
+            <div id="no_char" v-if="characters == null || characters.length <= 0" v-on:click="openCharCreator()">
                 <p style="color: white">Create Char</p>
             </div>
             <div id="char" v-else-if="characters.length > 0" v-on:click="selectCharacter(0)">
@@ -12,7 +12,7 @@
             <div id="char_locked" v-if="characters == null || !allowSecondCharacter">
                 <p style="color: white">Slot locked</p>
             </div>
-            <div id="no_char" v-else-if="characters.length <= 1" v-on:click="createCharacter()">
+            <div id="no_char" v-else-if="characters.length <= 1" v-on:click="openCharCreator()">
                 <p style="color: white">Create Char</p>
             </div>
             <div id="char" v-else-if="characters.length > 1" v-on:click="selectCharacter(1)">
@@ -24,6 +24,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { WebViewEvents } from '../../../../livingyou/shared/enums/WebViewEvents';
 import ICharacter from '../../../../livingyou/shared/interface/ICharacter';
 const ComponentName = 'CharSelector';
 export default defineComponent({
@@ -48,27 +49,27 @@ export default defineComponent({
             if (this.selectedCharacter == null || this.selectedCharacter != this.characters[index]) {
                 this.selectedCharacter = this.characters[index];
                 alt.emit(
-                    'showPed',
+                    WebViewEvents.CHAR_SELECTOR_SHOW_PED,
                     JSON.stringify(this.characters[index].characterClothing),
                     JSON.stringify(this.characters[index].characterAppearence)
                 );
                 return;
             } else if (this.selectedCharacter != null && this.selectedCharacter == this.characters[index]) {
-                alt.emit('selectPed', JSON.stringify(this.selectedCharacter));
+                alt.emit(WebViewEvents.CHAR_SELECTOR_SELECT_CHARACTER, JSON.stringify(this.selectedCharacter));
             }
         },
-        createCharacter() {
+        openCharCreator() {
             if (!(`alt` in window)) {
                 return;
             }
 
-            alt.emit('createCharacter');
+            alt.emit(WebViewEvents.CHAR_SELECTOR_OPEN_CHAR_CREATOR);
         },
     },
     mounted() {
         if (`alt` in window) {
-            alt.emit('charSelectorReady');
-            alt.on('setData', this.setData);
+            alt.emit(WebViewEvents.CHAR_SELECTOR_READY);
+            alt.on(WebViewEvents.CHAR_SELECTOR_SET_DATA, this.setData);
         }
     },
 });

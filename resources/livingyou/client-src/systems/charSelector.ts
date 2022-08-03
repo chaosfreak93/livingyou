@@ -1,5 +1,6 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import { WebViewEvents } from '../../shared/enums/WebViewEvents';
 import ICharacter from '../../shared/interface/ICharacter';
 import ICharacterAppearence from '../../shared/interface/ICharacterAppearence';
 import ICharacterClothing from '../../shared/interface/ICharacterClothing';
@@ -23,10 +24,10 @@ export default class CharSelector {
         );
         await ScreenFade.fadeIn(0);
         const view = await WebViewController.get();
-        view.on('charSelectorReady', () => CharSelector.charSelectorReady(characters, allowSecondCharacter));
-        view.on('showPed', CharSelector.showPed);
-        view.on('createCharacter', CharSelector.createCharacter);
-        view.on('selectPed', CharSelector.selectPed);
+        view.on(WebViewEvents.CHAR_SELECTOR_READY, () => CharSelector.ready(characters, allowSecondCharacter));
+        view.on(WebViewEvents.CHAR_SELECTOR_SHOW_PED, CharSelector.showPed);
+        view.on(WebViewEvents.CHAR_SELECTOR_OPEN_CHAR_CREATOR, CharSelector.openCharCreator);
+        view.on(WebViewEvents.CHAR_SELECTOR_SELECT_CHARACTER, CharSelector.selectCharacter);
 
         await WebViewController.openPages(['CharSelector']);
         await WebViewController.focus();
@@ -41,19 +42,19 @@ export default class CharSelector {
         await WebViewController.closePages(['CharSelector']);
 
         const view = await WebViewController.get();
-        view.off('charSelectorReady', () => CharSelector.charSelectorReady(null, null));
-        view.off('showPed', CharSelector.showPed);
-        view.off('createCharacter', CharSelector.createCharacter);
-        view.off('selectPed', CharSelector.selectPed);
+        view.off(WebViewEvents.CHAR_SELECTOR_READY, () => CharSelector.ready(null, null));
+        view.off(WebViewEvents.CHAR_SELECTOR_SHOW_PED, CharSelector.showPed);
+        view.off(WebViewEvents.CHAR_SELECTOR_OPEN_CHAR_CREATOR, CharSelector.openCharCreator);
+        view.off(WebViewEvents.CHAR_SELECTOR_SELECT_CHARACTER, CharSelector.selectCharacter);
         await ScreenFade.fadeOut(0);
         CameraManager.destroyCamera();
         native.deletePed(ped);
         ped = 0;
     }
 
-    static async charSelectorReady(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
+    static async ready(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
         const view = await WebViewController.get();
-        view.emit('setData', characters, allowSecondCharacter);
+        view.emit(WebViewEvents.CHAR_SELECTOR_SET_DATA, characters, allowSecondCharacter);
     }
 
     static async showPed(clothes: any, appearance: any): Promise<void> {
@@ -146,12 +147,12 @@ export default class CharSelector {
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);
     }
 
-    static async createCharacter() {
+    static async openCharCreator() {
         await CharSelector.close();
         await CharCreator.open();
     }
 
-    static async selectPed(character: string) {
+    static selectCharacter(character: string) {
         EmitServer('charSelector:SelectChar', character);
     }
 }
