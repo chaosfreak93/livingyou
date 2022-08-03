@@ -26,7 +26,7 @@ export default class DroppedItems {
             model: model,
             item: item,
         };
-        this.droppedItems.push(droppedItem);
+        DroppedItems.droppedItems.push(droppedItem);
         let itemName: string = Items.getItemById(item.id).name;
         DroppedItems.droppedItemEntitys.push({
             item: new DroppedItemEntity(id, pos, rot, model, item),
@@ -45,30 +45,30 @@ export default class DroppedItems {
     }
 
     static async removeDroppedItem(id: string): Promise<void> {
-        let droppedItem: IDroppedItem = this.droppedItems.find((value) => value.id == id);
-        const droppedItemIndex: number = this.droppedItems.indexOf(droppedItem);
-        this.droppedItems.splice(droppedItemIndex, 1);
+        let droppedItem: IDroppedItem = DroppedItems.droppedItems.find((value) => value.id == id);
+        const droppedItemIndex: number = DroppedItems.droppedItems.indexOf(droppedItem);
+        DroppedItems.droppedItems.splice(droppedItemIndex, 1);
 
-        let droppedItemEntity = this.droppedItemEntitys.find((value) => value.item.meta.droppedItemId == id);
+        let droppedItemEntity = DroppedItems.droppedItemEntitys.find((value) => value.item.meta.droppedItemId == id);
         droppedItemEntity.item.destroy();
         droppedItemEntity.label.destroy();
-        const droppedItemEntityIndex: number = this.droppedItemEntitys.indexOf(droppedItemEntity);
-        this.droppedItemEntitys.splice(droppedItemEntityIndex, 1);
+        const droppedItemEntityIndex: number = DroppedItems.droppedItemEntitys.indexOf(droppedItemEntity);
+        DroppedItems.droppedItemEntitys.splice(droppedItemEntityIndex, 1);
     }
 
     static nearestDroppedItem(pos: alt.Vector3): { droppedItem: DroppedItemEntity; distance: number } {
         let distance: number;
         let droppedItem: DroppedItemEntity;
-        for (let i = 0; i < this.droppedItemEntitys.length; i++) {
+        for (let i = 0; i < DroppedItems.droppedItemEntitys.length; i++) {
             let itemPos: alt.Vector3 = new alt.Vector3(
-                this.droppedItemEntitys[i].item.pos.x,
-                this.droppedItemEntitys[i].item.pos.y,
-                this.droppedItemEntitys[i].item.pos.z
+                DroppedItems.droppedItemEntitys[i].item.pos.x,
+                DroppedItems.droppedItemEntitys[i].item.pos.y,
+                DroppedItems.droppedItemEntitys[i].item.pos.z
             );
             let newDistance: number = pos.distanceTo(itemPos);
             if (distance == undefined || distance >= newDistance) {
                 distance = newDistance;
-                droppedItem = this.droppedItemEntitys[i].item;
+                droppedItem = DroppedItems.droppedItemEntitys[i].item;
             }
         }
         if (!droppedItem) return null;

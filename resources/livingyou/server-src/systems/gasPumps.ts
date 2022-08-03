@@ -24,28 +24,29 @@ export default class GasPumps {
         GasPumps.gasPumps = await Database.fetchAllData<IGasPump>(DBCollections.GAS_PUMPS);
         for (let i = 0; i < GasPumps.gasPumps.length; i++) {
             let gasPumpBlip = new alt.PointBlip(
-                this.gasPumps[i].position.x,
-                this.gasPumps[i].position.y,
-                this.gasPumps[i].position.z
+                GasPumps.gasPumps[i].position.x,
+                GasPumps.gasPumps[i].position.y,
+                GasPumps.gasPumps[i].position.z
             );
             let name: string = 'Zapfsäule - ';
-            if (this.gasPumps[i].fuelType.diesel) {
+            if (GasPumps.gasPumps[i].fuelType.diesel) {
                 name += 'Diesel';
                 gasPumpBlip.color = 17;
             }
-            if (this.gasPumps[i].fuelType.benzin) name += ', Benzin';
-            if (this.gasPumps[i].fuelType.eletric) {
+            if (GasPumps.gasPumps[i].fuelType.benzin) name += ', Benzin';
+            if (GasPumps.gasPumps[i].fuelType.eletric) {
                 name += 'Strom';
                 gasPumpBlip.color = 5;
             }
-            if (this.gasPumps[i].fuelType.cerosin) name += 'Kerosin';
-            if (this.gasPumps[i].fuelType.air) {
+            if (GasPumps.gasPumps[i].fuelType.cerosin) name += 'Kerosin';
+            if (GasPumps.gasPumps[i].fuelType.air) {
                 name += 'Luft';
                 gasPumpBlip.color = 3;
             }
-            if (this.gasPumps[i].fuelType.water) name += ', Wasser';
+            if (GasPumps.gasPumps[i].fuelType.water) name += ', Wasser';
             gasPumpBlip.name = name;
             gasPumpBlip.sprite = 361;
+            gasPumpBlip.shortRange = true;
         }
         alt.log(`~lk~[~y~LivingYou~lk~] ~b~GasPumps - ${GasPumps.gasPumps.length}~w~`);
     }
