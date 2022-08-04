@@ -76,7 +76,7 @@
                 :max="characterData.characterClothing.clothes[2].maxDrawable"
                 v-model.number="characterData.characterClothing.clothes[2].drawable"
                 step="1"
-                v-on:input="setClothes(2)"
+                v-on:input="setClothe(2)"
             />
             <p style="color: white">Haarefarbe</p>
             <input
@@ -237,14 +237,14 @@
                         :max="item.maxDrawable"
                         v-model.number="item.drawable"
                         step="1"
-                        v-on:input="setClothes(index)"
+                        v-on:input="setClothe(index)"
                     />
                     <input
                         type="number"
                         min="0"
                         v-model.number="item.texture"
                         step="1"
-                        v-on:input="setClothes(index)"
+                        v-on:input="setClothe(index)"
                     />
                 </div>
             </div>
@@ -256,9 +256,9 @@
                     :max="item.maxDrawable"
                     v-model.number="item.drawable"
                     step="1"
-                    v-on:input="setProps(index)"
+                    v-on:input="setProp(index)"
                 />
-                <input type="number" min="0" v-model.number="item.texture" step="1" v-on:input="setProps(index)" />
+                <input type="number" min="0" v-model.number="item.texture" step="1" v-on:input="setProp(index)" />
             </div>
             <input type="button" value="Vorherige Seite" v-on:click="switchPage(4)" />
             <input type="button" value="Charakter fertigstellen" v-on:click="finishCharacter()" />
@@ -268,6 +268,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { WebViewEvents } from '../../../../livingyou/shared/enums/WebViewEvents';
 import ICharacter from '../../../../livingyou/shared/interface/ICharacter';
 const ComponentName = 'CharCreator';
 export default defineComponent({
@@ -619,7 +620,7 @@ export default defineComponent({
         };
     },
     methods: {
-        finishCharCreatorLoading(clothesMax: number[], propsMax: number[]) {
+        setData(clothesMax: number[], propsMax: number[]) {
             for (let i = 0; i < clothesMax.length; i++) {
                 this.characterData.characterClothing.clothes[i].maxDrawable = clothesMax[i];
             }
@@ -721,7 +722,7 @@ export default defineComponent({
                 this.characterData.characterAppearence.headOverlay[i].opacity = 1.0;
             }
 
-            alt.emit('changeGender', this.characterData.characterAppearence.male);
+            alt.emit(WebViewEvents.CHAR_CREATOR_CHANGE_GENDER, this.characterData.characterAppearence.male);
         },
         setHeadBlendData() {
             if (!(`alt` in window)) {
@@ -729,7 +730,7 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setHeadBlendData',
+                WebViewEvents.CHAR_CREATOR_SET_HEAD_BLEND_DATA,
                 this.characterData.characterAppearence.headBlendData.mother,
                 this.characterData.characterAppearence.headBlendData.father,
                 this.characterData.characterAppearence.headBlendData.similarityAnatomy,
@@ -742,7 +743,7 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setFaceFeature',
+                WebViewEvents.CHAR_CREATOR_SET_FACE_FEATURE,
                 faceFeatureId,
                 this.characterData.characterAppearence.faceFeature[faceFeatureId].scale
             );
@@ -754,14 +755,14 @@ export default defineComponent({
 
             if (this.characterData.characterAppearence.headOverlay[overlayId].index == -1) {
                 alt.emit(
-                    'setHeadOverlay',
+                    WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY,
                     overlayId,
                     255,
                     this.characterData.characterAppearence.headOverlay[overlayId].opacity
                 );
             } else {
                 alt.emit(
-                    'setHeadOverlay',
+                    WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY,
                     overlayId,
                     this.characterData.characterAppearence.headOverlay[overlayId].index,
                     this.characterData.characterAppearence.headOverlay[overlayId].opacity
@@ -774,7 +775,7 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setHeadOverlayColor',
+                WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY_COLOR,
                 overlayColorId,
                 this.characterData.characterAppearence.headOverlay[overlayColorId].colorType,
                 this.characterData.characterAppearence.headOverlay[overlayColorId].colorIndex
@@ -785,7 +786,7 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('setEyeColor', this.characterData.characterAppearence.eyeColor);
+            alt.emit(WebViewEvents.CHAR_CREATOR_SET_EYE_COLOR, this.characterData.characterAppearence.eyeColor);
         },
         setHairColor() {
             if (!(`alt` in window)) {
@@ -793,30 +794,30 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setHairColor',
+                WebViewEvents.CHAR_CREATOR_SET_HAIR_COLOR,
                 this.characterData.characterAppearence.hairColor.colorId,
                 this.characterData.characterAppearence.hairColor.highlightColorId
             );
         },
-        setClothes(clotheIndex: number) {
+        setClothe(clotheIndex: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
             alt.emit(
-                'setClothes',
+                WebViewEvents.CHAR_CREATOR_SET_CLOTHE,
                 this.characterData.characterClothing.clothes[clotheIndex].component,
                 this.characterData.characterClothing.clothes[clotheIndex].drawable,
                 this.characterData.characterClothing.clothes[clotheIndex].texture
             );
         },
-        setProps(propIndex: number) {
+        setProp(propIndex: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
             alt.emit(
-                'setProps',
+                WebViewEvents.CHAR_CREATOR_SET_PROP,
                 this.characterData.characterClothing.props[propIndex].component,
                 this.characterData.characterClothing.props[propIndex].drawable,
                 this.characterData.characterClothing.props[propIndex].texture
@@ -827,13 +828,13 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('finishCharacter', JSON.stringify(this.characterData));
+            alt.emit(WebViewEvents.CHAR_CREATOR_FINISH_CHARACTER, JSON.stringify(this.characterData));
         },
     },
     mounted() {
         if (`alt` in window) {
-            alt.emit('charCreatorReady');
-            alt.on('finishCharCreatorLoading', this.finishCharCreatorLoading);
+            alt.emit(WebViewEvents.CHAR_CREATOR_READY);
+            alt.on(WebViewEvents.CHAR_CREATOR_SET_DATA, this.setData);
         } else {
             this.switchPage(0);
         }
