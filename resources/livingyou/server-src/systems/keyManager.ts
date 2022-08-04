@@ -71,7 +71,10 @@ export default class KeyManager {
                 } else if (result.entity instanceof alt.Vehicle) {
                     let nearestGasPumpToVehicle = GasPumps.nearestGasPump(result.entity);
                     let nearestGasPumpToPlayer = GasPumps.nearestGasPump(player);
-                    if (nearestGasPumpToVehicle.distance - nearestGasPumpToPlayer.distance >= 0.5) {
+                    if (
+                        nearestGasPumpToVehicle.distance - nearestGasPumpToPlayer.distance >= 0.5 &&
+                        nearestGasPumpToVehicle.distance - nearestGasPumpToPlayer.distance <= 1.0
+                    ) {
                         EmitClient(player, 'actionMenu:OpenVehicleActions', result.entity.id, nearestGasPumpToVehicle);
                     } else {
                         EmitClient(player, 'actionMenu:OpenVehicleActions', result.entity.id);
