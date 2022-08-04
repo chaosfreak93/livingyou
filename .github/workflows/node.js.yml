@@ -53,8 +53,8 @@ jobs:
               run: pnpm run start --if-present
             - name: Grant alt:V Permissions to run
               run: chmod 777 altv-server && chmod 777 start.sh
-            #- name: Run alt:V Server
-            #  run: ./start.sh
+            - name: Run alt:V Server
+              run: ./start.sh
             - name: Publish new release
               uses: actions/create-release@v1.1.4
               env:

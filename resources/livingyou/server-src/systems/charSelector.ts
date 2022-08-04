@@ -46,7 +46,8 @@ export default class CharSelector {
         player.setHairHighlightColor(character.characterAppearence.hairColor.highlightColorId);
 
         for (let i = 0; i < character.characterClothing.clothes.length; i++) {
-            player.setClothes(
+            player.setDlcClothes(
+                character.characterClothing.clothes[i].dlc,
                 character.characterClothing.clothes[i].component,
                 character.characterClothing.clothes[i].drawable,
                 character.characterClothing.clothes[i].texture,
@@ -54,17 +55,7 @@ export default class CharSelector {
             );
         }
 
-        for (let i = 0; i < character.characterClothing.props.length; i++) {
-            if (character.characterClothing.props[i].drawable == -1) {
-                player.clearProp(character.characterClothing.props[i].component);
-            } else {
-                player.setProp(
-                    character.characterClothing.props[i].component,
-                    character.characterClothing.props[i].drawable,
-                    character.characterClothing.props[i].texture
-                );
-            }
-        }
+        player.applyClothing();
 
         EmitClient(player, 'player:StartTicks');
         xsync.initClient(player);

@@ -1,5 +1,6 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import { WebViewEvents } from '../../shared/enums/WebViewEvents';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from '../systems/cameraManager';
 import ScreenFade from '../utility/screenFade';
@@ -31,18 +32,18 @@ export default class CharCreator {
         CameraManager.pointCameraAtCoord(startPosition);
         handleCameraTick = alt.everyTick(CharCreator.cameraControls);
         await ScreenFade.fadeIn(0);
-        const view: alt.WebView = await WebViewController.get();
-        view.on('charCreatorReady', CharCreator.charCreatorReady);
-        view.on('changeGender', CharCreator.changeGender);
-        view.on('setHeadBlendData', CharCreator.setHeadBlendData);
-        view.on('setFaceFeature', CharCreator.setFaceFeature);
-        view.on('setHeadOverlay', CharCreator.setHeadOverlay);
-        view.on('setHeadOverlayColor', CharCreator.setHeadOverlayColor);
-        view.on('setEyeColor', CharCreator.setEyeColor);
-        view.on('setHairColor', CharCreator.setHairColor);
-        view.on('setClothes', CharCreator.setClothes);
-        view.on('setProps', CharCreator.setProps);
-        view.on('finishCharacter', CharCreator.finishCharacter);
+        const view = await WebViewController.get();
+        view.on(WebViewEvents.CHAR_CREATOR_READY, CharCreator.charCreatorReady);
+        view.on(WebViewEvents.CHAR_CREATOR_CHANGE_GENDER, CharCreator.spawnPed);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_HEAD_BLEND_DATA, CharCreator.setHeadBlendData);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_FACE_FEATURE, CharCreator.setFaceFeature);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY, CharCreator.setHeadOverlay);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY_COLOR, CharCreator.setHeadOverlayColor);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_EYE_COLOR, CharCreator.setEyeColor);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_HAIR_COLOR, CharCreator.setHairColor);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_CLOTHE, CharCreator.setClothe);
+        view.on(WebViewEvents.CHAR_CREATOR_SET_PROP, CharCreator.setProp);
+        view.on(WebViewEvents.CHAR_CREATOR_FINISH_CHARACTER, CharCreator.finishCharacter);
 
         await WebViewController.openPages(['CharCreator']);
         await WebViewController.focus();
@@ -56,18 +57,18 @@ export default class CharCreator {
         await WebViewController.unfocus();
         await WebViewController.closePages(['CharCreator']);
 
-        const view: alt.WebView = await WebViewController.get();
-        view.off('charCreatorReady', CharCreator.charCreatorReady);
-        view.off('changeGender', CharCreator.changeGender);
-        view.off('setHeadBlendData', CharCreator.setHeadBlendData);
-        view.off('setFaceFeature', CharCreator.setFaceFeature);
-        view.off('setHeadOverlay', CharCreator.setHeadOverlay);
-        view.off('setHeadOverlayColor', CharCreator.setHeadOverlayColor);
-        view.off('setEyeColor', CharCreator.setEyeColor);
-        view.off('setHairColor', CharCreator.setHairColor);
-        view.off('setClothes', CharCreator.setClothes);
-        view.off('setProps', CharCreator.setProps);
-        view.off('finishCharacter', CharCreator.finishCharacter);
+        const view = await WebViewController.get();
+        view.off(WebViewEvents.CHAR_CREATOR_READY, CharCreator.charCreatorReady);
+        view.off(WebViewEvents.CHAR_CREATOR_CHANGE_GENDER, CharCreator.spawnPed);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_HEAD_BLEND_DATA, CharCreator.setHeadBlendData);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_FACE_FEATURE, CharCreator.setFaceFeature);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY, CharCreator.setHeadOverlay);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY_COLOR, CharCreator.setHeadOverlayColor);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_EYE_COLOR, CharCreator.setEyeColor);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_HAIR_COLOR, CharCreator.setHairColor);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_CLOTHE, CharCreator.setClothe);
+        view.off(WebViewEvents.CHAR_CREATOR_SET_PROP, CharCreator.setProp);
+        view.off(WebViewEvents.CHAR_CREATOR_FINISH_CHARACTER, CharCreator.finishCharacter);
         await ScreenFade.fadeOut(0);
         if (handleCameraTick !== 0) {
             alt.clearEveryTick(handleCameraTick);
@@ -91,7 +92,7 @@ export default class CharCreator {
         propsMax[3] = native.getNumberOfPedPropDrawableVariations(ped, 6);
         propsMax[4] = native.getNumberOfPedPropDrawableVariations(ped, 7);
         const view = await WebViewController.get();
-        view.emit('finishCharCreatorLoading', clothesMax, propsMax);
+        view.emit(WebViewEvents.CHAR_CREATOR_SET_DATA, clothesMax, propsMax);
     }
 
     static async spawnPed(male: boolean): Promise<void> {
@@ -137,10 +138,6 @@ export default class CharCreator {
         }
     }
 
-    static async changeGender(male: boolean): Promise<void> {
-        CharCreator.spawnPed(male);
-    }
-
     static setHeadBlendData(mother: number, father: number, similarityAnatomy: number, similaritySkinColor: number) {
         native.setPedHeadBlendData(
             ped,
@@ -178,11 +175,11 @@ export default class CharCreator {
         native.setPedHairColor(ped, colorId, highlightColorId);
     }
 
-    static setClothes(component: number, drawable: number, texture: number) {
+    static setClothe(component: number, drawable: number, texture: number) {
         native.setPedComponentVariation(ped, component, drawable, texture, 0);
     }
 
-    static setProps(component: number, drawable: number, texture: number) {
+    static setProp(component: number, drawable: number, texture: number) {
         if (drawable == -1) {
             native.clearPedProp(ped, component);
             return;

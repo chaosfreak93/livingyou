@@ -54,6 +54,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import IGasPump from '../../../../livingyou/shared/interface/IGasPump';
+import { WebViewEvents } from '../../../../livingyou/shared/enums/WebViewEvents';
 const ComponentName = 'HUD';
 export default defineComponent({
     name: ComponentName,
@@ -111,14 +112,14 @@ export default defineComponent({
     },
     mounted() {
         if (`alt` in window) {
-            alt.emit('hudReady');
+            alt.emit(WebViewEvents.HUD_READY);
             alt.on('openInVehicleActions', this.openInVehicleActions);
             alt.on('openVehicleActions', this.openVehicleActions);
             alt.on('openPlayerActions', this.openPlayerActions);
             alt.on('closeActions', this.closeActions);
-            alt.on('openVehicleHud', this.openVehicleHud);
-            alt.on('closeVehicleHud', this.closeVehicleHud);
-            alt.on('updateVehicleData', this.updateVehicleData);
+            alt.on(WebViewEvents.HUD_OPEN_VEHICLE_HUD, this.openVehicleHud);
+            alt.on(WebViewEvents.HUD_CLOSE_VEHICLE_HUD, this.closeVehicleHud);
+            alt.on(WebViewEvents.HUD_UPDATE_VEHICLE_DATA, this.updateVehicleData);
         }
     },
 });
