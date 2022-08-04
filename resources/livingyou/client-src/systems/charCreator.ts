@@ -176,15 +176,27 @@ export default class CharCreator {
     }
 
     static setClothe(component: number, drawable: number, texture: number) {
-        native.setPedComponentVariation(ped, component, drawable, texture, 0);
+        native.setPedComponentVariation(
+            ped,
+            parseInt(component.toString()),
+            parseInt(drawable.toString()),
+            parseInt(texture.toString()),
+            0
+        );
     }
 
     static setProp(component: number, drawable: number, texture: number) {
         if (drawable == -1) {
-            native.clearPedProp(ped, component);
-            return;
+            native.clearPedProp(ped, parseInt(component.toString()));
+        } else {
+            native.setPedPropIndex(
+                ped,
+                parseInt(component.toString()),
+                parseInt(drawable.toString()),
+                parseInt(texture.toString()),
+                true
+            );
         }
-        native.setPedPropIndex(ped, component, drawable, texture, true);
     }
 
     static finishCharacter(character: string) {
