@@ -55,6 +55,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { WebViewEvents } from '../../../../livingyou/shared/enums/WebViewEvents';
 import IItem from '../../../../livingyou/shared/interface/IItem';
 import IWebInventory from '../../../../livingyou/shared/interface/IWebInventory';
 const ComponentName = 'Inventory';
@@ -98,7 +99,7 @@ export default defineComponent({
                 return;
             }
             // @ts-ignore
-            alt.emit('useItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
+            alt.emit(WebViewEvents.INVENTORY_USE_ITEM, event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
             this.closeActionsMenu();
         },
         giveItem(event: MouseEvent): void {
@@ -109,7 +110,7 @@ export default defineComponent({
                 return;
             }
             // @ts-ignore
-            alt.emit('dropItem', event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
+            alt.emit(WebViewEvents.INVENTORY_DROP_ITEM, event.target.parentElement.dataset.inventory, event.target.parentElement.dataset.item);
             this.closeActionsMenu();
         },
     },
@@ -126,8 +127,8 @@ export default defineComponent({
     },
     mounted() {
         if (`alt` in window) {
-            alt.emit('inventoryReady');
-            alt.on('setData', this.setData);
+            alt.emit(WebViewEvents.INVENTORY_READY);
+            alt.on(WebViewEvents.INVENTORY_SET_DATA, this.setData);
         } else {
             this.setData(
                 {
