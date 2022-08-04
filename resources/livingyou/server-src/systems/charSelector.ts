@@ -45,16 +45,6 @@ export default class CharSelector {
         player.setHairColor(character.characterAppearence.hairColor.colorId);
         player.setHairHighlightColor(character.characterAppearence.hairColor.highlightColorId);
 
-        for (let i = 0; i < character.characterClothing.clothes.length; i++) {
-            player.setDlcClothes(
-                character.characterClothing.clothes[i].dlc,
-                character.characterClothing.clothes[i].component,
-                character.characterClothing.clothes[i].drawable,
-                character.characterClothing.clothes[i].texture,
-                0
-            );
-        }
-
         player.applyClothing();
 
         EmitClient(player, 'player:StartTicks');
