@@ -43,7 +43,7 @@ export default class DiscordAuth {
                 return null;
             });
 
-        if (!request || !request.data || !request.data.id || !request.data.email) {
+        if (!request || !request.data || !request.data.id) {
             player.kick('Authorization failed');
             return;
         }

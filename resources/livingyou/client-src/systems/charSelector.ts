@@ -3,7 +3,7 @@ import * as native from 'natives';
 import { WebViewEvents } from '../../shared/enums/WebViewEvents';
 import ICharacter from '../../shared/interface/ICharacter';
 import ICharacterAppearence from '../../shared/interface/ICharacterAppearence';
-import ICharacterClothing from '../../shared/interface/ICharacterClothing';
+import ICharacterClothing from '../../shared/interface/ICharacterClothe';
 import { WebViewController } from '../extensions/webViewController';
 import CameraManager from '../systems/cameraManager';
 import ScreenFade from '../utility/screenFade';
@@ -121,25 +121,26 @@ export default class CharSelector {
         native.setPedHairColor(ped, appearance.hairColor.colorId, appearance.hairColor.highlightColorId);
 
         for (let i = 0; i < clothes.clothes.length; i++) {
-            native.setPedComponentVariation(
+            alt.setPedDlcClothes(
                 ped,
+                clothes.clothes[i].dlc,
                 clothes.clothes[i].component,
                 clothes.clothes[i].drawable,
                 clothes.clothes[i].texture,
-                0
+                clothes.clothes[i].palette
             );
         }
 
         for (let i = 0; i < clothes.props.length; i++) {
             if (clothes.props[i].drawable == -1) {
-                native.clearPedProp(ped, clothes.props[i].component);
+                alt.clearPedProp(ped, clothes.props[i].component);
             } else {
-                native.setPedPropIndex(
+                alt.setPedDlcProp(
                     ped,
+                    clothes.props[i].dlc,
                     clothes.props[i].component,
                     clothes.props[i].drawable,
-                    clothes.props[i].texture,
-                    true
+                    clothes.props[i].texture
                 );
             }
         }
