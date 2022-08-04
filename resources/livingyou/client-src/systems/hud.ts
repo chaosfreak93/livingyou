@@ -1,5 +1,6 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import { WebViewEvents } from '../../shared/enums/WebViewEvents';
 import { WebViewController } from '../extensions/webViewController';
 import ScreenFade from '../utility/screenFade';
 import { On, OnServer } from './eventSystem/on';
@@ -16,7 +17,7 @@ export default class HUD {
         }
 
         const view = await WebViewController.get();
-        view.on(`hudReady`, HUD.ready);
+        view.on(WebViewEvents.HUD_READY, HUD.ready);
 
         await WebViewController.openPages(['HUD']);
     }
@@ -41,7 +42,7 @@ export default class HUD {
         await WebViewController.closePages(['HUD']);
 
         const view = await WebViewController.get();
-        view.off(`hudReady`, HUD.ready);
+        view.off(WebViewEvents.HUD_READY, HUD.ready);
         native.displayHud(false);
     }
 
@@ -51,7 +52,7 @@ export default class HUD {
             HUD.showDriveHud();
         } else {
             HUD.hideDriveHud();
-            view.emit('updateVehicleData', 0, 0);
+            view.emit(WebViewEvents.HUD_UPDATE_VEHICLE_DATA, 0, 0);
         }
     }
 
@@ -60,11 +61,11 @@ export default class HUD {
         if (isDisabled) return;
         const view = await WebViewController.get();
         native.displayRadar(true);
-        view.emit('openVehicleHud');
+        view.emit(WebViewEvents.HUD_OPEN_VEHICLE_HUD);
         vehicleTick = alt.everyTick(() => {
             if (!alt.Player.local.vehicle) return;
             view.emit(
-                'updateVehicleData',
+                WebViewEvents.HUD_UPDATE_VEHICLE_DATA,
                 alt.Player.local.vehicle.rpm,
                 (native.getEntitySpeed(alt.Player.local.vehicle) * 3.6).toFixed(0)
             );
@@ -76,7 +77,7 @@ export default class HUD {
         if (isDisabled) return;
         const view = await WebViewController.get();
         native.displayRadar(false);
-        view.emit('closeVehicleHud');
+        view.emit(WebViewEvents.HUD_CLOSE_VEHICLE_HUD);
         if (!vehicleTick) return;
         alt.clearEveryTick(vehicleTick);
     }

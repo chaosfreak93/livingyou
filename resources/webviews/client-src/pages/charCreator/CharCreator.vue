@@ -73,10 +73,10 @@
             <input
                 type="number"
                 min="0"
-                :max="characterData.characterClothing.clothes[2].maxDrawable"
+                :max="clotheData[2].maxDrawable"
                 v-model.number="characterData.characterClothing.clothes[2].drawable"
                 step="1"
-                v-on:input="setClothes(2)"
+                v-on:input="setClothe(2)"
             />
             <p style="color: white">Haarefarbe</p>
             <input
@@ -230,35 +230,29 @@
         <div id="clothing" v-if="pages.clothes">
             <div id="clothes" v-for="(item, index) in characterData.characterClothing.clothes" :key="index">
                 <div v-if="index != 2 && index != 9">
-                    <p style="color: white">{{ item.name }}</p>
+                    <p style="color: white">{{ clotheData[index].name }}</p>
                     <input
                         type="number"
                         min="0"
-                        :max="item.maxDrawable"
+                        :max="clotheData[index].maxDrawable"
                         v-model.number="item.drawable"
                         step="1"
-                        v-on:input="setClothes(index)"
+                        v-on:input="setClothe(index)"
                     />
-                    <input
-                        type="number"
-                        min="0"
-                        v-model.number="item.texture"
-                        step="1"
-                        v-on:input="setClothes(index)"
-                    />
+                    <input type="number" min="0" v-model.number="item.texture" step="1" v-on:input="setClothe(index)" />
                 </div>
             </div>
             <div id="props" v-for="(item, index) in characterData.characterClothing.props" :key="index">
-                <p style="color: white">{{ item.name }}</p>
+                <p style="color: white">{{ propData[index].name }}</p>
                 <input
                     type="number"
                     min="-1"
-                    :max="item.maxDrawable"
+                    :max="propData[index].maxDrawable"
                     v-model.number="item.drawable"
                     step="1"
-                    v-on:input="setProps(index)"
+                    v-on:input="setProp(index)"
                 />
-                <input type="number" min="0" v-model.number="item.texture" step="1" v-on:input="setProps(index)" />
+                <input type="number" min="0" v-model.number="item.texture" step="1" v-on:input="setProp(index)" />
             </div>
             <input type="button" value="Vorherige Seite" v-on:click="switchPage(4)" />
             <input type="button" value="Charakter fertigstellen" v-on:click="finishCharacter()" />
@@ -268,7 +262,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ICharacter from '../../../../livingyou/shared/interface/ICharacter';
+import { WebViewEvents } from '../../../../livingyou/shared/enums/WebViewEvents';
+import ICharCreatorCharacter from '../../../../livingyou/shared/interface/ICharCreatorCharacter';
 const ComponentName = 'CharCreator';
 export default defineComponent({
     name: ComponentName,
@@ -492,139 +487,177 @@ export default defineComponent({
                 characterClothing: {
                     clothes: [
                         {
-                            name: 'head',
                             component: 0,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'mask',
                             component: 1,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'hairStyle',
                             component: 2,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'torso',
                             component: 3,
                             drawable: 15,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'legs',
                             component: 4,
                             drawable: 14,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'bag',
                             component: 5,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'shoes',
                             component: 6,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'accessories',
                             component: 7,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'undershirt',
                             component: 8,
                             drawable: 15,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'armor',
                             component: 9,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'decals',
                             component: 10,
                             drawable: 0,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'top',
                             component: 11,
                             drawable: 15,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                     ],
                     props: [
                         {
-                            name: 'hat',
                             component: 0,
                             drawable: -1,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'glasses',
                             component: 1,
                             drawable: -1,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'ear',
                             component: 2,
                             drawable: -1,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'watch',
                             component: 6,
                             drawable: -1,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                         {
-                            name: 'bracelet',
                             component: 7,
                             drawable: -1,
-                            maxDrawable: 0,
                             texture: 0,
                         },
                     ],
                 },
-            } as ICharacter,
+            } as ICharCreatorCharacter,
+            clotheData: [
+                {
+                    name: 'head',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'mask',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'hairStyle',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'torso',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'legs',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'bag',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'shoes',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'accessories',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'undershirt',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'armor',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'decals',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'top',
+                    maxDrawable: 0,
+                },
+            ],
+            propData: [
+                {
+                    name: 'hat',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'glasses',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'ear',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'watch',
+                    maxDrawable: 0,
+                },
+                {
+                    name: 'bracelet',
+                    maxDrawable: 0,
+                },
+            ],
             errorMessage: null as string,
         };
     },
     methods: {
-        finishCharCreatorLoading(clothesMax: number[], propsMax: number[]) {
+        setData(clothesMax: number[], propsMax: number[]) {
             for (let i = 0; i < clothesMax.length; i++) {
-                this.characterData.characterClothing.clothes[i].maxDrawable = clothesMax[i];
+                this.clotheData[i].maxDrawable = clothesMax[i];
             }
             for (let i = 0; i < propsMax.length; i++) {
-                this.characterData.characterClothing.props[i].maxDrawable = propsMax[i];
+                this.propData[i].maxDrawable = propsMax[i];
             }
 
             this.switchPage(0);
@@ -721,7 +754,7 @@ export default defineComponent({
                 this.characterData.characterAppearence.headOverlay[i].opacity = 1.0;
             }
 
-            alt.emit('changeGender', this.characterData.characterAppearence.male);
+            alt.emit(WebViewEvents.CHAR_CREATOR_CHANGE_GENDER, this.characterData.characterAppearence.male);
         },
         setHeadBlendData() {
             if (!(`alt` in window)) {
@@ -729,7 +762,7 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setHeadBlendData',
+                WebViewEvents.CHAR_CREATOR_SET_HEAD_BLEND_DATA,
                 this.characterData.characterAppearence.headBlendData.mother,
                 this.characterData.characterAppearence.headBlendData.father,
                 this.characterData.characterAppearence.headBlendData.similarityAnatomy,
@@ -742,7 +775,7 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setFaceFeature',
+                WebViewEvents.CHAR_CREATOR_SET_FACE_FEATURE,
                 faceFeatureId,
                 this.characterData.characterAppearence.faceFeature[faceFeatureId].scale
             );
@@ -754,14 +787,14 @@ export default defineComponent({
 
             if (this.characterData.characterAppearence.headOverlay[overlayId].index == -1) {
                 alt.emit(
-                    'setHeadOverlay',
+                    WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY,
                     overlayId,
                     255,
                     this.characterData.characterAppearence.headOverlay[overlayId].opacity
                 );
             } else {
                 alt.emit(
-                    'setHeadOverlay',
+                    WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY,
                     overlayId,
                     this.characterData.characterAppearence.headOverlay[overlayId].index,
                     this.characterData.characterAppearence.headOverlay[overlayId].opacity
@@ -774,7 +807,7 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setHeadOverlayColor',
+                WebViewEvents.CHAR_CREATOR_SET_HEAD_OVERLAY_COLOR,
                 overlayColorId,
                 this.characterData.characterAppearence.headOverlay[overlayColorId].colorType,
                 this.characterData.characterAppearence.headOverlay[overlayColorId].colorIndex
@@ -785,7 +818,7 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('setEyeColor', this.characterData.characterAppearence.eyeColor);
+            alt.emit(WebViewEvents.CHAR_CREATOR_SET_EYE_COLOR, this.characterData.characterAppearence.eyeColor);
         },
         setHairColor() {
             if (!(`alt` in window)) {
@@ -793,30 +826,30 @@ export default defineComponent({
             }
 
             alt.emit(
-                'setHairColor',
+                WebViewEvents.CHAR_CREATOR_SET_HAIR_COLOR,
                 this.characterData.characterAppearence.hairColor.colorId,
                 this.characterData.characterAppearence.hairColor.highlightColorId
             );
         },
-        setClothes(clotheIndex: number) {
+        setClothe(clotheIndex: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
             alt.emit(
-                'setClothes',
+                WebViewEvents.CHAR_CREATOR_SET_CLOTHE,
                 this.characterData.characterClothing.clothes[clotheIndex].component,
                 this.characterData.characterClothing.clothes[clotheIndex].drawable,
                 this.characterData.characterClothing.clothes[clotheIndex].texture
             );
         },
-        setProps(propIndex: number) {
+        setProp(propIndex: number) {
             if (!(`alt` in window)) {
                 return;
             }
 
             alt.emit(
-                'setProps',
+                WebViewEvents.CHAR_CREATOR_SET_PROP,
                 this.characterData.characterClothing.props[propIndex].component,
                 this.characterData.characterClothing.props[propIndex].drawable,
                 this.characterData.characterClothing.props[propIndex].texture
@@ -827,13 +860,13 @@ export default defineComponent({
                 return;
             }
 
-            alt.emit('finishCharacter', JSON.stringify(this.characterData));
+            alt.emit(WebViewEvents.CHAR_CREATOR_FINISH_CHARACTER, JSON.stringify(this.characterData));
         },
     },
     mounted() {
         if (`alt` in window) {
-            alt.emit('charCreatorReady');
-            alt.on('finishCharCreatorLoading', this.finishCharCreatorLoading);
+            alt.emit(WebViewEvents.CHAR_CREATOR_READY);
+            alt.on(WebViewEvents.CHAR_CREATOR_SET_DATA, this.setData);
         } else {
             this.switchPage(0);
         }

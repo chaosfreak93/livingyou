@@ -4,6 +4,7 @@ import { On, OnServer } from './eventSystem/on';
 import ScreenFade from '../utility/screenFade';
 import CameraManager from './cameraManager';
 import { EmitServer } from './eventSystem/emit';
+import { WebViewEvents } from '../../shared/enums/WebViewEvents';
 
 let loginInProgress = false;
 
@@ -14,7 +15,7 @@ export default class DiscordAuth {
         await ScreenFade.fadeIn(0);
         alt.toggleGameControls(false);
         const view = await WebViewController.get();
-        view.on('startLogin', DiscordAuth.obtainToken);
+        view.on(WebViewEvents.DISCORD_AUTH_START_LOGIN, DiscordAuth.obtainToken);
 
         await WebViewController.openPages(['Login']);
         await WebViewController.focus();
@@ -41,7 +42,7 @@ export default class DiscordAuth {
         await WebViewController.closePages(['Login']);
 
         const view = await WebViewController.get();
-        view.off('startLogin', DiscordAuth.obtainToken);
+        view.off(WebViewEvents.DISCORD_AUTH_START_LOGIN, DiscordAuth.obtainToken);
         await ScreenFade.fadeOut(0);
         CameraManager.destroyCamera();
         loginInProgress = false;
