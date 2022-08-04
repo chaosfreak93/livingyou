@@ -21,7 +21,7 @@ export default class HUD {
 
         const view: alt.WebView = await WebViewController.get();
         view.on(WebViewEvents.HUD_READY, HUD.ready);
-        view.on('proceedAction', HUD.proceedAction);
+        view.on(WebViewEvents.HUD_PROCEED_ACTION, HUD.proceedAction);
 
         await WebViewController.openPages(['HUD']);
     }
@@ -47,7 +47,7 @@ export default class HUD {
 
         const view: alt.WebView = await WebViewController.get();
         view.off(WebViewEvents.HUD_READY, HUD.ready);
-        view.off('proceedAction', HUD.proceedAction);
+        view.off(WebViewEvents.HUD_PROCEED_ACTION, HUD.proceedAction);
         native.displayHud(false);
     }
 
@@ -101,7 +101,7 @@ export default class HUD {
             native.disableControlAction(1, 5, true);
             native.disableControlAction(1, 6, true);
         });
-        view.emit('openInVehicleActions', vehicleId);
+        view.emit(WebViewEvents.HUD_OPEN_IN_VEHICLE_ACTIONS, vehicleId);
         view.focus();
     }
 
@@ -118,7 +118,7 @@ export default class HUD {
             native.disableControlAction(1, 5, true);
             native.disableControlAction(1, 6, true);
         });
-        view.emit('openVehicleActions', vehicleId, gasPump);
+        view.emit(WebViewEvents.HUD_OPEN_VEHICLE_ACTIONS, vehicleId, gasPump);
         view.focus();
     }
 
@@ -135,7 +135,7 @@ export default class HUD {
             native.disableControlAction(1, 5, true);
             native.disableControlAction(1, 6, true);
         });
-        view.emit('openPlayerActions', playerId);
+        view.emit(WebViewEvents.HUD_OPEN_PLAYER_ACTIONS, playerId);
         view.focus();
     }
 
@@ -144,7 +144,7 @@ export default class HUD {
         if (HUD.isDisabled) return;
         const view: alt.WebView = await WebViewController.get();
         WebViewController.showCursor(false);
-        view.emit('closeActions');
+        view.emit(WebViewEvents.HUD_CLOSE_ACTIONS);
         view.unfocus();
         if (HUD.cameraControlTick === 0) return;
         alt.clearEveryTick(HUD.cameraControlTick);

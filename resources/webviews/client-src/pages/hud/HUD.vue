@@ -93,7 +93,7 @@ export default defineComponent({
             this.showInVehicleActionMenu = false;
             this.showVehicleActionMenu = false;
             this.showPlayerActionMenu = false;
-            alt.emit('proceedAction', this.menuType, this.menuAction, this.entityId);
+            alt.emit(WebViewEvents.HUD_PROCEED_ACTION, this.menuType, this.menuAction, this.entityId);
             this.gasPump = null;
             this.menuAction = null;
             this.menuType = null;
@@ -113,10 +113,10 @@ export default defineComponent({
     mounted() {
         if (`alt` in window) {
             alt.emit(WebViewEvents.HUD_READY);
-            alt.on('openInVehicleActions', this.openInVehicleActions);
-            alt.on('openVehicleActions', this.openVehicleActions);
-            alt.on('openPlayerActions', this.openPlayerActions);
-            alt.on('closeActions', this.closeActions);
+            alt.on(WebViewEvents.HUD_OPEN_IN_VEHICLE_ACTIONS, this.openInVehicleActions);
+            alt.on(WebViewEvents.HUD_OPEN_VEHICLE_ACTIONS, this.openVehicleActions);
+            alt.on(WebViewEvents.HUD_OPEN_PLAYER_ACTIONS, this.openPlayerActions);
+            alt.on(WebViewEvents.HUD_CLOSE_ACTIONS, this.closeActions);
             alt.on(WebViewEvents.HUD_OPEN_VEHICLE_HUD, this.openVehicleHud);
             alt.on(WebViewEvents.HUD_CLOSE_VEHICLE_HUD, this.closeVehicleHud);
             alt.on(WebViewEvents.HUD_UPDATE_VEHICLE_DATA, this.updateVehicleData);
