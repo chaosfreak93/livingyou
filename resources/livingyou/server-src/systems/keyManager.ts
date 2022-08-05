@@ -72,8 +72,9 @@ export default class KeyManager {
                     let nearestGasPumpToVehicle = GasPumps.nearestGasPump(result.entity);
                     let nearestGasPumpToPlayer = GasPumps.nearestGasPump(player);
                     if (
-                        nearestGasPumpToVehicle.distance - nearestGasPumpToPlayer.distance >= 0.5 &&
-                        nearestGasPumpToVehicle.distance - nearestGasPumpToPlayer.distance <= 1.0
+                        nearestGasPumpToVehicle.distance - nearestGasPumpToPlayer.distance >= 0.1 &&
+                        nearestGasPumpToVehicle.distance - nearestGasPumpToPlayer.distance <= 1.75 &&
+                        nearestGasPumpToVehicle.distance < 5
                     ) {
                         EmitClient(player, 'actionMenu:OpenVehicleActions', result.entity.id, nearestGasPumpToVehicle);
                     } else {
