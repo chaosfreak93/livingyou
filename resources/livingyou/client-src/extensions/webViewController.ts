@@ -126,8 +126,10 @@ export class WebViewController {
      */
     @On('disconnect')
     static dispose(): void {
+        if (!_webview || !_webview.valid) return;
         alt.log('SHOULD BE KILLING OLD WEBVIEW');
         _webview.destroy();
+        _webview = null;
     }
 
     /**
