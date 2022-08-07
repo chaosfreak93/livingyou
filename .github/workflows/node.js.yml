@@ -64,5 +64,5 @@ jobs:
                   prerelease: ${{ steps.branch-name.outputs.current_branch != 'master' }}
                   tag: ${{ steps.version.outputs.new_tag }}
                   name: Release ${{ steps.version.outputs.new_version }}
-                  bodyFile: ${{ steps.version.outputs.changelog }}
+                  body: ${{ steps.version.outputs.changelog }}
                   token: ${{ secrets.GITHUB_TOKEN }}
