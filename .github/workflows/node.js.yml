@@ -52,7 +52,7 @@ jobs:
             - name: Grant alt:V Permissions to run
               run: chmod 777 altv-server && chmod 777 start.sh
             - name: Run alt:V Server
-              run: ./start.sh
+              run: ./altv-server
             - name: Publish new release
               uses: ncipollo/release-action@v1.10.0
               with:
