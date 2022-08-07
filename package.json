@@ -11,7 +11,7 @@
         "update": "altv-pkg d dev"
     },
     "devDependencies": {
-        "@altv/types-client": "^2.2.8",
+        "@altv/types-client": "^2.2.9",
         "@altv/types-natives": "^1.4.4",
         "@altv/types-server": "^2.4.2",
         "@altv/types-shared": "^1.2.6",
