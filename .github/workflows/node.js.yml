@@ -25,6 +25,7 @@ jobs:
               with:
                 production-branch: master
                 dev-branch: dev
+                test-branch: vehicle
             - name: Set up pnpm
               uses: pnpm/action-setup@v2.2.2
               with:
