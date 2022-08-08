@@ -55,7 +55,7 @@ jobs:
               run: ./altv-server
             - name: Commit files
               run: |
-                mkdir ~/tmp
+                mkdir -p ~/tmp
                 mv ./resources/livingyou/server-dist.js ~/tmp/server-dist.js
                 mv ./resources/livingyou/client-dist.js ~/tmp/client-dist.js
                 git switch --orphan build
