@@ -53,7 +53,7 @@ jobs:
                 mv ./resources/livingyou/resource.cfg ~/tmp/livingyou/resource.cfg
                 mkdir -p ~/tmp/webviews/
                 mv ./resources/webviews/index.html ~/tmp/webviews/index.html
-                mv ./resources/webviews/assets/* ~/tmp/webviews/assets/* -r
+                mv ./resources/webviews/assets/* ~/tmp/webviews/assets/*
                 mv ./resources/webviews/resource.cfg ~/tmp/webviews/resource.cfg
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
                 git config --local user.name "github-actions[bot]"
@@ -66,7 +66,7 @@ jobs:
                 mv ~/tmp/livingyou/resource.cfg ./livingyou/resource.cfg
                 mkdir -p ./webviews/
                 mv ~/tmp/webviews/index.html ./webviews/index.html
-                mv ~/tmp/webviews/assets/* ./webviews/assets/* -r
+                mv ~/tmp/webviews/assets/* ./webviews/assets/*
                 mv ~/tmp/webviews/resource.cfg ./webviews/resource.cfg
                 git add ./livingyou/server-dist.js
                 git commit -m "Update server-dist.js" ./livingyou/server-dist.js
