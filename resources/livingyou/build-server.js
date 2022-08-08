@@ -12,7 +12,7 @@ build({
     format: 'esm',
     entryPoints: ['./resources/livingyou/server-src/startup.ts'],
     outfile: './resources/livingyou/server-dist.js',
-    external: ['altv-xsync-entity-server', 'dotenv', 'dotenv/config', '@stuyk/ezmongodb', 'bson'],
+    external: ['altv-xsync-entity-*', 'dotenv', '@stuyk/ezmongodb', 'bson'],
     plugins: [
         altvEsbuild({
             mode: 'server', // use "server" for server code, and "client" for client code
