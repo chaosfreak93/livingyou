@@ -53,11 +53,11 @@ jobs:
                 mv ./resources/livingyou/client-dist.js ~/tmp/client-dist.js
                 git reset --hard
                 git checkout build
-                git rm -rf .
+                git rm -rf ./*
                 mv ~/tmp/server-dist.js ./server-dist.js
                 mv ~/tmp/client-dist.js ./client-dist.js
                 git add ./server-dist.js
                 git commit -m "Update server-dist.js" ./server-dist.js
                 git add ./client-dist.js
                 git commit -m "Update client-dist.js" ./client-dist.js
-                git push origin build
+                git push --force origin build
