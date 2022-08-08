@@ -81,3 +81,8 @@ jobs:
                 git add ./webviews/resource.cfg
                 git commit -m "Update webviews resource.cfg" ./webviews/resource.cfg
                 git push --force origin build
+            - name: Clenup "Commit files"
+              run: |
+                rmdir -rf ~/tmp/livingyou/
+                rmdir -rf ~/tmp/webviews/
+
