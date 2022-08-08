@@ -76,8 +76,8 @@ jobs:
                 git commit -m "Update livingyou resource.cfg" ./livingyou/resource.cfg
                 git add ./webviews/index.html
                 git commit -m "Update index.html" ./webviews/index.html
-                git add  ./webviews/assets
-                git commit -m "Update webviews assets" ./webviews/assets
+                git add  ./webviews/assets/.
+                git commit -m "Update webviews assets" ./webviews/assets/.
                 git add ./webviews/resource.cfg
                 git commit -m "Update webviews resource.cfg" ./webviews/resource.cfg
                 git push --force origin build
