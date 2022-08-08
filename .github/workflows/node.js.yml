@@ -53,7 +53,7 @@ jobs:
                 mv ./resources/livingyou/client-dist.js ~/tmp/client-dist.js
                 git reset --hard
                 git checkout build
-                git rm -rf ./*
+                git rm -rf .
                 mv ~/tmp/server-dist.js ./server-dist.js
                 mv ~/tmp/client-dist.js ./client-dist.js
                 git add ./server-dist.js
