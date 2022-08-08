@@ -57,7 +57,9 @@ export default class Vehicles {
 
     static vehicleTick(): void {
         alt.setInterval(() => {
+            alt.time('Vehicle Tick');
             for (let i = 0; i < Vehicles.spawnedVehicles.length; i++) {
+                if (!Vehicles.spawnedVehicles[i].vehicleData) continue;
                 if (
                     Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentPosition !=
                     Vehicles.spawnedVehicles[i].pos
@@ -70,6 +72,7 @@ export default class Vehicles {
                         Vehicles.spawnedVehicles[i].rot;
                 }
             }
+            alt.timeEnd('Vehicle Tick');
         }, 5000);
     }
 
