@@ -68,18 +68,16 @@ jobs:
                 mv ~/tmp/webviews/index.html ./webviews/index.html
                 mv ~/tmp/webviews/assets/ ./webviews/
                 mv ~/tmp/webviews/resource.cfg ./webviews/resource.cfg
-                git add ./livingyou
                 git add ./livingyou/server-dist.js
                 git commit -m "Update server-dist.js" ./livingyou/server-dist.js
                 git add ./livingyou/client-dist.js
                 git commit -m "Update client-dist.js" ./livingyou/client-dist.js
                 git add ./livingyou/resource.cfg
                 git commit -m "Update livingyou resource.cfg" ./livingyou/resource.cfg
-                git add ./webviews
                 git add ./webviews/index.html
                 git commit -m "Update index.html" ./webviews/index.html
-                git add  ./webviews/assets/
-                git commit -m "Update webviews assets" ./webviews/assets/
+                git add  ./webviews/assets
+                git commit -m "Update webviews assets" ./webviews/assets
                 git add ./webviews/resource.cfg
                 git commit -m "Update webviews resource.cfg" ./webviews/resource.cfg
                 git push --force origin build
