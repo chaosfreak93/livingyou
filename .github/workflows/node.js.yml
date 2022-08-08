@@ -47,11 +47,11 @@ jobs:
               run: ./altv-server
             - name: Commit files
               run: |
-                mv ./resources/livingyou/server-dist.js ~/tmp
-                mv ./resources/livingyou/client-dist.js ~/tmp
+                mv ./resources/livingyou/server-dist.js ~/tmp/server-dist.js
+                mv ./resources/livingyou/client-dist.js ~/tmp/client-dist.js
                 git checkout --orphan build
-                mv ~/tmp/server-dist.js ./
-                mv ~/tmp/client-dist.js ./
+                mv ~/tmp/server-dist.js ./server-dist.js
+                mv ~/tmp/client-dist.js ./client-dist.js
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
                 git config --local user.name "github-actions[bot]"
                 git add ./resources/livingyou/server-dist.js
