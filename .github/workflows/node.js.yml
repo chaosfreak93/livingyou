@@ -61,13 +61,13 @@ jobs:
                 git checkout build
                 git clean -fd
                 mkdir -p ./livingyou/
-                mv ~/tmp/livingyou/server-dist.js ./livingyou/server-dist.js
-                mv ~/tmp/livingyou/client-dist.js ./livingyou/client-dist.js
-                mv ~/tmp/livingyou/resource.cfg ./livingyou/resource.cfg
+                cp ~/tmp/livingyou/server-dist.js ./livingyou/server-dist.js
+                cp ~/tmp/livingyou/client-dist.js ./livingyou/client-dist.js
+                cp ~/tmp/livingyou/resource.cfg ./livingyou/resource.cfg
                 mkdir -p ./webviews/
-                mv ~/tmp/webviews/index.html ./webviews/index.html
-                mv ~/tmp/webviews/assets/ ./webviews/
-                mv ~/tmp/webviews/resource.cfg ./webviews/resource.cfg
+                cp ~/tmp/webviews/index.html ./webviews/index.html
+                cp -r ~/tmp/webviews/assets/ ./webviews/
+                cp ~/tmp/webviews/resource.cfg ./webviews/resource.cfg
                 git add ./livingyou/server-dist.js
                 git commit -m "Update server-dist.js" ./livingyou/server-dist.js
                 git add ./livingyou/client-dist.js
