@@ -68,32 +68,32 @@ jobs:
                 cp ~/tmp/webviews/index.html ./webviews/index.html
                 cp -r ~/tmp/webviews/assets/ ./webviews/
                 cp ~/tmp/webviews/resource.cfg ./webviews/resource.cfg
-                if git diff -s --exit-code ./livingyou/server-dist.js
+                if [ git diff -s --exit-code ./livingyou/server-dist.js -eq 1 ];
                 then
                   git add ./livingyou/server-dist.js
                   git commit -m "Update server-dist.js" ./livingyou/server-dist.js
                 fi
-                if git diff -s --exit-code ./livingyou/client-dist.js
+                if [ git diff -s --exit-code ./livingyou/client-dist.js -eq 1 ];
                 then
                   git add ./livingyou/client-dist.js
                   git commit -m "Update client-dist.js" ./livingyou/client-dist.js
                 fi
-                if git diff -s --exit-code ./livingyou/resource.cfg
+                if [ git diff -s --exit-code ./livingyou/resource.cfg -eq 1 ];
                 then
                   git add ./livingyou/resource.cfg
                   git commit -m "Update livingyou resource.cfg" ./livingyou/resource.cfg
                 fi
-                if git diff -s --exit-code ./webviews/index.html
+                if [ git diff -s --exit-code ./webviews/index.html -eq 1 ];
                 then
                   git add ./webviews/index.html
                   git commit -m "Update index.html" ./webviews/index.html
                 fi
-                if git diff -s --exit-code ./webviews/assets/.
+                if [ git diff -s --exit-code ./webviews/assets/. -eq 1 ];
                 then
                   git add  ./webviews/assets/.
                   git commit -m "Update webviews assets" ./webviews/assets/.
                 fi
-                if git diff -s --exit-code ./webviews/resource.cfg
+                if [ git diff -s --exit-code ./webviews/resource.cfg -eq 1 ];
                 then
                   git add ./webviews/resource.cfg
                   git commit -m "Update webviews resource.cfg" ./webviews/resource.cfg
