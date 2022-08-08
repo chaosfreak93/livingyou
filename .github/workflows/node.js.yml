@@ -60,10 +60,24 @@ jobs:
                 git reset --hard
                 git checkout build
                 git clean -fd
-                mv ~/tmp/server-dist.js ./server-dist.js
-                mv ~/tmp/client-dist.js ./client-dist.js
-                git add ./server-dist.js
-                git commit -m "Update server-dist.js" ./server-dist.js
-                git add ./client-dist.js
-                git commit -m "Update client-dist.js" ./client-dist.js
+                mkdir -p ./livingyou/
+                mv ~/tmp/livingyou/server-dist.js ./livingyou/server-dist.js
+                mv ~/tmp/livingyou/client-dist.js ./livingyou/client-dist.js
+                mv ~/tmp/livingyou/resource.cfg ./livingyou/resource.cfg
+                mkdir -p ./webviews/
+                mv ~/tmp/webviews/index.html ./webviews/index.html
+                mv ~/tmp/webviews/assets/ ./webviews/assets/
+                mv ~/tmp/webviews/resource.cfg ./webviews/resource.cfg
+                git add ./livingyou/server-dist.js
+                git commit -m "Update server-dist.js" ./livingyou/server-dist.js
+                git add ./livingyou/client-dist.js
+                git commit -m "Update client-dist.js" ./livingyou/client-dist.js
+                git add ./livingyou/resource.cfg
+                git commit -m "Update livingyou resource.cfg" ./livingyou/resource.cfg
+                git add ./webviews/index.html
+                git commit -m "Update index.html" ./webviews/index.html
+                git add  ./webviews/assets/
+                git commit -m "Update webviews assets" ./webviews/assets/
+                git add ./webviews/resource.cfg
+                git commit -m "Update webviews resource.cfg" ./webviews/resource.cfg
                 git push --force origin build
