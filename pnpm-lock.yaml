@@ -10,7 +10,7 @@ specifiers:
   '@stuyk/ezmongodb': ^2.0.3
   '@types/node': ^17.0.45
   '@vue/compiler-sfc': ^3.2.37
-  altv-esbuild: ^0.0.7
+  altv-esbuild: ^0.0.8
   altv-pkg: ^2.0.5
   altv-xsync-entity-client: ^3.2.1
   altv-xsync-entity-server: ^3.2.1
@@ -42,7 +42,7 @@ devDependencies:
   '@altv/types-worker': 1.0.7_@altv+types-client@2.2.9
   '@types/node': 17.0.45
   '@vue/compiler-sfc': 3.2.37
-  altv-esbuild: 0.0.7
+  altv-esbuild: 0.0.8
   altv-pkg: 2.0.5
   concurrently: 7.3.0
   esbuild: 0.14.53
@@ -220,8 +220,8 @@ packages:
   /@vue/shared/3.2.37:
     resolution: {integrity: sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==}
 
-  /altv-esbuild/0.0.7:
-    resolution: {integrity: sha512-UsOqmOQrIWDmc892qRlQEufp/Y/HVnpVBVANytQjwQAKVJS81KoRyiEhNvV4l3cMuRIhT1QB6hISpLbTA95cmg==}
+  /altv-esbuild/0.0.8:
+    resolution: {integrity: sha512-nrIf6GYyUysD/8JsQ5Tc63rDPIiKPNvG59UAgP0Q15bF6esNUQrxP0SCal/7ZQR6dx+Z56IxAl45p29gJl8VRg==}
     dev: true
 
   /altv-pkg/2.0.5:
