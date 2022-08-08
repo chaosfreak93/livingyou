@@ -47,10 +47,16 @@ jobs:
               run: ./altv-server
             - name: Commit files
               run: |
+                mkdir -p ~/tmp/livingyou/
+                mv ./resources/livingyou/server-dist.js ~/tmp/livingyou/server-dist.js
+                mv ./resources/livingyou/client-dist.js ~/tmp/livingyou/client-dist.js
+                mv ./resources/livingyou/resource.cfg ~/tmp/livingyou/resource.cfg
+                mkdir -p ~/tmp/webviews/
+                mv ./resources/webviews/index.html ~/tmp/webviews/index.html
+                mv ./resources/livingyou/assets/ ~/tmp/livingyou/assets/
+                mv ./resources/webviews/resource.cfg ~/tmp/webviews/resource.cfg
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
                 git config --local user.name "github-actions[bot]"
-                mv ./resources/livingyou/server-dist.js ~/tmp/server-dist.js
-                mv ./resources/livingyou/client-dist.js ~/tmp/client-dist.js
                 git reset --hard
                 git checkout build
                 git clean -fd
@@ -61,4 +67,3 @@ jobs:
                 git add ./client-dist.js
                 git commit -m "Update client-dist.js" ./client-dist.js
                 git push --force origin build
-                exit 0
