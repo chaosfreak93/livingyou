@@ -113,6 +113,6 @@ jobs:
                 git push origin build
             - name: Clenup "Commit files"
               run: |
-                rmdir -rf ~/tmp/livingyou/
-                rmdir -rf ~/tmp/webviews/
+                rm -rf ~/tmp/livingyou/
+                rm -rf ~/tmp/webviews/
 
