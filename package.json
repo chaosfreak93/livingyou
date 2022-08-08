@@ -22,7 +22,7 @@
         "altv-esbuild": "^0.0.8",
         "altv-pkg": "^2.0.5",
         "concurrently": "^7.3.0",
-        "esbuild": "^0.14.53",
+        "esbuild": "^0.14.54",
         "esbuild-plugin-vue-next": "^0.1.4",
         "typescript": "^4.7.4",
         "vite": "^3.0.4"
