@@ -48,13 +48,13 @@ jobs:
             - name: Commit files
               run: |
                 mkdir -p ~/tmp/livingyou/
-                mv ./resources/livingyou/server-dist.js ~/tmp/livingyou/server-dist.js
-                mv ./resources/livingyou/client-dist.js ~/tmp/livingyou/client-dist.js
-                mv ./resources/livingyou/resource.cfg ~/tmp/livingyou/resource.cfg
+                cp ./resources/livingyou/server-dist.js ~/tmp/livingyou/server-dist.js
+                cp ./resources/livingyou/client-dist.js ~/tmp/livingyou/client-dist.js
+                cp ./resources/livingyou/resource.cfg ~/tmp/livingyou/resource.cfg
                 mkdir -p ~/tmp/webviews/
-                mv ./resources/webviews/index.html ~/tmp/webviews/index.html
-                mv ./resources/webviews/assets/ ~/tmp/webviews/
-                mv ./resources/webviews/resource.cfg ~/tmp/webviews/resource.cfg
+                cp ./resources/webviews/index.html ~/tmp/webviews/index.html
+                cp -r ./resources/webviews/assets/ ~/tmp/webviews/
+                cp ./resources/webviews/resource.cfg ~/tmp/webviews/resource.cfg
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
                 git config --local user.name "github-actions[bot]"
                 git reset --hard
