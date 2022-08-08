@@ -53,12 +53,13 @@ jobs:
               run: chmod 777 altv-server
             - name: Run alt:V Server
               run: ./altv-server
-            - name: Publish new release
-              uses: ncipollo/release-action@v1.10.0
-              with:
-                  allowUpdates: true
-                  prerelease: ${{ steps.branch-name.outputs.current_branch != 'master' }}
-                  tag: ${{ steps.version.outputs.new_tag }}
-                  name: Release ${{ steps.version.outputs.new_version }}
-                  body: ${{ steps.version.outputs.changelog }}
-                  token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Commit files
+              run: |
+                rm ./.gitignore -r
+                git rm -rf .
+                git config --local user.email "github-actions[bot]@users.noreply.github.com"
+                git config --local user.name "github-actions[bot]"
+                git add ./resources/livingyou/server-dist.js
+                git commit -m "Update server-dist.js" ./resources/livingyou/server-dist.js
+                git add ./resources/livingyou/client-dist.js
+                git commit -m "Update client-dist.js" ./resources/livingyou/client-dist.js
