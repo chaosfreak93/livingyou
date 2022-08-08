@@ -55,6 +55,24 @@ export default class Vehicles {
         vehicle.destroy();
     }
 
+    static vehicleTick(): void {
+        alt.setInterval(() => {
+            for (let i = 0; i < Vehicles.spawnedVehicles.length; i++) {
+                if (
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentPosition !=
+                    Vehicles.spawnedVehicles[i].pos
+                ) {
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.lastPosition =
+                        Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentPosition;
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentPosition =
+                        Vehicles.spawnedVehicles[i].pos;
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentRotation =
+                        Vehicles.spawnedVehicles[i].rot;
+                }
+            }
+        }, 5000);
+    }
+
     @On('playerEnteredVehicle')
     static playerEnteredVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number): void {
         if (seat == 1) {

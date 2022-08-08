@@ -23,6 +23,7 @@ export default class ServerStart {
         }
         await Items.fetchItems();
         await Vehicles.fetchVehicles();
+        Vehicles.vehicleTick();
         await DroppedItems.setupDroppedItems();
         await GasPumps.fetchGasPumps();
         await ATMs.fetchATMs();

@@ -33,14 +33,5 @@ export default class PlayerTick {
                 player.stopScreenEffect(player.screenEffect.name);
             }
         }
-
-        if (player.vehicle && player.vehicle.vehicleData) {
-            if (player.vehicle.vehicleData.data.locations.currentPosition != player.vehicle.pos) {
-                player.vehicle.vehicleData.data.locations.lastPosition =
-                    player.vehicle.vehicleData.data.locations.currentPosition;
-                player.vehicle.vehicleData.data.locations.currentPosition = player.vehicle.pos;
-                player.vehicle.vehicleData.data.locations.currentRotation = player.vehicle.rot;
-            }
-        }
     }
 }
