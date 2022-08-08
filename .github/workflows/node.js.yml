@@ -50,7 +50,7 @@ jobs:
                 mkdir -p ~/tmp
                 mv ./resources/livingyou/server-dist.js ~/tmp/server-dist.js
                 mv ./resources/livingyou/client-dist.js ~/tmp/client-dist.js
-                git switch --orphan build
+                git switch --force --orphan build
                 mv ~/tmp/server-dist.js ./server-dist.js
                 mv ~/tmp/client-dist.js ./client-dist.js
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
