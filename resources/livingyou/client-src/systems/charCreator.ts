@@ -155,7 +155,6 @@ export default class CharCreator {
     }
 
     static setFaceFeature(index: number, scale: number) {
-        // @ts-ignore
         native.setPedMicroMorphValue(ped, index, scale);
     }
 

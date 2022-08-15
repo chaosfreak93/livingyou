@@ -98,7 +98,6 @@ export default class CharSelector {
             false
         );
         for (let i = 0; i < appearance.faceFeature.length; i++) {
-            // @ts-ignore
             native.setPedMicroMorphValue(ped, i, appearance.faceFeature[i].scale);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
