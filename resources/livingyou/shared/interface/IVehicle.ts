@@ -27,7 +27,7 @@ export default interface IVehicle {
     model: string;
     hash: string;
     data: {
-        engine_type: 'Diesel' | 'Benzin' | 'Elektro' | 'Hybrid' | 'Kerosin' | 'None';
+        engine_type: 'Diesel' | 'Benzin' | 'Elektro' | 'Hybrid' | 'Kerosin' | 'Sklave';
         fuel_tank_size: number;
         fuel_consumption: number;
         seats: number;
