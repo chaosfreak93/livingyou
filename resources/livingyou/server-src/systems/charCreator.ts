@@ -2,7 +2,7 @@ import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
 import IAccount from '../interface/IAccount';
 import ICharacter from '../../shared/interface/ICharacter';
-import { ObjectID } from 'bson';
+import { ObjectId } from 'bson';
 import { OnClient } from './eventSystem/on';
 import { EmitClient } from './eventSystem/emit';
 import { DBCollections } from '../../shared/enums/dbCollections';
@@ -38,7 +38,7 @@ export default class CharCreator {
                 character.characterClothing.props[i].texture = dlcProp.texture;
             }
         }
-        character.id = new ObjectID().toString();
+        character.id = new ObjectId().toString();
         character.alive = true;
         character.money = {
             hand: 0,
