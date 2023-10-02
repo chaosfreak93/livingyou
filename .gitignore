@@ -4,6 +4,7 @@ client-dist.js
 server-dist.js
 resources/webviews/assets/bundle.*
 resources/webviews/assets/*.png
+.server-crashes-cache
 .vscode
 *.dll
 *.exe

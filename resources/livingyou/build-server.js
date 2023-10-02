@@ -2,7 +2,7 @@ import { build } from 'esbuild';
 import * as build_options from '../../build-options';
 
 build({
-    watch: build_options.default.devMode,
+    //watch: build_options.default.devMode,
     tsconfig: './resources/livingyou/tsconfig.json',
     bundle: true,
     platform: 'node',

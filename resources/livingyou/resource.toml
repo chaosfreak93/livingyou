@@ -1,0 +1,5 @@
+client-main = 'client-dist.js'
+client-type = 'js'
+deps = [ 'webviews' ]
+main = 'server-dist.js'
+type = 'js'
