@@ -1,30 +1,24 @@
 import * as alt from 'alt-server';
-import * as xsync from 'altv-xsync-entity-server';
-import { EntityPools } from '../../shared/enums/entityPools';
-import ITextLabelSyncedMeta from '../../shared/interface/syncEntity/ITextLabelSyncedMeta';
-import ITextLabelMeta from '../../shared/interface/syncEntity/ITextLabelMeta';
 
-const textLabelEntityPool = new xsync.EntityPool(EntityPools.TextLabel, { maxStreamedIn: 15 });
+const textLabelEntityGroup = new alt.VirtualEntityGroup(15);
 
-export default class TextLabel extends xsync.Entity<ITextLabelSyncedMeta, ITextLabelMeta> {
+export default class TextLabel extends alt.VirtualEntity {
     constructor(
         textLabelId: string,
         pos: alt.Vector3,
         text: string,
-        font: number,
+        fontName: string,
+        fontSize: number,
         scale: number,
-        color: { r: number; g: number; b: number; a: number },
-        dropShadow: boolean,
-        outline: boolean,
-        center: boolean
+        color: alt.RGBA,
+        outlineWidth: number,
+        outlineColor: alt.RGBA,
     ) {
         super(
-            textLabelEntityPool,
+            textLabelEntityGroup,
             pos,
-            { text, font, scale, color, dropShadow, outline, center },
-            { textLabelId },
-            0,
-            5
+            5,
+            { type: 'textLabel', textLabelId, text, fontName, fontSize, scale, color, outlineWidth, outlineColor },
         );
     }
 }

@@ -1,61 +1,42 @@
 import * as alt from 'alt-client';
-import * as native from 'natives';
-import * as xsync from 'altv-xsync-entity-client';
-import { EntityPools } from '../../shared/enums/entityPools';
-import ITextLabelSyncedMeta from '../../shared/interface/syncEntity/ITextLabelSyncedMeta';
+import { On } from '../systems/eventSystem/on';
 
-@xsync.onEntityEvents<TextLabel>({
-    streamIn: (entity) => entity.streamIn(),
-    streamOut: (entity) => entity.streamOut(),
-    syncedMetaChange: (entity, syncedMeta) => entity.syncedMetaChange(syncedMeta),
-    posChange: (entity, pos) => entity.posChange(pos),
-})
-class TextLabel extends xsync.Entity<ITextLabelSyncedMeta> {
-    private drawTick: number = 0;
+class TextLabel {
+    static textLabelPool: { id: string, entity: alt.TextLabel }[] = [];
+ 
+    @On('worldObjectStreamIn')
+    private streamIn(object: alt.WorldObject): void {
+        if (!(object instanceof alt.VirtualEntity)) return;
+        if (object.getStreamSyncedMeta('type') !== 'textLabel') return;
 
-    private streamIn(): void {
-        this.drawTick = alt.everyTick(() => {
-            if (!alt.isPointOnScreen(this.pos.x, this.pos.y, this.pos.z)) return;
-            let entity = alt.Player.local.vehicle ? alt.Player.local.vehicle : alt.Player.local;
-            let vector = native.getEntityVelocity(entity);
-            let frameTime = native.getFrameTime();
-            native.setDrawOrigin(
-                this.pos.x + vector.x * frameTime,
-                this.pos.y + vector.y * frameTime,
-                this.pos.z + vector.z * frameTime,
-                0
-            );
-            native.beginTextCommandDisplayText('STRING');
-            native.addTextComponentSubstringPlayerName(this.syncedMeta.text);
-            native.setTextFont(this.syncedMeta.font);
-            let size = this.syncedMeta.scale / 2.3;
-            native.setTextScale(1, size);
-            native.setTextWrap(0.0, 1.0);
-            native.setTextCentre(this.syncedMeta.center);
-            native.setTextColour(
-                this.syncedMeta.color.r,
-                this.syncedMeta.color.g,
-                this.syncedMeta.color.b,
-                this.syncedMeta.color.a
-            );
-            if (this.syncedMeta.outline) {
-                native.setTextOutline();
-            }
-            if (this.syncedMeta.dropShadow) {
-                native.setTextDropShadow();
-            }
-            native.endTextCommandDisplayText(0, 0, 0);
-            native.clearDrawOrigin();
+        let textLabel = new alt.TextLabel(
+            object.getStreamSyncedMeta('text') as string,
+            object.getStreamSyncedMeta('font') as string,
+            object.getStreamSyncedMeta('fontSize') as number,
+            object.getStreamSyncedMeta('scale') as number,
+            object.pos,
+            new alt.Vector3(0, 0, 0),
+            object.getStreamSyncedMeta('color') as alt.RGBA,
+            object.getStreamSyncedMeta('outlineWidth') as number,
+            object.getStreamSyncedMeta('outlineColor') as alt.RGBA,
+        );
+        textLabel.faceCamera = true;
+        textLabel.visible = true;
+
+        TextLabel.textLabelPool.push({
+            id: object.getStreamSyncedMeta('textLabelId') as string,
+            entity: textLabel
         });
     }
 
-    private streamOut(): void {
-        alt.clearEveryTick(this.drawTick);
+    @On('worldObjectStreamOut')
+    private streamOut(object: alt.WorldObject): void {
+        if (!(object instanceof alt.VirtualEntity)) return;
+        if (object.getStreamSyncedMeta('type') !== 'textLabel') return;
+
+        let textLabel = TextLabel.textLabelPool.find((value) => value.id === object.getStreamSyncedMeta('textLabelId') as string);
+        textLabel.entity.destroy();
+        const textLabelEntityIndex = TextLabel.textLabelPool.indexOf(textLabel);
+        TextLabel.textLabelPool.splice(textLabelEntityIndex, 1);
     }
-
-    private syncedMetaChange(syncedMeta: Partial<ITextLabelSyncedMeta>): void {}
-
-    public posChange(pos: alt.IVector3): void {}
 }
-
-new xsync.EntityPool(EntityPools.TextLabel, TextLabel);
