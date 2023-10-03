@@ -10,7 +10,7 @@ const cableCarPool = new xsync.EntityPool(EntityPools.CableCar, { maxStreamedIn:
 class CableCar extends xsync.Entity<ICableCarSyncedMeta, ICableCarMeta> {
     constructor(
         cableCarId: number,
-        pos: alt.IVector3,
+        pos: alt.Vector3,
         heading: number,
         progress: number,
         animation: string,
@@ -18,8 +18,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta, ICableCarMeta> {
         doorStatus: 'Open' | 'Close',
         attachedPlayer: {
             id: number;
-            pos: alt.IVector3;
-            rot: alt.IVector3;
+            pos: alt.Vector3;
+            rot: alt.Vector3;
         }[]
     ) {
         super(
@@ -35,8 +35,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta, ICableCarMeta> {
 
 const cableCar1 = new CableCar(
     0,
-    cableCarRoute[0][0],
-    getHeadingToNextPoint(cableCarRoute[0][1], cableCarRoute[0][0], false),
+    new alt.Vector3(cableCarRoute[0][0].x, cableCarRoute[0][0].y, cableCarRoute[0][0].z),
+    getHeadingToNextPoint(new alt.Vector3(cableCarRoute[0][1].x, cableCarRoute[0][1].y, cableCarRoute[0][1].z), new alt.Vector3(cableCarRoute[0][0].x, cableCarRoute[0][0].y, cableCarRoute[0][0].z), false),
     0,
     '',
     'Up',
@@ -46,8 +46,8 @@ const cableCar1 = new CableCar(
 
 const cableCar2 = new CableCar(
     1,
-    cableCarRoute[1][0],
-    getHeadingToNextPoint(cableCarRoute[1][0], cableCarRoute[1][1], true),
+    new alt.Vector3(cableCarRoute[1][0].x, cableCarRoute[1][0].y, cableCarRoute[1][0].z),
+    getHeadingToNextPoint(new alt.Vector3(cableCarRoute[1][0].x, cableCarRoute[1][0].y, cableCarRoute[1][0].z), new alt.Vector3(cableCarRoute[1][1].x, cableCarRoute[1][1].y, cableCarRoute[1][1].z), true),
     0,
     '',
     'Down',
@@ -55,23 +55,47 @@ const cableCar2 = new CableCar(
     []
 );
 
-async function cableCar1Logic() {
+async function cableCar1Logic(): Promise<void> {
     await alt.Utils.wait(10);
     try {
         await updateProgress(cableCar1);
         await playCableCarAnim(cableCar1);
         cableCar1.setSyncedMeta({
             heading: getHeadingToNextPoint(
-                cableCarRoute[cableCar1.meta.cableCarId][
-                    cableCar1.syncedMeta.progress >= 13
-                        ? cableCar1.syncedMeta.progress
-                        : cableCar1.syncedMeta.progress + 1
-                ],
-                cableCarRoute[cableCar1.meta.cableCarId][
-                    cableCar1.syncedMeta.progress >= 13
-                        ? cableCar1.syncedMeta.progress - 1
-                        : cableCar1.syncedMeta.progress
-                ],
+                new alt.Vector3(
+                    cableCarRoute[cableCar1.meta.cableCarId][
+                        cableCar1.syncedMeta.progress >= 13
+                            ? cableCar1.syncedMeta.progress
+                            : cableCar1.syncedMeta.progress + 1
+                    ].x,
+                    cableCarRoute[cableCar1.meta.cableCarId][
+                        cableCar1.syncedMeta.progress >= 13
+                            ? cableCar1.syncedMeta.progress
+                            : cableCar1.syncedMeta.progress + 1
+                    ].y,
+                    cableCarRoute[cableCar1.meta.cableCarId][
+                        cableCar1.syncedMeta.progress >= 13
+                            ? cableCar1.syncedMeta.progress
+                            : cableCar1.syncedMeta.progress + 1
+                    ].z
+                ),
+                new alt.Vector3(
+                    cableCarRoute[cableCar1.meta.cableCarId][
+                        cableCar1.syncedMeta.progress >= 13
+                            ? cableCar1.syncedMeta.progress - 1
+                            : cableCar1.syncedMeta.progress
+                    ].x,
+                    cableCarRoute[cableCar1.meta.cableCarId][
+                        cableCar1.syncedMeta.progress >= 13
+                            ? cableCar1.syncedMeta.progress - 1
+                            : cableCar1.syncedMeta.progress
+                    ].y,
+                    cableCarRoute[cableCar1.meta.cableCarId][
+                        cableCar1.syncedMeta.progress >= 13
+                            ? cableCar1.syncedMeta.progress - 1
+                            : cableCar1.syncedMeta.progress
+                    ].z
+                ),
                 false
             ),
         });
@@ -87,23 +111,47 @@ async function cableCar1Logic() {
     cableCar1Logic();
 }
 
-async function cableCar2Logic() {
+async function cableCar2Logic(): Promise<void> {
     await alt.Utils.wait(10);
     try {
         await updateProgress(cableCar2);
         await playCableCarAnim(cableCar2);
         cableCar2.setSyncedMeta({
             heading: getHeadingToNextPoint(
-                cableCarRoute[cableCar2.meta.cableCarId][
-                    cableCar2.syncedMeta.progress >= 13
-                        ? cableCar2.syncedMeta.progress - 1
-                        : cableCar2.syncedMeta.progress
-                ],
-                cableCarRoute[cableCar2.meta.cableCarId][
-                    cableCar2.syncedMeta.progress >= 13
-                        ? cableCar2.syncedMeta.progress
-                        : cableCar2.syncedMeta.progress + 1
-                ],
+                new alt.Vector3(
+                    cableCarRoute[cableCar2.meta.cableCarId][
+                        cableCar2.syncedMeta.progress >= 13
+                            ? cableCar2.syncedMeta.progress - 1
+                            : cableCar2.syncedMeta.progress
+                    ].x,
+                    cableCarRoute[cableCar2.meta.cableCarId][
+                        cableCar2.syncedMeta.progress >= 13
+                            ? cableCar2.syncedMeta.progress - 1
+                            : cableCar2.syncedMeta.progress
+                    ].y,
+                    cableCarRoute[cableCar2.meta.cableCarId][
+                        cableCar2.syncedMeta.progress >= 13
+                            ? cableCar2.syncedMeta.progress - 1
+                            : cableCar2.syncedMeta.progress
+                    ].z
+                ),
+                new alt.Vector3(
+                    cableCarRoute[cableCar2.meta.cableCarId][
+                        cableCar2.syncedMeta.progress >= 13
+                            ? cableCar2.syncedMeta.progress
+                            : cableCar2.syncedMeta.progress + 1
+                    ].x,
+                    cableCarRoute[cableCar2.meta.cableCarId][
+                        cableCar2.syncedMeta.progress >= 13
+                            ? cableCar2.syncedMeta.progress
+                            : cableCar2.syncedMeta.progress + 1
+                    ].y,
+                    cableCarRoute[cableCar2.meta.cableCarId][
+                        cableCar2.syncedMeta.progress >= 13
+                            ? cableCar2.syncedMeta.progress
+                            : cableCar2.syncedMeta.progress + 1
+                    ].z
+                ),
                 true
             ),
         });
@@ -208,14 +256,14 @@ async function playCableCarAnim(cableCar: CableCar): Promise<void> {
     });
 }
 
-function getHeadingToNextPoint(pos1: alt.IVector3, pos2: alt.IVector3, unk: boolean): number {
+function getHeadingToNextPoint(pos1: alt.Vector3, pos2: alt.Vector3, unk: boolean): number {
     let fVar0 = 0;
     let fVar1 = 0;
     let fVar2 = 0;
 
     fVar1 = pos2.x - pos1.x;
     fVar2 = pos2.y - pos1.y;
-    if (fVar2 != 0) {
+    if (fVar2 !== 0) {
         fVar0 = Math.atan2(fVar1, fVar2);
     } else if (fVar1 < 0) {
         fVar0 = -90;
@@ -292,8 +340,8 @@ async function cableCarArriveAtStation(cableCar: CableCar, logic: Function): Pro
     let players = alt.Player.all;
     let playersToAttach: {
         id: number;
-        pos: alt.IVector3;
-        rot: alt.IVector3;
+        pos: alt.Vector3;
+        rot: alt.Vector3;
     }[] = [];
     let rangeOffset1 = new alt.Vector3(cableCar.pos).add(1.3, 0, 0).sub(0, 0, 5.3);
     let rangeOffset2 = new alt.Vector3(cableCar.pos).sub(1.3, 0, 0).sub(0, 0, 5.3);

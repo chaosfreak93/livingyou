@@ -4,36 +4,35 @@
         "type": "module",
         "main": "",
         "scripts": {
-            "start-server": "node --es-module-specifier-resolution=node ./resources/livingyou/build-server.js",
-            "start-client": "node --es-module-specifier-resolution=node ./resources/livingyou/build-client.js",
-            "start-webview": "node --es-module-specifier-resolution=node ./resources/webviews/build-webview.js",
-            "start": "concurrently npm:start-*",
-            "update": "altv-pkg d dev"
+                "start-server": "node --es-module-specifier-resolution=node ./resources/livingyou/build-server.js",
+                "start-client": "node --es-module-specifier-resolution=node ./resources/livingyou/build-client.js",
+                "start-webview": "node --es-module-specifier-resolution=node ./resources/webviews/build-webview.js",
+                "start": "concurrently npm:start-*",
+                "update": "altv-pkg d dev"
         },
         "devDependencies": {
-            "@altv/types-client": "^2.2.0",
-            "@altv/types-natives": "^1.4.4",
-            "@altv/types-server": "^2.3.7",
-            "@altv/types-shared": "^1.2.6",
-            "@altv/types-webview": "^1.0.2",
-            "@altv/types-worker": "^1.0.7",
-            "@types/node": "^17.0.45",
-            "@vue/compiler-sfc": "^3.2.37",
-            "altv-pkg": "^2.0.4",
-            "concurrently": "^7.2.2",
-            "esbuild": "^0.14.47",
-            "esbuild-plugin-vue-next": "^0.1.4",
-            "typescript": "^4.7.4",
-            "vite": "^2.9.13"
+                "@altv/types-client": "^3.0.1",
+                "@altv/types-natives": "^1.5.4",
+                "@altv/types-server": "^3.0.6",
+                "@altv/types-shared": "^1.6.5",
+                "@altv/types-webview": "^1.0.7",
+                "@altv/types-worker": "^1.0.7",
+                "@types/node": "^18.18.3",
+                "@vue/compiler-sfc": "^3.3.4",
+                "altv-pkg": "^2.3.1",
+                "concurrently": "^8.2.1",
+                "esbuild": "^0.19.4",
+                "esbuild-plugin-vue-next": "^0.1.4",
+                "typescript": "^5.2.2",
+                "vite": "^4.4.9"
         },
         "dependencies": {
-            "@stuyk/ezmongodb": "^2.0.3",
-            "altv-xsync-entity-client": "^3.0.0",
-            "altv-xsync-entity-server": "^3.0.0",
-            "altv-xsync-entity-shared": "^3.0.0",
-            "axios": "^0.27.2",
-            "bson": "^4.6.4",
-            "dotenv": "^16.0.1",
-            "vue": "^3.2.37"
+                "@stuyk/ezmongodb": "^3.0.0",
+                "altv-xsync-entity-client": "^3.2.7",
+                "altv-xsync-entity-server": "^3.2.10",
+                "altv-xsync-entity-shared": "^3.2.7",
+                "bson": "^6.1.0",
+                "dotenv": "^16.3.1",
+                "vue": "^3.3.4"
         }
-    }
+}

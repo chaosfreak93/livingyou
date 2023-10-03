@@ -25,8 +25,15 @@ export function OnceServer(eventName: keyof ISystemEvents): Function {
     };
 }
 
+export function OnRPC(eventName: keyof ISystemEvents): Function {
+    return (target: Object, _propertyKey: string, descriptor: PropertyDescriptor) => {
+        alt.onRpc(eventName, descriptor.value);
+    };
+}
+
 export default {
     On,
     OnServer,
     OnceServer,
+    OnRPC
 };

@@ -1,12 +1,12 @@
 import * as alt from 'alt-server';
+import xsync from '../entitySync/entitySync';
 import ICharacter from '../../shared/interface/ICharacter';
-import DroppedItems from './droppedItems';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 
 export default class CharSelector {
     @OnClient('charSelector:SelectChar')
-    static async selectChar(player: alt.Player, character: any) {
+    static async selectChar(player: alt.Player, character: any): Promise<void> {
         character = JSON.parse(character) as ICharacter;
         player.character = character;
         player.dimension = 0;
@@ -45,19 +45,10 @@ export default class CharSelector {
         player.setHairColor(character.characterAppearence.hairColor.colorId);
         player.setHairHighlightColor(character.characterAppearence.hairColor.highlightColorId);
 
-        for (let i = 0; i < character.characterClothing.clothes.length; i++) {
-            player.setDlcClothes(
-                character.characterClothing.clothes[i].dlc,
-                character.characterClothing.clothes[i].component,
-                character.characterClothing.clothes[i].drawable,
-                character.characterClothing.clothes[i].texture,
-                0
-            );
-        }
-
         player.applyClothing();
 
         EmitClient(player, 'player:StartTicks');
+        xsync.initClient(player);
 
         if (!character.lastKnownLocation) {
             player.setPosition(221.6855926513672, -902.0967407226562, 30.69318962097168);

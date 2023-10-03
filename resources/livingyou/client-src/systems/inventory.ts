@@ -14,7 +14,8 @@ export default class Inventory {
         backpack: IWebInventory = null,
         other: IWebInventory = null
     ): Promise<void> {
-        const view = await WebViewController.get();
+        alt.toggleGameControls(false);
+        const view: alt.WebView = await WebViewController.get();
         view.on(WebViewEvents.INVENTORY_READY, () => {
             Inventory.ready = true;
             Inventory.update(pockets, backpack, other);
@@ -35,7 +36,7 @@ export default class Inventory {
         other: IWebInventory = null
     ): Promise<void> {
         await alt.Utils.waitFor(() => Inventory.ready == true);
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.emit(WebViewEvents.INVENTORY_SET_DATA, pockets, backpack, other);
     }
 
@@ -59,12 +60,13 @@ export default class Inventory {
         await WebViewController.closePages(['Inventory']);
         await WebViewController.setOverlaysVisible(true);
 
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.off(WebViewEvents.INVENTORY_READY, () => {
             Inventory.update(null, null, null);
             Inventory.ready = false;
         });
         view.off(WebViewEvents.INVENTORY_USE_ITEM, Inventory.useItem);
         view.off(WebViewEvents.INVENTORY_DROP_ITEM, Inventory.dropItem);
+        alt.toggleGameControls(true);
     }
 }

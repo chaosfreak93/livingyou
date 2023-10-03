@@ -7,11 +7,11 @@ import ScreenFade from '../utility/screenFade';
 import { EmitServer } from './eventSystem/emit';
 import { On, OnServer } from './eventSystem/on';
 
-let zpos = 0;
+let zpos: number = 0;
 let startPosition: alt.Vector3;
 let startCamPosition: alt.Vector3;
-let ped: number;
-let handleCameraTick: number;
+let ped: number = 0;
+let handleCameraTick: number = 0;
 
 export default class CharCreator {
     @OnServer('charCreator:Open')
@@ -21,11 +21,11 @@ export default class CharCreator {
         startPosition = native.getOffsetFromEntityInWorldCoords(ped, 0.125, 0, 0) as alt.Vector3;
 
         const forwardVector = native.getEntityForwardVector(ped) as alt.Vector3;
-        const forwardCameraPosition = {
-            x: startPosition.x + forwardVector.x * 1.2,
-            y: startPosition.y + forwardVector.y * 1.2,
-            z: startPosition.z + zpos,
-        } as alt.Vector3;
+        const forwardCameraPosition = new alt.Vector3(
+            startPosition.x + forwardVector.x * 1.2,
+            startPosition.y + forwardVector.y * 1.2,
+            startPosition.z + zpos
+        );
         startCamPosition = forwardCameraPosition;
         await CameraManager.createCamera(startCamPosition, new alt.Vector3(0, 0, 0), 50, true);
         await alt.Utils.waitFor(() => !native.isPedFalling(ped));
@@ -70,7 +70,10 @@ export default class CharCreator {
         view.off(WebViewEvents.CHAR_CREATOR_SET_PROP, CharCreator.setProp);
         view.off(WebViewEvents.CHAR_CREATOR_FINISH_CHARACTER, CharCreator.finishCharacter);
         await ScreenFade.fadeOut(0);
-        alt.clearEveryTick(handleCameraTick);
+        if (handleCameraTick !== 0) {
+            alt.clearEveryTick(handleCameraTick);
+            handleCameraTick = 0;
+        }
         CameraManager.destroyCamera();
         native.deletePed(ped);
         ped = 0;
@@ -78,8 +81,8 @@ export default class CharCreator {
     }
 
     static async charCreatorReady(): Promise<void> {
-        let clothesMax = [];
-        let propsMax = [];
+        let clothesMax: number[] = [];
+        let propsMax: number[] = [];
         for (let i = 0; i <= 11; i++) {
             clothesMax[i] = native.getNumberOfPedDrawableVariations(ped, i);
         }
@@ -93,7 +96,7 @@ export default class CharCreator {
     }
 
     static async spawnPed(male: boolean): Promise<void> {
-        if (ped != null) {
+        if (ped !== 0) {
             native.deletePed(ped);
             ped = 0;
         }
@@ -111,7 +114,7 @@ export default class CharCreator {
         await alt.Utils.waitFor(() => native.doesEntityExist(ped));
         native.setEntityInvincible(ped, true);
         native.setPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
-        native.clearAllPedProps(ped);
+        native.clearAllPedProps(ped, 0);
         if (!male) {
             native.setPedComponentVariation(ped, 1, 0, 0, 0); // mask
             native.setPedComponentVariation(ped, 3, 15, 0, 0); // arms
@@ -152,7 +155,7 @@ export default class CharCreator {
     }
 
     static setFaceFeature(index: number, scale: number) {
-        native.setPedFaceFeature(ped, index, scale);
+        native.setPedMicroMorph(ped, index, scale);
     }
 
     static setHeadOverlay(overlayId: number, index: number, opacity: number) {
@@ -160,27 +163,40 @@ export default class CharCreator {
     }
 
     static setHeadOverlayColor(overlayId: number, colorType: number, colorIndex: number) {
-        native.setPedHeadOverlayColor(ped, overlayId, colorType, colorIndex, 0);
+        native.setPedHeadOverlayTint(ped, overlayId, colorType, colorIndex, 0);
     }
 
     static setEyeColor(eyeColor: number) {
-        native.setPedEyeColor(ped, eyeColor);
+        native.setHeadBlendEyeColor(ped, eyeColor);
     }
 
     static setHairColor(colorId: number, highlightColorId: number) {
-        native.setPedHairColor(ped, colorId, highlightColorId);
+        native.setPedHairTint(ped, colorId, highlightColorId);
     }
 
     static setClothe(component: number, drawable: number, texture: number) {
-        native.setPedComponentVariation(ped, component, drawable, texture, 0);
+        native.setPedComponentVariation(
+            ped,
+            parseInt(component.toString()),
+            parseInt(drawable.toString()),
+            parseInt(texture.toString()),
+            0
+        );
     }
 
     static setProp(component: number, drawable: number, texture: number) {
         if (drawable == -1) {
-            native.clearPedProp(ped, component);
-            return;
+            native.clearPedProp(ped, parseInt(component.toString()), 0);
+        } else {
+            native.setPedPropIndex(
+                ped,
+                parseInt(component.toString()),
+                parseInt(drawable.toString()),
+                parseInt(texture.toString()),
+                true,
+                0
+            );
         }
-        native.setPedPropIndex(ped, component, drawable, texture, true);
     }
 
     static finishCharacter(character: string) {
@@ -204,16 +220,16 @@ export default class CharCreator {
             return;
         }
 
-        if (ped == null || !native.doesEntityExist(ped)) {
+        if (ped === 0 || !native.doesEntityExist(ped)) {
             return;
         }
 
-        const res = alt.getScreenResolution();
-        const width = res.x;
-        const cursor = alt.getCursorPos();
-        const _x = cursor.x;
-        let oldHeading = native.getEntityHeading(ped);
-        let fov = CameraManager.getCameraFov();
+        const res: alt.Vector2 = alt.getScreenResolution();
+        const width: number = res.x;
+        const cursor: alt.Vector2 = alt.getCursorPos();
+        const _x: number = cursor.x;
+        let oldHeading: number = native.getEntityHeading(ped);
+        let fov: number = CameraManager.getCameraFov();
 
         //Scroll Up
         if (native.isDisabledControlPressed(0, 15)) {
@@ -277,26 +293,26 @@ export default class CharCreator {
         if (native.isDisabledControlPressed(0, 25)) {
             // Rotate Negative
             if (_x < width / 2) {
-                const newHeading = (oldHeading -= 2);
+                const newHeading: number = (oldHeading -= 2);
                 native.setEntityHeading(ped, newHeading);
             }
 
             // Rotate Positive
             if (_x > width / 2) {
-                const newHeading = (oldHeading += 2);
+                const newHeading: number = (oldHeading += 2);
                 native.setEntityHeading(ped, newHeading);
             }
         }
 
         // D
         if (native.isDisabledControlPressed(0, 35)) {
-            const newHeading = (oldHeading += 2);
+            const newHeading: number = (oldHeading += 2);
             native.setEntityHeading(ped, newHeading);
         }
 
         // A
         if (native.isDisabledControlPressed(0, 34)) {
-            const newHeading = (oldHeading -= 2);
+            const newHeading: number = (oldHeading -= 2);
             native.setEntityHeading(ped, newHeading);
         }
     }

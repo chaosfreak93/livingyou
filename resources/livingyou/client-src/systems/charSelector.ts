@@ -11,7 +11,7 @@ import CharCreator from './charCreator';
 import { EmitServer } from './eventSystem/emit';
 import { On, OnServer } from './eventSystem/on';
 
-let ped: number;
+let ped: number = 0;
 
 export default class CharSelector {
     @OnServer('charSelector:Open')
@@ -23,7 +23,7 @@ export default class CharSelector {
             true
         );
         await ScreenFade.fadeIn(0);
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.on(WebViewEvents.CHAR_SELECTOR_READY, () => CharSelector.ready(characters, allowSecondCharacter));
         view.on(WebViewEvents.CHAR_SELECTOR_SHOW_PED, CharSelector.showPed);
         view.on(WebViewEvents.CHAR_SELECTOR_OPEN_CHAR_CREATOR, CharSelector.openCharCreator);
@@ -36,12 +36,12 @@ export default class CharSelector {
 
     @On('disconnect')
     @OnServer('charSelector:Close')
-    static async close() {
+    static async close(): Promise<void> {
         await WebViewController.showCursor(false);
         await WebViewController.unfocus();
         await WebViewController.closePages(['CharSelector']);
 
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.off(WebViewEvents.CHAR_SELECTOR_READY, () => CharSelector.ready(null, null));
         view.off(WebViewEvents.CHAR_SELECTOR_SHOW_PED, CharSelector.showPed);
         view.off(WebViewEvents.CHAR_SELECTOR_OPEN_CHAR_CREATOR, CharSelector.openCharCreator);
@@ -53,7 +53,7 @@ export default class CharSelector {
     }
 
     static async ready(characters: ICharacter[], allowSecondCharacter: boolean): Promise<void> {
-        const view = await WebViewController.get();
+        const view: alt.WebView = await WebViewController.get();
         view.emit(WebViewEvents.CHAR_SELECTOR_SET_DATA, characters, allowSecondCharacter);
     }
 
@@ -63,7 +63,7 @@ export default class CharSelector {
         appearance.male
             ? await alt.Utils.requestModel('mp_m_freemode_01')
             : await alt.Utils.requestModel('mp_f_freemode_01');
-        if (ped != null) {
+        if (ped !== 0) {
             native.taskGoStraightToCoord(ped, -457.725, 274.483, 78.515, 1, -1, 0, 0);
             await alt.Utils.waitFor(() => {
                 return native.getScriptTaskStatus(ped, 0x7d8f4411) == 7;
@@ -98,7 +98,7 @@ export default class CharSelector {
             false
         );
         for (let i = 0; i < appearance.faceFeature.length; i++) {
-            native.setPedFaceFeature(ped, i, appearance.faceFeature[i].scale);
+            native.setPedMicroMorph(ped, i, appearance.faceFeature[i].scale);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
             native.setPedHeadOverlay(
@@ -109,7 +109,7 @@ export default class CharSelector {
             );
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
-            native.setPedHeadOverlayColor(
+            native.setPedHeadOverlayTint(
                 ped,
                 i,
                 appearance.headOverlay[i].colorType,
@@ -117,8 +117,8 @@ export default class CharSelector {
                 0
             );
         }
-        native.setPedEyeColor(ped, appearance.eyeColor);
-        native.setPedHairColor(ped, appearance.hairColor.colorId, appearance.hairColor.highlightColorId);
+        native.setHeadBlendEyeColor(ped, appearance.eyeColor);
+        native.setPedHairTint(ped, appearance.hairColor.colorId, appearance.hairColor.highlightColorId);
 
         for (let i = 0; i < clothes.clothes.length; i++) {
             alt.setPedDlcClothes(
@@ -148,12 +148,12 @@ export default class CharSelector {
         native.taskGoStraightToCoord(ped, -453.65, 274.457, 78, 1, -1, 0, 0);
     }
 
-    static async openCharCreator() {
+    static async openCharCreator(): Promise<void> {
         await CharSelector.close();
         await CharCreator.open();
     }
 
-    static selectCharacter(character: string) {
+    static selectCharacter(character: string): void {
         EmitServer('charSelector:SelectChar', character);
     }
 }

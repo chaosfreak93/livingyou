@@ -194,7 +194,7 @@
         </div>
         <div id="overlays" v-if="pages.overlays">
             <div id="headOverlay" v-for="(item, index) in characterData.characterAppearence.headOverlay" :key="index">
-                <div v-if="index != 1 && index != 2 && index != 10">
+                <div v-if="index !== 1 && index !== 2 && index !== 10">
                     <p style="color: white">{{ item.name }}</p>
                     <input
                         type="number"
@@ -212,7 +212,7 @@
                         step="0.025"
                         v-on:input="setHeadOverlay(index)"
                     />
-                    <div v-if="item.colorType != 0">
+                    <div v-if="item.colorType !== 0">
                         <input
                             type="number"
                             min="0"
@@ -229,7 +229,7 @@
         </div>
         <div id="clothing" v-if="pages.clothes">
             <div id="clothes" v-for="(item, index) in characterData.characterClothing.clothes" :key="index">
-                <div v-if="index != 2 && index != 9">
+                <div v-if="index !== 2 && index !== 9">
                     <p style="color: white">{{ clotheData[index].name }}</p>
                     <input
                         type="number"
@@ -878,7 +878,7 @@ export default defineComponent({
 #page-CharCreator {
     text-align: center;
     position: absolute;
-    top: 0%;
+    top: 0;
     left: 0;
     transform: translate(0%, 0%);
     width: 25vw;

@@ -46,7 +46,7 @@ export default defineComponent({
                 return;
             }
 
-            if (this.selectedCharacter == null || this.selectedCharacter != this.characters[index]) {
+            if (this.selectedCharacter == null || this.selectedCharacter !== this.characters[index]) {
                 this.selectedCharacter = this.characters[index];
                 alt.emit(
                     WebViewEvents.CHAR_SELECTOR_SHOW_PED,
@@ -54,7 +54,7 @@ export default defineComponent({
                     JSON.stringify(this.characters[index].characterAppearence)
                 );
                 return;
-            } else if (this.selectedCharacter != null && this.selectedCharacter == this.characters[index]) {
+            } else if (this.selectedCharacter !== null && this.selectedCharacter == this.characters[index]) {
                 alt.emit(WebViewEvents.CHAR_SELECTOR_SELECT_CHARACTER, JSON.stringify(this.selectedCharacter));
             }
         },

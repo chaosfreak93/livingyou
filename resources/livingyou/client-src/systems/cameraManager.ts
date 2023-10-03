@@ -1,8 +1,7 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { loadSceneAtCoords } from '../utility/scene';
 
-let camera: number;
+let camera: number = 0;
 
 export default class CameraManager {
     static async createCamera(
@@ -11,14 +10,15 @@ export default class CameraManager {
         fov: number,
         loadScene: boolean
     ): Promise<void> {
-        if (camera != null) {
+        if (CameraManager.cameraExists()) {
             CameraManager.destroyCamera();
         }
 
         if (loadScene) {
-            native.requestCollisionAtCoord(position.x, position.y, position.z);
-            native.setFocusPosAndVel(position.x, position.y, position.z, 0, 0, 0);
-            await loadSceneAtCoords(position);
+            if (alt.FocusData.isFocusOverriden) {
+                alt.FocusData.clearFocus();
+            }
+            alt.FocusData.overrideFocus(position);
         }
 
         camera = native.createCam('DEFAULT_SCRIPTED_CAMERA', false);
@@ -29,18 +29,18 @@ export default class CameraManager {
     }
 
     static destroyCamera(): void {
-        if (camera) {
+        if (CameraManager.cameraExists()) {
             native.destroyCam(camera, true);
             camera = 0;
         }
 
-        native.clearFocus();
-        native.destroyAllCams(true);
+        alt.FocusData.clearFocus();
+        native.destroyAllCams(false);
         native.renderScriptCams(false, false, 0, false, false, 0);
     }
 
     static cameraExists(): boolean {
-        return camera !== null;
+        return camera !== 0;
     }
 
     static setCameraPosition(position: alt.Vector3): void {

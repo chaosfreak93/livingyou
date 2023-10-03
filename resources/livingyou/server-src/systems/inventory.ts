@@ -9,8 +9,8 @@ import Items from './items';
 
 export default class Inventory {
     @OnClient('inventory:UseItem')
-    static useItem(player: alt.Player, inventory: number, inventoryItem: IItem) {
-        let item = Items.getItemById(inventoryItem.id);
+    static useItem(player: alt.Player, inventory: number, inventoryItem: IItem): void {
+        let item: IItem = Items.getItemById(inventoryItem.id);
         if (!item) return;
         switch (inventory) {
             case 0:
@@ -61,8 +61,8 @@ export default class Inventory {
     }
 
     @OnClient('inventory:DropItem')
-    static dropItem(player: alt.Player, inventory: number, inventoryItem: IItem) {
-        let item = Items.getItemById(inventoryItem.id);
+    static dropItem(player: alt.Player, inventory: number, inventoryItem: IItem): void {
+        let item: IItem = Items.getItemById(inventoryItem.id);
         if (!item) return;
         switch (inventory) {
             case 0:
@@ -101,7 +101,7 @@ export default class Inventory {
             items: [],
         };
         for (let i = 0; i < inventory.items.length; i++) {
-            let item = Items.getItemById(inventory.items[i].id);
+            let item: IItem = Items.getItemById(inventory.items[i].id);
             webInventory.items.push({
                 item: item,
                 amount: inventory.items[i].amount,
@@ -111,7 +111,7 @@ export default class Inventory {
     }
 
     static calculateInventoryWeight(inventory: IInventory): number {
-        let weight = 0;
+        let weight: number = 0;
         for (let i = 0; i < inventory.items.length; i++) {
             for (let j = 0; j < inventory.items[i].amount; j++) {
                 weight += Items.getItemById(inventory.items[i].id).weight;

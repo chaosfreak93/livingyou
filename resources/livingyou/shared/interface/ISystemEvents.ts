@@ -1,11 +1,8 @@
+import IGasPump from './IGasPump';
 import IWebInventory from './IWebInventory';
 
 export interface ISystemEvents {
     'connection:Begin': () => void;
-    // Discord Login
-    'discord:Open': () => void;
-    'discord:ProceedToken': (token: string) => void;
-    'discord:Close': () => void;
     // Character Selector
     'charSelector:Open': () => void;
     'charSelector:SelectChar': (character: string) => void;
@@ -16,6 +13,8 @@ export interface ISystemEvents {
     'charCreator:Close': () => void;
     // HUD
     'hud:Update': () => void;
+    'hud:ShowDriveHud': () => void;
+    'hud:HideDriveHud': () => void;
     // Inventory
     'inventory:Open': (pockets: IWebInventory, backpack: IWebInventory, other: IWebInventory) => void;
     'inventory:Update': (pockets: IWebInventory, backpack: IWebInventory, other: IWebInventory) => void;
@@ -23,6 +22,12 @@ export interface ISystemEvents {
     'inventory:UseItem': () => void;
     'inventory:GiveItem': () => void;
     'inventory:DropItem': () => void;
+    // Actions Menu
+    'actionMenu:OpenInVehicleActions': (id: number) => void;
+    'actionMenu:OpenPlayerActions': (id: number) => void;
+    'actionMenu:OpenVehicleActions': (id: number, gasPump?: IGasPump) => void;
+    'actionMenu:CloseActions': () => void;
+    'actionMenu:ProceedAction': (menuType: string, menuAction: string, entityId: number) => void;
     // Webview
     'webView:Info': (url: string) => void;
     // KeyManager

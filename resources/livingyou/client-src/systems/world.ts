@@ -3,14 +3,14 @@ import * as native from 'natives';
 import { OnServer } from './eventSystem/on';
 
 export class World {
-    static previousWeather = 'Overcast';
+    static previousWeather: string = 'Overcast';
     static weather: string;
     static hour: number = 0;
     static minute: number = 0;
     static seconds: number = 0;
 
     @OnServer('world:UpdateTime')
-    static updateWorldTime(hour: number, minute: number) {
+    static updateWorldTime(hour: number, minute: number): void {
         if (alt.getMsPerGameMinute() !== 60000) alt.setMsPerGameMinute(60000);
 
         World.hour = hour;
@@ -20,7 +20,7 @@ export class World {
     }
 
     @OnServer('world:UpdateWeather')
-    static updateWeather(name: string) {
+    static updateWeather(name: string): void {
         World.weather = name;
 
         if (World.weather !== World.previousWeather) {

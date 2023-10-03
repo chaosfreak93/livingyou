@@ -1,0 +1,104 @@
+import * as alt from 'alt-server';
+import Database from '@stuyk/ezmongodb';
+import IVehicle from '../../shared/interface/IVehicle';
+import { On } from './eventSystem/on';
+import { EmitClient } from './eventSystem/emit';
+import IPlayerVehicle from '../../shared/interface/IPlayerVehicle';
+import { DBCollections } from '../../shared/enums/dbCollections';
+
+export default class Vehicles {
+    static vehicles: IVehicle[] = [];
+    static spawnedVehicles: alt.Vehicle[] = [];
+
+    static getVehicleByHash(hash: string): IVehicle | undefined {
+        return Vehicles.vehicles.find((value: IVehicle) => value.hash === hash);
+    }
+
+    static async fetchVehicles(): Promise<void> {
+        Vehicles.vehicles = await Database.fetchAllData<IVehicle>(DBCollections.VEHICLES);
+        alt.log(`~lk~[~y~LivingYou~lk~] ~b~Vehicles - ${Vehicles.vehicles.length}~w~`);
+    }
+
+    static createVehicle(
+        modelHash: number,
+        pos: alt.Vector3,
+        rot: alt.Vector3,
+        engineOn: boolean,
+        vehicleData?: IPlayerVehicle
+    ): alt.Vehicle {
+        let vehicle: alt.Vehicle = new alt.Vehicle(modelHash, pos, rot);
+        if (vehicleData) {
+            vehicle.vehicleData = vehicleData;
+            vehicle.setFuelLevel(vehicleData.data.fuelLevel);
+            vehicle.setOilLevel(vehicleData.data.oilLevel);
+            vehicle.numberPlateText = vehicleData.data.numberPlateText;
+            vehicle.engineHealth = vehicleData.damage.engineDamage;
+        }
+        vehicle.engineOn = engineOn;
+        Vehicles.spawnedVehicles.push(vehicle);
+        return vehicle;
+    }
+
+    static deleteVehicle(vehicle: alt.Vehicle, player?: alt.Player): void {
+        if (vehicle.vehicleData && player) {
+            let vehicleData: IPlayerVehicle = player.character.vehicles.find(
+                (value: IPlayerVehicle) => value.id === vehicle.vehicleData.id
+            );
+            const vehicleDataIndex: number = player.character.vehicles.indexOf(vehicleData);
+            player.character.vehicles[vehicleDataIndex].data = vehicle.vehicleData.data;
+            player.character.vehicles[vehicleDataIndex].damage = vehicle.vehicleData.damage;
+            player.character.vehicles[vehicleDataIndex].tuning = vehicle.vehicleData.tuning;
+        }
+        vehicle = Vehicles.spawnedVehicles.find((value: alt.Vehicle) => value.id === vehicle.id);
+        const vehicleIndex: number = Vehicles.spawnedVehicles.indexOf(vehicle);
+        Vehicles.spawnedVehicles.splice(vehicleIndex, 1);
+        vehicle.destroy();
+    }
+
+    static vehicleTick(): void {
+        alt.setInterval(() => {
+            alt.time('Vehicle Tick');
+            for (let i = 0; i < Vehicles.spawnedVehicles.length; i++) {
+                if (!Vehicles.spawnedVehicles[i].vehicleData) continue;
+                if (
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentPosition !=
+                    Vehicles.spawnedVehicles[i].pos
+                ) {
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.lastPosition =
+                        Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentPosition;
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentPosition =
+                        Vehicles.spawnedVehicles[i].pos;
+                    Vehicles.spawnedVehicles[i].vehicleData.data.locations.currentRotation =
+                        Vehicles.spawnedVehicles[i].rot;
+                }
+            }
+            alt.timeEnd('Vehicle Tick');
+        }, 5000);
+    }
+
+    @On('playerEnteredVehicle')
+    static playerEnteredVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number): void {
+        if (seat == 1) {
+            EmitClient(player, 'hud:ShowDriveHud');
+            vehicle.manualEngineControl = true;
+        }
+    }
+
+    @On('playerChangedVehicleSeat')
+    static playerChangedVehicleSeat(player: alt.Player, vehicle: alt.Vehicle, oldSeat: number, newSeat: number): void {
+        if (oldSeat == 1) {
+            EmitClient(player, 'hud:HideDriveHud');
+        }
+        if (newSeat == 1) {
+            EmitClient(player, 'hud:ShowDriveHud');
+            vehicle.manualEngineControl = true;
+        }
+    }
+
+    @On('playerLeftVehicle')
+    static playerLeftVehicle(player: alt.Player, vehicle: alt.Vehicle, seat: number): void {
+        if (seat == 1) {
+            EmitClient(player, 'hud:HideDriveHud');
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import * as alt from 'alt-server';
+import * as alt from 'alt-shared';
 
 export default interface ICableCarSyncedMeta {
     heading: number;
@@ -8,7 +8,7 @@ export default interface ICableCarSyncedMeta {
     doorStatus: 'Open' | 'Close';
     attachedPlayer: {
         id: number;
-        pos: alt.IVector3;
-        rot: alt.IVector3;
+        pos: alt.Vector3;
+        rot: alt.Vector3;
     }[];
 }

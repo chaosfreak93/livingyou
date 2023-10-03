@@ -4,12 +4,14 @@ import { On } from '../systems/eventSystem/on';
 
 export default class KeyManager {
     @On('keyup')
-    static keyup(key: number) {
+    static keyup(key: number): void {
+        if (alt.isConsoleOpen()) return;
         EmitServer('keyManager:KeyUp', key);
     }
 
     @On('keydown')
-    static keydown(key: number) {
+    static keydown(key: number): void {
+        if (alt.isConsoleOpen()) return;
         EmitServer('keyManager:KeyDown', key);
     }
 }

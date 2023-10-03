@@ -1,19 +1,19 @@
 // EntitySync
-import './systems/syncEntity';
-import './classes/CableCar';
-import './classes/DroppedItemEntity';
-import './classes/TextLabel';
+import './entitySync/entitySync';
+import './entitySync/CableCar';
+import './entitySync/DroppedItemEntity';
+import './entitySync/TextLabel';
 
 // General
 import './events/connectionComplete';
 import './events/consoleCommand';
 import './events/disconnect';
 import './events/keys';
+import './events/streamSyncedMetaChange';
 import './extensions/webViewController';
 import './systems/cameraManager';
 import './systems/charCreator';
 import './systems/charSelector';
-import './systems/discordAuth';
 import './systems/hud';
 import './systems/inventory';
 import './systems/iplmanager';

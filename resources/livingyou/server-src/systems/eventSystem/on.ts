@@ -13,7 +13,14 @@ export function OnClient(eventName: keyof ISystemEvents): Function {
     };
 }
 
+export function OnRPC(eventName: keyof alt.IServerEvent): Function {
+    return (target: Object, _propertyKey: string, descriptor: PropertyDescriptor) => {
+        alt.onRpc(eventName, descriptor.value);
+    };
+}
+
 export default {
     On,
     OnClient,
+    OnRPC
 };

@@ -1,8 +1,9 @@
-import * as alt from 'alt-server';
+import * as alt from 'alt-shared';
 import ICharacterAppearence from './ICharacterAppearence';
 import ICharacterClothe from './ICharacterClothe';
 import ICharacterProp from './ICharacterProp';
 import IInventory from './IInventory';
+import IPlayerVehicle from './IPlayerVehicle';
 
 export default interface ICharacter {
     id: string;
@@ -42,4 +43,5 @@ export default interface ICharacter {
     thirst: number;
     pocketInventory: IInventory;
     backpackInventory?: IInventory;
+    vehicles?: IPlayerVehicle[];
 }

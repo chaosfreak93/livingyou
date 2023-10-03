@@ -1,6 +1,4 @@
 export const enum WebViewEvents {
-    // Discord Auth
-    DISCORD_AUTH_START_LOGIN = 'discordAuth:startLogin',
     // Character Selector
     CHAR_SELECTOR_READY = 'charSelector:Ready',
     CHAR_SELECTOR_SET_DATA = 'charSelector:SetData',
@@ -30,4 +28,9 @@ export const enum WebViewEvents {
     HUD_OPEN_VEHICLE_HUD = 'hud:OpenVehicleHUD',
     HUD_CLOSE_VEHICLE_HUD = 'hud:CloseVehicleHUD',
     HUD_UPDATE_VEHICLE_DATA = 'hud:UpdateVehicleData',
+    HUD_PROCEED_ACTION = 'hud:ProceedAction',
+    HUD_OPEN_IN_VEHICLE_ACTIONS = 'hud:OpenInVehicleActions',
+    HUD_OPEN_VEHICLE_ACTIONS = 'hud:OpenVehicleActions',
+    HUD_OPEN_PLAYER_ACTIONS = 'hud:OpenPlayerActions',
+    HUD_CLOSE_ACTIONS = 'hud:CloseActions',
 }
