@@ -49,7 +49,7 @@ export default class DroppedItems {
         const droppedItemIndex: number = DroppedItems.droppedItems.indexOf(droppedItem);
         DroppedItems.droppedItems.splice(droppedItemIndex, 1);
 
-        let droppedItemEntity = DroppedItems.droppedItemEntitys.find((value) => value.item.meta.droppedItemId == id);
+        let droppedItemEntity = DroppedItems.droppedItemEntitys.find((value) => value.item.getStreamSyncedMeta('droppedItemId') == id);
         droppedItemEntity.item.destroy();
         droppedItemEntity.label.destroy();
         const droppedItemEntityIndex: number = DroppedItems.droppedItemEntitys.indexOf(droppedItemEntity);
