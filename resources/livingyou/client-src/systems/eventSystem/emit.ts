@@ -5,6 +5,11 @@ export function EmitServer(eventName: keyof ISystemEvents, ...args: any[]): void
     alt.emitServer(eventName, ...args);
 }
 
+export function EmitRPC(eventName: keyof ISystemEvents, ...args: any[]): Promise<unknown> {
+    return alt.emitRpc(eventName, ...args);
+}
+
 export default {
     EmitServer,
+    EmitRPC
 };
