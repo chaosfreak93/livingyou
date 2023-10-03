@@ -10,7 +10,7 @@ declare module 'alt-server' {
     export interface Player {
         hasModel?: boolean;
         character?: ICharacter;
-        discordId?: number;
+        cloudId?: string;
         nextTickTime?: number;
         inventoryOpen: boolean;
         actionMenuOpen: boolean;

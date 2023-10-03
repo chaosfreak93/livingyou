@@ -13,22 +13,18 @@ export default class ServerStop {
         alt.log('~lk~[~y~LivingYou~lk~] ~b~Stopping LivingYou...~w~');
         alt.log('~lk~[~y~LivingYou~lk~] ~b~Saving Player Data...~w~');
         const pC: ICharacter[] = [];
-        const pDI: number[] = [];
+        const pCI: string[] = [];
 
         let allPlayer: readonly alt.Player[] = alt.Player.all;
         for (let i = 0; i < allPlayer.length; i++) {
             let player: alt.Player = allPlayer[i];
-            if (!player || !player.valid || !player.discordId || !player.character) return;
+            if (!player || !player.valid || !player.cloudId || !player.character) return;
             pC.push(player.character);
-            pDI.push(player.discordId);
+            pCI.push(player.cloudId);
         }
 
-        for (let i = 0; i < pDI.length; i++) {
-            let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>(
-                'discord',
-                pDI[i],
-                DBCollections.ACCOUNTS
-            );
+        for (let i = 0; i < pCI.length; i++) {
+            let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('cloudId', pCI[i], DBCollections.ACCOUNTS);
             if (findAccount.length <= 0) return;
 
             const char: ICharacter = findAccount[0].character.find((char) => char.id == pC[i].id);

@@ -61,11 +61,7 @@ export default class CharCreator {
             ],
         };
 
-        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>(
-            'discord',
-            player.discordId,
-            DBCollections.ACCOUNTS
-        );
+        let findAccount: IAccount[] = await Database.fetchAllByField<IAccount>('cloudId', player.cloudId, DBCollections.ACCOUNTS);
         if (findAccount.length <= 0) return;
         findAccount[0].character.push(character);
 
