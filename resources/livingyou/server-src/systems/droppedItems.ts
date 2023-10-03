@@ -33,12 +33,12 @@ export default class DroppedItems {
                 id,
                 new alt.Vector3(pos.x, pos.y, pos.z + 0.25),
                 itemName + ' [' + item.amount + ']',
+                'HouseScript',
+                24,
                 1,
-                2,
-                { r: 255, g: 255, b: 255, a: 255 },
-                true,
-                false,
-                true
+                new alt.RGBA(255, 255, 255, 255),
+                1,
+                new alt.RGBA(0, 0, 0, 255)
             ),
         });
     }
@@ -87,12 +87,12 @@ export default class DroppedItems {
                     DroppedItems.droppedItems[i].id,
                     new alt.Vector3(pos.x, pos.y, pos.z + 0.25),
                     itemName + ' [' + DroppedItems.droppedItems[i].item.amount + ']',
+                    'HouseScript',
+                    24,
                     1,
-                    2,
-                    { r: 255, g: 255, b: 255, a: 255 },
-                    true,
-                    false,
-                    true
+                    new alt.RGBA(255, 255, 255, 255),
+                    1,
+                    new alt.RGBA(0, 0, 0, 255)
                 ),
             });
         }
