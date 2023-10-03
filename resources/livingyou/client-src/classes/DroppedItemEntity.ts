@@ -1,41 +1,39 @@
 import * as alt from 'alt-client';
-import * as native from 'natives';
-import * as xsync from 'altv-xsync-entity-client';
-import { EntityPools } from '../../shared/enums/entityPools';
-import IDroppedItemSyncedMeta from '../../shared/interface/syncEntity/IDroppedItemSyncedMeta';
+import { On } from '../systems/eventSystem/on';
 
-@xsync.onEntityEvents<DroppedItemEntity>({
-    streamIn: (entity) => entity.streamIn(),
-    streamOut: (entity) => entity.streamOut(),
-    syncedMetaChange: (entity, syncedMeta) => entity.syncedMetaChange(syncedMeta),
-    posChange: (entity, pos) => entity.posChange(pos),
-})
-class DroppedItemEntity extends xsync.Entity<IDroppedItemSyncedMeta> {
-    private droppedItem: number = 0;
+class DroppedItemEntity {
+    static droppedItemEntityPool: { id: string, entity: alt.LocalObject }[] = [];
 
-    private streamIn(): void {
-        this.droppedItem = native.createObject(
-            alt.hash(this.syncedMeta.model),
-            this.pos.x,
-            this.pos.y,
-            this.pos.z,
+    @On('worldObjectStreamIn')
+    private streamIn(object: alt.WorldObject): void {
+        if (!(object instanceof alt.VirtualEntity)) return;
+        if (object.getStreamSyncedMeta('type') !== 'droppedItem') return;
+
+        let droppedItemEntity = new alt.LocalObject(
+            object.getStreamSyncedMeta('model') as string,
+            object.pos,
+            object.getStreamSyncedMeta('rot') as alt.Vector3,
+            true,
             false,
-            false,
-            false
         );
-        native.setEntityHeading(this.droppedItem, this.syncedMeta.rot.z);
-        native.setEntityInvincible(this.droppedItem, true);
-        native.freezeEntityPosition(this.droppedItem, true);
+        droppedItemEntity.frozen = true;
+        droppedItemEntity.positionFrozen = true;
+
+        DroppedItemEntity.droppedItemEntityPool.push({
+            id: object.getStreamSyncedMeta('droppedItemId') as string,
+            entity: droppedItemEntity
+        });
     }
 
-    private streamOut(): void {
-        native.deleteObject(this.droppedItem);
-        this.droppedItem = 0;
+    @On('worldObjectStreamOut')
+    private streamOut(object: alt.WorldObject): void {
+        if (!(object instanceof alt.VirtualEntity)) return;
+        if (object.getStreamSyncedMeta('type') !== 'droppedItem') return;
+
+        let droppedItemEntity = DroppedItemEntity.droppedItemEntityPool.find((value) => value.id === object.getStreamSyncedMeta('droppedItemId') as string);
+        droppedItemEntity.entity.destroy();
+        const droppedItemEntityIndex = DroppedItemEntity.droppedItemEntityPool.indexOf(droppedItemEntity);
+        DroppedItemEntity.droppedItemEntityPool.splice(droppedItemEntityIndex, 1);
+        alt.log('Removed Dropped Item');
     }
-
-    private syncedMetaChange(syncedMeta: Partial<IDroppedItemSyncedMeta>): void {}
-
-    public posChange(pos: alt.IVector3): void {}
 }
-
-new xsync.EntityPool(EntityPools.DroppedItemEntity, DroppedItemEntity);

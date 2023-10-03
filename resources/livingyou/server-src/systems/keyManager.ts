@@ -4,6 +4,7 @@ import DroppedItems from './droppedItems';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 import Inventory from './inventory';
+import IInventoryItem from '../../shared/interface/IInventoryItem';
 
 export default class KeyManager {
     @OnClient('keyManager:KeyUp')
@@ -30,8 +31,8 @@ export default class KeyManager {
             case 69:
                 let droppedItem = DroppedItems.nearestDroppedItem(player.pos);
                 if (!droppedItem || droppedItem.distance > 1.5) return;
-                DroppedItems.removeDroppedItem(droppedItem.droppedItem.meta.droppedItemId);
-                player.addItemToPockets(droppedItem.droppedItem.meta.item.id, droppedItem.droppedItem.meta.item.amount);
+                player.addItemToPockets((droppedItem.droppedItem.getStreamSyncedMeta('item') as IInventoryItem).id, (droppedItem.droppedItem.getStreamSyncedMeta('item') as IInventoryItem).amount);
+                DroppedItems.removeDroppedItem(droppedItem.droppedItem.getStreamSyncedMeta('droppedItemId') as string);
                 if (player.inventoryOpen) {
                     let pocketInventory: IWebInventory = Inventory.createWebinventory(player.character.pocketInventory);
                     let backpackInventory: IWebInventory = null;
