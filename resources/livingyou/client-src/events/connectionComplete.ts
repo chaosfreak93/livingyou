@@ -28,17 +28,12 @@ export default class ConnectionComplete {
     static setPedConfigFlags(): void {
         alt.setConfigFlag('DISABLE_IDLE_CAMERA', true);
         alt.setConfigFlag('DISABLE_AUTO_WEAPON_SWAP', true);
-        native.setPedConfigFlag(alt.Player.local, 241, true);
+        alt.setConfigFlag('DISABLE_VEHICLE_ENGINE_SHUTDOWN_ON_LEAVE', true);
         native.setPedConfigFlag(alt.Player.local, 429, true);
-    }
-
-    static fixWebviewFlickering(): void {
-        native.drawRect(0, 0, 0, 0, 0, 0, 0, 0, false);
     }
 }
 
 alt.everyTick(() => {
     ConnectionComplete.hideHudComponents();
     ConnectionComplete.setPedConfigFlags();
-    ConnectionComplete.fixWebviewFlickering();
 });

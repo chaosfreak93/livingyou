@@ -11,7 +11,7 @@ class TextLabel {
 
         let textLabel = new alt.TextLabel(
             object.getStreamSyncedMeta('text') as string,
-            object.getStreamSyncedMeta('font') as string,
+            object.getStreamSyncedMeta('fontName') as string,
             object.getStreamSyncedMeta('fontSize') as number,
             object.getStreamSyncedMeta('scale') as number,
             object.pos,

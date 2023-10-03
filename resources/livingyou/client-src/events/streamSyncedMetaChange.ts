@@ -18,15 +18,15 @@ export default class StreamSyncedMetaChange {
                     if (value === 2) {
                         entity.indicatorLights = 8;
                         await alt.Utils.wait(1000);
-                        entity.indicatorLights = 0;
+                        entity.indicatorLights = null;
                     } else if (value === 1) {
                         entity.indicatorLights = 8;
                         await alt.Utils.wait(250);
-                        entity.indicatorLights = 0;
+                        entity.indicatorLights = null;
                         await alt.Utils.wait(250);
                         entity.indicatorLights = 8;
                         await alt.Utils.wait(250);
-                        entity.indicatorLights = 0;
+                        entity.indicatorLights = null;
                     }
                     break;
             }

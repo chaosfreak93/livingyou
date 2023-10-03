@@ -26,7 +26,8 @@ export default class GasPumps {
             let gasPumpBlip = new alt.PointBlip(
                 GasPumps.gasPumps[i].position.x,
                 GasPumps.gasPumps[i].position.y,
-                GasPumps.gasPumps[i].position.z
+                GasPumps.gasPumps[i].position.z,
+                true
             );
             let name: string = 'Zapfsäule - ';
             if (GasPumps.gasPumps[i].fuelType.diesel) {

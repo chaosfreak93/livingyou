@@ -114,7 +114,7 @@ export default class CharCreator {
         await alt.Utils.waitFor(() => native.doesEntityExist(ped));
         native.setEntityInvincible(ped, true);
         native.setPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
-        native.clearAllPedProps(ped);
+        native.clearAllPedProps(ped, 0);
         if (!male) {
             native.setPedComponentVariation(ped, 1, 0, 0, 0); // mask
             native.setPedComponentVariation(ped, 3, 15, 0, 0); // arms
@@ -155,7 +155,7 @@ export default class CharCreator {
     }
 
     static setFaceFeature(index: number, scale: number) {
-        native.setPedMicroMorphValue(ped, index, scale);
+        native.setPedMicroMorph(ped, index, scale);
     }
 
     static setHeadOverlay(overlayId: number, index: number, opacity: number) {
@@ -163,15 +163,15 @@ export default class CharCreator {
     }
 
     static setHeadOverlayColor(overlayId: number, colorType: number, colorIndex: number) {
-        native.setPedHeadOverlayColor(ped, overlayId, colorType, colorIndex, 0);
+        native.setPedHeadOverlayTint(ped, overlayId, colorType, colorIndex, 0);
     }
 
     static setEyeColor(eyeColor: number) {
-        native.setPedEyeColor(ped, eyeColor);
+        native.setHeadBlendEyeColor(ped, eyeColor);
     }
 
     static setHairColor(colorId: number, highlightColorId: number) {
-        native.setPedHairColor(ped, colorId, highlightColorId);
+        native.setPedHairTint(ped, colorId, highlightColorId);
     }
 
     static setClothe(component: number, drawable: number, texture: number) {
@@ -186,14 +186,15 @@ export default class CharCreator {
 
     static setProp(component: number, drawable: number, texture: number) {
         if (drawable == -1) {
-            native.clearPedProp(ped, parseInt(component.toString()));
+            native.clearPedProp(ped, parseInt(component.toString()), 0);
         } else {
             native.setPedPropIndex(
                 ped,
                 parseInt(component.toString()),
                 parseInt(drawable.toString()),
                 parseInt(texture.toString()),
-                true
+                true,
+                0
             );
         }
     }

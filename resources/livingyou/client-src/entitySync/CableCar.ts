@@ -75,7 +75,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
             true,
             false,
             2,
-            true
+            true,
+            0
         );
         native.attachEntityToEntity(
             this.cableCarDoor_l[1],
@@ -92,7 +93,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
             true,
             false,
             2,
-            true
+            true,
+            0
         );
         this.cableCarDoor_r[0] = native.createObject(
             alt.hash('p_cablecar_s_door_l'),
@@ -127,7 +129,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
             true,
             false,
             2,
-            true
+            true,
+            0
         );
         native.attachEntityToEntity(
             this.cableCarDoor_r[1],
@@ -144,7 +147,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
             true,
             false,
             2,
-            true
+            true,
+            0
         );
         for (let i = 0; i < this.attachedPlayer.length; i++) {
             let player = alt.Player.getByID(this.attachedPlayer[i].id);
@@ -164,7 +168,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                 true,
                 false,
                 2,
-                true
+                true,
+                0
             );
         }
     }
@@ -217,7 +222,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                         true,
                         false,
                         2,
-                        true
+                        true,
+                        0
                     );
                 }
             }
@@ -245,7 +251,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
                 native.attachEntityToEntity(
                     this.cableCarDoor_l[1],
@@ -262,7 +269,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
                 native.attachEntityToEntity(
                     this.cableCarDoor_r[0],
@@ -279,7 +287,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
                 native.attachEntityToEntity(
                     this.cableCarDoor_r[1],
@@ -296,7 +305,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
             } else if (this.doorStatus == 'Open') {
                 native.detachEntity(this.cableCarDoor_l[0], true, true);
@@ -318,7 +328,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
                 native.attachEntityToEntity(
                     this.cableCarDoor_l[1],
@@ -335,7 +346,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
                 native.attachEntityToEntity(
                     this.cableCarDoor_r[0],
@@ -352,7 +364,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
                 native.attachEntityToEntity(
                     this.cableCarDoor_r[1],
@@ -369,7 +382,8 @@ class CableCar extends xsync.Entity<ICableCarSyncedMeta> {
                     true,
                     false,
                     2,
-                    true
+                    true,
+                    0
                 );
             }
         }

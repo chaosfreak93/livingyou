@@ -13,7 +13,7 @@ class DroppedItemEntity {
             object.getStreamSyncedMeta('model') as string,
             object.pos,
             object.getStreamSyncedMeta('rot') as alt.Vector3,
-            true,
+            false,
             false,
         );
         droppedItemEntity.frozen = true;
@@ -34,6 +34,5 @@ class DroppedItemEntity {
         droppedItemEntity.entity.destroy();
         const droppedItemEntityIndex = DroppedItemEntity.droppedItemEntityPool.indexOf(droppedItemEntity);
         DroppedItemEntity.droppedItemEntityPool.splice(droppedItemEntityIndex, 1);
-        alt.log('Removed Dropped Item');
     }
 }

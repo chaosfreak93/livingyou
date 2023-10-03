@@ -23,7 +23,7 @@ export default class ATMs {
     static async fetchATMs(): Promise<void> {
         ATMs.atms = await Database.fetchAllData<IAtm>(DBCollections.ATMS);
         for (let i = 0; i < ATMs.atms.length; i++) {
-            let atmBlip = new alt.PointBlip(ATMs.atms[i].position.x, ATMs.atms[i].position.y, ATMs.atms[i].position.z);
+            let atmBlip = new alt.PointBlip(ATMs.atms[i].position.x, ATMs.atms[i].position.y, ATMs.atms[i].position.z, true);
             atmBlip.name = 'ATM';
             atmBlip.sprite = 108;
             atmBlip.color = 2;

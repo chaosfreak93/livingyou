@@ -98,7 +98,7 @@ export default class CharSelector {
             false
         );
         for (let i = 0; i < appearance.faceFeature.length; i++) {
-            native.setPedMicroMorphValue(ped, i, appearance.faceFeature[i].scale);
+            native.setPedMicroMorph(ped, i, appearance.faceFeature[i].scale);
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
             native.setPedHeadOverlay(
@@ -109,7 +109,7 @@ export default class CharSelector {
             );
         }
         for (let i = 0; i < appearance.headOverlay.length; i++) {
-            native.setPedHeadOverlayColor(
+            native.setPedHeadOverlayTint(
                 ped,
                 i,
                 appearance.headOverlay[i].colorType,
@@ -117,8 +117,8 @@ export default class CharSelector {
                 0
             );
         }
-        native.setPedEyeColor(ped, appearance.eyeColor);
-        native.setPedHairColor(ped, appearance.hairColor.colorId, appearance.hairColor.highlightColorId);
+        native.setHeadBlendEyeColor(ped, appearance.eyeColor);
+        native.setPedHairTint(ped, appearance.hairColor.colorId, appearance.hairColor.highlightColorId);
 
         for (let i = 0; i < clothes.clothes.length; i++) {
             alt.setPedDlcClothes(
