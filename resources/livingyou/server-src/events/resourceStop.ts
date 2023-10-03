@@ -10,18 +10,18 @@ export default class ServerStop {
     @On('resourceStop')
     static async resourceStop() {
         const pC: ICharacter[] = [];
-        const pDI: number[] = [];
+        const pCI: string[] = [];
 
         let allPlayer = alt.Player.all;
         for (let i = 0; i < allPlayer.length; i++) {
             let player = allPlayer[i];
-            if (!player || !player.valid || !player.discordId || !player.character) return;
+            if (!player || !player.valid || !player.cloudId || !player.character) return;
             pC.push(player.character);
-            pDI.push(player.discordId);
+            pCI.push(player.cloudId);
         }
 
-        for (let i = 0; i < pDI.length; i++) {
-            let findAccount = await Database.fetchAllByField<IAccount>('discord', pDI[i], 'accounts');
+        for (let i = 0; i < pCI.length; i++) {
+            let findAccount = await Database.fetchAllByField<IAccount>('cloudId', pCI[i], 'accounts');
             if (findAccount.length <= 0) return;
 
             const char = findAccount[0].character.find((char) => char.id == pC[i].id);

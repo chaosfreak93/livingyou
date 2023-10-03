@@ -11,5 +11,5 @@ build({
     format: 'esm',
     entryPoints: ['./resources/livingyou/server-src/startup.ts'],
     outfile: './resources/livingyou/server-dist.js',
-    external: ['alt-*', 'altv-xsync-entity-server', 'dotenv', '@stuyk', 'axios', 'bson'],
+    external: ['alt-*', 'altv-xsync-entity-server', 'dotenv', '@stuyk', 'bson'],
 });

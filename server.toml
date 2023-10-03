@@ -10,3 +10,4 @@ players = 2
 port = 7788
 resources = [ 'livingyou' ]
 website = 'beyonddark.de'
+token = '4b05d683-5e21-4861-a14a-fdd54cc70bab'

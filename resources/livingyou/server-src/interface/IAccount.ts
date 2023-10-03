@@ -2,8 +2,7 @@ import ICharacter from '../../shared/interface/ICharacter';
 
 export default interface IAccount {
     _id?: any;
-    discord: number;
-    email: string;
+    cloudId: string;
     firstJoinTimestamp: number;
     lastJoinTimestamp?: number;
     allowSecondCharacter: boolean;

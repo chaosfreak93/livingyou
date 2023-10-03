@@ -13,7 +13,6 @@ import './extensions/webViewController';
 import './systems/cameraManager';
 import './systems/charCreator';
 import './systems/charSelector';
-import './systems/discordAuth';
 import './systems/hud';
 import './systems/inventory';
 import './systems/iplmanager';

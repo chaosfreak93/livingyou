@@ -6,11 +6,11 @@ import { On } from '../systems/eventSystem/on';
 export default class PlayerDisconnect {
     @On('playerDisconnect')
     static async playerDisconnect(player: alt.Player, reason: string) {
-        if (!player || !player.valid || !player.discordId || !player.character) return;
+        if (!player || !player.valid || !player.cloudId || !player.character) return;
         const pC = player.character;
-        const pDI = player.discordId;
+        const pCI = player.cloudId;
 
-        let findAccount = await Database.fetchAllByField<IAccount>('discord', pDI, 'accounts');
+        let findAccount = await Database.fetchAllByField<IAccount>('cloudId', pCI, 'accounts');
         if (findAccount.length <= 0) return;
 
         const char = findAccount[0].character.find((char) => char.id == pC.id);

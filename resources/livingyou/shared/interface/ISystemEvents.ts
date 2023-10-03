@@ -2,10 +2,6 @@ import IWebInventory from './IWebInventory';
 
 export interface ISystemEvents {
     'connection:Begin': () => void;
-    // Discord Login
-    'discord:Open': () => void;
-    'discord:ProceedToken': (token: string) => void;
-    'discord:Close': () => void;
     // Character Selector
     'charSelector:Open': () => void;
     'charSelector:SelectChar': (character: string) => void;

@@ -1,14 +1,12 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
-import axios from 'axios';
 import IAccount from '../interface/IAccount';
-import IDiscordData from '../interface/IDiscordData';
 import { EmitClient } from './eventSystem/emit';
 import { OnClient } from './eventSystem/on';
 
-export default class DiscordAuth {
+export default class Auth {
     @OnClient('connection:Begin')
-    static startLogin(player: alt.Player) {
+    static async startLogin(player: alt.Player) {
         if (!player || !player.valid) {
             return;
         }
@@ -18,7 +16,7 @@ export default class DiscordAuth {
         }
 
         player.dimension = player.id + 1;
-        player.setPosition(-1645.55, -1113.04, 13);
+        player.setPosition(-453.586, 276.909, 78.515);
         player.visible = false;
         player.frozen = true;
         player.collision = false;
@@ -26,38 +24,22 @@ export default class DiscordAuth {
         player.weather();
 
         EmitClient(player, 'webView:Info', 'http://assets/webviews/index.html');
-        EmitClient(player, 'discord:Open');
-    }
 
-    @OnClient('discord:ProceedToken')
-    static async proceedDiscordToken(player: alt.Player, token: string): Promise<void> {
-        const request = await axios
-            .get('https://discordapp.com/api/users/@me', {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .catch((err) => {
-                alt.logError(err);
-                return null;
-            });
+        let cloudId: string;
 
-        if (!request || !request.data || !request.data.id) {
-            player.kick('Authorization failed');
+        try {
+            cloudId = await player.requestCloudID()
+        } catch(e) {
+            alt.log('CloudAuth Error: ' + e);
+            player.kick('CloudAuth Error: ' + e);
             return;
         }
 
-        await DiscordAuth.finishLogin(player, request.data);
-    }
-
-    static async finishLogin(player: alt.Player, discordData: IDiscordData): Promise<void> {
-        let findAccount = await Database.fetchAllByField<IAccount>('discord', discordData.id, 'accounts');
+        let findAccount = await Database.fetchAllByField<IAccount>('cloudId', cloudId, 'accounts');
         if (findAccount.length <= 0) {
             const insertedData = await Database.insertData<IAccount>(
                 {
-                    discord: discordData.id,
-                    email: discordData.email,
+                    cloudId: cloudId,
                     firstJoinTimestamp: new Date().getTime(),
                     lastJoinTimestamp: new Date().getTime(),
                     allowSecondCharacter: false,
@@ -67,16 +49,13 @@ export default class DiscordAuth {
                 'accounts',
                 true
             );
-            if (insertedData.discord != discordData.id) return;
+            if (insertedData.cloudId != cloudId) return;
             findAccount = [];
             findAccount.push(insertedData);
         }
         await Database.updatePartialData(findAccount[0]._id, { lastJoinTimestamp: new Date().getTime() }, 'accounts');
-
-        player.setPosition(-453.586, 276.909, 78.515);
-        player.discordId = discordData.id;
-        EmitClient(player, 'discord:Close');
-        await alt.Utils.wait(500);
+        
+        player.cloudId = cloudId;
         EmitClient(player, 'charSelector:Open', findAccount[0].character, findAccount[0].allowSecondCharacter);
     }
 }
